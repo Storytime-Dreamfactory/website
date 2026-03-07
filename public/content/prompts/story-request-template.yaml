@@ -1,0 +1,14 @@
+story_request:
+  child_name: Alex
+  characters:
+    - Yoko
+    - Nola
+  place: Crystal Lake
+  skill: Kindness
+
+rules:
+  - The chosen characters interact naturally.
+  - The place shapes the adventure.
+  - The skill becomes the moral lesson.
+  - The child can interrupt and ask questions.
+  - End with a short quiz.

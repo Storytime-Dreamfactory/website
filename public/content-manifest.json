@@ -1,0 +1,14 @@
+{
+  "characters": [
+    "/content/characters/yoko.yaml",
+    "/content/characters/nola.yaml"
+  ],
+  "places": [
+    "/content/places/crystal-lake.yaml",
+    "/content/places/whispering-meadow.yaml"
+  ],
+  "skills": [
+    "/content/skills/problem-solving.yaml",
+    "/content/skills/kindness.yaml"
+  ]
+}
