@@ -1,0 +1,117 @@
+id: malvarion-der-graue
+name: Malvarion der Graue
+kurzbeschreibung: |
+  Malvarion ist ein schlanker, blasser Zauberer mit grauem Mantel und funkelnden violetten Augen. Er wirkt geheimnisvoll und seine Macht stammt von einem noch dunkleren Meister aus fernen Landen.
+basis:
+  age_hint: erwachsen
+  species: Mensch (Zauberer)
+  gender_expression: maskulin
+  role_archetype: challenger
+erscheinung:
+  body_shape: hochgewachsen und schmal, mit langen, eleganten Fingern
+  colors:
+    - aschgrau
+    - violett
+    - nachtschwarz
+  hair_or_fur:
+    color: silbergrau
+    texture: glatt, leicht strähnig
+    length: lang
+  eyes:
+    color: violett
+    expression: durchdringend und aufmerksam
+  distinctive_features:
+    - spitzer, langer Zauberhut mit violetter Borte
+    - langer, zerzauster silbergrauer Bart
+    - schwarze magische Runen auf den Händen
+  clothing_style: langer, grauer Umhang mit dunklen Mustern und hohem Kragen
+persoenlichkeit:
+  core_traits:
+    - machtgierig
+    - berechnend
+    - geheimnisvoll
+  temperament: nachdenklich
+  social_style: unabhaengig
+  strengths:
+    - kluger Planer
+    - starke Zauberkraft
+  weaknesses:
+    - vertraut niemandem wirklich
+    - unterschätzt manchmal die Kraft von Zusammenhalt
+  quirks:
+    - spricht oft in Rätseln
+    - streicht sich nachdenklich durch den Bart, wenn er plant
+story_psychology:
+  visible_goal: Die Kontrolle über magische Orte und mächtige Artefakte erlangen
+  deeper_need: Anerkennung vom fernen, noch mächtigeren Meister
+  fear: Seine Schwäche und Abhängigkeit werden entdeckt
+  insecurity: Was, wenn ich nur ein Werkzeug bin und nie selbst der Meister werde?
+  stress_response: retreat_then_reflect
+  growth_direction: Erkennt, dass blinde Loyalität und Machtgier ihn einsam machen
+learning_function:
+  teaching_roles:
+    - challenger
+    - warning_example
+  suitable_skills:
+    - selbstregulation
+    - umgang-mit-macht
+  explanation_style: example_based
+herkunft:
+  geburtsort: Nebelberge am Schattenrand
+  aufgewachsen_in:
+    - Nebelberge am Schattenrand
+    - Schwarzwald der Stille
+  kulturelle_praegung:
+    - alte Zaubertraditionen
+    - Loyalität zu einem verborgenen Meister
+  religion_oder_weltbild: Glaube an die Macht über alles
+  historische_praegung:
+    - Geschichten über uralte Zaubererkämpfe
+  notizen: Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt.
+relationships:
+  characters:
+    - character_id: borin-brummbart
+      typ: Feind
+      beschreibung: ""
+  places:
+    - place_id: crystal-lake
+      typ: Zielort
+      beschreibung: Malvarion sucht nach den magischen Kräften des Sees.
+    - place_id: whispering-meadow
+      typ: Beobachtungsort
+      beschreibung: Von hier aus beobachtet er oft die Bewohner und sucht nach Schwächen.
+bilder:
+  standard_figur:
+    datei: /content/characters/malvarion-der-graue/standard-figur.png
+    beschreibung: |
+      Großer, schlanker Zauberer in langem grauen Umhang, spitzer Hut und violetten Augen; steht aufrecht mit einem Stab, Runen auf den Händen sichtbar.
+  hero_image:
+    datei: /content/characters/malvarion-der-graue/hero-image.jpg
+    beschreibung: |
+      Malvarion steht auf einem nebligen Felsen mit erhobenem Stab, violette Magie leuchtet um ihn, im Hintergrund dunkle Berge.
+  portrait:
+    datei: /content/characters/malvarion-der-graue/portrait.png
+    beschreibung: |
+      Halbnah, ernster Blick, silbergrauer Bart und Hut, violette Augen leuchten, Runen auf der Hand sind sichtbar.
+  profilbild:
+    datei: /content/characters/malvarion-der-graue/profilbild.png
+    beschreibung: |
+      Quadratisches Portrait mit fokussiertem Gesicht, violette Augen und grauer Bart, dunkler Hintergrund.
+  weitere_bilder: []
+tags:
+  - macht
+  - zauberer
+  - challenger
+  - einsamkeit
+  - loyalitaet
+  - warnung
+  - nebellandschaft
+  - magie
+  - selbstregulation
+  - umgang-mit-macht
+  - world_schattenrand
+metadata:
+  active: true
+  created_at: 2026-03-08
+  updated_at: 2026-03-08
+  version: 1

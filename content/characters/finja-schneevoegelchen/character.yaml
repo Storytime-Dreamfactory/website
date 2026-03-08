@@ -1,0 +1,106 @@
+id: finja-schneevoegelchen
+name: Finja Schneevoegelchen
+kurzbeschreibung: |
+  Finja ist ein kleiner, schneeweisser Singvogel mit federleichtem Flaum, roten Baeckchen und einem neugierigen Blick. Sie liebt es, anderen zuzusehen und traeumt davon, selbst einmal mutig zu sein.
+basis:
+  age_hint: kindlich
+  species: Singvogel
+  gender_expression: feminin
+  role_archetype: learner
+erscheinung:
+  body_shape: zierlich und rund, mit kurzen Flügeln und puscheligen Federn
+  colors:
+    - schneeweiss
+    - kirschrot
+    - himmelblau
+  hair_or_fur:
+    color: schneeweiss
+    texture: seidig weich
+    length: kurz
+  eyes:
+    color: haselnussbraun
+    expression: staunend und freundlich
+  distinctive_features:
+    - leuchtend rote Baeckchen
+    - winziger blauer Federschwanz
+    - kleine goldene Federkrone am Kopf
+  clothing_style: traegt ein kleines hellblaues Halstuch aus Seidenflaum
+persoenlichkeit:
+  core_traits:
+    - sanftmuetig
+    - hilfsbereit
+    - vorsichtig
+  temperament: nachdenklich
+  social_style: offen
+  strengths:
+    - kann gut zuhoeren
+    - bringt Ruhe in aufgeregte Gruppen
+  weaknesses:
+    - ziert sich vor Neuem
+    - wird schnell unsicher, wenn sie allein ist
+  quirks:
+    - pickt bei Aufregung an ihrem Halstuch
+    - summt leise Melodien, wenn sie nachdenkt
+story_psychology:
+  visible_goal: Mut finden, um sich in neue Abenteuer zu wagen und anderen zu helfen
+  deeper_need: Gebraucht und akzeptiert werden, auch wenn sie sich aengstlich fuehlt
+  fear: Einsamkeit und ausgeschlossen zu werden
+  insecurity: Ich bin bestimmt zu klein und leise, um wichtig zu sein.
+  stress_response: freeze
+  growth_direction: lernt, dass Mut nicht laut sein muss und dass auch kleine Stimmen zaehlen
+learning_function:
+  teaching_roles:
+    - learner
+    - model
+  suitable_skills:
+    - mut
+    - selbstvertrauen
+  explanation_style: example_based
+herkunft:
+  geburtsort: Schneefederhain
+  aufgewachsen_in:
+    - Schneefederhain
+    - whispering-meadow
+  kulturelle_praegung:
+    - friedliebende Gemeinschaft
+    - gegenseitige Hilfe wird gross geschrieben
+  religion_oder_weltbild: glaubt an die Kraft der kleinen Taten
+  historische_praegung:
+    - lange Winter mit viel Zusammenhalt in der Vogelschar
+  notizen: Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten
+relationships:
+  characters:
+    - character_id: romi
+      typ: Vorbild
+      beschreibung: Findet Romis Hilfsbereitschaft bewundernswert und traut sich dank ihr mehr zu.
+  places:
+    - place_id: whispering-meadow
+      typ: Lieblingsort
+      beschreibung: Hier beobachtet Finja oft andere Tiere und traeumt davon, mutig zu sein.
+bilder:
+  standard_figur:
+    datei: /content/characters/finja-schneevoegelchen/standard-figur.png
+    beschreibung: |
+      Kleine, schneeweisse Singvogelfigur mit roten Baeckchen, blauen Schwanzfedern und goldenem Federkroenchen. Steht mit leicht eingezogenem Hals und blickt vorsichtig, das hellblaue Halstuch betont ihre Zurueckhaltung.
+  hero_image:
+    datei: /content/characters/finja-schneevoegelchen/hero-image.jpg
+    beschreibung: |
+      Finja sitzt auf einem schneebedeckten Ast im sanften Morgenlicht, umgeben von anderen Voegeln, waehrend sie vorsichtig beginnt, eine Melodie zu singen.
+  portrait:
+    datei: /content/characters/finja-schneevoegelchen/portrait.png
+    beschreibung: |
+      Halbnahes Bild von Finja mit freundlichen braunen Augen, roten Baeckchen und dem kleinen, goldenen Federkroenchen, das hellblaue Halstuch sichtbar.
+  profilbild:
+    datei: /content/characters/finja-schneevoegelchen/profilbild.png
+    beschreibung: |
+      Quadratisches Kopfportrait: Finjas Gesicht mit runden, staunenden Augen, roten Baeckchen und goldener Federkrone, umrahmt von schneeweissen Flaumfedern.
+  weitere_bilder: []
+tags:
+  - mut
+  - zuhoeren
+  - selbstvertrauen
+metadata:
+  active: true
+  created_at: 2026-03-08
+  updated_at: 2026-03-08
+  version: 1

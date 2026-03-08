@@ -1,0 +1,121 @@
+id: nola
+name: Nola
+kurzbeschreibung: >
+  Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und
+  andere mit seiner Freude ansteckt.
+basis:
+  age_hint: kindlich
+  species: Flussotter
+  gender_expression: feminin
+  role_archetype: explorer
+erscheinung:
+  body_shape: klein und flink
+  colors:
+    - warmes braun
+    - sandbeige
+    - flussblau
+  hair_or_fur:
+    color: warmes braun
+    texture: weich und glatt
+    length: kurz
+  eyes:
+    color: dunkelbraun
+    expression: wach und freundlich
+  distinctive_features:
+    - Fell an den Pfoten wirkt oft leicht nass
+    - kleine Tasche voller glaenzender Kiesel
+    - breite, warme Otterlaecheln
+  clothing_style: praktisch und verspielt
+persoenlichkeit:
+  core_traits:
+    - neugierig
+    - verspielt
+    - empathisch
+  temperament: lebhaft
+  social_style: offen
+  strengths:
+    - Ideen finden
+    - andere motivieren
+    - in Bewegung lernen
+  weaknesses:
+    - wird schnell ungeduldig
+    - denkt nicht immer an den zweiten Schritt
+  quirks:
+    - sammelt glaenzende Kiesel
+    - summt beim Nachdenken
+story_psychology:
+  visible_goal: bei jedem Abenteuer vorne mit dabei sein
+  deeper_need: Zugehoerigkeit
+  fear: andere zu enttaeuschen
+  insecurity: Ich bin vielleicht zu wild, um hilfreich zu sein.
+  stress_response: flight
+  growth_direction: lernt, kurz innezuhalten und Hilfe anzunehmen
+learning_function:
+  teaching_roles:
+    - model
+    - comic_relief
+  suitable_skills:
+    - patience
+    - problem-solving
+    - teamwork
+  explanation_style: playful
+herkunft:
+  geburtsort: Crystal Lake
+  aufgewachsen_in:
+    - Whispering Meadow
+    - Crystal Lake
+  kulturelle_praegung:
+    - naturnahes Leben am Wasser
+    - gemeinschaftliches Teilen von Fundstuecken und Geschichten
+  religion_oder_weltbild: staunt ueber die Magie der Natur und sieht den Fluss als Lehrerin
+  historische_praegung:
+    - kennt Erzaehlungen ueber alte Wasserwege und verborgene Uferpfade
+    - wurde von aelteren Tieren mit Geschichten ueber Respekt vor der Natur gepraegt
+  notizen: >
+    Herkunft dient als Praegung fuer Sprache, Werte und Blick auf die Welt, ohne die
+    Figur auf Klischees zu reduzieren.
+relationships:
+  characters:
+  places:
+    - place_id: crystal-lake
+      typ: home_waters
+      beschreibung: Nola fuehlt sich am Wasser zu Hause und findet dort neue Ideen.
+    - place_id: whispering-meadow
+      typ: adventure_route
+      beschreibung: Die Wiese ist fuer Nola ein vertrauter Ort fuer Spiele und Entdeckungen.
+bilder:
+  standard_figur:
+    datei: /content/characters/nola/standard-figur.png
+    beschreibung: >
+      Freigestellte Ganzkoerperfigur von Nola in leichter Vorwaertsbewegung,
+      freundlich, neugierig, klare Lesbarkeit der Silhouette.
+  hero_image:
+    datei: /content/characters/nola/hero-image.jpg
+    beschreibung: >
+      Cinematische Szene am Flussufer mit warmem Licht und weicher Tiefenwirkung,
+      Nola als mutige kleine Entdeckerin.
+  portrait:
+    datei: /content/characters/nola/portrait.png
+    beschreibung: >
+      Character-Card-Portrait von Nola, halbnah, herzlich, aufmerksam und klar
+      lesbar.
+  profilbild:
+    datei: /content/characters/nola/profilbild.png
+    beschreibung: >
+      Quadratisches Profilbild mit grosser emotionaler Lesbarkeit, freundlicher
+      Blick direkt zur Kamera.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/nola/emotion-happy.png
+      beschreibung: Nola strahlt ueber eine neue Entdeckung am Wasser.
+tags:
+  - warm
+  - playful
+  - river
+  - brave
+  - problem_solver
+metadata:
+  active: true
+  created_at: "2026-03-08"
+  updated_at: "2026-03-08"
+  version: 1

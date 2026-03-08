@@ -7,15 +7,29 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "character-images:dry-run": "node --env-file=.env --import tsx ./tools/character-image-service/src/cli.ts --dry-run",
+    "character-images:generate": "node --env-file=.env --import tsx ./tools/character-image-service/src/cli.ts",
+    "db:start": "docker compose up -d postgres",
+    "db:stop": "docker compose stop postgres",
+    "db:init-relationships": "node --env-file=.env --import tsx ./tools/create-character-relationships-table.ts",
+    "db:seed-relationships": "node --env-file=.env --import tsx ./tools/seed-character-relationships.ts",
+    "db:query-relationships": "node --env-file=.env --import tsx ./tools/query-character-relationships.ts"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^6.3.1",
+    "openai": "^6.27.0",
+    "pg": "^8.20.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.1",
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
+    "@types/pg": "^8.18.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
@@ -23,6 +37,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
     "vite": "^7.3.1"

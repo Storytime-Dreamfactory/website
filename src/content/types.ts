@@ -1,0 +1,150 @@
+export type CharacterBasis = {
+  ageHint?: string
+  species: string
+  genderExpression?: string
+  roleArchetype?: string
+}
+
+export type CharacterHairOrFur = {
+  color?: string
+  texture?: string
+  length?: string
+}
+
+export type CharacterEyes = {
+  color: string
+  expression: string
+}
+
+export type CharacterAppearance = {
+  bodyShape: string
+  colors: string[]
+  hairOrFur: CharacterHairOrFur
+  eyes: CharacterEyes
+  distinctiveFeatures: string[]
+  clothingStyle: string
+}
+
+export type CharacterPersonality = {
+  coreTraits: string[]
+  temperament: string
+  socialStyle: string
+  strengths: string[]
+  weaknesses: string[]
+  quirks: string[]
+}
+
+export type CharacterStoryPsychology = {
+  visibleGoal: string
+  deeperNeed: string
+  fear: string
+  insecurity: string
+  stressResponse: string
+  growthDirection: string
+}
+
+export type CharacterLearningFunction = {
+  teachingRoles: string[]
+  suitableSkills: string[]
+  explanationStyle: string
+}
+
+export type CharacterOrigin = {
+  birthPlace: string
+  upbringingPlaces: string[]
+  culturalContext: string[]
+  religionOrBelief?: string
+  historicalContext: string[]
+  notes?: string
+}
+
+export type CharacterRelationshipToCharacter = {
+  characterId: string
+  type: string
+  description?: string
+}
+
+export type CharacterRelationshipToPlace = {
+  placeId: string
+  type: string
+  description?: string
+}
+
+export type CharacterRelationships = {
+  characters: CharacterRelationshipToCharacter[]
+  places: CharacterRelationshipToPlace[]
+}
+
+export type CharacterImageTarget = {
+  file?: string
+  description?: string
+}
+
+export type CharacterAdditionalImageTarget = CharacterImageTarget & {
+  type: string
+}
+
+export type CharacterImages = {
+  standardFigure: CharacterImageTarget
+  heroImage: CharacterImageTarget
+  portrait: CharacterImageTarget
+  profileImage: CharacterImageTarget
+  additionalImages: CharacterAdditionalImageTarget[]
+}
+
+export type CharacterMetadata = {
+  active: boolean
+  createdAt: string
+  updatedAt: string
+  version: number
+}
+
+export type Character = {
+  id: string
+  name: string
+  shortDescription: string
+  basis: CharacterBasis
+  appearance: CharacterAppearance
+  personality: CharacterPersonality
+  storyPsychology: CharacterStoryPsychology
+  learningFunction: CharacterLearningFunction
+  origin?: CharacterOrigin
+  relationships?: CharacterRelationships
+  images: CharacterImages
+  tags: string[]
+  metadata: CharacterMetadata
+}
+
+export type Place = {
+  id: string
+  name: string
+  description: string
+}
+
+export type Skill = {
+  id: string
+  name: string
+  description: string
+  quizExamples: string[]
+}
+
+export type StoryRequest = {
+  childName: string
+  characters: string[]
+  place: string
+  skill: string
+}
+
+export type StoryContent = {
+  characters: Character[]
+  places: Place[]
+  skills: Skill[]
+  source: 'runtime' | 'fallback'
+  warnings: string[]
+}
+
+export type ContentManifest = {
+  characters: string[]
+  places: string[]
+  skills: string[]
+}

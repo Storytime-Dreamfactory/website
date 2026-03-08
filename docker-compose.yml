@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: storytime-postgres
+    restart: unless-stopped
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: storytime
+      POSTGRES_PASSWORD: storytime
+      POSTGRES_DB: storytime
+    volumes:
+      - storytime_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  storytime_postgres_data:
