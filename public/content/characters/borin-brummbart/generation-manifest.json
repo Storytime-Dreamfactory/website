@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-03-08T01:36:36.930Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/borin-brummbart/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/borin-brummbart",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "borin-brummbart",
+    "name": "Borin Brummbart",
+    "shortDescription": "Borin Brummbart ist ein stämmiger Zwerg mit buschigem Bart und wetterfestem Mantel, der oft grummelt, aber ein großes Herz hat und sich mutig für seine Freunde einsetzt.",
+    "basis": {
+      "ageHint": "erwachsen",
+      "species": "Zwerg",
+      "genderExpression": "maskulin",
+      "roleArchetype": "challenger"
+    },
+    "appearance": {
+      "bodyShape": "klein, breit gebaut, kräftig mit kurzen Beinen",
+      "colors": [
+        "dunkelgrau",
+        "tannengruen",
+        "rostrot"
+      ],
+      "hairOrFur": {
+        "color": "rostrot",
+        "texture": "zottelig und buschig",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "stahlblau",
+        "expression": "grimmig, aber wachsam"
+      },
+      "distinctiveFeatures": [
+        "langer, buschiger Bart",
+        "große, knollige Nase",
+        "wetterfester, gruenlicher Mantel"
+      ],
+      "clothingStyle": "robuste Zwergenkleidung mit Gürteltasche und wetterfester Mütze"
+    },
+    "personality": {
+      "coreTraits": [
+        "dickkoepfig",
+        "ehrlich",
+        "mutig"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "beschuetzend",
+      "strengths": [
+        "gibt nie auf",
+        "sagt immer die Wahrheit, auch wenn sie unbequem ist"
+      ],
+      "weaknesses": [
+        "wird schnell ungehalten",
+        "tut sich schwer, um Hilfe zu bitten"
+      ],
+      "quirks": [
+        "brummt leise vor sich hin, wenn er nachdenkt",
+        "zupft oft an seinem Bart, wenn er nervoes ist"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "will seine Ruhe haben und vermeidet zu viel Trubel",
+      "deeperNeed": "will dazugehören und gebraucht werden",
+      "fear": "ausgeschlossen oder uebersehen zu werden",
+      "insecurity": "Manchmal glaube ich, die anderen finden mich zu schwierig.",
+      "stressResponse": "retreat_then_reflect",
+      "growthDirection": "lernt, dass er mit Ehrlichkeit und Mut Freunde gewinnen kann"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "challenger",
+        "helper"
+      ],
+      "suitableSkills": [
+        "ehrlichkeit",
+        "frusttoleranz"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Graustein-Huegel",
+      "upbringingPlaces": [
+        "Graustein-Huegel",
+        "Rand des Mooswalds"
+      ],
+      "culturalContext": [
+        "Gemeinschaftssinn der Zwerge",
+        "Wert auf Handwerk und Gerechtigkeit"
+      ],
+      "religionOrBelief": "glaubt an die Kraft von Zusammenhalt und Ehrlichkeit",
+      "historicalContext": [
+        "Zwergenlegenden ueber Mut und Standhaftigkeit"
+      ],
+      "notes": "Kann gut als Figur genutzt werden, um mit Kindern ueber Ehrlichkeit, Frust und Zugehoerigkeit zu sprechen."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "crystal-lake",
+          "type": "Lieblingsplatz",
+          "description": "Geht gern an den See, wenn er nachdenken will"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/borin-brummbart/standard-figur.png",
+        "description": "Kräftiger Zwerg mit langem rostrotem Bart, wetterfester grüner Mantel, große Nase, Arme verschränkt, grimmiger, aber freundlicher Blick."
+      },
+      "heroImage": {
+        "file": "/content/characters/borin-brummbart/hero-image.jpg",
+        "description": "Borin steht am Ufer des Crystal Lake, Nachtnebel zieht auf, er blickt nachdenklich aufs Wasser, Bart und Mantel leicht im Wind."
+      },
+      "portrait": {
+        "file": "/content/characters/borin-brummbart/portrait.png",
+        "description": "Halbnaher Blick auf Borin, buschiger Bart, stahlblaue Augen, wetterfeste Mütze, leicht grimmiges, aber warmes Gesicht."
+      },
+      "profileImage": {
+        "file": "/content/characters/borin-brummbart/profilbild.png",
+        "description": "Nahaufnahme von Borins Gesicht mit buschigem Bart, großer Nase, stahlblauen Augen und verschmitztem Brummen."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "ehrlichkeit",
+      "frusttoleranz",
+      "challenger",
+      "zwerg",
+      "gemeinschaft",
+      "mooswald",
+      "crystal-lake",
+      "mut",
+      "zugehoerigkeit"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "borin-brummbart:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Borin Brummbart. Short description: Borin Brummbart ist ein stämmiger Zwerg mit buschigem Bart und wetterfestem Mantel, der oft grummelt, aber ein großes Herz hat und sich mutig für seine Freunde einsetzt. Species: Zwerg. Age feel: erwachsen. Archetype: challenger. Body shape: klein, breit gebaut, kräftig mit kurzen Beinen. Dominant colors: dunkelgrau, tannengruen, rostrot. Hair or fur: rostrot zottelig und buschig lang. Eyes: stahlblau, grimmig, aber wachsam. Distinctive features: langer, buschiger Bart, große, knollige Nase, wetterfester, gruenlicher Mantel. Clothing style: robuste Zwergenkleidung mit Gürteltasche und wetterfester Mütze. Core traits: dickkoepfig, ehrlich, mutig. Temperament: nachdenklich. Social style: beschuetzend. Strengths: gibt nie auf, sagt immer die Wahrheit, auch wenn sie unbequem ist. Weaknesses: wird schnell ungehalten, tut sich schwer, um Hilfe zu bitten. Quirks: brummt leise vor sich hin, wenn er nachdenkt, zupft oft an seinem Bart, wenn er nervoes ist. Visible goal: will seine Ruhe haben und vermeidet zu viel Trubel. Deeper need: will dazugehören und gebraucht werden. Fear: ausgeschlossen oder uebersehen zu werden. Insecurity: Manchmal glaube ich, die anderen finden mich zu schwierig. Stress response: retreat_then_reflect. Growth direction: lernt, dass er mit Ehrlichkeit und Mut Freunde gewinnen kann. Teaching roles: challenger, helper. Explanation style: example_based. Birth place: Graustein-Huegel. Raised in: Graustein-Huegel, Rand des Mooswalds. Cultural context: Gemeinschaftssinn der Zwerge, Wert auf Handwerk und Gerechtigkeit. Belief or worldview: glaubt an die Kraft von Zusammenhalt und Ehrlichkeit. Historical context: Zwergenlegenden ueber Mut und Standhaftigkeit. Origin notes: Kann gut als Figur genutzt werden, um mit Kindern ueber Ehrlichkeit, Frust und Zugehoerigkeit zu sprechen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Borin Brummbart on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Kräftiger Zwerg mit langem rostrotem Bart, wetterfester grüner Mantel, große Nase, Arme verschränkt, grimmiger, aber freundlicher Blick. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Kräftiger Zwerg mit langem rostrotem Bart, wetterfester grüner Mantel, große Nase, Arme verschränkt, grimmiger, aber freundlicher Blick.",
+      "publicFilePath": "/content/characters/borin-brummbart/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/borin-brummbart/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "0c8c9833-2468-4dce-9694-7331027ebea1",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=0c8c9833-2468-4dce-9694-7331027ebea1",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/1d199d6f396c4a20ac2aadd830835f4b_sample.png?se=2026-03-08T01%3A45%3A26Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=nTcAm2k6GcGZSQaBtUlza0b/TJq1rvnLfCC8i%2Bd1BRw%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "borin-brummbart:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Borin Brummbart. Short description: Borin Brummbart ist ein stämmiger Zwerg mit buschigem Bart und wetterfestem Mantel, der oft grummelt, aber ein großes Herz hat und sich mutig für seine Freunde einsetzt. Species: Zwerg. Age feel: erwachsen. Archetype: challenger. Body shape: klein, breit gebaut, kräftig mit kurzen Beinen. Dominant colors: dunkelgrau, tannengruen, rostrot. Hair or fur: rostrot zottelig und buschig lang. Eyes: stahlblau, grimmig, aber wachsam. Distinctive features: langer, buschiger Bart, große, knollige Nase, wetterfester, gruenlicher Mantel. Clothing style: robuste Zwergenkleidung mit Gürteltasche und wetterfester Mütze. Core traits: dickkoepfig, ehrlich, mutig. Temperament: nachdenklich. Social style: beschuetzend. Strengths: gibt nie auf, sagt immer die Wahrheit, auch wenn sie unbequem ist. Weaknesses: wird schnell ungehalten, tut sich schwer, um Hilfe zu bitten. Quirks: brummt leise vor sich hin, wenn er nachdenkt, zupft oft an seinem Bart, wenn er nervoes ist. Visible goal: will seine Ruhe haben und vermeidet zu viel Trubel. Deeper need: will dazugehören und gebraucht werden. Fear: ausgeschlossen oder uebersehen zu werden. Insecurity: Manchmal glaube ich, die anderen finden mich zu schwierig. Stress response: retreat_then_reflect. Growth direction: lernt, dass er mit Ehrlichkeit und Mut Freunde gewinnen kann. Teaching roles: challenger, helper. Explanation style: example_based. Birth place: Graustein-Huegel. Raised in: Graustein-Huegel, Rand des Mooswalds. Cultural context: Gemeinschaftssinn der Zwerge, Wert auf Handwerk und Gerechtigkeit. Belief or worldview: glaubt an die Kraft von Zusammenhalt und Ehrlichkeit. Historical context: Zwergenlegenden ueber Mut und Standhaftigkeit. Origin notes: Kann gut als Figur genutzt werden, um mit Kindern ueber Ehrlichkeit, Frust und Zugehoerigkeit zu sprechen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Borin Brummbart in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Borin steht am Ufer des Crystal Lake, Nachtnebel zieht auf, er blickt nachdenklich aufs Wasser, Bart und Mantel leicht im Wind. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Borin steht am Ufer des Crystal Lake, Nachtnebel zieht auf, er blickt nachdenklich aufs Wasser, Bart und Mantel leicht im Wind.",
+      "publicFilePath": "/content/characters/borin-brummbart/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/borin-brummbart/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "9c10c3c9-a773-4457-9917-6c6a925fa3d4",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=9c10c3c9-a773-4457-9917-6c6a925fa3d4",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/fb57631c6bea4cabbbb19b2160341eb5_sample.jpeg?se=2026-03-08T01%3A46%3A03Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=doIxcPwZJKWK4tKdLeSA5FFTOBllMRTVx%2BxdA%2BafIDg%3D",
+      "cost": 16
+    },
+    {
+      "id": "borin-brummbart:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Borin Brummbart. Short description: Borin Brummbart ist ein stämmiger Zwerg mit buschigem Bart und wetterfestem Mantel, der oft grummelt, aber ein großes Herz hat und sich mutig für seine Freunde einsetzt. Species: Zwerg. Age feel: erwachsen. Archetype: challenger. Body shape: klein, breit gebaut, kräftig mit kurzen Beinen. Dominant colors: dunkelgrau, tannengruen, rostrot. Hair or fur: rostrot zottelig und buschig lang. Eyes: stahlblau, grimmig, aber wachsam. Distinctive features: langer, buschiger Bart, große, knollige Nase, wetterfester, gruenlicher Mantel. Clothing style: robuste Zwergenkleidung mit Gürteltasche und wetterfester Mütze. Core traits: dickkoepfig, ehrlich, mutig. Temperament: nachdenklich. Social style: beschuetzend. Strengths: gibt nie auf, sagt immer die Wahrheit, auch wenn sie unbequem ist. Weaknesses: wird schnell ungehalten, tut sich schwer, um Hilfe zu bitten. Quirks: brummt leise vor sich hin, wenn er nachdenkt, zupft oft an seinem Bart, wenn er nervoes ist. Visible goal: will seine Ruhe haben und vermeidet zu viel Trubel. Deeper need: will dazugehören und gebraucht werden. Fear: ausgeschlossen oder uebersehen zu werden. Insecurity: Manchmal glaube ich, die anderen finden mich zu schwierig. Stress response: retreat_then_reflect. Growth direction: lernt, dass er mit Ehrlichkeit und Mut Freunde gewinnen kann. Teaching roles: challenger, helper. Explanation style: example_based. Birth place: Graustein-Huegel. Raised in: Graustein-Huegel, Rand des Mooswalds. Cultural context: Gemeinschaftssinn der Zwerge, Wert auf Handwerk und Gerechtigkeit. Belief or worldview: glaubt an die Kraft von Zusammenhalt und Ehrlichkeit. Historical context: Zwergenlegenden ueber Mut und Standhaftigkeit. Origin notes: Kann gut als Figur genutzt werden, um mit Kindern ueber Ehrlichkeit, Frust und Zugehoerigkeit zu sprechen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Borin Brummbart. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnaher Blick auf Borin, buschiger Bart, stahlblaue Augen, wetterfeste Mütze, leicht grimmiges, aber warmes Gesicht. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnaher Blick auf Borin, buschiger Bart, stahlblaue Augen, wetterfeste Mütze, leicht grimmiges, aber warmes Gesicht.",
+      "publicFilePath": "/content/characters/borin-brummbart/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/borin-brummbart/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "b26b8351-384f-4d5b-adae-f54e9084cb94",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=b26b8351-384f-4d5b-adae-f54e9084cb94",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/c8ffcb76f22f4d8f8ff8d73bccc79230_sample.png?se=2026-03-08T01%3A46%3A18Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=kMBDDjHfRXF5CGHIn/Rb4kWppxUunqQ5fKoBW7wzWTM%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "borin-brummbart:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Borin Brummbart. Short description: Borin Brummbart ist ein stämmiger Zwerg mit buschigem Bart und wetterfestem Mantel, der oft grummelt, aber ein großes Herz hat und sich mutig für seine Freunde einsetzt. Species: Zwerg. Age feel: erwachsen. Archetype: challenger. Body shape: klein, breit gebaut, kräftig mit kurzen Beinen. Dominant colors: dunkelgrau, tannengruen, rostrot. Hair or fur: rostrot zottelig und buschig lang. Eyes: stahlblau, grimmig, aber wachsam. Distinctive features: langer, buschiger Bart, große, knollige Nase, wetterfester, gruenlicher Mantel. Clothing style: robuste Zwergenkleidung mit Gürteltasche und wetterfester Mütze. Core traits: dickkoepfig, ehrlich, mutig. Temperament: nachdenklich. Social style: beschuetzend. Strengths: gibt nie auf, sagt immer die Wahrheit, auch wenn sie unbequem ist. Weaknesses: wird schnell ungehalten, tut sich schwer, um Hilfe zu bitten. Quirks: brummt leise vor sich hin, wenn er nachdenkt, zupft oft an seinem Bart, wenn er nervoes ist. Visible goal: will seine Ruhe haben und vermeidet zu viel Trubel. Deeper need: will dazugehören und gebraucht werden. Fear: ausgeschlossen oder uebersehen zu werden. Insecurity: Manchmal glaube ich, die anderen finden mich zu schwierig. Stress response: retreat_then_reflect. Growth direction: lernt, dass er mit Ehrlichkeit und Mut Freunde gewinnen kann. Teaching roles: challenger, helper. Explanation style: example_based. Birth place: Graustein-Huegel. Raised in: Graustein-Huegel, Rand des Mooswalds. Cultural context: Gemeinschaftssinn der Zwerge, Wert auf Handwerk und Gerechtigkeit. Belief or worldview: glaubt an die Kraft von Zusammenhalt und Ehrlichkeit. Historical context: Zwergenlegenden ueber Mut und Standhaftigkeit. Origin notes: Kann gut als Figur genutzt werden, um mit Kindern ueber Ehrlichkeit, Frust und Zugehoerigkeit zu sprechen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Borin Brummbart. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Nahaufnahme von Borins Gesicht mit buschigem Bart, großer Nase, stahlblauen Augen und verschmitztem Brummen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Nahaufnahme von Borins Gesicht mit buschigem Bart, großer Nase, stahlblauen Augen und verschmitztem Brummen.",
+      "publicFilePath": "/content/characters/borin-brummbart/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/borin-brummbart/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "e009f846-e123-473b-af45-829ecc73d034",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=e009f846-e123-473b-af45-829ecc73d034",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/93d9aac900704f3799180c0e651f5fc9_sample.png?se=2026-03-08T01%3A46%3A34Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Z9AG7GwqiXqNUUbUziJrVykjCprwp1jmSZJakSQFIvE%3D",
+      "cost": 6
+    }
+  ]
+}

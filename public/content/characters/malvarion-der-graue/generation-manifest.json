@@ -1,0 +1,244 @@
+{
+  "generatedAt": "2026-03-08T01:51:57.348Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/malvarion-der-graue/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/malvarion-der-graue",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "malvarion-der-graue",
+    "name": "Malvarion der Graue",
+    "shortDescription": "Malvarion ist ein schlanker, blasser Zauberer mit grauem Mantel und funkelnden violetten Augen. Er wirkt geheimnisvoll und seine Macht stammt von einem noch dunkleren Meister aus fernen Landen.",
+    "basis": {
+      "ageHint": "erwachsen",
+      "species": "Mensch (Zauberer)",
+      "genderExpression": "maskulin",
+      "roleArchetype": "challenger"
+    },
+    "appearance": {
+      "bodyShape": "hochgewachsen und schmal, mit langen, eleganten Fingern",
+      "colors": [
+        "aschgrau",
+        "violett",
+        "nachtschwarz"
+      ],
+      "hairOrFur": {
+        "color": "silbergrau",
+        "texture": "glatt, leicht strähnig",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "violett",
+        "expression": "durchdringend und aufmerksam"
+      },
+      "distinctiveFeatures": [
+        "spitzer, langer Zauberhut mit violetter Borte",
+        "langer, zerzauster silbergrauer Bart",
+        "schwarze magische Runen auf den Händen"
+      ],
+      "clothingStyle": "langer, grauer Umhang mit dunklen Mustern und hohem Kragen"
+    },
+    "personality": {
+      "coreTraits": [
+        "machtgierig",
+        "berechnend",
+        "geheimnisvoll"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "unabhaengig",
+      "strengths": [
+        "kluger Planer",
+        "starke Zauberkraft"
+      ],
+      "weaknesses": [
+        "vertraut niemandem wirklich",
+        "unterschätzt manchmal die Kraft von Zusammenhalt"
+      ],
+      "quirks": [
+        "spricht oft in Rätseln",
+        "streicht sich nachdenklich durch den Bart, wenn er plant"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Die Kontrolle über magische Orte und mächtige Artefakte erlangen",
+      "deeperNeed": "Anerkennung vom fernen, noch mächtigeren Meister",
+      "fear": "Seine Schwäche und Abhängigkeit werden entdeckt",
+      "insecurity": "Was, wenn ich nur ein Werkzeug bin und nie selbst der Meister werde?",
+      "stressResponse": "retreat_then_reflect",
+      "growthDirection": "Erkennt, dass blinde Loyalität und Machtgier ihn einsam machen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "challenger",
+        "warning_example"
+      ],
+      "suitableSkills": [
+        "selbstregulation",
+        "umgang-mit-macht"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Nebelberge am Schattenrand",
+      "upbringingPlaces": [
+        "Nebelberge am Schattenrand",
+        "Schwarzwald der Stille"
+      ],
+      "culturalContext": [
+        "alte Zaubertraditionen",
+        "Loyalität zu einem verborgenen Meister"
+      ],
+      "religionOrBelief": "Glaube an die Macht über alles",
+      "historicalContext": [
+        "Geschichten über uralte Zaubererkämpfe"
+      ],
+      "notes": "Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt."
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "borin-brummbart",
+          "type": "Feind"
+        }
+      ],
+      "places": [
+        {
+          "placeId": "crystal-lake",
+          "type": "Zielort",
+          "description": "Malvarion sucht nach den magischen Kräften des Sees."
+        },
+        {
+          "placeId": "whispering-meadow",
+          "type": "Beobachtungsort",
+          "description": "Von hier aus beobachtet er oft die Bewohner und sucht nach Schwächen."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/malvarion-der-graue/standard-figur.png",
+        "description": "Großer, schlanker Zauberer in langem grauen Umhang, spitzer Hut und violetten Augen; steht aufrecht mit einem Stab, Runen auf den Händen sichtbar."
+      },
+      "heroImage": {
+        "file": "/content/characters/malvarion-der-graue/hero-image.jpg",
+        "description": "Malvarion steht auf einem nebligen Felsen mit erhobenem Stab, violette Magie leuchtet um ihn, im Hintergrund dunkle Berge."
+      },
+      "portrait": {
+        "file": "/content/characters/malvarion-der-graue/portrait.png",
+        "description": "Halbnah, ernster Blick, silbergrauer Bart und Hut, violette Augen leuchten, Runen auf der Hand sind sichtbar."
+      },
+      "profileImage": {
+        "file": "/content/characters/malvarion-der-graue/profilbild.png",
+        "description": "Quadratisches Portrait mit fokussiertem Gesicht, violette Augen und grauer Bart, dunkler Hintergrund."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "macht",
+      "zauberer",
+      "challenger",
+      "einsamkeit",
+      "loyalitaet",
+      "warnung",
+      "nebellandschaft",
+      "magie",
+      "selbstregulation",
+      "umgang-mit-macht",
+      "world_schattenrand"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "malvarion-der-graue:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Malvarion der Graue. Short description: Malvarion ist ein schlanker, blasser Zauberer mit grauem Mantel und funkelnden violetten Augen. Er wirkt geheimnisvoll und seine Macht stammt von einem noch dunkleren Meister aus fernen Landen. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: challenger. Body shape: hochgewachsen und schmal, mit langen, eleganten Fingern. Dominant colors: aschgrau, violett, nachtschwarz. Hair or fur: silbergrau glatt, leicht strähnig lang. Eyes: violett, durchdringend und aufmerksam. Distinctive features: spitzer, langer Zauberhut mit violetter Borte, langer, zerzauster silbergrauer Bart, schwarze magische Runen auf den Händen. Clothing style: langer, grauer Umhang mit dunklen Mustern und hohem Kragen. Core traits: machtgierig, berechnend, geheimnisvoll. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kluger Planer, starke Zauberkraft. Weaknesses: vertraut niemandem wirklich, unterschätzt manchmal die Kraft von Zusammenhalt. Quirks: spricht oft in Rätseln, streicht sich nachdenklich durch den Bart, wenn er plant. Visible goal: Die Kontrolle über magische Orte und mächtige Artefakte erlangen. Deeper need: Anerkennung vom fernen, noch mächtigeren Meister. Fear: Seine Schwäche und Abhängigkeit werden entdeckt. Insecurity: Was, wenn ich nur ein Werkzeug bin und nie selbst der Meister werde. Stress response: retreat_then_reflect. Growth direction: Erkennt, dass blinde Loyalität und Machtgier ihn einsam machen. Teaching roles: challenger, warning_example. Explanation style: example_based. Birth place: Nebelberge am Schattenrand. Raised in: Nebelberge am Schattenrand, Schwarzwald der Stille. Cultural context: alte Zaubertraditionen, Loyalität zu einem verborgenen Meister. Belief or worldview: Glaube an die Macht über alles. Historical context: Geschichten über uralte Zaubererkämpfe. Origin notes: Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Malvarion der Graue on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Großer, schlanker Zauberer in langem grauen Umhang, spitzer Hut und violetten Augen; steht aufrecht mit einem Stab, Runen auf den Händen sichtbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Großer, schlanker Zauberer in langem grauen Umhang, spitzer Hut und violetten Augen; steht aufrecht mit einem Stab, Runen auf den Händen sichtbar.",
+      "publicFilePath": "/content/characters/malvarion-der-graue/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/malvarion-der-graue/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "e2d8a805-4496-4972-bf47-47bf11b5436c",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=e2d8a805-4496-4972-bf47-47bf11b5436c",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/e5cd5582ff7e4cccb32dcb7dbe8d3e36_sample.png?se=2026-03-08T02%3A00%3A43Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=sasgVfLGcY0ljxYoxSKPjLhl2okpNG4IrGKSqJCvfYg%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "malvarion-der-graue:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Malvarion der Graue. Short description: Malvarion ist ein schlanker, blasser Zauberer mit grauem Mantel und funkelnden violetten Augen. Er wirkt geheimnisvoll und seine Macht stammt von einem noch dunkleren Meister aus fernen Landen. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: challenger. Body shape: hochgewachsen und schmal, mit langen, eleganten Fingern. Dominant colors: aschgrau, violett, nachtschwarz. Hair or fur: silbergrau glatt, leicht strähnig lang. Eyes: violett, durchdringend und aufmerksam. Distinctive features: spitzer, langer Zauberhut mit violetter Borte, langer, zerzauster silbergrauer Bart, schwarze magische Runen auf den Händen. Clothing style: langer, grauer Umhang mit dunklen Mustern und hohem Kragen. Core traits: machtgierig, berechnend, geheimnisvoll. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kluger Planer, starke Zauberkraft. Weaknesses: vertraut niemandem wirklich, unterschätzt manchmal die Kraft von Zusammenhalt. Quirks: spricht oft in Rätseln, streicht sich nachdenklich durch den Bart, wenn er plant. Visible goal: Die Kontrolle über magische Orte und mächtige Artefakte erlangen. Deeper need: Anerkennung vom fernen, noch mächtigeren Meister. Fear: Seine Schwäche und Abhängigkeit werden entdeckt. Insecurity: Was, wenn ich nur ein Werkzeug bin und nie selbst der Meister werde. Stress response: retreat_then_reflect. Growth direction: Erkennt, dass blinde Loyalität und Machtgier ihn einsam machen. Teaching roles: challenger, warning_example. Explanation style: example_based. Birth place: Nebelberge am Schattenrand. Raised in: Nebelberge am Schattenrand, Schwarzwald der Stille. Cultural context: alte Zaubertraditionen, Loyalität zu einem verborgenen Meister. Belief or worldview: Glaube an die Macht über alles. Historical context: Geschichten über uralte Zaubererkämpfe. Origin notes: Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Malvarion der Graue in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Malvarion steht auf einem nebligen Felsen mit erhobenem Stab, violette Magie leuchtet um ihn, im Hintergrund dunkle Berge. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Malvarion steht auf einem nebligen Felsen mit erhobenem Stab, violette Magie leuchtet um ihn, im Hintergrund dunkle Berge.",
+      "publicFilePath": "/content/characters/malvarion-der-graue/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/malvarion-der-graue/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "093b0bc5-a909-481b-aef8-8499bade51b0",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=093b0bc5-a909-481b-aef8-8499bade51b0",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/f43327f7876c4bc7ae6a7f068c91863e_sample.jpeg?se=2026-03-08T02%3A01%3A23Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=PGFvKMWnfTyS8dKOfdeaUoC1ZSYX5I5JiZS/gZZzGFo%3D",
+      "cost": 16
+    },
+    {
+      "id": "malvarion-der-graue:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Malvarion der Graue. Short description: Malvarion ist ein schlanker, blasser Zauberer mit grauem Mantel und funkelnden violetten Augen. Er wirkt geheimnisvoll und seine Macht stammt von einem noch dunkleren Meister aus fernen Landen. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: challenger. Body shape: hochgewachsen und schmal, mit langen, eleganten Fingern. Dominant colors: aschgrau, violett, nachtschwarz. Hair or fur: silbergrau glatt, leicht strähnig lang. Eyes: violett, durchdringend und aufmerksam. Distinctive features: spitzer, langer Zauberhut mit violetter Borte, langer, zerzauster silbergrauer Bart, schwarze magische Runen auf den Händen. Clothing style: langer, grauer Umhang mit dunklen Mustern und hohem Kragen. Core traits: machtgierig, berechnend, geheimnisvoll. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kluger Planer, starke Zauberkraft. Weaknesses: vertraut niemandem wirklich, unterschätzt manchmal die Kraft von Zusammenhalt. Quirks: spricht oft in Rätseln, streicht sich nachdenklich durch den Bart, wenn er plant. Visible goal: Die Kontrolle über magische Orte und mächtige Artefakte erlangen. Deeper need: Anerkennung vom fernen, noch mächtigeren Meister. Fear: Seine Schwäche und Abhängigkeit werden entdeckt. Insecurity: Was, wenn ich nur ein Werkzeug bin und nie selbst der Meister werde. Stress response: retreat_then_reflect. Growth direction: Erkennt, dass blinde Loyalität und Machtgier ihn einsam machen. Teaching roles: challenger, warning_example. Explanation style: example_based. Birth place: Nebelberge am Schattenrand. Raised in: Nebelberge am Schattenrand, Schwarzwald der Stille. Cultural context: alte Zaubertraditionen, Loyalität zu einem verborgenen Meister. Belief or worldview: Glaube an die Macht über alles. Historical context: Geschichten über uralte Zaubererkämpfe. Origin notes: Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Malvarion der Graue. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnah, ernster Blick, silbergrauer Bart und Hut, violette Augen leuchten, Runen auf der Hand sind sichtbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnah, ernster Blick, silbergrauer Bart und Hut, violette Augen leuchten, Runen auf der Hand sind sichtbar.",
+      "publicFilePath": "/content/characters/malvarion-der-graue/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/malvarion-der-graue/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "e5bebe0b-e903-4ec1-94c3-059e7af69ed6",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=e5bebe0b-e903-4ec1-94c3-059e7af69ed6",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/b0e9f6122e7b4c1797b4e5523d5233b9_sample.png?se=2026-03-08T02%3A01%3A38Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=A2GiXEvFegUGdCTQX7A3msTM6D9/7M7TGcXxd57Mh94%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "malvarion-der-graue:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Malvarion der Graue. Short description: Malvarion ist ein schlanker, blasser Zauberer mit grauem Mantel und funkelnden violetten Augen. Er wirkt geheimnisvoll und seine Macht stammt von einem noch dunkleren Meister aus fernen Landen. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: challenger. Body shape: hochgewachsen und schmal, mit langen, eleganten Fingern. Dominant colors: aschgrau, violett, nachtschwarz. Hair or fur: silbergrau glatt, leicht strähnig lang. Eyes: violett, durchdringend und aufmerksam. Distinctive features: spitzer, langer Zauberhut mit violetter Borte, langer, zerzauster silbergrauer Bart, schwarze magische Runen auf den Händen. Clothing style: langer, grauer Umhang mit dunklen Mustern und hohem Kragen. Core traits: machtgierig, berechnend, geheimnisvoll. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kluger Planer, starke Zauberkraft. Weaknesses: vertraut niemandem wirklich, unterschätzt manchmal die Kraft von Zusammenhalt. Quirks: spricht oft in Rätseln, streicht sich nachdenklich durch den Bart, wenn er plant. Visible goal: Die Kontrolle über magische Orte und mächtige Artefakte erlangen. Deeper need: Anerkennung vom fernen, noch mächtigeren Meister. Fear: Seine Schwäche und Abhängigkeit werden entdeckt. Insecurity: Was, wenn ich nur ein Werkzeug bin und nie selbst der Meister werde. Stress response: retreat_then_reflect. Growth direction: Erkennt, dass blinde Loyalität und Machtgier ihn einsam machen. Teaching roles: challenger, warning_example. Explanation style: example_based. Birth place: Nebelberge am Schattenrand. Raised in: Nebelberge am Schattenrand, Schwarzwald der Stille. Cultural context: alte Zaubertraditionen, Loyalität zu einem verborgenen Meister. Belief or worldview: Glaube an die Macht über alles. Historical context: Geschichten über uralte Zaubererkämpfe. Origin notes: Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Malvarion der Graue. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Portrait mit fokussiertem Gesicht, violette Augen und grauer Bart, dunkler Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Portrait mit fokussiertem Gesicht, violette Augen und grauer Bart, dunkler Hintergrund.",
+      "publicFilePath": "/content/characters/malvarion-der-graue/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/malvarion-der-graue/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "4c51379c-325f-47bf-a137-833e517f5920",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=4c51379c-325f-47bf-a137-833e517f5920",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/75fc50560aa74b9fbe12ae83eb5556c1_sample.png?se=2026-03-08T02%3A01%3A55Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=1mWLe5JQ%2BAQkaQErNET%2BrCMxVeRHGLk17rPlfmdd0Ok%3D",
+      "cost": 6
+    }
+  ]
+}

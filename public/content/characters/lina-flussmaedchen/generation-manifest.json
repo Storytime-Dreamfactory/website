@@ -1,0 +1,240 @@
+{
+  "generatedAt": "2026-03-08T02:12:15.906Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/lina-flussmaedchen/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/lina-flussmaedchen",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "lina-flussmaedchen",
+    "name": "Lina Flussmaedchen",
+    "shortDescription": "Lina ist ein neugieriges Maedchen mit braunem Haar, das am Flussufer lebt, gerne liest und mit ihrer Freundin Nola neue Ideen ersinnt.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "feminin",
+      "roleArchetype": "learner"
+    },
+    "appearance": {
+      "bodyShape": "schlank und drahtig, wendig gebaut",
+      "colors": [
+        "flussblau",
+        "hellbraun",
+        "cremeweiss"
+      ],
+      "hairOrFur": {
+        "color": "kastanienbraun",
+        "texture": "leicht gewellt",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "gruen",
+        "expression": "aufmerksam und freundlich"
+      },
+      "distinctiveFeatures": [
+        "immer ein Buch oder Skizzenblock bei sich",
+        "Sommersprossen auf der Nase",
+        "ein geflochtener Zopf mit blauem Band"
+      ],
+      "clothingStyle": "praktische Tunika mit Taschen, knielange Hose, barfuss oder mit Sandalen"
+    },
+    "personality": {
+      "coreTraits": [
+        "wissbegierig",
+        "mitfuehlend",
+        "fantasievoll"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "offen",
+      "strengths": [
+        "kann gut zuhoeren und Fragen stellen",
+        "findet kreative Loesungen"
+      ],
+      "weaknesses": [
+        "vergisst sich in Tagtraeumen",
+        "manchmal ungeduldig, wenn andere nicht so schnell verstehen"
+      ],
+      "quirks": [
+        "spricht leise mit dem Fluss, als koennte er antworten",
+        "sammelt flache Steine und bemalt sie"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Sie will Neues lernen und die Geheimnisse des Flusses entdecken.",
+      "deeperNeed": "Sie moechte verstanden werden und ihre Gedanken teilen koennen.",
+      "fear": "Sie fuerchtet, ausgeschlossen oder uebersprungen zu werden.",
+      "insecurity": "Manchmal glaube ich, dass meine Ideen zu seltsam sind.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, ihre Gedanken mutiger auszusprechen und anderen zu vertrauen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "model"
+      ],
+      "suitableSkills": [
+        "neugier",
+        "zuhoeren"
+      ],
+      "explanationStyle": "question_based"
+    },
+    "origin": {
+      "birthPlace": "Flusswinkel am Silberstrom",
+      "upbringingPlaces": [
+        "Flusswinkel am Silberstrom",
+        "nahe Whispering Meadow"
+      ],
+      "culturalContext": [
+        "Geschichten und Lieder am Wasser",
+        "respektvoller Umgang mit der Natur"
+      ],
+      "religionOrBelief": "Die Natur ist voller Wunder und Antworten, wenn man hinhoert.",
+      "historicalContext": [
+        "Flussgeschichten und Legenden der Aeltesten"
+      ],
+      "notes": "Die Herkunft praegt Linas Liebe zu Geschichten, Natur und kleinen Raeumen am Wasser."
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "nola",
+          "type": "beste Freundin",
+          "description": "Nola und Lina verbringen fast jeden Tag zusammen am Fluss; Lina bewundert Nolas Mut."
+        }
+      ],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "Lieblingswiese",
+          "description": "Hier liest Lina oft oder sammelt Blumen, wenn sie nachdenkt."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/lina-flussmaedchen/standard-figur.png",
+        "description": "Ganzkoerperfigur eines schlanken Maedchens mit langen, leicht gewellten, kastanienbraunen Haaren im geflochtenen Zopf mit blauem Band, barfuss, Tunika mit Taschen, Buch in der Hand, freundlich und aufmerksam wirkend."
+      },
+      "heroImage": {
+        "file": "/content/characters/lina-flussmaedchen/hero-image.jpg",
+        "description": "Atmosphaerische Szene am Flussufer: Lina sitzt mit Nola auf einem grossen Stein, Skizzenblock in der Hand, umgeben von blau schimmerndem Wasser und gruenen Pflanzen, beide schauen neugierig ins Wasser."
+      },
+      "portrait": {
+        "file": "/content/characters/lina-flussmaedchen/portrait.png",
+        "description": "Halbnahes Portrait von Lina mit gruenen, wachen Augen, Sommersprossen, sanftem Laecheln und geflochtenem Zopf, Buch sichtbar am Bildrand."
+      },
+      "profileImage": {
+        "file": "/content/characters/lina-flussmaedchen/profilbild.png",
+        "description": "Quadratisches Bild: Linas Gesicht mit freundlichem, offenem Blick, Sommersprossen, blauer Zopfschleife und ein paar Wasserpflanzen im Hintergrund."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "neugier",
+      "zuhoeren",
+      "learner",
+      "model",
+      "fluss",
+      "freundschaft",
+      "nachdenklich",
+      "naturverbunden",
+      "kind",
+      "question_based",
+      "world-flusswinkel"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "lina-flussmaedchen:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Lina Flussmaedchen. Short description: Lina ist ein neugieriges Maedchen mit braunem Haar, das am Flussufer lebt, gerne liest und mit ihrer Freundin Nola neue Ideen ersinnt. Species: Mensch. Age feel: kindlich. Archetype: learner. Body shape: schlank und drahtig, wendig gebaut. Dominant colors: flussblau, hellbraun, cremeweiss. Hair or fur: kastanienbraun leicht gewellt lang. Eyes: gruen, aufmerksam und freundlich. Distinctive features: immer ein Buch oder Skizzenblock bei sich, Sommersprossen auf der Nase, ein geflochtener Zopf mit blauem Band. Clothing style: praktische Tunika mit Taschen, knielange Hose, barfuss oder mit Sandalen. Core traits: wissbegierig, mitfuehlend, fantasievoll. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren und Fragen stellen, findet kreative Loesungen. Weaknesses: vergisst sich in Tagtraeumen, manchmal ungeduldig, wenn andere nicht so schnell verstehen. Quirks: spricht leise mit dem Fluss, als koennte er antworten, sammelt flache Steine und bemalt sie. Visible goal: Sie will Neues lernen und die Geheimnisse des Flusses entdecken. Deeper need: Sie moechte verstanden werden und ihre Gedanken teilen koennen. Fear: Sie fuerchtet, ausgeschlossen oder uebersprungen zu werden. Insecurity: Manchmal glaube ich, dass meine Ideen zu seltsam sind. Stress response: hesitate_then_try. Growth direction: lernt, ihre Gedanken mutiger auszusprechen und anderen zu vertrauen. Teaching roles: learner, model. Explanation style: question_based. Birth place: Flusswinkel am Silberstrom. Raised in: Flusswinkel am Silberstrom, nahe Whispering Meadow. Cultural context: Geschichten und Lieder am Wasser, respektvoller Umgang mit der Natur. Belief or worldview: Die Natur ist voller Wunder und Antworten, wenn man hinhoert. Historical context: Flussgeschichten und Legenden der Aeltesten. Origin notes: Die Herkunft praegt Linas Liebe zu Geschichten, Natur und kleinen Raeumen am Wasser. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Lina Flussmaedchen on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Ganzkoerperfigur eines schlanken Maedchens mit langen, leicht gewellten, kastanienbraunen Haaren im geflochtenen Zopf mit blauem Band, barfuss, Tunika mit Taschen, Buch in der Hand, freundlich und aufmerksam wirkend. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Ganzkoerperfigur eines schlanken Maedchens mit langen, leicht gewellten, kastanienbraunen Haaren im geflochtenen Zopf mit blauem Band, barfuss, Tunika mit Taschen, Buch in der Hand, freundlich und aufmerksam wirkend.",
+      "publicFilePath": "/content/characters/lina-flussmaedchen/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/lina-flussmaedchen/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "36ce1c19-8458-4717-b75b-f1d1ef7e7b74",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=36ce1c19-8458-4717-b75b-f1d1ef7e7b74",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/e81f3d8dfae144a78ad5f1b19524774a_sample.png?se=2026-03-08T02%3A21%3A09Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=DQwszTVe8NUtDp7a/IiOz51GttAJLvp/0shodLBo9Xs%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "lina-flussmaedchen:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Lina Flussmaedchen. Short description: Lina ist ein neugieriges Maedchen mit braunem Haar, das am Flussufer lebt, gerne liest und mit ihrer Freundin Nola neue Ideen ersinnt. Species: Mensch. Age feel: kindlich. Archetype: learner. Body shape: schlank und drahtig, wendig gebaut. Dominant colors: flussblau, hellbraun, cremeweiss. Hair or fur: kastanienbraun leicht gewellt lang. Eyes: gruen, aufmerksam und freundlich. Distinctive features: immer ein Buch oder Skizzenblock bei sich, Sommersprossen auf der Nase, ein geflochtener Zopf mit blauem Band. Clothing style: praktische Tunika mit Taschen, knielange Hose, barfuss oder mit Sandalen. Core traits: wissbegierig, mitfuehlend, fantasievoll. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren und Fragen stellen, findet kreative Loesungen. Weaknesses: vergisst sich in Tagtraeumen, manchmal ungeduldig, wenn andere nicht so schnell verstehen. Quirks: spricht leise mit dem Fluss, als koennte er antworten, sammelt flache Steine und bemalt sie. Visible goal: Sie will Neues lernen und die Geheimnisse des Flusses entdecken. Deeper need: Sie moechte verstanden werden und ihre Gedanken teilen koennen. Fear: Sie fuerchtet, ausgeschlossen oder uebersprungen zu werden. Insecurity: Manchmal glaube ich, dass meine Ideen zu seltsam sind. Stress response: hesitate_then_try. Growth direction: lernt, ihre Gedanken mutiger auszusprechen und anderen zu vertrauen. Teaching roles: learner, model. Explanation style: question_based. Birth place: Flusswinkel am Silberstrom. Raised in: Flusswinkel am Silberstrom, nahe Whispering Meadow. Cultural context: Geschichten und Lieder am Wasser, respektvoller Umgang mit der Natur. Belief or worldview: Die Natur ist voller Wunder und Antworten, wenn man hinhoert. Historical context: Flussgeschichten und Legenden der Aeltesten. Origin notes: Die Herkunft praegt Linas Liebe zu Geschichten, Natur und kleinen Raeumen am Wasser. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Lina Flussmaedchen in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Atmosphaerische Szene am Flussufer: Lina sitzt mit Nola auf einem grossen Stein, Skizzenblock in der Hand, umgeben von blau schimmerndem Wasser und gruenen Pflanzen, beide schauen neugierig ins Wasser. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Atmosphaerische Szene am Flussufer: Lina sitzt mit Nola auf einem grossen Stein, Skizzenblock in der Hand, umgeben von blau schimmerndem Wasser und gruenen Pflanzen, beide schauen neugierig ins Wasser.",
+      "publicFilePath": "/content/characters/lina-flussmaedchen/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/lina-flussmaedchen/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "0c563018-2dd8-4f70-a4c4-b6e1a03d1b42",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=0c563018-2dd8-4f70-a4c4-b6e1a03d1b42",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/8080a536fb7247aba1822d6e2789e10b_sample.jpeg?se=2026-03-08T02%3A21%3A45Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=vI21kLPMGXPY%2BPbxQNRf2ZIIyzy11z0EUcZ0udNYCR0%3D",
+      "cost": 16
+    },
+    {
+      "id": "lina-flussmaedchen:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Lina Flussmaedchen. Short description: Lina ist ein neugieriges Maedchen mit braunem Haar, das am Flussufer lebt, gerne liest und mit ihrer Freundin Nola neue Ideen ersinnt. Species: Mensch. Age feel: kindlich. Archetype: learner. Body shape: schlank und drahtig, wendig gebaut. Dominant colors: flussblau, hellbraun, cremeweiss. Hair or fur: kastanienbraun leicht gewellt lang. Eyes: gruen, aufmerksam und freundlich. Distinctive features: immer ein Buch oder Skizzenblock bei sich, Sommersprossen auf der Nase, ein geflochtener Zopf mit blauem Band. Clothing style: praktische Tunika mit Taschen, knielange Hose, barfuss oder mit Sandalen. Core traits: wissbegierig, mitfuehlend, fantasievoll. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren und Fragen stellen, findet kreative Loesungen. Weaknesses: vergisst sich in Tagtraeumen, manchmal ungeduldig, wenn andere nicht so schnell verstehen. Quirks: spricht leise mit dem Fluss, als koennte er antworten, sammelt flache Steine und bemalt sie. Visible goal: Sie will Neues lernen und die Geheimnisse des Flusses entdecken. Deeper need: Sie moechte verstanden werden und ihre Gedanken teilen koennen. Fear: Sie fuerchtet, ausgeschlossen oder uebersprungen zu werden. Insecurity: Manchmal glaube ich, dass meine Ideen zu seltsam sind. Stress response: hesitate_then_try. Growth direction: lernt, ihre Gedanken mutiger auszusprechen und anderen zu vertrauen. Teaching roles: learner, model. Explanation style: question_based. Birth place: Flusswinkel am Silberstrom. Raised in: Flusswinkel am Silberstrom, nahe Whispering Meadow. Cultural context: Geschichten und Lieder am Wasser, respektvoller Umgang mit der Natur. Belief or worldview: Die Natur ist voller Wunder und Antworten, wenn man hinhoert. Historical context: Flussgeschichten und Legenden der Aeltesten. Origin notes: Die Herkunft praegt Linas Liebe zu Geschichten, Natur und kleinen Raeumen am Wasser. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Lina Flussmaedchen. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Portrait von Lina mit gruenen, wachen Augen, Sommersprossen, sanftem Laecheln und geflochtenem Zopf, Buch sichtbar am Bildrand. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Portrait von Lina mit gruenen, wachen Augen, Sommersprossen, sanftem Laecheln und geflochtenem Zopf, Buch sichtbar am Bildrand.",
+      "publicFilePath": "/content/characters/lina-flussmaedchen/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/lina-flussmaedchen/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "38364e1d-8d9f-4258-b19c-d2f02873a711",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=38364e1d-8d9f-4258-b19c-d2f02873a711",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/c07951383bfd4758883e8cfca368417e_sample.png?se=2026-03-08T02%3A22%3A00Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=nFd%2BcXZFy68lTHg5ZomS19McGLLOftYGX0s56yaIBFg%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "lina-flussmaedchen:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Lina Flussmaedchen. Short description: Lina ist ein neugieriges Maedchen mit braunem Haar, das am Flussufer lebt, gerne liest und mit ihrer Freundin Nola neue Ideen ersinnt. Species: Mensch. Age feel: kindlich. Archetype: learner. Body shape: schlank und drahtig, wendig gebaut. Dominant colors: flussblau, hellbraun, cremeweiss. Hair or fur: kastanienbraun leicht gewellt lang. Eyes: gruen, aufmerksam und freundlich. Distinctive features: immer ein Buch oder Skizzenblock bei sich, Sommersprossen auf der Nase, ein geflochtener Zopf mit blauem Band. Clothing style: praktische Tunika mit Taschen, knielange Hose, barfuss oder mit Sandalen. Core traits: wissbegierig, mitfuehlend, fantasievoll. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren und Fragen stellen, findet kreative Loesungen. Weaknesses: vergisst sich in Tagtraeumen, manchmal ungeduldig, wenn andere nicht so schnell verstehen. Quirks: spricht leise mit dem Fluss, als koennte er antworten, sammelt flache Steine und bemalt sie. Visible goal: Sie will Neues lernen und die Geheimnisse des Flusses entdecken. Deeper need: Sie moechte verstanden werden und ihre Gedanken teilen koennen. Fear: Sie fuerchtet, ausgeschlossen oder uebersprungen zu werden. Insecurity: Manchmal glaube ich, dass meine Ideen zu seltsam sind. Stress response: hesitate_then_try. Growth direction: lernt, ihre Gedanken mutiger auszusprechen und anderen zu vertrauen. Teaching roles: learner, model. Explanation style: question_based. Birth place: Flusswinkel am Silberstrom. Raised in: Flusswinkel am Silberstrom, nahe Whispering Meadow. Cultural context: Geschichten und Lieder am Wasser, respektvoller Umgang mit der Natur. Belief or worldview: Die Natur ist voller Wunder und Antworten, wenn man hinhoert. Historical context: Flussgeschichten und Legenden der Aeltesten. Origin notes: Die Herkunft praegt Linas Liebe zu Geschichten, Natur und kleinen Raeumen am Wasser. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Lina Flussmaedchen. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Bild: Linas Gesicht mit freundlichem, offenem Blick, Sommersprossen, blauer Zopfschleife und ein paar Wasserpflanzen im Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Bild: Linas Gesicht mit freundlichem, offenem Blick, Sommersprossen, blauer Zopfschleife und ein paar Wasserpflanzen im Hintergrund.",
+      "publicFilePath": "/content/characters/lina-flussmaedchen/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/lina-flussmaedchen/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "c5a3a1fc-567f-4c55-ae7c-84a695cccc12",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=c5a3a1fc-567f-4c55-ae7c-84a695cccc12",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/08/1a340e7ad4d54ee79fdc6e56533c448d_sample.png?se=2026-03-08T02%3A22%3A14Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=of8wTSzfOSg%2BSmH24NW4/nKRkLKELUn0nXTjn9ympEE%3D",
+      "cost": 6
+    }
+  ]
+}

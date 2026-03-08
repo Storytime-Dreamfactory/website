@@ -1,0 +1,20 @@
+{
+  "characters": [
+    "/content/characters/nola/character.yaml",
+    "/content/characters/romi/character.yaml",
+    "/content/characters/finja-schneevoegelchen/character.yaml",
+    "/content/characters/borin-brummbart/character.yaml",
+    "/content/characters/malvarion-der-graue/character.yaml",
+    "/content/characters/lina-flussmaedchen/character.yaml",
+    "/content/characters/agatha-knusperhexe/character.yaml",
+    "/content/characters/lorelei-das-goldmaedchen/character.yaml"
+  ],
+  "places": [
+    "/content/places/crystal-lake.yaml",
+    "/content/places/whispering-meadow.yaml"
+  ],
+  "skills": [
+    "/content/skills/problem-solving.yaml",
+    "/content/skills/kindness.yaml"
+  ]
+}

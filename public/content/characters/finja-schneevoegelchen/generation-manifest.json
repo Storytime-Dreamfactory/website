@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-03-08T01:06:42.803Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/finja-schneevoegelchen.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/finja-schneevoegelchen",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "finja-schneevoegelchen",
+    "name": "Finja Schneevoegelchen",
+    "shortDescription": "Finja ist ein kleiner, schneeweisser Singvogel mit federleichtem Flaum, roten Baeckchen und einem neugierigen Blick. Sie liebt es, anderen zuzusehen und traeumt davon, selbst einmal mutig zu sein.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Singvogel",
+      "genderExpression": "feminin",
+      "roleArchetype": "learner"
+    },
+    "appearance": {
+      "bodyShape": "zierlich und rund, mit kurzen Flügeln und puscheligen Federn",
+      "colors": [
+        "schneeweiss",
+        "kirschrot",
+        "himmelblau"
+      ],
+      "hairOrFur": {
+        "color": "schneeweiss",
+        "texture": "seidig weich",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "haselnussbraun",
+        "expression": "staunend und freundlich"
+      },
+      "distinctiveFeatures": [
+        "leuchtend rote Baeckchen",
+        "winziger blauer Federschwanz",
+        "kleine goldene Federkrone am Kopf"
+      ],
+      "clothingStyle": "traegt ein kleines hellblaues Halstuch aus Seidenflaum"
+    },
+    "personality": {
+      "coreTraits": [
+        "sanftmuetig",
+        "hilfsbereit",
+        "vorsichtig"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "offen",
+      "strengths": [
+        "kann gut zuhoeren",
+        "bringt Ruhe in aufgeregte Gruppen"
+      ],
+      "weaknesses": [
+        "ziert sich vor Neuem",
+        "wird schnell unsicher, wenn sie allein ist"
+      ],
+      "quirks": [
+        "pickt bei Aufregung an ihrem Halstuch",
+        "summt leise Melodien, wenn sie nachdenkt"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Mut finden, um sich in neue Abenteuer zu wagen und anderen zu helfen",
+      "deeperNeed": "Gebraucht und akzeptiert werden, auch wenn sie sich aengstlich fuehlt",
+      "fear": "Einsamkeit und ausgeschlossen zu werden",
+      "insecurity": "Ich bin bestimmt zu klein und leise, um wichtig zu sein.",
+      "stressResponse": "freeze",
+      "growthDirection": "lernt, dass Mut nicht laut sein muss und dass auch kleine Stimmen zaehlen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "model"
+      ],
+      "suitableSkills": [
+        "mut",
+        "selbstvertrauen"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Schneefederhain",
+      "upbringingPlaces": [
+        "Schneefederhain",
+        "whispering-meadow"
+      ],
+      "culturalContext": [
+        "friedliebende Gemeinschaft",
+        "gegenseitige Hilfe wird gross geschrieben"
+      ],
+      "religionOrBelief": "glaubt an die Kraft der kleinen Taten",
+      "historicalContext": [
+        "lange Winter mit viel Zusammenhalt in der Vogelschar"
+      ],
+      "notes": "Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten"
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "romi",
+          "type": "Vorbild",
+          "description": "Findet Romis Hilfsbereitschaft bewundernswert und traut sich dank ihr mehr zu."
+        },
+      ],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "Lieblingsort",
+          "description": "Hier beobachtet Finja oft andere Tiere und traeumt davon, mutig zu sein."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/finja-schneevoegelchen/standard-figur.png",
+        "description": "Kleine, schneeweisse Singvogelfigur mit roten Baeckchen, blauen Schwanzfedern und goldenem Federkroenchen. Steht mit leicht eingezogenem Hals und blickt vorsichtig, das hellblaue Halstuch betont ihre Zurueckhaltung."
+      },
+      "heroImage": {
+        "file": "/content/characters/finja-schneevoegelchen/hero-image.jpg",
+        "description": "Finja sitzt auf einem schneebedeckten Ast im sanften Morgenlicht, umgeben von anderen Voegeln, waehrend sie vorsichtig beginnt, eine Melodie zu singen."
+      },
+      "portrait": {
+        "file": "/content/characters/finja-schneevoegelchen/portrait.png",
+        "description": "Halbnahes Bild von Finja mit freundlichen braunen Augen, roten Baeckchen und dem kleinen, goldenen Federkroenchen, das hellblaue Halstuch sichtbar."
+      },
+      "profileImage": {
+        "file": "/content/characters/finja-schneevoegelchen/profilbild.png",
+        "description": "Quadratisches Kopfportrait: Finjas Gesicht mit runden, staunenden Augen, roten Baeckchen und goldener Federkrone, umrahmt von schneeweissen Flaumfedern."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "mut",
+      "zuhoeren",
+      "selbstvertrauen"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "finja-schneevoegelchen:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Finja Schneevoegelchen. Short description: Finja ist ein kleiner, schneeweisser Singvogel mit federleichtem Flaum, roten Baeckchen und einem neugierigen Blick. Sie liebt es, anderen zuzusehen und traeumt davon, selbst einmal mutig zu sein. Species: Singvogel. Age feel: kindlich. Archetype: learner. Body shape: zierlich und rund, mit kurzen Flügeln und puscheligen Federn. Dominant colors: schneeweiss, kirschrot, himmelblau. Hair or fur: schneeweiss seidig weich kurz. Eyes: haselnussbraun, staunend und freundlich. Distinctive features: leuchtend rote Baeckchen, winziger blauer Federschwanz, kleine goldene Federkrone am Kopf. Clothing style: traegt ein kleines hellblaues Halstuch aus Seidenflaum. Core traits: sanftmuetig, hilfsbereit, vorsichtig. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren, bringt Ruhe in aufgeregte Gruppen. Weaknesses: ziert sich vor Neuem, wird schnell unsicher, wenn sie allein ist. Quirks: pickt bei Aufregung an ihrem Halstuch, summt leise Melodien, wenn sie nachdenkt. Visible goal: Mut finden, um sich in neue Abenteuer zu wagen und anderen zu helfen. Deeper need: Gebraucht und akzeptiert werden, auch wenn sie sich aengstlich fuehlt. Fear: Einsamkeit und ausgeschlossen zu werden. Insecurity: Ich bin bestimmt zu klein und leise, um wichtig zu sein. Stress response: freeze. Growth direction: lernt, dass Mut nicht laut sein muss und dass auch kleine Stimmen zaehlen. Teaching roles: learner, model. Explanation style: example_based. Birth place: Schneefederhain. Raised in: Schneefederhain, whispering-meadow. Cultural context: friedliebende Gemeinschaft, gegenseitige Hilfe wird gross geschrieben. Belief or worldview: glaubt an die Kraft der kleinen Taten. Historical context: lange Winter mit viel Zusammenhalt in der Vogelschar. Origin notes: Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Finja Schneevoegelchen on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Kleine, schneeweisse Singvogelfigur mit roten Baeckchen, blauen Schwanzfedern und goldenem Federkroenchen. Steht mit leicht eingezogenem Hals und blickt vorsichtig, das hellblaue Halstuch betont ihre Zurueckhaltung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Kleine, schneeweisse Singvogelfigur mit roten Baeckchen, blauen Schwanzfedern und goldenem Federkroenchen. Steht mit leicht eingezogenem Hals und blickt vorsichtig, das hellblaue Halstuch betont ihre Zurueckhaltung.",
+      "publicFilePath": "/content/characters/finja-schneevoegelchen/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/finja-schneevoegelchen/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "eecbdbc1-c570-4f4c-8816-4d28bf2f0f4e",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=eecbdbc1-c570-4f4c-8816-4d28bf2f0f4e",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/368a68fc36644453a4cf42dedf350616_sample.png?se=2026-03-08T01%3A15%3A24Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=A8AO9AiaSZx2GohlDH53qCAtMRTGZcCNYDEMLD8Fyto%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "finja-schneevoegelchen:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Finja Schneevoegelchen. Short description: Finja ist ein kleiner, schneeweisser Singvogel mit federleichtem Flaum, roten Baeckchen und einem neugierigen Blick. Sie liebt es, anderen zuzusehen und traeumt davon, selbst einmal mutig zu sein. Species: Singvogel. Age feel: kindlich. Archetype: learner. Body shape: zierlich und rund, mit kurzen Flügeln und puscheligen Federn. Dominant colors: schneeweiss, kirschrot, himmelblau. Hair or fur: schneeweiss seidig weich kurz. Eyes: haselnussbraun, staunend und freundlich. Distinctive features: leuchtend rote Baeckchen, winziger blauer Federschwanz, kleine goldene Federkrone am Kopf. Clothing style: traegt ein kleines hellblaues Halstuch aus Seidenflaum. Core traits: sanftmuetig, hilfsbereit, vorsichtig. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren, bringt Ruhe in aufgeregte Gruppen. Weaknesses: ziert sich vor Neuem, wird schnell unsicher, wenn sie allein ist. Quirks: pickt bei Aufregung an ihrem Halstuch, summt leise Melodien, wenn sie nachdenkt. Visible goal: Mut finden, um sich in neue Abenteuer zu wagen und anderen zu helfen. Deeper need: Gebraucht und akzeptiert werden, auch wenn sie sich aengstlich fuehlt. Fear: Einsamkeit und ausgeschlossen zu werden. Insecurity: Ich bin bestimmt zu klein und leise, um wichtig zu sein. Stress response: freeze. Growth direction: lernt, dass Mut nicht laut sein muss und dass auch kleine Stimmen zaehlen. Teaching roles: learner, model. Explanation style: example_based. Birth place: Schneefederhain. Raised in: Schneefederhain, whispering-meadow. Cultural context: friedliebende Gemeinschaft, gegenseitige Hilfe wird gross geschrieben. Belief or worldview: glaubt an die Kraft der kleinen Taten. Historical context: lange Winter mit viel Zusammenhalt in der Vogelschar. Origin notes: Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Finja Schneevoegelchen in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Finja sitzt auf einem schneebedeckten Ast im sanften Morgenlicht, umgeben von anderen Voegeln, waehrend sie vorsichtig beginnt, eine Melodie zu singen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Finja sitzt auf einem schneebedeckten Ast im sanften Morgenlicht, umgeben von anderen Voegeln, waehrend sie vorsichtig beginnt, eine Melodie zu singen.",
+      "publicFilePath": "/content/characters/finja-schneevoegelchen/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/finja-schneevoegelchen/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "57c5bbe1-2430-49a2-b1b2-715382a877fb",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=57c5bbe1-2430-49a2-b1b2-715382a877fb",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/6027bc58c05442068d802bf6f0043b06_sample.jpeg?se=2026-03-08T01%3A16%3A10Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=DPa9f5H14%2BexPXfYmmqVMLT03cHiB%2BbgA9T8/dxR9mM%3D",
+      "cost": 16
+    },
+    {
+      "id": "finja-schneevoegelchen:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Finja Schneevoegelchen. Short description: Finja ist ein kleiner, schneeweisser Singvogel mit federleichtem Flaum, roten Baeckchen und einem neugierigen Blick. Sie liebt es, anderen zuzusehen und traeumt davon, selbst einmal mutig zu sein. Species: Singvogel. Age feel: kindlich. Archetype: learner. Body shape: zierlich und rund, mit kurzen Flügeln und puscheligen Federn. Dominant colors: schneeweiss, kirschrot, himmelblau. Hair or fur: schneeweiss seidig weich kurz. Eyes: haselnussbraun, staunend und freundlich. Distinctive features: leuchtend rote Baeckchen, winziger blauer Federschwanz, kleine goldene Federkrone am Kopf. Clothing style: traegt ein kleines hellblaues Halstuch aus Seidenflaum. Core traits: sanftmuetig, hilfsbereit, vorsichtig. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren, bringt Ruhe in aufgeregte Gruppen. Weaknesses: ziert sich vor Neuem, wird schnell unsicher, wenn sie allein ist. Quirks: pickt bei Aufregung an ihrem Halstuch, summt leise Melodien, wenn sie nachdenkt. Visible goal: Mut finden, um sich in neue Abenteuer zu wagen und anderen zu helfen. Deeper need: Gebraucht und akzeptiert werden, auch wenn sie sich aengstlich fuehlt. Fear: Einsamkeit und ausgeschlossen zu werden. Insecurity: Ich bin bestimmt zu klein und leise, um wichtig zu sein. Stress response: freeze. Growth direction: lernt, dass Mut nicht laut sein muss und dass auch kleine Stimmen zaehlen. Teaching roles: learner, model. Explanation style: example_based. Birth place: Schneefederhain. Raised in: Schneefederhain, whispering-meadow. Cultural context: friedliebende Gemeinschaft, gegenseitige Hilfe wird gross geschrieben. Belief or worldview: glaubt an die Kraft der kleinen Taten. Historical context: lange Winter mit viel Zusammenhalt in der Vogelschar. Origin notes: Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Finja Schneevoegelchen. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Bild von Finja mit freundlichen braunen Augen, roten Baeckchen und dem kleinen, goldenen Federkroenchen, das hellblaue Halstuch sichtbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Bild von Finja mit freundlichen braunen Augen, roten Baeckchen und dem kleinen, goldenen Federkroenchen, das hellblaue Halstuch sichtbar.",
+      "publicFilePath": "/content/characters/finja-schneevoegelchen/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/finja-schneevoegelchen/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "3da0af7c-1550-48d2-88ae-7a265756598d",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=3da0af7c-1550-48d2-88ae-7a265756598d",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/3799faa2ecf54a56a1fe4c068ae21c2b_sample.png?se=2026-03-08T01%3A16%3A27Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=%2BHOUSy08LER2QA9waVto8ePPMpjEelXeSYBF%2BYAG4Qg%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "finja-schneevoegelchen:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Finja Schneevoegelchen. Short description: Finja ist ein kleiner, schneeweisser Singvogel mit federleichtem Flaum, roten Baeckchen und einem neugierigen Blick. Sie liebt es, anderen zuzusehen und traeumt davon, selbst einmal mutig zu sein. Species: Singvogel. Age feel: kindlich. Archetype: learner. Body shape: zierlich und rund, mit kurzen Flügeln und puscheligen Federn. Dominant colors: schneeweiss, kirschrot, himmelblau. Hair or fur: schneeweiss seidig weich kurz. Eyes: haselnussbraun, staunend und freundlich. Distinctive features: leuchtend rote Baeckchen, winziger blauer Federschwanz, kleine goldene Federkrone am Kopf. Clothing style: traegt ein kleines hellblaues Halstuch aus Seidenflaum. Core traits: sanftmuetig, hilfsbereit, vorsichtig. Temperament: nachdenklich. Social style: offen. Strengths: kann gut zuhoeren, bringt Ruhe in aufgeregte Gruppen. Weaknesses: ziert sich vor Neuem, wird schnell unsicher, wenn sie allein ist. Quirks: pickt bei Aufregung an ihrem Halstuch, summt leise Melodien, wenn sie nachdenkt. Visible goal: Mut finden, um sich in neue Abenteuer zu wagen und anderen zu helfen. Deeper need: Gebraucht und akzeptiert werden, auch wenn sie sich aengstlich fuehlt. Fear: Einsamkeit und ausgeschlossen zu werden. Insecurity: Ich bin bestimmt zu klein und leise, um wichtig zu sein. Stress response: freeze. Growth direction: lernt, dass Mut nicht laut sein muss und dass auch kleine Stimmen zaehlen. Teaching roles: learner, model. Explanation style: example_based. Birth place: Schneefederhain. Raised in: Schneefederhain, whispering-meadow. Cultural context: friedliebende Gemeinschaft, gegenseitige Hilfe wird gross geschrieben. Belief or worldview: glaubt an die Kraft der kleinen Taten. Historical context: lange Winter mit viel Zusammenhalt in der Vogelschar. Origin notes: Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Finja Schneevoegelchen. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Kopfportrait: Finjas Gesicht mit runden, staunenden Augen, roten Baeckchen und goldener Federkrone, umrahmt von schneeweissen Flaumfedern. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Kopfportrait: Finjas Gesicht mit runden, staunenden Augen, roten Baeckchen und goldener Federkrone, umrahmt von schneeweissen Flaumfedern.",
+      "publicFilePath": "/content/characters/finja-schneevoegelchen/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/finja-schneevoegelchen/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "df68b2e9-d1fd-4684-8472-8838858b2aaa",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=df68b2e9-d1fd-4684-8472-8838858b2aaa",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/8b7ab54f02914cc8bc3fe83924515683_sample.png?se=2026-03-08T01%3A16%3A41Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=cP8JqM0ecoDD8o1O2T/7yhXiOguJmNMPV%2B8kkAFCcEs%3D",
+      "cost": 6
+    }
+  ]
+}

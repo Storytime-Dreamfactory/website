@@ -1,0 +1,230 @@
+{
+  "generatedAt": "2026-03-08T00:17:18.297Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/nola.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "nola",
+    "name": "Nola",
+    "shortDescription": "Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und andere mit seiner Freude ansteckt.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Flussotter",
+      "genderExpression": "feminin",
+      "roleArchetype": "explorer"
+    },
+    "appearance": {
+      "bodyShape": "klein und flink",
+      "colors": [
+        "warmes braun",
+        "sandbeige",
+        "flussblau"
+      ],
+      "hairOrFur": {
+        "color": "warmes braun",
+        "texture": "weich und glatt",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "dunkelbraun",
+        "expression": "wach und freundlich"
+      },
+      "distinctiveFeatures": [
+        "Fell an den Pfoten wirkt oft leicht nass",
+        "kleine Tasche voller glaenzender Kiesel",
+        "breite, warme Otterlaecheln"
+      ],
+      "clothingStyle": "praktisch und verspielt"
+    },
+    "personality": {
+      "coreTraits": [
+        "neugierig",
+        "verspielt",
+        "empathisch"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "offen",
+      "strengths": [
+        "Ideen finden",
+        "andere motivieren",
+        "in Bewegung lernen"
+      ],
+      "weaknesses": [
+        "wird schnell ungeduldig",
+        "denkt nicht immer an den zweiten Schritt"
+      ],
+      "quirks": [
+        "sammelt glaenzende Kiesel",
+        "summt beim Nachdenken"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "bei jedem Abenteuer vorne mit dabei sein",
+      "deeperNeed": "Zugehoerigkeit",
+      "fear": "andere zu enttaeuschen",
+      "insecurity": "Ich bin vielleicht zu wild, um hilfreich zu sein.",
+      "stressResponse": "flight",
+      "growthDirection": "lernt, kurz innezuhalten und Hilfe anzunehmen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "model",
+        "comic_relief"
+      ],
+      "suitableSkills": [
+        "patience",
+        "problem-solving",
+        "teamwork"
+      ],
+      "explanationStyle": "playful"
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/nola/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur von Nola in leichter Vorwaertsbewegung, freundlich, neugierig, klare Lesbarkeit der Silhouette."
+      },
+      "heroImage": {
+        "file": "/content/characters/nola/hero-image.jpg",
+        "description": "Cinematische Szene am Flussufer mit warmem Licht und weicher Tiefenwirkung, Nola als mutige kleine Entdeckerin."
+      },
+      "portrait": {
+        "file": "/content/characters/nola/portrait.png",
+        "description": "Character-Card-Portrait von Nola, halbnah, herzlich, aufmerksam und klar lesbar."
+      },
+      "profileImage": {
+        "file": "/content/characters/nola/profilbild.png",
+        "description": "Quadratisches Profilbild mit grosser emotionaler Lesbarkeit, freundlicher Blick direkt zur Kamera."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/nola/emotion-happy.png",
+          "description": "Nola strahlt ueber eine neue Entdeckung am Wasser."
+        }
+      ]
+    },
+    "tags": [
+      "warm",
+      "playful",
+      "river",
+      "brave",
+      "problem_solver"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "nola:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Nola. Short description: Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und andere mit seiner Freude ansteckt. Species: Flussotter. Age feel: kindlich. Archetype: explorer. Body shape: klein und flink. Dominant colors: warmes braun, sandbeige, flussblau. Hair or fur: warmes braun weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Fell an den Pfoten wirkt oft leicht nass, kleine Tasche voller glaenzender Kiesel, breite, warme Otterlaecheln. Clothing style: praktisch und verspielt. Core traits: neugierig, verspielt, empathisch. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere motivieren, in Bewegung lernen. Weaknesses: wird schnell ungeduldig, denkt nicht immer an den zweiten Schritt. Quirks: sammelt glaenzende Kiesel, summt beim Nachdenken. Visible goal: bei jedem Abenteuer vorne mit dabei sein. Deeper need: Zugehoerigkeit. Fear: andere zu enttaeuschen. Insecurity: Ich bin vielleicht zu wild, um hilfreich zu sein. Stress response: flight. Growth direction: lernt, kurz innezuhalten und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Create a full-body hero asset of Nola on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Freigestellte Ganzkoerperfigur von Nola in leichter Vorwaertsbewegung, freundlich, neugierig, klare Lesbarkeit der Silhouette. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur von Nola in leichter Vorwaertsbewegung, freundlich, neugierig, klare Lesbarkeit der Silhouette.",
+      "publicFilePath": "/content/characters/nola/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "9bde4604-91cb-4d64-8ab7-a036fd099c99",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=9bde4604-91cb-4d64-8ab7-a036fd099c99",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/ba26ad37f4894ada91afd54512ab190f_sample.png?se=2026-03-08T00%3A25%3A48Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=8LbW4DWWYkxjbiibwDbr6miXOoCfGTyQsSMuL1zQnS8%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "nola:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Nola. Short description: Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und andere mit seiner Freude ansteckt. Species: Flussotter. Age feel: kindlich. Archetype: explorer. Body shape: klein und flink. Dominant colors: warmes braun, sandbeige, flussblau. Hair or fur: warmes braun weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Fell an den Pfoten wirkt oft leicht nass, kleine Tasche voller glaenzender Kiesel, breite, warme Otterlaecheln. Clothing style: praktisch und verspielt. Core traits: neugierig, verspielt, empathisch. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere motivieren, in Bewegung lernen. Weaknesses: wird schnell ungeduldig, denkt nicht immer an den zweiten Schritt. Quirks: sammelt glaenzende Kiesel, summt beim Nachdenken. Visible goal: bei jedem Abenteuer vorne mit dabei sein. Deeper need: Zugehoerigkeit. Fear: andere zu enttaeuschen. Insecurity: Ich bin vielleicht zu wild, um hilfreich zu sein. Stress response: flight. Growth direction: lernt, kurz innezuhalten und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Keep the same exact character identity as the character reference and place Nola in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Szene am Flussufer mit warmem Licht und weicher Tiefenwirkung, Nola als mutige kleine Entdeckerin. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Szene am Flussufer mit warmem Licht und weicher Tiefenwirkung, Nola als mutige kleine Entdeckerin.",
+      "publicFilePath": "/content/characters/nola/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "8d1f43ec-02a3-4887-8636-581ba931e402",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=8d1f43ec-02a3-4887-8636-581ba931e402",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/cd650307391b43b18e993c014e354ed8_sample.jpeg?se=2026-03-08T00%3A26%3A30Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=2KYqcO4myXkqMW2zbzI7yvwjcIermAga8C2nlTBlTPc%3D",
+      "cost": 16
+    },
+    {
+      "id": "nola:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Nola. Short description: Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und andere mit seiner Freude ansteckt. Species: Flussotter. Age feel: kindlich. Archetype: explorer. Body shape: klein und flink. Dominant colors: warmes braun, sandbeige, flussblau. Hair or fur: warmes braun weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Fell an den Pfoten wirkt oft leicht nass, kleine Tasche voller glaenzender Kiesel, breite, warme Otterlaecheln. Clothing style: praktisch und verspielt. Core traits: neugierig, verspielt, empathisch. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere motivieren, in Bewegung lernen. Weaknesses: wird schnell ungeduldig, denkt nicht immer an den zweiten Schritt. Quirks: sammelt glaenzende Kiesel, summt beim Nachdenken. Visible goal: bei jedem Abenteuer vorne mit dabei sein. Deeper need: Zugehoerigkeit. Fear: andere zu enttaeuschen. Insecurity: Ich bin vielleicht zu wild, um hilfreich zu sein. Stress response: flight. Growth direction: lernt, kurz innezuhalten und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Keep the same exact character identity as the character reference and create a portrait or character card image of Nola. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Character-Card-Portrait von Nola, halbnah, herzlich, aufmerksam und klar lesbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Character-Card-Portrait von Nola, halbnah, herzlich, aufmerksam und klar lesbar.",
+      "publicFilePath": "/content/characters/nola/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "9434b653-a841-48d7-b9d0-aff4638b3467",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=9434b653-a841-48d7-b9d0-aff4638b3467",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/49c85d2387084a0790b87920414b469d_sample.png?se=2026-03-08T00%3A26%3A47Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=ZaQAO1Msi3BfDOJSaBst4CYYJ96DrdBqobqRgRbHvV0%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "nola:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Nola. Short description: Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und andere mit seiner Freude ansteckt. Species: Flussotter. Age feel: kindlich. Archetype: explorer. Body shape: klein und flink. Dominant colors: warmes braun, sandbeige, flussblau. Hair or fur: warmes braun weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Fell an den Pfoten wirkt oft leicht nass, kleine Tasche voller glaenzender Kiesel, breite, warme Otterlaecheln. Clothing style: praktisch und verspielt. Core traits: neugierig, verspielt, empathisch. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere motivieren, in Bewegung lernen. Weaknesses: wird schnell ungeduldig, denkt nicht immer an den zweiten Schritt. Quirks: sammelt glaenzende Kiesel, summt beim Nachdenken. Visible goal: bei jedem Abenteuer vorne mit dabei sein. Deeper need: Zugehoerigkeit. Fear: andere zu enttaeuschen. Insecurity: Ich bin vielleicht zu wild, um hilfreich zu sein. Stress response: flight. Growth direction: lernt, kurz innezuhalten und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Keep the same exact character identity as the character reference and create a square profile image for Nola. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit grosser emotionaler Lesbarkeit, freundlicher Blick direkt zur Kamera. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit grosser emotionaler Lesbarkeit, freundlicher Blick direkt zur Kamera.",
+      "publicFilePath": "/content/characters/nola/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "14ebb5dd-a9e5-4740-ae17-e2c193e0c7c4",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=14ebb5dd-a9e5-4740-ae17-e2c193e0c7c4",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/e87e1776ebfb4886b2fae256b24e015d_sample.png?se=2026-03-08T00%3A27%3A00Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=AgJqLX2Ca3fTdbmHlt%2Bo7FFN4/%2BfemPqU/mNJAq8OpU%3D",
+      "cost": 6
+    },
+    {
+      "id": "nola:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Nola. Short description: Ein neugieriger kleiner Flussotter mit grossem Herzen, der schnell loslegt und andere mit seiner Freude ansteckt. Species: Flussotter. Age feel: kindlich. Archetype: explorer. Body shape: klein und flink. Dominant colors: warmes braun, sandbeige, flussblau. Hair or fur: warmes braun weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Fell an den Pfoten wirkt oft leicht nass, kleine Tasche voller glaenzender Kiesel, breite, warme Otterlaecheln. Clothing style: praktisch und verspielt. Core traits: neugierig, verspielt, empathisch. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere motivieren, in Bewegung lernen. Weaknesses: wird schnell ungeduldig, denkt nicht immer an den zweiten Schritt. Quirks: sammelt glaenzende Kiesel, summt beim Nachdenken. Visible goal: bei jedem Abenteuer vorne mit dabei sein. Deeper need: Zugehoerigkeit. Fear: andere zu enttaeuschen. Insecurity: Ich bin vielleicht zu wild, um hilfreich zu sein. Stress response: flight. Growth direction: lernt, kurz innezuhalten und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Keep the same exact character identity as the character reference and create an additional character asset for Nola. Target brief: Nola strahlt ueber eine neue Entdeckung am Wasser. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Nola strahlt ueber eine neue Entdeckung am Wasser.",
+      "publicFilePath": "/content/characters/nola/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola/emotion-happy.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "62583c4c-787c-4326-a62e-5ccdfd5fe48d",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=62583c4c-787c-4326-a62e-5ccdfd5fe48d",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/0921cea9466e454b96e92749d68b184c_sample.png?se=2026-03-08T00%3A27%3A15Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=eEH2ZAshq8N2a1n3bQiKvaQWbuO6h5tIZS8zR8zPgyM%3D",
+      "cost": 6
+    }
+  ]
+}

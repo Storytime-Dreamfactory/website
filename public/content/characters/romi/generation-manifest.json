@@ -1,0 +1,218 @@
+{
+  "generatedAt": "2026-03-08T00:51:34.759Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/romi.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/romi",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "romi",
+    "name": "Romi",
+    "shortDescription": "schneewitchen aber aus vogel der in münchen geboren wurde",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Fuchs",
+      "roleArchetype": "helper"
+    },
+    "appearance": {
+      "bodyShape": "klein und flink",
+      "colors": [
+        "beere",
+        "gold",
+        "pfirsich"
+      ],
+      "hairOrFur": {
+        "color": "beere",
+        "texture": "weich und glatt",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "dunkelbraun",
+        "expression": "wach und freundlich"
+      },
+      "distinctiveFeatures": [
+        "Romi traegt ein klares Wiedererkennungsdetail aus der Beschreibung",
+        "Romi hat eine gut lesbare Silhouette fuer Storytime"
+      ],
+      "clothingStyle": "praktisch und verspielt"
+    },
+    "personality": {
+      "coreTraits": [
+        "neugierig",
+        "empathisch",
+        "verspielt"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "offen",
+      "strengths": [
+        "Ideen finden",
+        "andere mitziehen"
+      ],
+      "weaknesses": [
+        "wird schnell ungeduldig"
+      ],
+      "quirks": [
+        "sammelt kleine Lieblingsdinge"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "moechte in jeder Szene hilfreich und mutig wirken",
+      "deeperNeed": "Zugehoerigkeit",
+      "fear": "jemanden zu enttaeuschen",
+      "insecurity": "Ich bin vielleicht noch nicht bereit genug.",
+      "stressResponse": "flight",
+      "growthDirection": "lernt, ruhig zu bleiben und Hilfe anzunehmen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "model",
+        "comic_relief"
+      ],
+      "suitableSkills": [
+        "problem-solving",
+        "confidence"
+      ],
+      "explanationStyle": "playful"
+    },
+    "origin": {
+      "birthPlace": "münchen",
+      "upbringingPlaces": [
+        "münchen"
+      ],
+      "culturalContext": [
+        "Traditionsbewusstsein",
+        "ritualisierte Gemeinschaft",
+        "Verbindung von Bodenstaendigkeit und Stolz"
+      ],
+      "historicalContext": [
+        "gepraegt von regionalen Festen, Handwerk und starker lokaler Identitaet"
+      ],
+      "notes": "Herkunft dient als nuancierte Praegung fuer Tonfall, Werte und Perspektive. Regionale oder kulturelle Hinweise sollen respektvoll und nicht karikierend genutzt werden."
+    },
+    "relationships": {
+      "characters": [],
+      "places": []
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/romi/standard-figur.png",
+        "description": "Romi als freigestellte Ganzkoerperfigur mit klarer Silhouette und sofort lesbarer Persoenlichkeit."
+      },
+      "heroImage": {
+        "file": "/content/characters/romi/hero-image.jpg",
+        "description": "Romi in einer grossen cinematic Storytime-Szene, atmosphaerisch und warm inszeniert."
+      },
+      "portrait": {
+        "file": "/content/characters/romi/portrait.png",
+        "description": "Romi als halbnahes Character-Card-Portrait mit freundlicher Ausstrahlung."
+      },
+      "profileImage": {
+        "file": "/content/characters/romi/profilbild.png",
+        "description": "Romi als quadratisches Profilbild mit stark lesbarem Gesicht."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "fuchs",
+      "helper",
+      "neugierig",
+      "empathisch",
+      "verspielt",
+      "münchen"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "romi:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Romi. Short description: schneewitchen aber aus vogel der in münchen geboren wurde. Species: Fuchs. Age feel: kindlich. Archetype: helper. Body shape: klein und flink. Dominant colors: beere, gold, pfirsich. Hair or fur: beere weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Romi traegt ein klares Wiedererkennungsdetail aus der Beschreibung, Romi hat eine gut lesbare Silhouette fuer Storytime. Clothing style: praktisch und verspielt. Core traits: neugierig, empathisch, verspielt. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere mitziehen. Weaknesses: wird schnell ungeduldig. Quirks: sammelt kleine Lieblingsdinge. Visible goal: moechte in jeder Szene hilfreich und mutig wirken. Deeper need: Zugehoerigkeit. Fear: jemanden zu enttaeuschen. Insecurity: Ich bin vielleicht noch nicht bereit genug. Stress response: flight. Growth direction: lernt, ruhig zu bleiben und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Birth place: münchen. Raised in: münchen. Cultural context: Traditionsbewusstsein, ritualisierte Gemeinschaft, Verbindung von Bodenstaendigkeit und Stolz. Historical context: gepraegt von regionalen Festen, Handwerk und starker lokaler Identitaet. Origin notes: Herkunft dient als nuancierte Praegung fuer Tonfall, Werte und Perspektive. Regionale oder kulturelle Hinweise sollen respektvoll und nicht karikierend genutzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Romi on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Romi als freigestellte Ganzkoerperfigur mit klarer Silhouette und sofort lesbarer Persoenlichkeit. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Romi als freigestellte Ganzkoerperfigur mit klarer Silhouette und sofort lesbarer Persoenlichkeit.",
+      "publicFilePath": "/content/characters/romi/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/romi/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "26d5846b-1c98-40b6-9096-d6e6852722c3",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=26d5846b-1c98-40b6-9096-d6e6852722c3",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/e56af0f31d414f32b6f2dd8623134fa2_sample.png?se=2026-03-08T01%3A00%3A14Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=EdtG2BnYnTGgncS7oD6eFA4lEyBy7LZDAm6XarHLL0A%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "romi:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Romi. Short description: schneewitchen aber aus vogel der in münchen geboren wurde. Species: Fuchs. Age feel: kindlich. Archetype: helper. Body shape: klein und flink. Dominant colors: beere, gold, pfirsich. Hair or fur: beere weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Romi traegt ein klares Wiedererkennungsdetail aus der Beschreibung, Romi hat eine gut lesbare Silhouette fuer Storytime. Clothing style: praktisch und verspielt. Core traits: neugierig, empathisch, verspielt. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere mitziehen. Weaknesses: wird schnell ungeduldig. Quirks: sammelt kleine Lieblingsdinge. Visible goal: moechte in jeder Szene hilfreich und mutig wirken. Deeper need: Zugehoerigkeit. Fear: jemanden zu enttaeuschen. Insecurity: Ich bin vielleicht noch nicht bereit genug. Stress response: flight. Growth direction: lernt, ruhig zu bleiben und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Birth place: münchen. Raised in: münchen. Cultural context: Traditionsbewusstsein, ritualisierte Gemeinschaft, Verbindung von Bodenstaendigkeit und Stolz. Historical context: gepraegt von regionalen Festen, Handwerk und starker lokaler Identitaet. Origin notes: Herkunft dient als nuancierte Praegung fuer Tonfall, Werte und Perspektive. Regionale oder kulturelle Hinweise sollen respektvoll und nicht karikierend genutzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Romi in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Romi in einer grossen cinematic Storytime-Szene, atmosphaerisch und warm inszeniert. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Romi in einer grossen cinematic Storytime-Szene, atmosphaerisch und warm inszeniert.",
+      "publicFilePath": "/content/characters/romi/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/romi/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "20243584-5e22-40d3-aa82-e2f4bc1c9bd8",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=20243584-5e22-40d3-aa82-e2f4bc1c9bd8",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/d4e72c8d9d2e483894e08d89d80a7e42_sample.jpeg?se=2026-03-08T01%3A01%3A03Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=OiUyH6jLYA1nVdudZAU7kAQZBY5FJWEt3Ss6dVL0jFA%3D",
+      "cost": 16
+    },
+    {
+      "id": "romi:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Romi. Short description: schneewitchen aber aus vogel der in münchen geboren wurde. Species: Fuchs. Age feel: kindlich. Archetype: helper. Body shape: klein und flink. Dominant colors: beere, gold, pfirsich. Hair or fur: beere weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Romi traegt ein klares Wiedererkennungsdetail aus der Beschreibung, Romi hat eine gut lesbare Silhouette fuer Storytime. Clothing style: praktisch und verspielt. Core traits: neugierig, empathisch, verspielt. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere mitziehen. Weaknesses: wird schnell ungeduldig. Quirks: sammelt kleine Lieblingsdinge. Visible goal: moechte in jeder Szene hilfreich und mutig wirken. Deeper need: Zugehoerigkeit. Fear: jemanden zu enttaeuschen. Insecurity: Ich bin vielleicht noch nicht bereit genug. Stress response: flight. Growth direction: lernt, ruhig zu bleiben und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Birth place: münchen. Raised in: münchen. Cultural context: Traditionsbewusstsein, ritualisierte Gemeinschaft, Verbindung von Bodenstaendigkeit und Stolz. Historical context: gepraegt von regionalen Festen, Handwerk und starker lokaler Identitaet. Origin notes: Herkunft dient als nuancierte Praegung fuer Tonfall, Werte und Perspektive. Regionale oder kulturelle Hinweise sollen respektvoll und nicht karikierend genutzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Romi. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Romi als halbnahes Character-Card-Portrait mit freundlicher Ausstrahlung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Romi als halbnahes Character-Card-Portrait mit freundlicher Ausstrahlung.",
+      "publicFilePath": "/content/characters/romi/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/romi/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "1867d228-4033-4d02-b358-2b21c98595e7",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=1867d228-4033-4d02-b358-2b21c98595e7",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/0f906d1afc7e4d4492e531e8ca3e28ad_sample.png?se=2026-03-08T01%3A01%3A17Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Pk8iw%2BriTN/%2B1Y0LkATk7v8XO6tkLTPjbr7NIV7xUpU%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "romi:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Romi. Short description: schneewitchen aber aus vogel der in münchen geboren wurde. Species: Fuchs. Age feel: kindlich. Archetype: helper. Body shape: klein und flink. Dominant colors: beere, gold, pfirsich. Hair or fur: beere weich und glatt kurz. Eyes: dunkelbraun, wach und freundlich. Distinctive features: Romi traegt ein klares Wiedererkennungsdetail aus der Beschreibung, Romi hat eine gut lesbare Silhouette fuer Storytime. Clothing style: praktisch und verspielt. Core traits: neugierig, empathisch, verspielt. Temperament: lebhaft. Social style: offen. Strengths: Ideen finden, andere mitziehen. Weaknesses: wird schnell ungeduldig. Quirks: sammelt kleine Lieblingsdinge. Visible goal: moechte in jeder Szene hilfreich und mutig wirken. Deeper need: Zugehoerigkeit. Fear: jemanden zu enttaeuschen. Insecurity: Ich bin vielleicht noch nicht bereit genug. Stress response: flight. Growth direction: lernt, ruhig zu bleiben und Hilfe anzunehmen. Teaching roles: model, comic_relief. Explanation style: playful. Birth place: münchen. Raised in: münchen. Cultural context: Traditionsbewusstsein, ritualisierte Gemeinschaft, Verbindung von Bodenstaendigkeit und Stolz. Historical context: gepraegt von regionalen Festen, Handwerk und starker lokaler Identitaet. Origin notes: Herkunft dient als nuancierte Praegung fuer Tonfall, Werte und Perspektive. Regionale oder kulturelle Hinweise sollen respektvoll und nicht karikierend genutzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Romi. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Romi als quadratisches Profilbild mit stark lesbarem Gesicht. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Romi als quadratisches Profilbild mit stark lesbarem Gesicht.",
+      "publicFilePath": "/content/characters/romi/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/romi/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "7a3a5f34-f740-46fb-a65f-24c559396256",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=7a3a5f34-f740-46fb-a65f-24c559396256",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/928515fe4e8a4778a1df2e1b57bc41cc_sample.png?se=2026-03-08T01%3A01%3A32Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=To4PJu8ttDzC4MYfTN10WeQGh1cEkrexSyNhJJhozoM%3D",
+      "cost": 6
+    }
+  ]
+}
