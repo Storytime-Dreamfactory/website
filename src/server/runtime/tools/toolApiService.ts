@@ -34,6 +34,7 @@ export const generateConversationHeroToolApi = async (input: {
   interactionTargets?: unknown
   relatedCharacterIds?: unknown
   relatedCharacterNames?: unknown
+  forceReferenceImagePaths?: unknown
   width?: unknown
   height?: unknown
   pollIntervalMs?: unknown

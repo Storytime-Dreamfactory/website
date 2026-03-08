@@ -43,6 +43,7 @@ type GenerateConversationHeroToolInput = {
   interactionTargets?: unknown
   relatedCharacterIds?: unknown
   relatedCharacterNames?: unknown
+  forceReferenceImagePaths?: unknown
   width?: unknown
   height?: unknown
   pollIntervalMs?: unknown
@@ -81,8 +82,8 @@ const VISUAL_EXPRESSION_SKILL = getCharacterAgentSkillPlaybook('visual-expressio
 
 const summarizeScene = (scenePrompt: string): string => {
   const compact = scenePrompt.replace(/\s+/g, ' ').trim()
-  if (compact.length <= 120) return compact
-  return `${compact.slice(0, 117)}...`
+  if (compact.length <= 180) return compact
+  return `${compact.slice(0, 177)}...`
 }
 
 const buildImageGeneratedSummary = (characterName: string, scenePrompt: string): string =>
@@ -220,6 +221,7 @@ export const generateConversationHeroToolApi = async (
   const providedInteractionTargets = parseInteractionTargets(input.interactionTargets)
   const relatedCharacterIds = readTextArray(input.relatedCharacterIds)
   const relatedCharacterNames = readTextArray(input.relatedCharacterNames)
+  const forceReferenceImagePaths = readTextArray(input.forceReferenceImagePaths)
   const implicitCharacterTargets = buildCharacterInteractionTargets(
     relatedCharacterIds.map((relatedCharacterId, index) => ({
       characterId: relatedCharacterId,
@@ -280,6 +282,7 @@ export const generateConversationHeroToolApi = async (
   const primaryReferencePath = primaryImageRefs[0]?.path
   const referenceImagePaths = [
     primaryReferencePath,
+    ...forceReferenceImagePaths,
     ...selectedReferences.selectedReferences.map((item) => item.imagePath),
   ]
     .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)

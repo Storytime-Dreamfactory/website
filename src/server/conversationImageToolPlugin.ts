@@ -49,6 +49,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
         interactionTargets: body.interactionTargets,
         relatedCharacterIds: body.relatedCharacterIds,
         relatedCharacterNames: body.relatedCharacterNames,
+        forceReferenceImagePaths: body.forceReferenceImagePaths,
         width: body.width,
         height: body.height,
         pollIntervalMs: body.pollIntervalMs,

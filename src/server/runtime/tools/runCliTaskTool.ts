@@ -40,6 +40,10 @@ type ResolvedCommand = {
   commandPreview: string
 }
 
+type CommandResolutionContext = {
+  characterId: string
+}
+
 class CliTaskValidationError extends Error {}
 
 const isPathInsideWorkspace = (rawPath: string): boolean => {
@@ -99,9 +103,13 @@ const readOptionalIntegerArg = (
   return integer
 }
 
-const buildCharacterImageScriptArgs = (args: Record<string, unknown>): string[] => {
+const buildCharacterImageScriptArgs = (
+  args: Record<string, unknown>,
+  context: CommandResolutionContext,
+): string[] => {
   const commandArgs: string[] = []
-  const characterPath = readOptionalPathArg(args, 'characterPath', { required: true })
+  const derivedCharacterPath = `content/characters/${context.characterId}/character.yaml`
+  const characterPath = readOptionalPathArg(args, 'characterPath') ?? derivedCharacterPath
   if (!characterPath) {
     throw new CliTaskValidationError('Missing required path argument: characterPath')
   }
@@ -154,11 +162,14 @@ const buildCharacterImageScriptArgs = (args: Record<string, unknown>): string[] 
   return commandArgs
 }
 
-const resolveTaskCommand = (input: RunCliTaskToolInput): ResolvedCommand => {
+const resolveTaskCommand = (
+  input: RunCliTaskToolInput,
+  context: CommandResolutionContext,
+): ResolvedCommand => {
   const args = input.args ?? {}
 
   if (input.taskId === CLI_TASK_IDS.characterImagesDryRun) {
-    const scriptArgs = buildCharacterImageScriptArgs(args)
+    const scriptArgs = buildCharacterImageScriptArgs(args, context)
     const commandArgs = ['run', 'character-images:dry-run', '--', ...scriptArgs]
     return {
       command: npmCommand,
@@ -169,7 +180,7 @@ const resolveTaskCommand = (input: RunCliTaskToolInput): ResolvedCommand => {
   }
 
   if (input.taskId === CLI_TASK_IDS.characterImagesGenerate) {
-    const scriptArgs = buildCharacterImageScriptArgs(args)
+    const scriptArgs = buildCharacterImageScriptArgs(args, context)
     const commandArgs = ['run', 'character-images:generate', '--', ...scriptArgs]
     return {
       command: npmCommand,
@@ -266,7 +277,9 @@ export const runCliTaskTool: RuntimeToolHandler<RunCliTaskToolInput, RunCliTaskT
 
     let command: ResolvedCommand
     try {
-      command = resolveTaskCommand(resolvedInput)
+      command = resolveTaskCommand(resolvedInput, {
+        characterId: context.characterId,
+      })
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
       const validationResult: RunCliTaskToolOutput = {

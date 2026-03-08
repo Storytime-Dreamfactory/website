@@ -107,4 +107,24 @@ describe('runCliTaskTool', () => {
     expect(result.stdout).toContain('generation complete')
     expect(mocks.execFileMock).toHaveBeenCalledTimes(1)
   })
+
+  it('nutzt characterId aus Context wenn characterPath fehlt', async () => {
+    const result = await runCliTaskTool.execute(
+      {
+        conversationId: 'conv-3',
+        characterId: 'yoko',
+        characterName: 'Yoko',
+      },
+      {
+        taskId: CLI_TASK_IDS.characterImagesGenerate,
+        args: {
+          seed: 1234,
+        },
+      },
+    )
+
+    expect(result.ok).toBe(true)
+    expect(result.commandPreview).toContain('--character content/characters/yoko/character.yaml')
+    expect(mocks.execFileMock).toHaveBeenCalledTimes(1)
+  })
 })
