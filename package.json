@@ -7,14 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "test": "vitest run",
     "preview": "vite preview",
     "character-images:dry-run": "node --env-file=.env --import tsx ./tools/character-image-service/src/cli.ts --dry-run",
     "character-images:generate": "node --env-file=.env --import tsx ./tools/character-image-service/src/cli.ts",
     "db:start": "docker compose up -d postgres",
     "db:stop": "docker compose stop postgres",
-    "db:init-relationships": "node --env-file=.env --import tsx ./tools/create-character-relationships-table.ts",
-    "db:seed-relationships": "node --env-file=.env --import tsx ./tools/seed-character-relationships.ts",
-    "db:query-relationships": "node --env-file=.env --import tsx ./tools/query-character-relationships.ts"
+    "db:init-relationships": "node --env-file=.env --import tsx ./scripts/create-character-relationships-table.ts",
+    "db:seed-relationships": "node --env-file=.env --import tsx ./scripts/seed-character-relationships.ts",
+    "db:query-relationships": "node --env-file=.env --import tsx ./scripts/query-character-relationships.ts",
+    "runtime:smoke": "node --env-file=.env --import tsx ./scripts/runtime-conversation-smoke.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
@@ -40,6 +42,7 @@
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.48.0",
-    "vite": "^7.3.1"
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
   }
 }

@@ -240,8 +240,29 @@ Optionale Felder:
 
 - `Lernziele` beschreiben den fachlichen Inhalt, den Kinder lernen oder erkunden sollen.
 - `Skills` beschreiben agentisches Verhalten wie `visual-expression` oder `run-quiz`.
-- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, bestehendes Bild anzeigen, Hintergrund wechseln, Activities lesen oder spaeter Badges vergeben.
+- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, bestehendes Bild anzeigen, Hintergrund wechseln oder Activities lesen.
 - Agentische Skills leben nicht in `content/learning-goals/`, sondern als Prompt-/Playbook-Bibliothek unter `content/prompts/agent-skills/`.
+- Die technische Runtime-Trennung (Router/Skills/Tools/Scripts) ist in `docs/runtime-architecture.md` dokumentiert.
+
+## Conversation-Bildassets (Runtime)
+
+Conversation-Bilder sind Runtime-Assets (kein statischer YAML-Content):
+
+- Dateien werden unter `public/content/conversations/<conversationId>/` gespeichert.
+- Conversation-Messages und Activities halten Bildreferenzen in `metadata`.
+
+Wichtige Metadata-Felder bei Bild-Events:
+
+- `heroImageUrl`: stabile URL fuer UI-Hintergrund (bevorzugt lokal)
+- `imageUrl`: Hauptbild-URL
+- `imageLinkUrl`: URL fuer "Bild ansehen"
+- `originalImageUrl`: externe Ursprungs-URL vom Bilddienst
+- `imageAssetPath`: lokaler Serverpfad der gespeicherten Datei
+- `interactionTargets`: strukturierte Interaktionsziele (z. B. weitere Figuren) als Liste von Objekten mit `type`, `id`, optional `name`, `interactionType`, `role`
+- `interactionTargetIds`: flache, deduplizierte IDs im Format `<type>:<id>` fuer schnelle Filter/Joins
+- `interactionCharacterIds`: Teilmenge der Interaktionen nur fuer `type=character`
+
+Damit kann ein Character spaeter Bilder aus frueheren Conversations wieder anzeigen, ohne neue Generierung.
 
 ## Prompt-Bausteine
 

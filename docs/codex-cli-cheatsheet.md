@@ -65,6 +65,12 @@ Beziehungen fuer einen Character:
 curl "http://localhost:5173/api/relationships/?characterId=nola"
 ```
 
+Relationship-Wissen inkl. related objects:
+
+```bash
+curl "http://localhost:5173/api/relationships/knowledge?characterId=nola"
+```
+
 ## 3. Conversations
 
 ### 3.1 Conversation starten
@@ -109,7 +115,19 @@ curl -X POST http://localhost:5173/api/conversations/end \
 curl "http://localhost:5173/api/conversations/?conversationId=<UUID>"
 ```
 
+### 3.5 Frueheres Conversation-Bild erneut anzeigen (ohne Neugenerierung)
+
+```bash
+curl -X POST http://localhost:5173/api/tools/display-existing-image \
+  -H "Content-Type: application/json" \
+  -d '{
+    "conversationId":"<UUID>",
+    "queryText":"Zeig nochmal das Bild vom Strand"
+  }'
+```
+
 Hinweis: Der Conversation-Flow erzeugt automatisch Activities wie `conversation.started`, `conversation.message.created`, `conversation.ended` und `character.chat.completed`.
+Bild-Events speichern Runtime-Assets zusaetzlich lokal unter `public/content/conversations/<conversationId>/`.
 
 ## 4. Activities
 
@@ -174,7 +192,38 @@ Generierung:
 npm run character-images:generate -- --character ./content/characters/nola/character.yaml --style-reference /ABS/PFAD/ref.png --overwrite
 ```
 
-## 6. Codex-Prompt-Vorlagen
+## 6. Runtime-Smoke-Tests fuer Conversation-Flows
+
+Damit Character-Runtime, Skill-Routing, Tool-Aufrufe und Activity-Logging schnell pruefbar sind:
+
+```bash
+npm run runtime:smoke
+```
+
+Optionen:
+
+```bash
+# Nur Visual-Flow testen
+npm run runtime:smoke -- --mode=visual --character=yoko --learning-goals=kindness
+
+# Quiz-Flow
+npm run runtime:smoke -- --mode=quiz
+
+# Kontext-Flow (Relationships + Activities)
+npm run runtime:smoke -- --mode=context --character=nola
+
+# Erinnerungs-Flow: altes Bild wieder anzeigen
+npm run runtime:smoke -- --mode=memory-image --character=yoko
+```
+
+Weitere Argumente:
+
+- `--base-url=http://localhost:5173`
+- `--place=crystal-lake`
+- `--user-id=demo-user`
+- `--learning-goals=kindness,problem-solving`
+
+## 7. Codex-Prompt-Vorlagen
 
 ### Relationships aus YAML seeden
 
