@@ -3,9 +3,9 @@ export const CHARACTER_AGENT_TOOLS = {
   generateImage: 'generate_image',
   displayExistingImage: 'display_existing_image',
   changeBackground: 'change_background',
-  grantBadge: 'grant_badge',
   readActivities: 'read_activities',
   readRelationships: 'read_relationships',
+  readRelatedObjects: 'read_related_objects',
 } as const
 
 export type CharacterAgentToolId =
@@ -16,7 +16,6 @@ export type CharacterAgentSkillPlaybookId =
   | 'run-quiz'
   | 'guided-explanation'
   | 'micro-reflection'
-  | 'reward-and-badge'
 
 export type CharacterAgentSkillPlaybook = {
   id: CharacterAgentSkillPlaybookId
@@ -44,14 +43,20 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
     id: 'run-quiz',
     name: 'Run Quiz',
     purpose: 'Fuehrt zu einem Lernziel ein kurzes Quiz oder Abfrageformat durch.',
-    toolIds: [CHARACTER_AGENT_TOOLS.grantBadge, CHARACTER_AGENT_TOOLS.showImage],
+    toolIds: [CHARACTER_AGENT_TOOLS.readActivities, CHARACTER_AGENT_TOOLS.showImage],
     promptPath: 'content/prompts/agent-skills/run-quiz.md',
   },
   {
     id: 'guided-explanation',
     name: 'Guided Explanation',
     purpose: 'Erklaert ein Lernziel schrittweise, bildhaft und kindgerecht.',
-    toolIds: [CHARACTER_AGENT_TOOLS.showImage, CHARACTER_AGENT_TOOLS.readActivities],
+    toolIds: [
+      CHARACTER_AGENT_TOOLS.displayExistingImage,
+      CHARACTER_AGENT_TOOLS.showImage,
+      CHARACTER_AGENT_TOOLS.readActivities,
+      CHARACTER_AGENT_TOOLS.readRelationships,
+      CHARACTER_AGENT_TOOLS.readRelatedObjects,
+    ],
     promptPath: 'content/prompts/agent-skills/guided-explanation.md',
   },
   {
@@ -60,13 +65,6 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
     purpose: 'Regt kurze Selbstbeobachtung oder Rueckfragen an.',
     toolIds: [CHARACTER_AGENT_TOOLS.readActivities],
     promptPath: 'content/prompts/agent-skills/micro-reflection.md',
-  },
-  {
-    id: 'reward-and-badge',
-    name: 'Reward And Badge',
-    purpose: 'Bestaetigt Lernerfolge und vergibt spaeter Belohnungen.',
-    toolIds: [CHARACTER_AGENT_TOOLS.grantBadge, CHARACTER_AGENT_TOOLS.showImage],
-    promptPath: 'content/prompts/agent-skills/reward-and-badge.md',
   },
 ]
 

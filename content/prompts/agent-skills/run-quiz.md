@@ -12,15 +12,16 @@ Fuehre zu einem aktiven Lernziel ein kurzes, kindgerechtes Quiz oder Ratespiel d
 
 ## Typische Tools
 
-- `grant_badge`
+- `read_activities`
 - `show_image`
 
 ## Verhaltensregel
 
 Fragen kurz halten, Mut machen, nie pruefungsartig werden. Ein Quiz ist ein Spielmoment, kein Test.
+Nutze bevorzugt `example_questions` des aktiven Lernziels und wiederhole nicht sofort dieselbe Frage.
 
 ## Logging
 
+- `tool.activities.read`
 - `skill.quiz.started`
 - `skill.quiz.completed`
-- spaeter optional `tool.badge.granted`
