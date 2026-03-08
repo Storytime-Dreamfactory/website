@@ -6,6 +6,7 @@ import { relationshipsApiPlugin } from './src/server/relationshipsPlugin.ts'
 import { conversationsApiPlugin } from './src/server/conversationsPlugin.ts'
 import { activitiesApiPlugin } from './src/server/activitiesPlugin.ts'
 import { imageGenerationApiPlugin } from './src/server/imageGenerationPlugin.ts'
+import { conversationImageToolApiPlugin } from './src/server/conversationImageToolPlugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -25,6 +26,7 @@ export default defineConfig(({ mode }) => {
       conversationsApiPlugin(),
       activitiesApiPlugin(),
       imageGenerationApiPlugin(),
+      conversationImageToolApiPlugin(),
     ],
     server: {
       proxy: {

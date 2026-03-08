@@ -25,6 +25,11 @@ export type ConversationMessageRecord = {
   metadata?: ConversationMetadata
 }
 
+export type ConversationDetailsRecord = {
+  conversation: ConversationRecord
+  messages: ConversationMessageRecord[]
+}
+
 type ConversationRow = {
   conversation_id: string
   user_id: string | null
@@ -211,6 +216,60 @@ export const endConversation = async (
   }
 
   return toConversationRecord(result.rows[0])
+}
+
+export const getConversationDetails = async (
+  conversationId: string,
+): Promise<ConversationDetailsRecord> => {
+  await ensureSchemaReady()
+
+  const normalizedConversationId = conversationId.trim()
+  if (!normalizedConversationId) {
+    throw new Error('conversationId ist erforderlich.')
+  }
+
+  const db = getPool()
+  const conversationResult = await db.query<ConversationRow>(
+    `
+    SELECT
+      conversation_id,
+      user_id,
+      character_id,
+      started_at::text,
+      ended_at::text,
+      metadata
+    FROM conversations
+    WHERE conversation_id = $1
+    LIMIT 1
+    `,
+    [normalizedConversationId],
+  )
+
+  if (conversationResult.rowCount === 0) {
+    throw new Error(`conversation ${normalizedConversationId} nicht gefunden.`)
+  }
+
+  const messageResult = await db.query<ConversationMessageRow>(
+    `
+    SELECT
+      message_id,
+      conversation_id,
+      role,
+      content,
+      event_type,
+      created_at::text,
+      metadata
+    FROM conversation_messages
+    WHERE conversation_id = $1
+    ORDER BY created_at ASC, message_id ASC
+    `,
+    [normalizedConversationId],
+  )
+
+  return {
+    conversation: toConversationRecord(conversationResult.rows[0]),
+    messages: messageResult.rows.map((row) => toConversationMessageRecord(row)),
+  }
 }
 
 export const ensureConversationTables = async (): Promise<{
