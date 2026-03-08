@@ -16,6 +16,7 @@ Diese Regeln gelten repo-weit fuer AI-Agents und Contributors.
 3. `public/content-manifest.json` aktuell halten.
 4. Bildziele nur ueber das Character-YAML beschreiben, nicht verstreut in Code-Kommentaren oder Ad-hoc-Prompts.
 5. Generierte Assets unter `public/content/characters/<id>/` ablegen (neben der `character.yaml`).
+6. Relationship-Daten ausschliesslich ueber die Relationship-DB/API pflegen; keine `relationships`-Bloecke in Character-YAMLs verwenden.
 
 ## Bildgenerierung
 
@@ -33,3 +34,10 @@ Diese Regeln gelten repo-weit fuer AI-Agents und Contributors.
 - Fuer wiederkehrende Figuren Referenzbilder und Seeds nicht stillschweigend wechseln.
 - Keine fotorealistischen, horrorartigen, sexualisierten oder grimdark Ergebnisse anstreben.
 - Keine stillen Schema-Erweiterungen ohne Update in `docs/content-model.md`.
+
+## Runtime-Entscheidungen (LLM-first)
+
+- Skill-Routing, Tool-Selektion und Kontext-Reads (`activitiesRequested`, `relationshipsRequested` usw.) sind LLM-basierte Entscheidungen.
+- Regex- oder Keyword-Matching darf NICHT als produktive Entscheidungslogik fuer Runtime-Routing genutzt werden.
+- Deterministische Parser (z. B. JSON-Parsing, Schema-Validierung, Normalisierung) sind erlaubt, aber nur zur Auswertung expliziter Modellausgaben.
+- Falls ein LLM-Call fehlschlaegt, ist ein klarer Fallback erlaubt; dieser muss als degradierter Modus erkennbar sein (Tracing/Logs).

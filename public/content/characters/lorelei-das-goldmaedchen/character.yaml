@@ -68,15 +68,6 @@ herkunft:
   historische_praegung:
     - Legenden der Flussmaedchen und Sagen um die Lorelei
   notizen: Lorelei spiegelt die maerchenhafte Rheinregion wider und traegt einen Hauch kaiserlicher Eleganz ins Flusstal.
-relationships:
-  characters:
-    - character_id: lina-flussmaedchen
-      typ: beste Freundin
-      beschreibung: Lorelei und Lina verbindet eine enge, vertrauensvolle Freundschaft am Fluss.
-  places:
-    - place_id: whispering-meadow
-      typ: Lieblingsort
-      beschreibung: Hier sammelt Lorelei Blueten für ihren Haarkranz und trifft sich oft mit Lina.
 bilder:
   standard_figur:
     datei: /content/characters/lorelei-das-goldmaedchen/standard-figur.png

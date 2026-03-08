@@ -75,21 +75,6 @@ herkunft:
     - wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen
     - lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft
   notizen: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung.
-relationships:
-  characters:
-    - character_id: juna-lia
-      typ: beste_freundin
-      beschreibung: Juna Lia ist Carlas beste Freundin; mit ihr wird Carla abenteuerlustig, aktiv und probiert neue Spiele aus.
-    - character_id: yoko
-      typ: gute_freundin
-      beschreibung: Yoko ist eine gute Freundin von Carla; mit ihrer herzlichen Art hilft sie Carla, sich in Gruppen schneller wohlzufuehlen.
-    - character_id: nola
-      typ: gute_freundin
-      beschreibung: Nola ist eine gute Freundin von Carla; ihre neugierige Energie steckt Carla an und macht sie mutiger.
-  places:
-    - place_id: whispering-meadow
-      typ: wohlfuehlort
-      beschreibung: Auf der Wiese kann Carla erst beobachten und dann mit Anlauf ins Spiel springen.
 bilder:
   standard_figur:
     datei: /content/characters/carla/standard-figur.png

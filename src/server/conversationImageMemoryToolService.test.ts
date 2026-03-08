@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   getConversationDetailsMock: vi.fn(),
   loadCharacterRuntimeProfileMock: vi.fn(),
   storeConversationImageAssetMock: vi.fn(),
+  resolveCharacterImageRefsMock: vi.fn(),
   fetchMock: vi.fn(),
 }))
 
@@ -26,6 +27,10 @@ vi.mock('./runtimeContentStore.ts', () => ({
 
 vi.mock('./conversationImageAssetStore.ts', () => ({
   storeConversationImageAsset: mocks.storeConversationImageAssetMock,
+}))
+
+vi.mock('./runtime/context/contextCollationService.ts', () => ({
+  resolveCharacterImageRefs: mocks.resolveCharacterImageRefsMock,
 }))
 
 import { recallConversationImage } from './conversationImageMemoryToolService.ts'
@@ -50,6 +55,9 @@ describe('recallConversationImage', () => {
       coreTraits: [],
       suitableLearningGoalIds: [],
     })
+    mocks.resolveCharacterImageRefsMock.mockResolvedValue([
+      { kind: 'hero', title: 'Hero', path: '/content/characters/yoko/hero-image.jpg' },
+    ])
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
         conversationId: 'conv-1',
@@ -130,6 +138,148 @@ describe('recallConversationImage', () => {
       expect.objectContaining({
         activityType: 'conversation.image.recalled',
         isPublic: true,
+      }),
+    )
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'trace.tool.show_image.request',
+        isPublic: false,
+        metadata: expect.objectContaining({
+          traceStage: 'tool',
+          traceKind: 'request',
+        }),
+      }),
+    )
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'trace.tool.show_image.response',
+        isPublic: false,
+        metadata: expect.objectContaining({
+          traceStage: 'tool',
+          traceKind: 'response',
+          ok: true,
+        }),
+      }),
+    )
+  })
+
+  it('sucht global ueber Character-Conversations und matched Personenbezug', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: 'yoko',
+        metadata: { learningGoalIds: ['kindness'] },
+      },
+      messages: [
+        {
+          role: 'system',
+          conversationId: 'conv-1',
+          createdAt: '2026-03-08T16:40:00.000Z',
+          content: 'Yoko zeigt ein neues Bild mit Fluss',
+          metadata: {
+            imageUrl: 'https://example.com/river.jpg',
+            scenePrompt: 'Ruhiger Fluss mit Boot',
+          },
+        },
+      ],
+    })
+    mocks.listActivitiesMock
+      .mockResolvedValueOnce([
+        {
+          activityId: 'a-generated-1',
+          activityType: 'conversation.image.generated',
+          characterId: 'yoko',
+          conversationId: 'conv-old-juna',
+          isPublic: true,
+          learningGoalIds: [],
+          subject: {},
+          object: { url: 'https://example.com/juna.jpg' },
+          metadata: {
+            summary: 'Yoko und Juna spielen am Wasser',
+            scenePrompt: 'Yoko mit Juna am Fluss',
+            relatedCharacterNames: ['Juna'],
+          },
+          occurredAt: '2026-03-01T10:00:00.000Z',
+          createdAt: '2026-03-01T10:00:01.000Z',
+        },
+      ])
+      .mockResolvedValueOnce([])
+
+    const result = await recallConversationImage({
+      conversationId: 'conv-1',
+      queryText: 'Hast du was mit Juna?',
+      source: 'runtime',
+    })
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        reason: 'query_match',
+      }),
+    )
+    expect(mocks.listActivitiesMock).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        characterId: 'yoko',
+        activityType: 'conversation.image.generated',
+        limit: 300,
+      }),
+    )
+    expect(mocks.appendConversationMessageMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        metadata: expect.objectContaining({
+          sourceConversationId: 'conv-old-juna',
+          recallReason: 'query_match',
+        }),
+      }),
+    )
+  })
+
+  it('respektiert strict preferredImageUrl und faellt nicht auf latest zurueck', async () => {
+    const result = await recallConversationImage({
+      conversationId: 'conv-1',
+      queryText: 'Zeig das alte Bild',
+      preferredImageUrl: 'https://example.com/forest.jpg',
+      source: 'runtime',
+    })
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        reason: 'query_match',
+      }),
+    )
+    expect(mocks.storeConversationImageAssetMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        imageUrl: 'https://example.com/forest.jpg',
+      }),
+    )
+  })
+
+  it('faellt auf Charakterbild zurueck, wenn keine Erinnerungsbilder vorhanden sind', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: 'yoko',
+        metadata: { learningGoalIds: ['kindness'] },
+      },
+      messages: [],
+    })
+    mocks.listActivitiesMock.mockResolvedValue([])
+
+    const result = await recallConversationImage({
+      conversationId: 'conv-1',
+      queryText: 'Zeig mir ein Bild',
+      source: 'runtime',
+    })
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        imageUrl: '/content/conversations/conv-1/recalled-1.jpg',
+        reason: 'latest',
+      }),
+    )
+    expect(mocks.storeConversationImageAssetMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        imageUrl: '/content/characters/yoko/hero-image.jpg',
       }),
     )
   })

@@ -10,6 +10,7 @@ import {
   loadLearningGoalRuntimeProfile,
   loadLearningGoalRuntimeProfiles,
 } from './runtimeContentStore.ts'
+import { trackTraceActivitySafely } from './traceActivity.ts'
 
 type RunConversationQuizSkillInput = {
   conversationId: string
@@ -121,6 +122,19 @@ export const runConversationQuizSkill = async (
 ): Promise<ConversationQuizResult | null> => {
   const conversationId = input.conversationId.trim()
   if (!conversationId) return null
+  await trackTraceActivitySafely({
+    activityType: 'trace.skill.run_quiz.request',
+    summary: 'run-quiz gestartet',
+    conversationId,
+    traceStage: 'skill',
+    traceKind: 'request',
+    traceSource: input.source === 'api' ? 'api' : 'runtime',
+    input: {
+      requestedLearningGoalId: input.requestedLearningGoalId,
+      userText: input.userText?.slice(0, 240),
+      assistantText: input.assistantText?.slice(0, 240),
+    },
+  })
   if (input.source === 'runtime' && isQuizOnCooldown(conversationId)) return null
 
   const details = await getConversationDetails(conversationId)
@@ -244,7 +258,7 @@ export const runConversationQuizSkill = async (
     },
   })
 
-  return {
+  const result = {
     characterId,
     characterName,
     learningGoalId: learningGoal.id,
@@ -253,4 +267,22 @@ export const runConversationQuizSkill = async (
     questionIndex: selectedQuestion.index + 1,
     totalQuestions: learningGoal.exampleQuestions.length,
   }
+  await trackTraceActivitySafely({
+    activityType: 'trace.skill.run_quiz.response',
+    summary: 'run-quiz abgeschlossen',
+    conversationId,
+    characterId,
+    characterName,
+    learningGoalIds: [learningGoal.id],
+    traceStage: 'skill',
+    traceKind: 'response',
+    traceSource: input.source === 'api' ? 'api' : 'runtime',
+    output: {
+      learningGoalId: learningGoal.id,
+      questionIndex: result.questionIndex,
+      totalQuestions: result.totalQuestions,
+    },
+    ok: true,
+  })
+  return result
 }

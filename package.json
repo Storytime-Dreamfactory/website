@@ -16,6 +16,7 @@
     "db:init-relationships": "node --env-file=.env --import tsx ./scripts/create-character-relationships-table.ts",
     "db:seed-relationships": "node --env-file=.env --import tsx ./scripts/seed-character-relationships.ts",
     "db:query-relationships": "node --env-file=.env --import tsx ./scripts/query-character-relationships.ts",
+    "db:backfill-activity-images": "node --env-file=.env --import tsx ./scripts/backfill-activity-image-assets.ts",
     "runtime:smoke": "node --env-file=.env --import tsx ./scripts/runtime-conversation-smoke.ts"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export type CharacterActivityItem = {
@@ -16,11 +16,14 @@ export type CharacterActivityItem = {
   imageUrl?: string
   imageLabel?: string
   imagePrompt?: string
+  isPending?: boolean
 }
 
 type Props = {
   items: CharacterActivityItem[]
   isLive?: boolean
+  showTechnicalActivities?: boolean
+  onToggleTechnicalActivities?: (next: boolean) => void
   onOpenConversation?: (conversationId: string) => void
   onSelectImage?: (imageUrl: string, item: CharacterActivityItem) => void
 }
@@ -40,23 +43,57 @@ const formatTimestamp = (value: string | Date): string => {
 export default function CharacterActivityStream({
   items,
   isLive = false,
+  showTechnicalActivities = true,
+  onToggleTechnicalActivities,
   onOpenConversation,
   onSelectImage,
 }: Props) {
   const [expandedReports, setExpandedReports] = useState<Record<string, boolean>>({})
+  const [brokenImages, setBrokenImages] = useState<Record<string, boolean>>({})
+  const groupedItems = useMemo(() => {
+    const visibleConversationIds = new Set<string>()
+    const result: CharacterActivityItem[] = []
 
-  if (items.length === 0) return null
+    for (const item of items) {
+      const conversationId = item.conversationId?.trim()
+      if (!conversationId) {
+        result.push(item)
+        continue
+      }
+      if (visibleConversationIds.has(conversationId)) {
+        continue
+      }
+      visibleConversationIds.add(conversationId)
+      result.push(item)
+    }
+
+    return result
+  }, [items])
+
+  if (groupedItems.length === 0) return null
 
   return (
     <aside className="character-activity-stream" aria-label="Character activity stream">
-      <p className="character-activity-stream-title">
-        Activity
-        {isLive ? <span className="character-activity-live-indicator"> Live</span> : null}
-      </p>
+      <div className="character-activity-stream-header">
+        <p className="character-activity-stream-title">
+          Activity
+          {isLive ? <span className="character-activity-live-indicator"> Live</span> : null}
+        </p>
+        {onToggleTechnicalActivities ? (
+          <button
+            type="button"
+            className="character-activity-stream-toggle"
+            onClick={() => onToggleTechnicalActivities(!showTechnicalActivities)}
+          >
+            {showTechnicalActivities ? 'Technische ausblenden' : 'Technische anzeigen'}
+          </button>
+        ) : null}
+      </div>
       <ol className="character-activity-list">
-        {items.map((item) => {
+        {groupedItems.map((item) => {
           const conversationId = item.conversationId
           const imageUrl = item.imageUrl
+          const isImageBroken = brokenImages[item.id] === true
           const reportText = item.imagePrompt?.trim() ?? ''
           const reportLineCount = reportText ? reportText.split('\n').length : 0
           const isLongReport = reportText.length > 220 || reportLineCount > 3
@@ -68,6 +105,12 @@ export default function CharacterActivityStream({
               </div>
               <div className="character-activity-content">
                 <time className="character-activity-timestamp">{formatTimestamp(item.timestamp)}</time>
+                {item.isPending ? (
+                  <p className="character-activity-pending" aria-live="polite">
+                    <span className="character-activity-pending-spinner" aria-hidden="true" />
+                    <span>Tool laeuft...</span>
+                  </p>
+                ) : null}
                 <p className="character-activity-text">
                   {item.isPublic === false ? (
                     <span className="character-activity-object">Intern: </span>
@@ -104,31 +147,62 @@ export default function CharacterActivityStream({
                   ) : item.conversationLabel ? (
                     <span>{` (${item.conversationLabel})`}</span>
                   ) : null}
-                  {imageUrl ? (
-                    <>
-                      <span>{' ('}</span>
-                      {onSelectImage ? (
-                        <button
-                          type="button"
-                          className="character-activity-link character-activity-link-button"
-                          onClick={() => onSelectImage(imageUrl, item)}
-                        >
-                          {item.imageLabel ?? 'Bild ansehen'}
-                        </button>
-                      ) : (
-                        <a
-                          className="character-activity-link"
-                          href={imageUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          {item.imageLabel ?? 'Bild ansehen'}
-                        </a>
-                      )}
-                      <span>{')'}</span>
-                    </>
-                  ) : null}
                 </p>
+                {imageUrl ? (
+                  <div className="character-activity-image-shell">
+                    {isImageBroken ? (
+                      <div
+                        className="character-activity-image-fallback"
+                        role="img"
+                        aria-label="Bild nicht verfuegbar"
+                        title="Bild nicht verfuegbar"
+                      >
+                        <span className="character-activity-image-fallback-label">Bild nicht verfuegbar</span>
+                      </div>
+                    ) : onSelectImage ? (
+                      <button
+                        type="button"
+                        className="character-activity-image-button"
+                        onClick={() => onSelectImage(imageUrl, item)}
+                        aria-label={item.imageLabel ?? 'Bild ansehen'}
+                        title={item.imageLabel ?? 'Bild ansehen'}
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={item.imageLabel ?? 'Generiertes Bild'}
+                          className="character-activity-image"
+                          onError={() =>
+                            setBrokenImages((current) => ({
+                              ...current,
+                              [item.id]: true,
+                            }))
+                          }
+                        />
+                      </button>
+                    ) : (
+                      <a
+                        className="character-activity-image-link"
+                        href={imageUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={item.imageLabel ?? 'Bild ansehen'}
+                        title={item.imageLabel ?? 'Bild ansehen'}
+                      >
+                        <img
+                          src={imageUrl}
+                          alt={item.imageLabel ?? 'Generiertes Bild'}
+                          className="character-activity-image"
+                          onError={() =>
+                            setBrokenImages((current) => ({
+                              ...current,
+                              [item.id]: true,
+                            }))
+                          }
+                        />
+                      </a>
+                    )}
+                  </div>
+                ) : null}
                 {item.imagePrompt ? (
                   <>
                     <p className={`character-activity-prompt ${!isExpanded ? 'is-collapsed' : ''}`}>

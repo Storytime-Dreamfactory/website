@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => ({
   recallConversationImageMock: vi.fn(),
   maybeGenerateSceneImageFromAssistantMessageMock: vi.fn(),
   noteExplicitImageRequestFromUserMessageMock: vi.fn(),
+  clearExplicitImageRequestForConversationMock: vi.fn(),
   appendConversationMessageMock: vi.fn(),
   getConversationDetailsMock: vi.fn(),
   listRelationshipsForCharacterMock: vi.fn(),
@@ -31,6 +32,7 @@ vi.mock('./conversationImageMemoryToolService.ts', () => ({
 vi.mock('./conversationSceneImageService.ts', () => ({
   maybeGenerateSceneImageFromAssistantMessage: mocks.maybeGenerateSceneImageFromAssistantMessageMock,
   noteExplicitImageRequestFromUserMessage: mocks.noteExplicitImageRequestFromUserMessageMock,
+  clearExplicitImageRequestForConversation: mocks.clearExplicitImageRequestForConversationMock,
 }))
 
 vi.mock('./conversationStore.ts', () => ({
@@ -59,6 +61,7 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     mocks.recallConversationImageMock.mockResolvedValue(null)
     mocks.maybeGenerateSceneImageFromAssistantMessageMock.mockResolvedValue(undefined)
     mocks.noteExplicitImageRequestFromUserMessageMock.mockReturnValue(undefined)
+    mocks.clearExplicitImageRequestForConversationMock.mockReturnValue(undefined)
     mocks.appendConversationMessageMock.mockResolvedValue(undefined)
     mocks.listRelationshipsForCharacterMock.mockResolvedValue([])
     mocks.loadCharacterRuntimeProfileMock.mockResolvedValue({
@@ -90,21 +93,50 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     })
   })
 
-  it('merkt sich beim User-Turn explizite Bildwuensche', async () => {
+  it('merkt sich beim User-Turn nur explizite Neu-Bildwuensche', async () => {
     await orchestrateCharacterRuntimeTurn({
       conversationId: 'conv-1',
       role: 'user',
-      content: 'Zeig mir bitte einen Drachen im Wald.',
+      content: 'Bitte generiere jetzt ein neues Bild fuer morgen mit einem Drachen im Wald.',
     })
 
     expect(mocks.noteExplicitImageRequestFromUserMessageMock).toHaveBeenCalledWith({
       conversationId: 'conv-1',
-      userText: 'Zeig mir bitte einen Drachen im Wald.',
+      userText: 'Bitte generiere jetzt ein neues Bild fuer morgen mit einem Drachen im Wald.',
     })
     expect(mocks.getConversationDetailsMock).not.toHaveBeenCalled()
   })
 
-  it('routet visuelle Assistant-Antworten in den visual-expression Skill', async () => {
+  it('delegiert allgemeine Bildwuensche an den Scene-Service zur internen Pruefung', async () => {
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'user',
+      content: 'Zeig mir bitte ein Bild vom Wald.',
+    })
+
+    expect(mocks.noteExplicitImageRequestFromUserMessageMock).toHaveBeenCalledWith({
+      conversationId: 'conv-1',
+      userText: 'Zeig mir bitte ein Bild vom Wald.',
+    })
+  })
+
+  it('routet visuelle Assistant-Antworten in do-something und startet Bildgenerierung', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: 'yoko',
+        metadata: {
+          learningGoalIds: ['kindness'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: '{ "skillId": "visual-expression", "reason": "visual-request" }',
+        },
+      ],
+    })
+
     await orchestrateCharacterRuntimeTurn({
       conversationId: 'conv-1',
       role: 'assistant',
@@ -118,7 +150,7 @@ describe('orchestrateCharacterRuntimeTurn', () => {
         characterId: 'yoko',
         learningGoalIds: ['kindness'],
         metadata: expect.objectContaining({
-          skillId: 'visual-expression',
+          skillId: 'do-something',
           reason: 'visual-request',
           activeLearningGoalIds: ['kindness'],
         }),
@@ -144,11 +176,27 @@ describe('orchestrateCharacterRuntimeTurn', () => {
       messages: [
         {
           role: 'user',
-          content: 'Kennst du deine Freunde und kannst du mich danach quizzen?',
+          content:
+            '{ "skillId": "run-quiz", "reason": "quiz-request", "relationshipsRequested": true, "activitiesRequested": true }',
         },
       ],
     })
-    mocks.listRelationshipsForCharacterMock.mockResolvedValue([{ relationshipId: 'r-1' }])
+    mocks.listRelationshipsForCharacterMock.mockResolvedValue([
+      {
+        relationshipId: 'r-1',
+        sourceCharacterId: 'yoko',
+        targetCharacterId: 'nola',
+        relationshipType: 'freundin',
+        relationshipTypeReadable: 'Freundin',
+        relationship: 'Freundin',
+        description: '',
+        metadata: {},
+        otherRelatedObjects: [],
+        direction: 'outgoing',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    ])
     mocks.listActivitiesMock.mockResolvedValue([{ activityId: 'a-1' }])
     mocks.loadCharacterRuntimeProfilesMock.mockResolvedValue([
       {
@@ -169,10 +217,12 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     })
 
     expect(mocks.listRelationshipsForCharacterMock).toHaveBeenCalledWith('yoko')
-    expect(mocks.listActivitiesMock).toHaveBeenCalledWith({
-      conversationId: 'conv-1',
-      limit: 12,
-    })
+    expect(mocks.listActivitiesMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-1',
+        limit: 12,
+      }),
+    )
     expect(mocks.createActivityMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activityType: 'tool.relationships.read',
@@ -197,7 +247,8 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     expect(mocks.runConversationQuizSkillMock).toHaveBeenCalledWith({
       conversationId: 'conv-1',
       source: 'runtime',
-      userText: 'Kennst du deine Freunde und kannst du mich danach quizzen?',
+      userText:
+        '{ "skillId": "run-quiz", "reason": "quiz-request", "relationshipsRequested": true, "activitiesRequested": true }',
       assistantText: 'Na klar, ich habe eine kleine Frage fuer dich.',
     })
   })
@@ -242,14 +293,71 @@ describe('orchestrateCharacterRuntimeTurn', () => {
       eventType: 'chat.turn',
     })
 
-    expect(mocks.noteExplicitImageRequestFromUserMessageMock).toHaveBeenCalledWith({
-      conversationId: 'conv-1',
-      userText: 'Kannst du mir ein Bild aus einer frueheren Conversation zeigen?',
-    })
+    expect(mocks.noteExplicitImageRequestFromUserMessageMock).not.toHaveBeenCalled()
     expect(mocks.recallConversationImageMock).toHaveBeenCalledWith({
       conversationId: 'conv-1',
       queryText: 'Kannst du mir ein Bild aus einer frueheren Conversation zeigen?',
       source: 'runtime',
     })
+  })
+
+  it('erkennt Personen-Erinnerungsfragen und triggert Recall bereits im User-Turn', async () => {
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'user',
+      content: 'Hast du etwas mit Juna erlebt?',
+      eventType: 'chat.turn',
+    })
+
+    expect(mocks.noteExplicitImageRequestFromUserMessageMock).not.toHaveBeenCalled()
+    expect(mocks.recallConversationImageMock).toHaveBeenCalledWith({
+      conversationId: 'conv-1',
+      queryText: 'Hast du etwas mit Juna erlebt?',
+      source: 'runtime',
+    })
+  })
+
+  it('wendet bei fehlender Entscheidung einen stabilen degraded Fallback an', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: 'yoko',
+        metadata: {
+          learningGoalIds: ['kindness'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: 'Bitte hilf mir.',
+        },
+      ],
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'assistant',
+      content: 'Okay, ich bin da.',
+      eventType: 'response.audio_transcript.done',
+    })
+
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'trace.runtime.decision.response',
+        metadata: expect.objectContaining({
+          output: expect.objectContaining({
+            degradedFallbackApplied: true,
+            preDegradedSkillId: null,
+            skillId: 'remember-something',
+          }),
+        }),
+      }),
+    )
+    expect(mocks.recallConversationImageMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-1',
+        source: 'runtime',
+      }),
+    )
   })
 })

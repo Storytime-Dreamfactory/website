@@ -74,18 +74,6 @@ herkunft:
     - wuchs als mittlere Schwester zwischen aelteren und juengeren Dynamiken auf
     - lernte frueh, zwischen verschiedenen Beduerfnissen zu vermitteln
   notizen: Herkunft und Familienalltag praegen Sprache, Naehe und Gerechtigkeitssinn ohne stereotype Verengung.
-relationships:
-  characters:
-    - character_id: nola
-      typ: schwester
-      beschreibung: Nola ist ihre Schwester; Yoko liebt ihren Mut, fuehlt sich aber manchmal von Nolas Tempo ueberrollt.
-    - character_id: juna-lia
-      typ: schwester
-      beschreibung: Zu Juna Lia sucht Yoko viel Naehe, reagiert aber sensibel, wenn sie sich im Vergleich weniger beachtet fuehlt.
-  places:
-    - place_id: whispering-meadow
-      typ: lieblingsort
-      beschreibung: Auf der Wiese kann Yoko rennen, lachen, weinen und sich danach wieder schnell verbunden fuehlen.
 bilder:
   standard_figur:
     datei: /content/characters/yoko/standard-figur.png

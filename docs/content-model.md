@@ -84,15 +84,6 @@ herkunft:
   historische_praegung:
     - wurde mit alten Geschichten ueber Wasserwege und Tiere gross
   notizen: Herkunft praegt Werte und Perspektive, nicht als Klischee, sondern nuanciert.
-relationships:
-  characters:
-    - character_id: romi
-      typ: freundin
-      beschreibung: Romi und Nola erkunden gemeinsam die Natur am See.
-  places:
-    - place_id: crystal-lake
-      typ: home_waters
-      beschreibung: Nola fuehlt sich am See zu Hause.
 bilder:
   standard_figur:
     datei: /content/characters/nola/standard-figur.png
@@ -177,9 +168,6 @@ Optionale Felder:
 - `herkunft.historische_praegung: string[]` (Pflicht innerhalb von `herkunft`)
 - `herkunft.religion_oder_weltbild`
 - `herkunft.notizen`
-- `relationships` (gesamter Block optional)
-- `relationships.characters[]`
-- `relationships.places[]`
 - `bilder.*.datei`
 - `bilder.*.beschreibung`
 - `bilder.weitere_bilder[]`
@@ -189,7 +177,7 @@ Hinweise:
 - Die `bilder`-Eintraege sind die fachliche Zielbeschreibung fuer den Generator. Der Service darf fehlende Dateinamen oder Beschreibungen mit Standardwerten ergaenzen.
 - Beschreibungen sollen persoenlichkeits- und stilrelevant sein, aber keine markenrechtlich heiklen IP-Namen enthalten.
 - `herkunft` dient als nuancierte Praegung fuer Sprache, Werte, Kultur, Religion, Historie und Blick auf die Welt. Diese Hinweise sollen respektvoll genutzt werden und nicht in Karikaturen oder flache Klischees kippen.
-- `relationships` ist absichtlich flach gehalten, damit Agents und UI die Verbindungen schnell lesen, bearbeiten und spaeter in Storylogik nutzen koennen.
+- Character-Relationships werden ausschliesslich in der Relationship-DB gepflegt (API/Store), nicht in Character-YAML.
 - Bei neuen Character-Entwuerfen soll vorhandener Content mitgedacht werden, damit Spezies, Rollen, Farben und kulturelle Hintergruende nicht unnötig wiederholt werden.
 
 ## Place

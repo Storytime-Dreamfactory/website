@@ -83,7 +83,10 @@ function AppHeader({ source }: { source: StoryContent['source'] | undefined }) {
           onClick={({ key }) => navigate(key)}
         />
 
-        <Avatar src={userProfileAvatar} size={40} />
+        <div className="header-user">
+          <Text className="header-user-name">Yoko</Text>
+          <Avatar src={userProfileAvatar} size={40} />
+        </div>
       </div>
     </Header>
   )

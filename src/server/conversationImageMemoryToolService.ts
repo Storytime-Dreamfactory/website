@@ -7,10 +7,14 @@ import { appendConversationMessage, getConversationDetails } from './conversatio
 import { contextFromMetadata } from './conversationRuntimeContext.ts'
 import { loadCharacterRuntimeProfile } from './runtimeContentStore.ts'
 import { storeConversationImageAsset } from './conversationImageAssetStore.ts'
+import { resolveCharacterImageRefs } from './runtime/context/contextCollationService.ts'
+import { trackTraceActivitySafely } from './traceActivity.ts'
 
 type RecallConversationImageInput = {
   conversationId: string
   queryText?: string
+  preferredImageUrl?: string
+  preferredImageId?: string
   source: 'runtime' | 'api'
 }
 
@@ -23,6 +27,12 @@ export type RecalledConversationImage = {
 const GUIDED_EXPLANATION_SKILL = getCharacterAgentSkillPlaybook('guided-explanation')
 
 const readText = (value: unknown): string => (typeof value === 'string' ? value.trim() : '')
+const readTextList = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((item) => (typeof item === 'string' ? item.trim() : ''))
+    .filter((item) => item.length > 0)
+}
 
 const trackImageMemoryActivitySafely = async (input: {
   activityType: string
@@ -64,6 +74,9 @@ type ImageMessageCandidate = {
   imageVisualSummary?: string
   content: string
   sourceConversationId?: string
+  occurredAt?: string
+  sourceType: 'current_conversation' | 'activity_history'
+  relatedText?: string
 }
 
 const tokenize = (value: string): string[] =>
@@ -71,7 +84,45 @@ const tokenize = (value: string): string[] =>
     .toLowerCase()
     .split(/[^a-z0-9aeiouäöüß]+/i)
     .map((item) => item.trim())
-    .filter((item) => item.length > 2)
+    .filter((item) => item.length > 2 && !QUERY_STOPWORDS.has(item))
+
+const QUERY_STOPWORDS = new Set([
+  'bitte',
+  'kannst',
+  'kannstdu',
+  'koenntest',
+  'könntest',
+  'mir',
+  'mich',
+  'mein',
+  'meine',
+  'dein',
+  'deine',
+  'das',
+  'dass',
+  'dieses',
+  'diesem',
+  'dieser',
+  'eine',
+  'einen',
+  'einem',
+  'einer',
+  'mit',
+  'von',
+  'aus',
+  'und',
+  'oder',
+  'nochmal',
+  'wieder',
+  'zeigen',
+  'zeig',
+  'bild',
+  'szene',
+  'hast',
+  'habe',
+  'mal',
+  'bitte',
+])
 
 const chooseImageCandidate = (
   candidates: ImageMessageCandidate[],
@@ -88,13 +139,73 @@ const chooseImageCandidate = (
     return { candidate: candidates[0], reason: 'latest' }
   }
 
-  const matching = candidates.find((candidate) => {
-    const haystack = `${candidate.scenePrompt ?? ''} ${candidate.imageVisualSummary ?? ''} ${candidate.content}`.toLowerCase()
-    return tokens.some((token) => haystack.includes(token))
-  })
+  let bestCandidate: ImageMessageCandidate | null = null
+  let bestScore = 0
+  for (const candidate of candidates) {
+    const haystack =
+      `${candidate.scenePrompt ?? ''} ${candidate.imageVisualSummary ?? ''} ${candidate.content} ${candidate.relatedText ?? ''}`.toLowerCase()
+    let score = 0
+    for (const token of tokens) {
+      if (haystack.includes(token)) score += 1
+    }
+    if (score > bestScore) {
+      bestScore = score
+      bestCandidate = candidate
+    }
+  }
 
-  if (matching) return { candidate: matching, reason: 'query_match' }
+  if (bestCandidate && bestScore > 0) return { candidate: bestCandidate, reason: 'query_match' }
   return { candidate: candidates[0], reason: 'latest' }
+}
+
+const sortCandidatesByRecency = (candidates: ImageMessageCandidate[]): ImageMessageCandidate[] =>
+  candidates
+    .slice()
+    .sort((a, b) => {
+      const aTime = a.occurredAt ? new Date(a.occurredAt).getTime() : Number.NaN
+      const bTime = b.occurredAt ? new Date(b.occurredAt).getTime() : Number.NaN
+      const aSafe = Number.isFinite(aTime) ? aTime : 0
+      const bSafe = Number.isFinite(bTime) ? bTime : 0
+      return bSafe - aSafe
+    })
+
+const dedupeCandidates = (candidates: ImageMessageCandidate[]): ImageMessageCandidate[] => {
+  const seen = new Set<string>()
+  const deduped: ImageMessageCandidate[] = []
+  for (const candidate of candidates) {
+    const key = `${candidate.imageUrl}|${candidate.sourceConversationId ?? ''}`
+    if (seen.has(key)) continue
+    seen.add(key)
+    deduped.push(candidate)
+  }
+  return deduped
+}
+
+const extractImageId = (imageUrl: string): string => {
+  const normalized = imageUrl.trim()
+  if (!normalized) return ''
+  const noQuery = normalized.split('?')[0]
+  const lastSegment = noQuery.split('/').filter(Boolean).at(-1) ?? ''
+  return lastSegment.replace(/\.[a-z0-9]+$/i, '').toLowerCase()
+}
+
+const pickPreferredCandidate = (
+  candidates: ImageMessageCandidate[],
+  preferredImageUrl: string,
+  preferredImageId: string,
+): ImageMessageCandidate | null => {
+  const normalizedUrl = preferredImageUrl.trim()
+  const normalizedId = preferredImageId.trim().toLowerCase()
+  if (!normalizedUrl && !normalizedId) return null
+  for (const candidate of candidates) {
+    if (normalizedUrl && candidate.imageUrl.trim() === normalizedUrl) {
+      return candidate
+    }
+    if (normalizedId && extractImageId(candidate.imageUrl) === normalizedId) {
+      return candidate
+    }
+  }
+  return null
 }
 
 const describeImageWithFastModel = async (input: {
@@ -177,10 +288,27 @@ export const recallConversationImage = async (
   const characterId = details.conversation.characterId
   const characterProfile = await loadCharacterRuntimeProfile(characterId)
   const characterName = characterProfile?.name ?? characterId
+  await trackTraceActivitySafely({
+    activityType: 'trace.tool.show_image.request',
+    summary: 'show_image Recall gestartet',
+    conversationId,
+    characterId,
+    characterName,
+    learningGoalIds: runtimeContext.learningGoalIds,
+    traceStage: 'tool',
+    traceKind: 'request',
+    traceSource: input.source === 'api' ? 'api' : 'runtime',
+    input: {
+      queryText: (input.queryText ?? '').trim(),
+      preferredImageUrl: (input.preferredImageUrl ?? '').trim() || undefined,
+      preferredImageId: (input.preferredImageId ?? '').trim() || undefined,
+    },
+  })
   // #region agent log
   fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H2',location:'conversationImageMemoryToolService.ts:recallConversationImage:details',message:'Conversation-Details geladen',data:{characterId,messageCount:details.messages.length},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
   const imageCandidates: ImageMessageCandidate[] = []
+  const currentConversationCandidates: ImageMessageCandidate[] = []
   for (const message of [...details.messages].reverse()) {
     if (message.role !== 'system') continue
     const imageUrl =
@@ -188,75 +316,144 @@ export const recallConversationImage = async (
       readText(message.metadata?.imageUrl) ||
       readText(message.metadata?.imageLinkUrl)
     if (!imageUrl) continue
-    imageCandidates.push({
+    currentConversationCandidates.push({
       imageUrl,
       scenePrompt: readText(message.metadata?.scenePrompt),
       imageVisualSummary: readText(message.metadata?.imageVisualSummary),
       content: message.content,
       sourceConversationId: message.conversationId,
+      occurredAt: message.createdAt,
+      sourceType: 'current_conversation',
+      relatedText: [
+        ...readTextList(message.metadata?.relatedCharacterIds),
+        ...readTextList(message.metadata?.relatedCharacterNames),
+      ]
+        .join(' '),
     })
   }
 
-  if (imageCandidates.length === 0) {
-    const generatedActivities = await listActivities({
-      characterId,
-      activityType: 'conversation.image.generated',
-      limit: 40,
+  const generatedActivities = await listActivities({
+    characterId,
+    activityType: 'conversation.image.generated',
+    limit: 300,
+  })
+  const recalledActivities = await listActivities({
+    characterId,
+    activityType: 'conversation.image.recalled',
+    limit: 150,
+  })
+
+  const activityCandidates: ImageMessageCandidate[] = []
+  for (const activity of [...generatedActivities, ...recalledActivities]) {
+    const imageUrl =
+      readText(activity.metadata.heroImageUrl) ||
+      readText(activity.metadata.imageUrl) ||
+      readText(activity.metadata.imageLinkUrl) ||
+      readText(activity.object.url)
+    if (!imageUrl) continue
+    activityCandidates.push({
+      imageUrl,
+      scenePrompt: readText(activity.metadata.scenePrompt),
+      imageVisualSummary: readText(activity.metadata.imageVisualSummary),
+      content: readText(activity.metadata.summary) || activity.activityType,
+      sourceConversationId: activity.conversationId,
+      occurredAt: activity.occurredAt || activity.createdAt,
+      sourceType: 'activity_history',
+      relatedText: [
+        ...readTextList(activity.metadata.relatedCharacterIds),
+        ...readTextList(activity.metadata.relatedCharacterNames),
+      ]
+        .join(' '),
     })
-    const recalledActivities = await listActivities({
-      characterId,
-      activityType: 'conversation.image.recalled',
-      limit: 20,
-    })
-    for (const activity of [...generatedActivities, ...recalledActivities]) {
-      const imageUrl =
-        readText(activity.metadata.heroImageUrl) ||
-        readText(activity.metadata.imageUrl) ||
-        readText(activity.metadata.imageLinkUrl) ||
-        readText(activity.object.url)
-      if (!imageUrl) continue
-      imageCandidates.push({
-        imageUrl,
-        scenePrompt: readText(activity.metadata.scenePrompt),
-        imageVisualSummary: readText(activity.metadata.imageVisualSummary),
-        content: readText(activity.metadata.summary) || activity.activityType,
-        sourceConversationId: activity.conversationId,
-      })
-    }
   }
+
+  // Fuer "zeige bestehendes Bild"-Momente priorisieren wir zuerst die Activity-Historie
+  // und nutzen aktuelle Conversation-Messages nur als Fallback.
+  imageCandidates.push(
+    ...dedupeCandidates(sortCandidatesByRecency(activityCandidates)),
+    ...currentConversationCandidates,
+  )
+  const orderedCandidates = dedupeCandidates(imageCandidates)
   // #region agent log
-  fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H3',location:'conversationImageMemoryToolService.ts:recallConversationImage:candidates',message:'Bildkandidaten gesammelt',data:{candidateCount:imageCandidates.length,candidateSource:imageCandidates.length>0?'messages-or-activities':'none'},timestamp:Date.now()})}).catch(()=>{})
+  fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H3',location:'conversationImageMemoryToolService.ts:recallConversationImage:candidates',message:'Bildkandidaten gesammelt',data:{candidateCount:orderedCandidates.length,currentConversationCandidateCount:currentConversationCandidates.length,activityHistoryCandidateCount:activityCandidates.length,candidateSource:orderedCandidates.length>0?'messages-and-activities':'none'},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
 
-  const selected = chooseImageCandidate(imageCandidates, input.queryText ?? '')
-  if (!selected) {
+  const preferredImageUrl = (input.preferredImageUrl ?? '').trim()
+  const preferredImageId = (input.preferredImageId ?? '').trim()
+  const preferredCandidate = pickPreferredCandidate(
+    orderedCandidates,
+    preferredImageUrl,
+    preferredImageId,
+  )
+  const hasStrictPreference = Boolean(preferredImageUrl || preferredImageId)
+  const selected = preferredCandidate
+    ? { candidate: preferredCandidate, reason: 'query_match' as const }
+    : hasStrictPreference
+      ? null
+      : chooseImageCandidate(orderedCandidates, input.queryText ?? '')
+  const fallbackCharacterImage = selected
+    ? null
+    : (await resolveCharacterImageRefs(characterId)).find((item) => item.path.trim().length > 0) ?? null
+  const finalSelection = selected
+    ? selected
+    : fallbackCharacterImage
+      ? {
+          candidate: {
+            imageUrl: fallbackCharacterImage.path,
+            scenePrompt: `${characterName} als Charakterbild`,
+            content: `${characterName} zeigt sein Charakterbild.`,
+            sourceConversationId: conversationId,
+            occurredAt: new Date().toISOString(),
+            sourceType: 'activity_history' as const,
+            relatedText: characterName,
+          },
+          reason: 'latest' as const,
+        }
+      : null
+  if (!finalSelection) {
     // #region agent log
     fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H3',location:'conversationImageMemoryToolService.ts:recallConversationImage:no-selection',message:'Kein Bildkandidat auswaehlbar',data:{conversationId},timestamp:Date.now()})}).catch(()=>{})
     // #endregion
+    await trackTraceActivitySafely({
+      activityType: 'trace.tool.show_image.response',
+      summary: 'show_image lieferte kein Bild',
+      conversationId,
+      characterId,
+      characterName,
+      learningGoalIds: runtimeContext.learningGoalIds,
+      traceStage: 'tool',
+      traceKind: 'response',
+      traceSource: input.source === 'api' ? 'api' : 'runtime',
+      output: { found: false },
+      ok: false,
+      error: 'no-image-found',
+    })
     return null
   }
   // #region agent log
-  fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H4',location:'conversationImageMemoryToolService.ts:recallConversationImage:selected',message:'Bildkandidat ausgewaehlt',data:{reason:selected.reason,sourceConversationId:selected.candidate.sourceConversationId ?? null,imageUrl:selected.candidate.imageUrl},timestamp:Date.now()})}).catch(()=>{})
+  fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H4',location:'conversationImageMemoryToolService.ts:recallConversationImage:selected',message:'Bildkandidat ausgewaehlt',data:{reason:finalSelection.reason,sourceConversationId:finalSelection.candidate.sourceConversationId ?? null,imageUrl:finalSelection.candidate.imageUrl},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
 
   const summary =
-    selected.reason === 'query_match'
+    finalSelection.reason === 'query_match'
       ? `${characterName} erinnert sich an ein frueheres Bild aus eurer Conversation.`
-      : `${characterName} zeigt ein frueheres Bild aus eurer Conversation.`
+      : fallbackCharacterImage
+        ? `${characterName} zeigt sein Charakterbild als Fallback.`
+        : `${characterName} zeigt ein frueheres Bild aus eurer Conversation.`
   const storedImage = await storeConversationImageAsset({
     conversationId,
-    imageUrl: selected.candidate.imageUrl,
+    imageUrl: finalSelection.candidate.imageUrl,
     requestId: `${Date.now()}`,
     prefix: 'recalled',
   })
-  const resolvedImageUrl = storedImage?.localUrl ?? selected.candidate.imageUrl
+  const resolvedImageUrl = storedImage?.localUrl ?? finalSelection.candidate.imageUrl
   // #region agent log
-  fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H5',location:'conversationImageMemoryToolService.ts:recallConversationImage:resolved-image',message:'Bild-URL aufgeloest',data:{resolvedImageUrl,usedLocalAsset:Boolean(storedImage?.localUrl),originalImageUrl:storedImage?.originalUrl ?? selected.candidate.imageUrl},timestamp:Date.now()})}).catch(()=>{})
+  fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H5',location:'conversationImageMemoryToolService.ts:recallConversationImage:resolved-image',message:'Bild-URL aufgeloest',data:{resolvedImageUrl,usedLocalAsset:Boolean(storedImage?.localUrl),originalImageUrl:storedImage?.originalUrl ?? finalSelection.candidate.imageUrl},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
   const imageVisualSummary = await describeImageWithFastModel({
     imageUrl: resolvedImageUrl,
-    scenePrompt: selected.candidate.scenePrompt,
-    fallbackText: selected.candidate.content,
+    scenePrompt: finalSelection.candidate.scenePrompt,
+    fallbackText: finalSelection.candidate.content,
   })
   const summaryWithVisual = imageVisualSummary
     ? `${summary} Darauf zu sehen: ${imageVisualSummary}`
@@ -271,16 +468,16 @@ export const recallConversationImage = async (
       heroImageUrl: resolvedImageUrl,
       imageUrl: resolvedImageUrl,
       imageLinkUrl: resolvedImageUrl,
-      originalImageUrl: storedImage?.originalUrl ?? selected.candidate.imageUrl,
+      originalImageUrl: storedImage?.originalUrl ?? finalSelection.candidate.imageUrl,
       imageAssetPath: storedImage?.localFilePath,
       imageLinkLabel: 'Bild ansehen',
       skillId: GUIDED_EXPLANATION_SKILL?.id,
-      toolId: CHARACTER_AGENT_TOOLS.displayExistingImage,
+      toolId: CHARACTER_AGENT_TOOLS.showImage,
       toolIds: GUIDED_EXPLANATION_SKILL?.toolIds ?? [],
-      scenePrompt: selected.candidate.scenePrompt || undefined,
+      scenePrompt: finalSelection.candidate.scenePrompt || undefined,
       source: input.source,
-      recallReason: selected.reason,
-      sourceConversationId: selected.candidate.sourceConversationId || undefined,
+      recallReason: finalSelection.reason,
+      sourceConversationId: finalSelection.candidate.sourceConversationId || undefined,
       imageVisualSummary: imageVisualSummary || undefined,
     },
   })
@@ -296,12 +493,12 @@ export const recallConversationImage = async (
     metadata: {
       summary: summaryWithVisual,
       skillId: GUIDED_EXPLANATION_SKILL?.id,
-      toolId: CHARACTER_AGENT_TOOLS.displayExistingImage,
+      toolId: CHARACTER_AGENT_TOOLS.showImage,
       source: input.source,
-      recallReason: selected.reason,
-      scenePrompt: selected.candidate.scenePrompt || undefined,
-      sourceConversationId: selected.candidate.sourceConversationId || undefined,
-      originalImageUrl: storedImage?.originalUrl ?? selected.candidate.imageUrl,
+      recallReason: finalSelection.reason,
+      scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+      sourceConversationId: finalSelection.candidate.sourceConversationId || undefined,
+      originalImageUrl: storedImage?.originalUrl ?? finalSelection.candidate.imageUrl,
       imageAssetPath: storedImage?.localFilePath,
       imageVisualSummary: imageVisualSummary || undefined,
     },
@@ -323,20 +520,38 @@ export const recallConversationImage = async (
       imageLinkUrl: resolvedImageUrl,
       imageLinkLabel: 'Bild ansehen',
       skillId: GUIDED_EXPLANATION_SKILL?.id,
-      toolId: CHARACTER_AGENT_TOOLS.displayExistingImage,
+      toolId: CHARACTER_AGENT_TOOLS.showImage,
       source: input.source,
-      recallReason: selected.reason,
-      scenePrompt: selected.candidate.scenePrompt || undefined,
-      sourceConversationId: selected.candidate.sourceConversationId || undefined,
-      originalImageUrl: storedImage?.originalUrl ?? selected.candidate.imageUrl,
+      recallReason: finalSelection.reason,
+      scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+      sourceConversationId: finalSelection.candidate.sourceConversationId || undefined,
+      originalImageUrl: storedImage?.originalUrl ?? finalSelection.candidate.imageUrl,
       imageAssetPath: storedImage?.localFilePath,
       imageVisualSummary: imageVisualSummary || undefined,
     },
   })
 
+  await trackTraceActivitySafely({
+    activityType: 'trace.tool.show_image.response',
+    summary: 'show_image lieferte ein Bild',
+    conversationId,
+    characterId,
+    characterName,
+    learningGoalIds: runtimeContext.learningGoalIds,
+    traceStage: 'tool',
+    traceKind: 'response',
+    traceSource: input.source === 'api' ? 'api' : 'runtime',
+    output: {
+      found: true,
+      recallReason: finalSelection.reason,
+      imageUrl: resolvedImageUrl,
+    },
+    ok: true,
+  })
+
   return {
     imageUrl: resolvedImageUrl,
-    scenePrompt: selected.candidate.scenePrompt || undefined,
-    reason: selected.reason,
+    scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+    reason: finalSelection.reason,
   }
 }

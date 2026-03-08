@@ -68,15 +68,6 @@ herkunft:
   historische_praegung:
     - erlebt das Leben zwischen zwei Orten und Kulturen
   notizen: Herkunft betont Vielfalt und Offenheit; Internatsleben bringt internationale Erfahrungen.
-relationships:
-  characters:
-    - character_id: nola
-      typ: schwester
-      beschreibung: Nola ist ihre aeltere Schwester und Juna Lia sucht oft ihre Naehe und ihren Rat.
-  places:
-    - place_id: koenigsgarten
-      typ: schule
-      beschreibung: St. George Internat, wo sie lebt und viele Abenteuer erlebt.
 bilder:
   standard_figur:
     datei: /content/characters/juna-lia/standard-figur.png

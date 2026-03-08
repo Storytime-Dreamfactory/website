@@ -74,15 +74,6 @@ herkunft:
   notizen: >
     Herkunft dient als Praegung fuer Sprache, Werte und Blick auf die Welt, ohne die
     Figur auf Klischees zu reduzieren.
-relationships:
-  characters:
-  places:
-    - place_id: crystal-lake
-      typ: home_waters
-      beschreibung: Nola fuehlt sich am Wasser zu Hause und findet dort neue Ideen.
-    - place_id: whispering-meadow
-      typ: adventure_route
-      beschreibung: Die Wiese ist fuer Nola ein vertrauter Ort fuer Spiele und Entdeckungen.
 bilder:
   standard_figur:
     datei: /content/characters/nola/standard-figur.png

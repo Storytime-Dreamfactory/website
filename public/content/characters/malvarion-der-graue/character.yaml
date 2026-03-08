@@ -68,18 +68,6 @@ herkunft:
   historische_praegung:
     - Geschichten über uralte Zaubererkämpfe
   notizen: Herkunft betont die alte, fremde Magie und die Distanz zu anderen Bewohnern der Welt.
-relationships:
-  characters:
-    - character_id: borin-brummbart
-      typ: Feind
-      beschreibung: ""
-  places:
-    - place_id: crystal-lake
-      typ: Zielort
-      beschreibung: Malvarion sucht nach den magischen Kräften des Sees.
-    - place_id: whispering-meadow
-      typ: Beobachtungsort
-      beschreibung: Von hier aus beobachtet er oft die Bewohner und sucht nach Schwächen.
 bilder:
   standard_figur:
     datei: /content/characters/malvarion-der-graue/standard-figur.png

@@ -4,7 +4,10 @@ import {
   getCharacterAgentSkillPlaybook,
 } from './characterAgentDefinitions.ts'
 import { contextFromMetadata } from './conversationRuntimeContext.ts'
-import { noteExplicitImageRequestFromUserMessage } from './conversationSceneImageService.ts'
+import {
+  clearExplicitImageRequestForConversation,
+  noteExplicitImageRequestFromUserMessage,
+} from './conversationSceneImageService.ts'
 import { getConversationDetails } from './conversationStore.ts'
 import {
   loadCharacterRuntimeProfile,
@@ -17,13 +20,15 @@ import {
 } from './runtime/tools/runtimeToolRegistry.ts'
 import {
   detectRuntimeIntent,
-  detectRuntimeIntentContextFlags,
+  detectRuntimeIntentModelDecision,
   isMemoryImageRequest,
+  detectRuntimeToolExecutionIntent,
 } from './runtime/router/intentRouter.ts'
 import {
   executeRoutedSkill,
   scheduleMemoryImageRecallFromUserTurn,
 } from './runtime/skills/skillExecutor.ts'
+import { trackTraceActivitySafely } from './traceActivity.ts'
 
 type OrchestrateCharacterRuntimeTurnInput = {
   conversationId: string
@@ -31,6 +36,8 @@ type OrchestrateCharacterRuntimeTurnInput = {
   content: string
   eventType?: string
 }
+
+const ASSISTANT_VISUAL_MARKER_RE = /ich\s+zeige\s+dir\s+jetzt|schau\s+mal/i
 
 const trackRuntimeActivitySafely = async (input: {
   activityType: string
@@ -73,24 +80,58 @@ export const orchestrateCharacterRuntimeTurn = async (
   // #endregion
 
   if (input.role === 'user') {
+    await trackTraceActivitySafely({
+      activityType: 'trace.runtime.user_turn.request',
+      summary: 'Runtime verarbeitet User-Turn',
+      conversationId,
+      traceStage: 'routing',
+      traceKind: 'request',
+      traceSource: 'runtime',
+      input: {
+        contentPreview: content.slice(0, 240),
+        eventType: input.eventType,
+      },
+    })
     const memoryRequest = isMemoryImageRequest(content)
     // #region agent log
     fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N2',location:'characterRuntimeOrchestrator.ts:orchestrate:user-turn',message:'User-Turn auf Memory-Request geprueft',data:{conversationId,memoryRequest,userText:content},timestamp:Date.now()})}).catch(()=>{})
     // #endregion
+    if (memoryRequest) {
+      clearExplicitImageRequestForConversation(conversationId)
+      await scheduleMemoryImageRecallFromUserTurn({
+        conversationId,
+        userText: content,
+      })
+      await trackTraceActivitySafely({
+        activityType: 'trace.runtime.user_turn.decision',
+        summary: 'Memory-Request erkannt',
+        conversationId,
+        traceStage: 'routing',
+        traceKind: 'decision',
+        traceSource: 'runtime',
+        output: {
+          memoryRequest: true,
+        },
+        ok: true,
+      })
+      return
+    }
     noteExplicitImageRequestFromUserMessage({
       conversationId,
       userText: content,
     })
-    if (memoryRequest) {
-      void scheduleMemoryImageRecallFromUserTurn({
-        conversationId,
-        userText: content,
-      })
-        .catch((error) => {
-          const message = error instanceof Error ? error.message : String(error)
-          console.warn(`Memory image recall scheduling failed: ${message}`)
-        })
-    }
+    await trackTraceActivitySafely({
+      activityType: 'trace.runtime.user_turn.decision',
+      summary: 'Kein Memory-Request, explizite Bildanfrage pruefen',
+      conversationId,
+      traceStage: 'routing',
+      traceKind: 'decision',
+      traceSource: 'runtime',
+      output: {
+        memoryRequest: false,
+      },
+      ok: true,
+    })
     return
   }
 
@@ -102,7 +143,8 @@ export const orchestrateCharacterRuntimeTurn = async (
   const lastUserText =
     [...details.messages].reverse().find((item) => item.role === 'user')?.content?.trim() ?? ''
   const activeLearningGoals = await loadLearningGoalRuntimeProfiles(runtimeContext.learningGoalIds ?? [])
-  const { relationshipsRequested, activitiesRequested } = detectRuntimeIntentContextFlags(lastUserText)
+  const runtimeIntentDecision = await detectRuntimeIntentModelDecision(lastUserText, content)
+  const { relationshipsRequested, activitiesRequested } = runtimeIntentDecision.flags
 
   let relationshipCount = 0
   if (relationshipsRequested) {
@@ -116,6 +158,7 @@ export const orchestrateCharacterRuntimeTurn = async (
     relationshipCount = relationshipResult.relationshipCount
     await readRelatedObjectsRuntimeTool().execute(runtimeToolContext, {
       relatedCharacterIds: relationshipResult.relatedCharacterIds,
+      relationshipLinks: relationshipResult.relationshipLinks,
     })
   }
 
@@ -131,12 +174,50 @@ export const orchestrateCharacterRuntimeTurn = async (
     recentActivityCount = activityResult.activityCount
   }
 
-  const decision = detectRuntimeIntent(lastUserText, content)
+  const detectedDecision = runtimeIntentDecision.decision ?? detectRuntimeIntent(lastUserText, content)
+  const decision =
+    detectedDecision ??
+    (ASSISTANT_VISUAL_MARKER_RE.test(content)
+      ? {
+          skillId: 'do-something' as const,
+          reason: 'degraded-visual-fallback',
+        }
+      : {
+          skillId: 'remember-something' as const,
+          reason: 'degraded-no-decision-fallback',
+        })
+  const degradedFallbackApplied = detectedDecision == null
+  const toolExecutionIntent = detectRuntimeToolExecutionIntent(lastUserText)
+  await trackTraceActivitySafely({
+    activityType: 'trace.runtime.decision.response',
+    summary: 'Runtime-Entscheidung abgeschlossen',
+    conversationId,
+    characterId,
+    characterName,
+    learningGoalIds: runtimeContext.learningGoalIds,
+    traceStage: 'routing',
+    traceKind: 'decision',
+    traceSource: 'runtime',
+    input: {
+      lastUserText: lastUserText.slice(0, 240),
+      assistantText: content.slice(0, 240),
+    },
+    output: {
+      skillId: decision?.skillId,
+      reason: decision?.reason,
+      preDegradedSkillId: detectedDecision?.skillId ?? null,
+      preDegradedReason: detectedDecision?.reason ?? null,
+      degradedFallbackApplied,
+      toolExecutionTaskId: toolExecutionIntent?.taskId,
+      relationshipsRequested,
+      activitiesRequested,
+      routingDecisionSource: runtimeIntentDecision.source,
+    },
+    ok: true,
+  })
   // #region agent log
   fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N3',location:'characterRuntimeOrchestrator.ts:orchestrate:decision',message:'Intent-Entscheidung erstellt',data:{conversationId,lastUserText,assistantText:content,decisionSkillId:decision?.skillId ?? null,decisionReason:decision?.reason ?? null},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
-  if (!decision) return
-
   const playbook = getCharacterAgentSkillPlaybook(decision.skillId)
   await trackRuntimeActivitySafely({
     activityType: 'runtime.skill.routed',
@@ -160,6 +241,9 @@ export const orchestrateCharacterRuntimeTurn = async (
       availableSkillIds: CHARACTER_AGENT_SKILL_PLAYBOOKS.map((item) => item.id),
       relationshipCount,
       recentActivityCount,
+      toolExecutionTaskId: toolExecutionIntent?.taskId,
+      toolExecutionDryRun: toolExecutionIntent?.dryRun,
+      toolExecutionReason: toolExecutionIntent?.reason,
       sourceEventType: input.eventType,
     },
   })
@@ -170,5 +254,25 @@ export const orchestrateCharacterRuntimeTurn = async (
     assistantText: content,
     lastUserText,
     eventType: input.eventType,
+    characterId,
+    characterName,
+    learningGoalIds: runtimeContext.learningGoalIds,
+    toolExecutionIntent,
+  })
+  await trackTraceActivitySafely({
+    activityType: 'trace.runtime.orchestration.response',
+    summary: 'Runtime-Orchestrierung abgeschlossen',
+    conversationId,
+    characterId,
+    characterName,
+    learningGoalIds: runtimeContext.learningGoalIds,
+    traceStage: 'egress',
+    traceKind: 'response',
+    traceSource: 'runtime',
+    output: {
+      skillId: decision.skillId,
+      reason: decision.reason,
+    },
+    ok: true,
   })
 }

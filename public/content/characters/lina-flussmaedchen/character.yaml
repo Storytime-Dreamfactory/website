@@ -68,15 +68,6 @@ herkunft:
   historische_praegung:
     - Flussgeschichten und Legenden der Aeltesten
   notizen: Die Herkunft praegt Linas Liebe zu Geschichten, Natur und kleinen Raeumen am Wasser.
-relationships:
-  characters:
-    - character_id: nola
-      typ: beste Freundin
-      beschreibung: Nola und Lina verbringen fast jeden Tag zusammen am Fluss; Lina bewundert Nolas Mut.
-  places:
-    - place_id: whispering-meadow
-      typ: Lieblingswiese
-      beschreibung: Hier liest Lina oft oder sammelt Blumen, wenn sie nachdenkt.
 bilder:
   standard_figur:
     datei: /content/characters/lina-flussmaedchen/standard-figur.png

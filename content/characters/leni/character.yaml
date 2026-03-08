@@ -74,21 +74,6 @@ herkunft:
     - lernte frueh, juengere Kinder beim Spielen mitzunehmen
     - wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt
   notizen: Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung.
-relationships:
-  characters:
-    - character_id: juna-lia
-      typ: beste_freundin
-      beschreibung: Juna Lia ist Lenis beste Freundin; mit ihr ist Leni besonders mutig, aktiv und voller Ideen.
-    - character_id: yoko
-      typ: gute_freundin
-      beschreibung: Yoko ist eine gute Freundin von Leni; ihre waermende Naehe gibt Leni schnell Sicherheit.
-    - character_id: wilma
-      typ: huendin
-      beschreibung: Wilma ist Lenis Huendin; mit ihr fuehlt sich Leni geborgen, lacht viel und kommt schnell in Bewegung.
-  places:
-    - place_id: whispering-meadow
-      typ: lieblingsort
-      beschreibung: Auf der Wiese kann Leni frei spielen, lachen und neue Gruppenspiele erfinden.
 bilder:
   standard_figur:
     datei: /content/characters/leni/standard-figur.png

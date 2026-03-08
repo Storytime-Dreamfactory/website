@@ -64,9 +64,6 @@ herkunft:
   historische_praegung:
     - gepraegt von regionalen Festen, Handwerk und starker lokaler Identitaet
   notizen: Herkunft dient als nuancierte Praegung fuer Tonfall, Werte und Perspektive. Regionale oder kulturelle Hinweise sollen respektvoll und nicht karikierend genutzt werden.
-relationships:
-  characters:
-  places: []
 bilder:
   standard_figur:
     datei: /content/characters/romi/standard-figur.png

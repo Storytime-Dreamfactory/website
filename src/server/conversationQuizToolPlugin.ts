@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 import {
-  displayExistingImageToolApi,
+  showImageToolApi,
   runLearningGoalQuizToolApi,
 } from './runtime/tools/toolApiService.ts'
 
@@ -61,20 +61,21 @@ const registerConversationQuizToolApi = (middlewares: MiddlewareStack): void => 
         return
       }
 
-      if (requestUrl.pathname === '/display-existing-image') {
+      // Legacy alias bleibt vorerst aktiv, primärer Tool-Pfad ist /show-image.
+      if (requestUrl.pathname === '/show-image' || requestUrl.pathname === '/display-existing-image') {
         const body = await readJsonBody(request)
         const conversationId = readText(body.conversationId)
         const queryText = readText(body.queryText) || undefined
         // #region agent log
-        fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H1',location:'conversationQuizToolPlugin.ts:/display-existing-image:request',message:'API-Aufruf display-existing-image eingegangen',data:{conversationId,hasQueryText:Boolean(queryText)},timestamp:Date.now()})}).catch(()=>{})
+        fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H1',location:'conversationQuizToolPlugin.ts:/show-image:request',message:'API-Aufruf show-image eingegangen',data:{conversationId,hasQueryText:Boolean(queryText)},timestamp:Date.now()})}).catch(()=>{})
         // #endregion
-        const image = await displayExistingImageToolApi({
+        const image = await showImageToolApi({
           conversationId,
           queryText,
         })
         if (!image) {
           // #region agent log
-          fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H3',location:'conversationQuizToolPlugin.ts:/display-existing-image:not-found',message:'display-existing-image liefert kein Bild',data:{conversationId},timestamp:Date.now()})}).catch(()=>{})
+          fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H3',location:'conversationQuizToolPlugin.ts:/show-image:not-found',message:'show-image liefert kein Bild',data:{conversationId},timestamp:Date.now()})}).catch(()=>{})
           // #endregion
           json(response, 404, {
             error:
@@ -83,7 +84,7 @@ const registerConversationQuizToolApi = (middlewares: MiddlewareStack): void => 
           return
         }
         // #region agent log
-        fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H4',location:'conversationQuizToolPlugin.ts:/display-existing-image:ok',message:'display-existing-image liefert Bild',data:{conversationId,reason:image.reason,imageUrl:image.imageUrl},timestamp:Date.now()})}).catch(()=>{})
+        fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'H4',location:'conversationQuizToolPlugin.ts:/show-image:ok',message:'show-image liefert Bild',data:{conversationId,reason:image.reason,imageUrl:image.imageUrl},timestamp:Date.now()})}).catch(()=>{})
         // #endregion
         json(response, 200, { image })
         return

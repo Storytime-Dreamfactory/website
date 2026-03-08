@@ -14,7 +14,6 @@ Optionale DB-Initialisierung:
 
 ```bash
 npm run db:init-relationships
-npm run db:seed-relationships
 ```
 
 Wichtige Umgebungsvariablen:
@@ -24,12 +23,10 @@ Wichtige Umgebungsvariablen:
 
 ## 2. Relationships
 
-### 2.1 Aus YAML in DB seeden
-
-Der Seed liest `relationships.characters[]` aus `content/characters/*/character.yaml`:
+### 2.1 Relationship-DB initialisieren
 
 ```bash
-npm run db:seed-relationships
+npm run db:init-relationships
 ```
 
 ### 2.2 Beziehungen eines Characters abfragen
@@ -225,10 +222,10 @@ Weitere Argumente:
 
 ## 7. Codex-Prompt-Vorlagen
 
-### Relationships aus YAML seeden
+### Relationships per API pflegen
 
 ```text
-Lies docs/content-model.md und AGENTS.md. Aktualisiere relationships.characters in content/characters/nola/character.yaml, spiegele nach public/content/characters/nola/character.yaml, update public/content-manifest.json und fuehre npm run db:seed-relationships aus.
+Lies docs/content-model.md und AGENTS.md. Lege oder aktualisiere die Beziehung zwischen zwei Characters direkt ueber POST /api/relationships und pruefe das Ergebnis mit GET /api/relationships/?characterId=<id>.
 ```
 
 ### Conversation-Ende-zu-Ende testen

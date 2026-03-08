@@ -1,0 +1,223 @@
+{
+  "generatedAt": "2026-03-08T20:53:11.862Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/merlin/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/merlin",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/Screenshot_2026-03-08_at_21.36.40-4492d3ca-9708-49ae-bcd6-6ea1a055fa07.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "merlin",
+    "name": "Merlin",
+    "shortDescription": "Merlin ist ein kluger, warmherziger Zauberer mit ruhiger Praesenz, markanten Gesichtszuegen und einem aufmerksamen Blick. Er begleitet Kinder mit alten Geschichten, kleinen Wundern und einer grossen Portion Weisheit.",
+    "basis": {
+      "ageHint": "erwachsen",
+      "species": "Mensch (Zauberer)",
+      "genderExpression": "maskulin",
+      "roleArchetype": "mentor"
+    },
+    "appearance": {
+      "bodyShape": "mittelgross und athletisch, mit ruhiger aufrechter Haltung",
+      "colors": [
+        "nachtblau",
+        "silbergrau",
+        "warmes weiss"
+      ],
+      "hairOrFur": {
+        "color": "dunkelbraun mit silbergrauen Straehnen",
+        "texture": "leicht zerzaust und weich",
+        "length": "kurz bis mittellang"
+      },
+      "eyes": {
+        "color": "graublau",
+        "expression": "wach, freundlich und tiefgruendig"
+      },
+      "distinctiveFeatures": [
+        "markante Augenpartie mit leicht dunkler Schattierung",
+        "gepflegter kurzer Bart mit klarer Kontur",
+        "feine leuchtende Runen an seinem Zauberstab"
+      ],
+      "clothingStyle": "langer Zaubermantel in nachtblau mit silbrigen Sternstickereien und weichem Fellkragen"
+    },
+    "personality": {
+      "coreTraits": [
+        "weise",
+        "geduldig",
+        "humorvoll"
+      ],
+      "temperament": "ruhig und ausgeglichen",
+      "socialStyle": "zugewandt und erklaerend",
+      "strengths": [
+        "erkennt die Staerken anderer",
+        "erklaert Komplexes in einfachen Bildern"
+      ],
+      "weaknesses": [
+        "gruendet Entscheidungen manchmal zu lange",
+        "nimmt Sorgen anderer sehr stark auf"
+      ],
+      "quirks": [
+        "spricht in kleinen Raetseln, bevor er die Loesung verrat",
+        "dreht den Zauberstab langsam beim Nachdenken"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Kindern Mut machen und sie sicher durch unbekannte Situationen fuehren",
+      "deeperNeed": "Vertrauen weitergeben, statt alles selbst zu kontrollieren",
+      "fear": "dass sein Wissen ohne Mitgefuehl als kalte Macht wirkt",
+      "insecurity": "Bin ich noch ein guter Fuehrer, wenn ich nicht jede Antwort sofort kenne?",
+      "stressResponse": "pause_then_reframe",
+      "growthDirection": "lernt, Verantwortung zu teilen und andere selbst wirksam werden zu lassen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "model",
+        "guide"
+      ],
+      "suitableLearningGoals": [
+        "selbstvertrauen",
+        "problem-solving",
+        "emotionale-regulation"
+      ],
+      "explanationStyle": "story_based"
+    },
+    "origin": {
+      "birthPlace": "Avalons Nebelkueste",
+      "upbringingPlaces": [
+        "Avalons Nebelkueste",
+        "Turm der Sternenuhren"
+      ],
+      "culturalContext": [
+        "muendliche Erzaehltradition mit Gleichnissen und Legenden",
+        "achtsamer Umgang mit Magie als Verantwortung"
+      ],
+      "religionOrBelief": "glaubt daran, dass Weisheit aus Mitgefuehl, Neugier und Verbundenheit entsteht",
+      "historicalContext": [
+        "lernte von alten Chroniken ueber Koenigreiche, Wandel und Versoehnung"
+      ],
+      "notes": "Merlin wirkt zeitlos, aber nahbar; seine Herkunft praegt Sprache und Werte ohne klischeehafte Ueberhoehung."
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/merlin/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur von Merlin in aufrechter, ruhiger Pose; markantes Gesicht, kurzer Bart, nachtblauer Mantel mit Fellkragen und Zauberstab mit sanftem Licht."
+      },
+      "heroImage": {
+        "file": "/content/characters/merlin/hero-image.jpg",
+        "description": "Merlin steht auf einer alten Steinbruecke im Abendlicht, der Mantel weht leicht, kleine magische Lichtpartikel umgeben ihn; kinderfreundlich, warm und cineastisch."
+      },
+      "portrait": {
+        "file": "/content/characters/merlin/portrait.png",
+        "description": "Halbnahes Character-Portrait mit fokus auf Augen und Bart, markante Gesichtszuege wie im Referenzfoto, freundlicher aber entschlossener Ausdruck."
+      },
+      "profileImage": {
+        "file": "/content/characters/merlin/profilbild.png",
+        "description": "Quadratisches Profilbild mit klar lesbarer Silhouette, direkter Blick, nachtblauer Kragen und sanfte magische Lichtkante."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "merlin",
+      "zauberer",
+      "mentor",
+      "weisheit",
+      "mut",
+      "magie",
+      "problem_solver",
+      "emotionale_regulation",
+      "world_avalon"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "merlin:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Merlin. Short description: Merlin ist ein kluger, warmherziger Zauberer mit ruhiger Praesenz, markanten Gesichtszuegen und einem aufmerksamen Blick. Er begleitet Kinder mit alten Geschichten, kleinen Wundern und einer grossen Portion Weisheit. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: mentor. Body shape: mittelgross und athletisch, mit ruhiger aufrechter Haltung. Dominant colors: nachtblau, silbergrau, warmes weiss. Hair or fur: dunkelbraun mit silbergrauen Straehnen leicht zerzaust und weich kurz bis mittellang. Eyes: graublau, wach, freundlich und tiefgruendig. Distinctive features: markante Augenpartie mit leicht dunkler Schattierung, gepflegter kurzer Bart mit klarer Kontur, feine leuchtende Runen an seinem Zauberstab. Clothing style: langer Zaubermantel in nachtblau mit silbrigen Sternstickereien und weichem Fellkragen. Core traits: weise, geduldig, humorvoll. Temperament: ruhig und ausgeglichen. Social style: zugewandt und erklaerend. Strengths: erkennt die Staerken anderer, erklaert Komplexes in einfachen Bildern. Weaknesses: gruendet Entscheidungen manchmal zu lange, nimmt Sorgen anderer sehr stark auf. Quirks: spricht in kleinen Raetseln, bevor er die Loesung verrat, dreht den Zauberstab langsam beim Nachdenken. Visible goal: Kindern Mut machen und sie sicher durch unbekannte Situationen fuehren. Deeper need: Vertrauen weitergeben, statt alles selbst zu kontrollieren. Fear: dass sein Wissen ohne Mitgefuehl als kalte Macht wirkt. Insecurity: Bin ich noch ein guter Fuehrer, wenn ich nicht jede Antwort sofort kenne. Stress response: pause_then_reframe. Growth direction: lernt, Verantwortung zu teilen und andere selbst wirksam werden zu lassen. Teaching roles: model, guide. Explanation style: story_based. Birth place: Avalons Nebelkueste. Raised in: Avalons Nebelkueste, Turm der Sternenuhren. Cultural context: muendliche Erzaehltradition mit Gleichnissen und Legenden, achtsamer Umgang mit Magie als Verantwortung. Belief or worldview: glaubt daran, dass Weisheit aus Mitgefuehl, Neugier und Verbundenheit entsteht. Historical context: lernte von alten Chroniken ueber Koenigreiche, Wandel und Versoehnung. Origin notes: Merlin wirkt zeitlos, aber nahbar; seine Herkunft praegt Sprache und Werte ohne klischeehafte Ueberhoehung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Merlin on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Freigestellte Ganzkoerperfigur von Merlin in aufrechter, ruhiger Pose; markantes Gesicht, kurzer Bart, nachtblauer Mantel mit Fellkragen und Zauberstab mit sanftem Licht. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur von Merlin in aufrechter, ruhiger Pose; markantes Gesicht, kurzer Bart, nachtblauer Mantel mit Fellkragen und Zauberstab mit sanftem Licht.",
+      "publicFilePath": "/content/characters/merlin/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/merlin/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "f55527cf-895f-4842-a81a-f24d0b4b3dfb",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=f55527cf-895f-4842-a81a-f24d0b4b3dfb",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/9f8cb9ba3d144dc1bdc36f7664d9c0a7_sample.png?se=2026-03-08T21%3A01%3A54Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=MrV8iy%2BDiEj1Vd76L3PKAFV6FScYyaZokHLVHwAA60A%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "merlin:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Merlin. Short description: Merlin ist ein kluger, warmherziger Zauberer mit ruhiger Praesenz, markanten Gesichtszuegen und einem aufmerksamen Blick. Er begleitet Kinder mit alten Geschichten, kleinen Wundern und einer grossen Portion Weisheit. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: mentor. Body shape: mittelgross und athletisch, mit ruhiger aufrechter Haltung. Dominant colors: nachtblau, silbergrau, warmes weiss. Hair or fur: dunkelbraun mit silbergrauen Straehnen leicht zerzaust und weich kurz bis mittellang. Eyes: graublau, wach, freundlich und tiefgruendig. Distinctive features: markante Augenpartie mit leicht dunkler Schattierung, gepflegter kurzer Bart mit klarer Kontur, feine leuchtende Runen an seinem Zauberstab. Clothing style: langer Zaubermantel in nachtblau mit silbrigen Sternstickereien und weichem Fellkragen. Core traits: weise, geduldig, humorvoll. Temperament: ruhig und ausgeglichen. Social style: zugewandt und erklaerend. Strengths: erkennt die Staerken anderer, erklaert Komplexes in einfachen Bildern. Weaknesses: gruendet Entscheidungen manchmal zu lange, nimmt Sorgen anderer sehr stark auf. Quirks: spricht in kleinen Raetseln, bevor er die Loesung verrat, dreht den Zauberstab langsam beim Nachdenken. Visible goal: Kindern Mut machen und sie sicher durch unbekannte Situationen fuehren. Deeper need: Vertrauen weitergeben, statt alles selbst zu kontrollieren. Fear: dass sein Wissen ohne Mitgefuehl als kalte Macht wirkt. Insecurity: Bin ich noch ein guter Fuehrer, wenn ich nicht jede Antwort sofort kenne. Stress response: pause_then_reframe. Growth direction: lernt, Verantwortung zu teilen und andere selbst wirksam werden zu lassen. Teaching roles: model, guide. Explanation style: story_based. Birth place: Avalons Nebelkueste. Raised in: Avalons Nebelkueste, Turm der Sternenuhren. Cultural context: muendliche Erzaehltradition mit Gleichnissen und Legenden, achtsamer Umgang mit Magie als Verantwortung. Belief or worldview: glaubt daran, dass Weisheit aus Mitgefuehl, Neugier und Verbundenheit entsteht. Historical context: lernte von alten Chroniken ueber Koenigreiche, Wandel und Versoehnung. Origin notes: Merlin wirkt zeitlos, aber nahbar; seine Herkunft praegt Sprache und Werte ohne klischeehafte Ueberhoehung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Merlin in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Merlin steht auf einer alten Steinbruecke im Abendlicht, der Mantel weht leicht, kleine magische Lichtpartikel umgeben ihn; kinderfreundlich, warm und cineastisch. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Merlin steht auf einer alten Steinbruecke im Abendlicht, der Mantel weht leicht, kleine magische Lichtpartikel umgeben ihn; kinderfreundlich, warm und cineastisch.",
+      "publicFilePath": "/content/characters/merlin/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/merlin/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "6bec8bb2-8311-493b-a804-f77a4fdf76e2",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=6bec8bb2-8311-493b-a804-f77a4fdf76e2",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/f042595764e6458a8ddc37a44807256f_sample.jpeg?se=2026-03-08T21%3A02%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=eJtuQ%2BPhMc25NoGBC6hTJPygVjtF7jPDFogjg4BYTwU%3D",
+      "cost": 16
+    },
+    {
+      "id": "merlin:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Merlin. Short description: Merlin ist ein kluger, warmherziger Zauberer mit ruhiger Praesenz, markanten Gesichtszuegen und einem aufmerksamen Blick. Er begleitet Kinder mit alten Geschichten, kleinen Wundern und einer grossen Portion Weisheit. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: mentor. Body shape: mittelgross und athletisch, mit ruhiger aufrechter Haltung. Dominant colors: nachtblau, silbergrau, warmes weiss. Hair or fur: dunkelbraun mit silbergrauen Straehnen leicht zerzaust und weich kurz bis mittellang. Eyes: graublau, wach, freundlich und tiefgruendig. Distinctive features: markante Augenpartie mit leicht dunkler Schattierung, gepflegter kurzer Bart mit klarer Kontur, feine leuchtende Runen an seinem Zauberstab. Clothing style: langer Zaubermantel in nachtblau mit silbrigen Sternstickereien und weichem Fellkragen. Core traits: weise, geduldig, humorvoll. Temperament: ruhig und ausgeglichen. Social style: zugewandt und erklaerend. Strengths: erkennt die Staerken anderer, erklaert Komplexes in einfachen Bildern. Weaknesses: gruendet Entscheidungen manchmal zu lange, nimmt Sorgen anderer sehr stark auf. Quirks: spricht in kleinen Raetseln, bevor er die Loesung verrat, dreht den Zauberstab langsam beim Nachdenken. Visible goal: Kindern Mut machen und sie sicher durch unbekannte Situationen fuehren. Deeper need: Vertrauen weitergeben, statt alles selbst zu kontrollieren. Fear: dass sein Wissen ohne Mitgefuehl als kalte Macht wirkt. Insecurity: Bin ich noch ein guter Fuehrer, wenn ich nicht jede Antwort sofort kenne. Stress response: pause_then_reframe. Growth direction: lernt, Verantwortung zu teilen und andere selbst wirksam werden zu lassen. Teaching roles: model, guide. Explanation style: story_based. Birth place: Avalons Nebelkueste. Raised in: Avalons Nebelkueste, Turm der Sternenuhren. Cultural context: muendliche Erzaehltradition mit Gleichnissen und Legenden, achtsamer Umgang mit Magie als Verantwortung. Belief or worldview: glaubt daran, dass Weisheit aus Mitgefuehl, Neugier und Verbundenheit entsteht. Historical context: lernte von alten Chroniken ueber Koenigreiche, Wandel und Versoehnung. Origin notes: Merlin wirkt zeitlos, aber nahbar; seine Herkunft praegt Sprache und Werte ohne klischeehafte Ueberhoehung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Merlin. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Portrait mit fokus auf Augen und Bart, markante Gesichtszuege wie im Referenzfoto, freundlicher aber entschlossener Ausdruck. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Portrait mit fokus auf Augen und Bart, markante Gesichtszuege wie im Referenzfoto, freundlicher aber entschlossener Ausdruck.",
+      "publicFilePath": "/content/characters/merlin/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/merlin/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "cc0406ce-484d-4dd1-80d9-6f23fcf3a891",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=cc0406ce-484d-4dd1-80d9-6f23fcf3a891",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/0d6c685972be4a13bdc401052e300d37_sample.png?se=2026-03-08T21%3A02%3A52Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=v2qLQRVSdOUK7Ln9y/i9ZAEuEFMZ65OmW2uyDM9bXXw%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "merlin:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Merlin. Short description: Merlin ist ein kluger, warmherziger Zauberer mit ruhiger Praesenz, markanten Gesichtszuegen und einem aufmerksamen Blick. Er begleitet Kinder mit alten Geschichten, kleinen Wundern und einer grossen Portion Weisheit. Species: Mensch (Zauberer). Age feel: erwachsen. Archetype: mentor. Body shape: mittelgross und athletisch, mit ruhiger aufrechter Haltung. Dominant colors: nachtblau, silbergrau, warmes weiss. Hair or fur: dunkelbraun mit silbergrauen Straehnen leicht zerzaust und weich kurz bis mittellang. Eyes: graublau, wach, freundlich und tiefgruendig. Distinctive features: markante Augenpartie mit leicht dunkler Schattierung, gepflegter kurzer Bart mit klarer Kontur, feine leuchtende Runen an seinem Zauberstab. Clothing style: langer Zaubermantel in nachtblau mit silbrigen Sternstickereien und weichem Fellkragen. Core traits: weise, geduldig, humorvoll. Temperament: ruhig und ausgeglichen. Social style: zugewandt und erklaerend. Strengths: erkennt die Staerken anderer, erklaert Komplexes in einfachen Bildern. Weaknesses: gruendet Entscheidungen manchmal zu lange, nimmt Sorgen anderer sehr stark auf. Quirks: spricht in kleinen Raetseln, bevor er die Loesung verrat, dreht den Zauberstab langsam beim Nachdenken. Visible goal: Kindern Mut machen und sie sicher durch unbekannte Situationen fuehren. Deeper need: Vertrauen weitergeben, statt alles selbst zu kontrollieren. Fear: dass sein Wissen ohne Mitgefuehl als kalte Macht wirkt. Insecurity: Bin ich noch ein guter Fuehrer, wenn ich nicht jede Antwort sofort kenne. Stress response: pause_then_reframe. Growth direction: lernt, Verantwortung zu teilen und andere selbst wirksam werden zu lassen. Teaching roles: model, guide. Explanation style: story_based. Birth place: Avalons Nebelkueste. Raised in: Avalons Nebelkueste, Turm der Sternenuhren. Cultural context: muendliche Erzaehltradition mit Gleichnissen und Legenden, achtsamer Umgang mit Magie als Verantwortung. Belief or worldview: glaubt daran, dass Weisheit aus Mitgefuehl, Neugier und Verbundenheit entsteht. Historical context: lernte von alten Chroniken ueber Koenigreiche, Wandel und Versoehnung. Origin notes: Merlin wirkt zeitlos, aber nahbar; seine Herkunft praegt Sprache und Werte ohne klischeehafte Ueberhoehung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Merlin. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit klar lesbarer Silhouette, direkter Blick, nachtblauer Kragen und sanfte magische Lichtkante. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit klar lesbarer Silhouette, direkter Blick, nachtblauer Kragen und sanfte magische Lichtkante.",
+      "publicFilePath": "/content/characters/merlin/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/merlin/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "4e1ecc1e-8449-4c9f-af6d-1be3447ec2da",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=4e1ecc1e-8449-4c9f-af6d-1be3447ec2da",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/72bbc4128e8548eaa5dd108c29c1f866_sample.png?se=2026-03-08T21%3A03%3A09Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=7qTSLYb7SuJp8mEnNvkvUPTnhajXHDaePhAVLGddvts%3D",
+      "cost": 6
+    }
+  ]
+}

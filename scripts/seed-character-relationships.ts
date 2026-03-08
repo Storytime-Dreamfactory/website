@@ -13,9 +13,16 @@ type RelationshipYamlRecord = {
   beschreibung?: unknown
 }
 
+type RelatedPlaceYamlRecord = {
+  place_id?: unknown
+  typ?: unknown
+  beschreibung?: unknown
+}
+
 type CharacterYamlRecord = {
   relationships?: {
     characters?: unknown
+    places?: unknown
   }
 }
 
@@ -56,6 +63,25 @@ const run = async (): Promise<void> => {
     const rawYaml = await readFile(yamlPath, 'utf8')
     const parsed = parseYaml(rawYaml) as CharacterYamlRecord
     const relationships = parsed.relationships?.characters
+    const places = parsed.relationships?.places
+    const otherRelatedObjects = Array.isArray(places)
+      ? places
+          .filter((entry): entry is RelatedPlaceYamlRecord => Boolean(entry && typeof entry === 'object'))
+          .map((entry) => {
+            const placeId = typeof entry.place_id === 'string' ? entry.place_id.trim() : ''
+            if (!placeId) return null
+            const placeType = typeof entry.typ === 'string' ? entry.typ.trim() : undefined
+            const description =
+              typeof entry.beschreibung === 'string' ? entry.beschreibung.trim() || undefined : undefined
+            return {
+              type: 'place',
+              id: placeId,
+              label: placeType,
+              metadata: description ? { description } : undefined,
+            }
+          })
+          .filter((item): item is NonNullable<typeof item> => item !== null)
+      : []
 
     if (!Array.isArray(relationships)) {
       continue
@@ -98,6 +124,7 @@ const run = async (): Promise<void> => {
         relationship,
         description,
         metadata,
+        otherRelatedObjects,
       })
       insertedOrUpdated += 1
     }

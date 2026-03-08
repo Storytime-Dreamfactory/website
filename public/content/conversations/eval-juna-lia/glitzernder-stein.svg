@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#9fd3ff"/>
+      <stop offset="100%" stop-color="#dff3ff"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#71b8ff"/>
+      <stop offset="100%" stop-color="#3b84d9"/>
+    </linearGradient>
+    <radialGradient id="stoneGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#e8fbff"/>
+      <stop offset="55%" stop-color="#9de8ff"/>
+      <stop offset="100%" stop-color="#4fb8e8"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#sky)"/>
+  <ellipse cx="520" cy="760" rx="640" ry="220" fill="url(#water)" opacity="0.88"/>
+  <ellipse cx="520" cy="805" rx="680" ry="180" fill="#2d6bb3" opacity="0.25"/>
+
+  <path d="M140 760 C260 690, 380 710, 470 760 C520 790, 620 810, 760 770 C820 755, 900 760, 980 790 L980 1024 L140 1024 Z"
+        fill="#d2b792"/>
+  <path d="M80 860 C180 810, 290 820, 430 860 C550 895, 720 900, 950 860 L950 1024 L80 1024 Z"
+        fill="#c39f6b"/>
+
+  <g transform="translate(575 570)">
+    <ellipse cx="0" cy="120" rx="180" ry="56" fill="#58d3ff" opacity="0.36"/>
+    <path d="M0 0 L130 80 L70 220 L-70 220 L-130 80 Z" fill="url(#stoneGlow)" stroke="#b5f4ff" stroke-width="8"/>
+    <path d="M0 0 L0 220" stroke="#dffcff" stroke-width="6" opacity="0.75"/>
+    <path d="M130 80 L-130 80" stroke="#dffcff" stroke-width="5" opacity="0.65"/>
+    <path d="M70 220 L0 130 L-70 220" stroke="#dffcff" stroke-width="5" opacity="0.65"/>
+  </g>
+
+  <g fill="#f4fdff">
+    <circle cx="470" cy="515" r="7"/>
+    <circle cx="690" cy="515" r="8"/>
+    <circle cx="720" cy="610" r="6"/>
+    <circle cx="430" cy="620" r="6"/>
+    <circle cx="625" cy="460" r="5"/>
+    <circle cx="560" cy="460" r="5"/>
+  </g>
+
+  <g stroke="#f4fdff" stroke-width="4" stroke-linecap="round">
+    <line x1="470" y1="495" x2="470" y2="535"/>
+    <line x1="450" y1="515" x2="490" y2="515"/>
+    <line x1="690" y1="495" x2="690" y2="535"/>
+    <line x1="670" y1="515" x2="710" y2="515"/>
+  </g>
+
+  <text x="512" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" fill="#2f5f8f">
+    Juna Lia und der glitzernde Stein
+  </text>
+</svg>

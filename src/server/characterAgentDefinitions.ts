@@ -1,16 +1,21 @@
 export const CHARACTER_AGENT_TOOLS = {
   showImage: 'show_image',
   generateImage: 'generate_image',
-  displayExistingImage: 'display_existing_image',
+  runCliTask: 'run_cli_task',
   readActivities: 'read_activities',
+  readConversationHistory: 'read_conversation_history',
   readRelationships: 'read_relationships',
   readRelatedObjects: 'read_related_objects',
+  readRelatedObjectContexts: 'read_related_object_contexts',
 } as const
 
 export type CharacterAgentToolId =
   (typeof CHARACTER_AGENT_TOOLS)[keyof typeof CHARACTER_AGENT_TOOLS]
 
 export type CharacterAgentSkillPlaybookId =
+  | 'remember-something'
+  | 'do-something'
+  | 'request-context'
   | 'visual-expression'
   | 'run-quiz'
   | 'guided-explanation'
@@ -26,43 +31,42 @@ export type CharacterAgentSkillPlaybook = {
 
 export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
   {
-    id: 'visual-expression',
-    name: 'Visual Expression',
-    purpose: 'Macht Inhalte, Gefuehle oder Szenen mit Bildern sichtbar.',
+    id: 'remember-something',
+    name: 'Remember Something',
+    purpose: 'Erinnert sich an Erlebtes und zeigt bei Bedarf bestehende Bilder.',
     toolIds: [
-      CHARACTER_AGENT_TOOLS.generateImage,
-      CHARACTER_AGENT_TOOLS.showImage,
-      CHARACTER_AGENT_TOOLS.displayExistingImage,
-      CHARACTER_AGENT_TOOLS.readRelationships,
-    ],
-    promptPath: 'content/prompts/agent-skills/visual-expression.md',
-  },
-  {
-    id: 'run-quiz',
-    name: 'Run Quiz',
-    purpose: 'Fuehrt zu einem Lernziel ein kurzes Quiz oder Abfrageformat durch.',
-    toolIds: [CHARACTER_AGENT_TOOLS.readActivities, CHARACTER_AGENT_TOOLS.showImage],
-    promptPath: 'content/prompts/agent-skills/run-quiz.md',
-  },
-  {
-    id: 'guided-explanation',
-    name: 'Guided Explanation',
-    purpose: 'Erklaert ein Lernziel schrittweise, bildhaft und kindgerecht.',
-    toolIds: [
-      CHARACTER_AGENT_TOOLS.displayExistingImage,
       CHARACTER_AGENT_TOOLS.showImage,
       CHARACTER_AGENT_TOOLS.readActivities,
-      CHARACTER_AGENT_TOOLS.readRelationships,
+      CHARACTER_AGENT_TOOLS.readConversationHistory,
       CHARACTER_AGENT_TOOLS.readRelatedObjects,
+      CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
     ],
-    promptPath: 'content/prompts/agent-skills/guided-explanation.md',
+    promptPath: 'content/prompts/agent-skills/remember-something.md',
   },
   {
-    id: 'micro-reflection',
-    name: 'Micro Reflection',
-    purpose: 'Regt kurze Selbstbeobachtung oder Rueckfragen an.',
-    toolIds: [CHARACTER_AGENT_TOOLS.readActivities],
-    promptPath: 'content/prompts/agent-skills/micro-reflection.md',
+    id: 'do-something',
+    name: 'Do Something',
+    purpose: 'Fuehrt eine angefragte Aktion aus und erzeugt bei Bedarf neue Szenen.',
+    toolIds: [
+      CHARACTER_AGENT_TOOLS.readActivities,
+      CHARACTER_AGENT_TOOLS.showImage,
+      CHARACTER_AGENT_TOOLS.generateImage,
+      CHARACTER_AGENT_TOOLS.runCliTask,
+      CHARACTER_AGENT_TOOLS.readRelatedObjects,
+      CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
+    ],
+    promptPath: 'content/prompts/agent-skills/do-something.md',
+  },
+  {
+    id: 'request-context',
+    name: 'Request Context',
+    purpose: 'Laedt fehlenden Kontext aus Beziehungen und verknuepften Objekten nach.',
+    toolIds: [
+      CHARACTER_AGENT_TOOLS.readRelationships,
+      CHARACTER_AGENT_TOOLS.readRelatedObjects,
+      CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
+    ],
+    promptPath: 'content/prompts/agent-skills/request-context.md',
   },
 ]
 

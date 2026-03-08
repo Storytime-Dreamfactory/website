@@ -10,7 +10,7 @@ Diese Regeln gelten fuer redaktionelle Pflege von Storytime-Content.
 - `distinctive_features` beschreibt wiedererkennbare Merkmale, nicht nur Stimmung.
 - `bilder.*.beschreibung` beschreibt das Bildziel und nicht den technischen Workflow.
 - `herkunft` beschreibt kulturelle, historische und regionale Praegung nuanciert und respektvoll.
-- `relationships` bleibt flach, soll aber echte Bindungen zu Characters und Orten sauber abbilden.
+- Relationships werden nicht in Character-YAML gepflegt; dafuer ausschliesslich die Relationship-DB/API verwenden.
 
 ## Spiegelung
 

@@ -94,6 +94,7 @@ export default function VoiceChatButton({ character }: Props) {
   const rafRef = useRef<number>(0)
   const conversationIdRef = useRef<string | null>(null)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
+  const recoverySentForCurrentTurnRef = useRef(false)
 
   const startConversationSession = useCallback(async (): Promise<string | null> => {
     try {
@@ -317,6 +318,7 @@ export default function VoiceChatButton({ character }: Props) {
           const micRelevantEvent =
             assistantSpeechStarted ||
             eventType === 'conversation.item.input_audio_transcription.completed' ||
+            eventType === 'conversation.item.input_audio_transcription.failed' ||
             eventType === 'input_audio_buffer.speech_started' ||
             eventType === 'input_audio_buffer.speech_stopped' ||
             eventType === 'response.audio_transcript.done' ||
@@ -341,10 +343,55 @@ export default function VoiceChatButton({ character }: Props) {
             setIsMicMutedByAssistant(true)
           }
 
+          if (eventType === 'input_audio_buffer.speech_started') {
+            recoverySentForCurrentTurnRef.current = false
+          }
+
           if (eventType === 'conversation.item.input_audio_transcription.completed') {
             const transcript = typeof payload.transcript === 'string' ? payload.transcript : ''
             if (transcript) {
               void appendMessage('user', transcript, eventType)
+            }
+            return
+          }
+
+          if (eventType === 'conversation.item.input_audio_transcription.failed') {
+            const dc = dataChannelRef.current
+            if (dc?.readyState === 'open' && !recoverySentForCurrentTurnRef.current) {
+              recoverySentForCurrentTurnRef.current = true
+              dc.send(
+                JSON.stringify({
+                  type: 'response.create',
+                  response: {
+                    modalities: ['audio', 'text'],
+                    instructions:
+                      'Bitte antworte freundlich auf Deutsch und bitte das Kind, den letzten Satz langsam zu wiederholen.',
+                  },
+                }),
+              )
+            }
+            return
+          }
+
+          if (eventType === 'response.done') {
+            const response = payload.response as { output?: unknown[] } | undefined
+            const outputLength = Array.isArray(response?.output) ? response.output.length : 0
+
+            if (outputLength === 0) {
+              const dc = dataChannelRef.current
+              if (dc?.readyState === 'open' && !recoverySentForCurrentTurnRef.current) {
+                recoverySentForCurrentTurnRef.current = true
+                dc.send(
+                  JSON.stringify({
+                    type: 'response.create',
+                    response: {
+                      modalities: ['audio', 'text'],
+                      instructions:
+                        'Bitte antworte jetzt mit einem kurzen freundlichen Satz auf Deutsch.',
+                    },
+                  }),
+                )
+              }
             }
             return
           }
@@ -407,7 +454,6 @@ export default function VoiceChatButton({ character }: Props) {
           }, 2000)
         }
       }
-
       setState('connected')
       monitorAudio()
     } catch {

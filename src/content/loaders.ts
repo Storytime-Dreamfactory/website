@@ -101,15 +101,22 @@ const mergeRelationshipsFromDatabase = async (
       ...character,
       relationships: {
         characters: relationshipMap.get(character.id) ?? [],
-        places: character.relationships?.places ?? [],
+        places: [],
       },
     }))
 
     return { characters: mergedCharacters }
   } catch (error) {
+    const normalizedCharacters = characters.map((character) => ({
+      ...character,
+      relationships: {
+        characters: [],
+        places: [],
+      },
+    }))
     return {
-      characters,
-      warning: `DB relationships unavailable, fallback to YAML relationships: ${String(error)}`,
+      characters: normalizedCharacters,
+      warning: `DB relationships unavailable: ${String(error)}`,
     }
   }
 }

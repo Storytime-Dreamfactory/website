@@ -10,12 +10,18 @@ import {
   getCharacterAgentSkillPlaybook,
 } from './characterAgentDefinitions.ts'
 import { appendConversationMessage, getConversationDetails } from './conversationStore.ts'
+import { contextFromMetadata } from './conversationRuntimeContext.ts'
 import { listRelationshipsForCharacter } from './relationshipStore.ts'
 import { storeConversationImageAsset } from './conversationImageAssetStore.ts'
+import { trackTraceActivitySafely } from './traceActivity.ts'
 import {
   buildCharacterInteractionTargets,
   buildInteractionMetadata,
 } from './activityInteractionMetadata.ts'
+import {
+  collateRelatedCharacterObjects,
+  selectImageReferencesForPrompt,
+} from './runtime/context/contextCollationService.ts'
 
 type CharacterYaml = {
   id?: string
@@ -61,6 +67,14 @@ const MAX_POLL_ATTEMPTS = 90
 const MIN_PROMPT_LENGTH = 18
 const MAX_PROMPT_LENGTH = 700
 const CONVERSATION_COOLDOWN_MS = 25_000
+const PAST_OR_MEMORY_CUE_RE =
+  /(erinner|erinnerst|weisst du noch|weißt du noch|damals|frueher|früher|letztes mal|vorherige conversation|fruehere conversation|frühere conversation|vorhin|schon|bereits|wieder|nochmal|noch einmal|gestern|frueheren|früheren)/i
+const VISUAL_REQUEST_RE =
+  /(bild|szene|zeigen|zeig|illustrier|zeichn|mal\s+mir|visualisier|generier|erstell|erschaff|mach.*bild)/i
+const EXPLICIT_NEW_IMAGE_RE =
+  /(neues?\s+bild|neue\s+szene|bild.*neu|bild.*erstellen|bild.*generier|generier.*bild|erstell.*bild|erschaff.*bild|male.*bild|zeichne.*bild|illustrie?re.*bild|visualisiere?.*bild|mach.*neues?\s+bild)/i
+const FUTURE_CUE_RE =
+  /(in\s+zukunft|spaeter|später|morgen|naechstes?\s+mal|nächstes?\s+mal|als\s+naechstes|als\s+nächstes|fuer\s+spaeter|für\s+später|fuer\s+morgen|für\s+morgen)/i
 
 const lastGenerationByConversation = new Map<string, number>()
 const pendingConversationGenerations = new Set<string>()
@@ -136,11 +150,13 @@ const extractExplicitUserWish = (userText: string): string => {
 const hasExplicitImageRequest = (userText: string): boolean => {
   const normalized = clampText(userText)
   if (!normalized) return false
-  if (extractExplicitUserWish(normalized)) return true
+  if (PAST_OR_MEMORY_CUE_RE.test(normalized)) return false
+  if (!VISUAL_REQUEST_RE.test(normalized)) return false
 
-  return /(bild|szene|zeigen|zeig|illustrier|zeichn|mal\s+mir|visualisier|generier).{0,80}(bitte|mal|jetzt)?/i.test(
-    normalized,
-  )
+  const asksExplicitlyForNewImage =
+    EXPLICIT_NEW_IMAGE_RE.test(normalized) || /(^|\s)neu($|\s)/i.test(normalized)
+  const pointsToFuture = FUTURE_CUE_RE.test(normalized)
+  return asksExplicitlyForNewImage || pointsToFuture
 }
 
 export const noteExplicitImageRequestFromUserMessage = (input: {
@@ -152,7 +168,13 @@ export const noteExplicitImageRequestFromUserMessage = (input: {
   const userText = clampText(input.userText)
   if (!hasExplicitImageRequest(userText)) return
   pendingExplicitImageRequestsByConversation.set(conversationId, userText)
-  console.log(`[conversation-image] queued explicit image request (conversationId=${conversationId})`)
+  console.log(`[conversation-image] queued explicit new-image request (conversationId=${conversationId})`)
+}
+
+export const clearExplicitImageRequestForConversation = (conversationId: string): void => {
+  const normalized = conversationId.trim()
+  if (!normalized) return
+  pendingExplicitImageRequestsByConversation.delete(normalized)
 }
 
 const extractScenePrompt = (
@@ -510,6 +532,35 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
   const queuedUserRequestText = pendingExplicitImageRequestsByConversation.get(conversationId) ?? ''
   pendingExplicitImageRequestsByConversation.delete(conversationId)
   markGenerationAttempt(conversationId)
+  let preloadedConversationDetails:
+    | Awaited<ReturnType<typeof getConversationDetails>>
+    | undefined
+  let preloadedTraceCharacterId: string | undefined
+  let preloadedTraceLearningGoalIds: string[] | undefined
+  try {
+    preloadedConversationDetails = await getConversationDetails(conversationId)
+    preloadedTraceCharacterId = preloadedConversationDetails.conversation.characterId
+    preloadedTraceLearningGoalIds = contextFromMetadata(
+      preloadedConversationDetails.conversation.metadata,
+    ).learningGoalIds
+  } catch {
+    // Wenn die Conversation nicht geladen werden kann, loggen wir ohne Character-Felder.
+  }
+  await trackTraceActivitySafely({
+    activityType: 'trace.tool.generate_image.request',
+    summary: 'generate_image gestartet',
+    conversationId,
+    characterId: preloadedTraceCharacterId,
+    learningGoalIds: preloadedTraceLearningGoalIds,
+    traceStage: 'tool',
+    traceKind: 'request',
+    traceSource: 'runtime',
+    input: {
+      eventType: input.eventType,
+      queuedUserRequestText: queuedUserRequestText.slice(0, 240),
+      assistantText: input.assistantText.slice(0, 240),
+    },
+  })
 
   pendingConversationGenerations.add(conversationId)
   let activityContext:
@@ -520,7 +571,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       }
     | undefined
   try {
-    const details = await getConversationDetails(conversationId)
+    const details = preloadedConversationDetails ?? (await getConversationDetails(conversationId))
     const messages = details.messages
     const lastUserText =
       queuedUserRequestText ||
@@ -607,14 +658,50 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
     const relatedCandidates = await Promise.all(
       relatedCharacterIds.slice(0, 8).map((relatedId) => loadCharacterReference(relatedId)),
     )
-    const requestedRelatedCharacters = selectRequestedRelatedCharacters(
+    const heuristicRequestedRelatedCharacters = selectRequestedRelatedCharacters(
       scenePrompt,
       lastUserText,
       relatedCandidates,
     )
-    const referencedRelatedCharacters = requestedRelatedCharacters.filter(
-      (related) => related.standardReferencePath,
+    const relationshipLinks = relationships.map((relationship) => ({
+      relatedCharacterId:
+        relationship.direction === 'outgoing'
+          ? relationship.targetCharacterId
+          : relationship.sourceCharacterId,
+      direction: relationship.direction,
+      relationshipType: relationship.relationshipType,
+      relationshipTypeReadable: relationship.relationshipTypeReadable,
+      relationship: relationship.relationship,
+      description: relationship.description,
+      metadata: relationship.metadata,
+      otherRelatedObjects: relationship.otherRelatedObjects,
+    }))
+    const collatedRelatedObjects = await collateRelatedCharacterObjects({
+      relatedCharacterIds,
+      relationshipLinks,
+    })
+    const referenceSelection = await selectImageReferencesForPrompt({
+      scenePrompt,
+      lastUserText,
+      relatedObjects: collatedRelatedObjects,
+      maxRelatedReferences: 5,
+    })
+    const relatedCandidateById = new Map(
+      relatedCandidates.map((candidate) => [candidate.characterId, candidate] as const),
     )
+    const selectedRelatedCharacterIds = Array.from(
+      new Set(referenceSelection.selectedReferences.map((item) => item.objectId.trim()).filter(Boolean)),
+    )
+    const requestedRelatedCharacters =
+      selectedRelatedCharacterIds.length > 0
+        ? selectedRelatedCharacterIds
+            .map((id) => relatedCandidateById.get(id))
+            .filter((item): item is CharacterReference => item != null)
+        : heuristicRequestedRelatedCharacters
+    const referencedRelatedCharacters =
+      selectedRelatedCharacterIds.length > 0
+        ? requestedRelatedCharacters
+        : requestedRelatedCharacters.filter((related) => related.standardReferencePath)
     const interactionTargets = buildCharacterInteractionTargets(
       requestedRelatedCharacters.map((related) => ({
         characterId: related.characterId,
@@ -622,9 +709,16 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       })),
     )
     const interactionMetadata = buildInteractionMetadata(characterId, interactionTargets)
-    const relatedReferencePaths = referencedRelatedCharacters
+    const relatedReferencePathsFromSelection = referenceSelection.selectedReferences
+      .map((item) => item.imagePath.trim())
+      .filter((item, index, all) => item.length > 0 && all.indexOf(item) === index)
+    const relatedReferencePathsFromFallback = referencedRelatedCharacters
       .flatMap((related) => (related.standardReferencePath ? [related.standardReferencePath] : []))
       .filter((value, index, array) => value.length > 0 && array.indexOf(value) === index)
+    const relatedReferencePaths =
+      relatedReferencePathsFromSelection.length > 0
+        ? relatedReferencePathsFromSelection
+        : relatedReferencePathsFromFallback
 
     // Zwischenstufe: erst generischer Storytime-Scene-Intent, dann dedizierter FLUX-Edit-Prompt.
     const sceneIntentPrompt = buildHeroPrompt(characterId, scenePrompt, yaml)
@@ -661,6 +755,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         imageGenerationPrompt: fluxEditPrompt,
         model: requestResult.model,
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        selectedReferences: referenceSelection.selectedReferences,
         ...interactionMetadata,
       },
     })
@@ -716,7 +811,26 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       requestId: requestResult.requestId,
       prefix: 'generated',
     })
-    const imageUrl = storedImage?.localUrl ?? remoteImageUrl
+    if (!storedImage?.localUrl) {
+      await trackImageActivitySafely({
+        activityType: 'tool.image.failed',
+        isPublic: false,
+        characterId,
+        characterName,
+        conversationId,
+        metadata: {
+          summary: `${characterName} konnte das Bild nicht lokal speichern`,
+          skillId: VISUAL_EXPRESSION_SKILL?.id,
+          toolId: CHARACTER_AGENT_TOOLS.generateImage,
+          requestId: requestResult.requestId,
+          reason: 'local-asset-store-failed',
+          originalImageUrl: remoteImageUrl,
+        },
+      })
+      return
+    }
+
+    const imageUrl = storedImage.localUrl
     const summary = buildImageGeneratedSummary(characterName, scenePrompt)
 
     await appendConversationMessage({
@@ -743,6 +857,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
         relatedCharacterIds: requestedRelatedCharacters.map((related) => related.characterId),
         relatedCharacterNames: requestedRelatedCharacters.map((related) => related.name),
+        selectedReferences: referenceSelection.selectedReferences,
         ...interactionMetadata,
       },
     })
@@ -806,8 +921,24 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
         relatedCharacterIds: requestedRelatedCharacters.map((related) => related.characterId),
         relatedCharacterNames: requestedRelatedCharacters.map((related) => related.name),
+        selectedReferences: referenceSelection.selectedReferences,
         ...interactionMetadata,
       },
+    })
+    await trackTraceActivitySafely({
+      activityType: 'trace.tool.generate_image.response',
+      summary: 'generate_image erfolgreich',
+      conversationId,
+      characterId,
+      characterName,
+      traceStage: 'tool',
+      traceKind: 'response',
+      traceSource: 'runtime',
+      output: {
+        imageUrl,
+        requestId: requestResult.requestId,
+      },
+      ok: true,
     })
   } catch (error) {
     // Bild-Generierung ist best-effort und darf den Conversation-Flow nicht stoeren.
@@ -829,6 +960,18 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       })
     }
     console.warn(`Conversation image generation skipped: ${message}`)
+    await trackTraceActivitySafely({
+      activityType: 'trace.tool.generate_image.error',
+      summary: 'generate_image fehlgeschlagen',
+      conversationId,
+      characterId: activityContext?.characterId,
+      characterName: activityContext?.characterName,
+      traceStage: 'tool',
+      traceKind: 'error',
+      traceSource: 'runtime',
+      ok: false,
+      error: message,
+    })
   } finally {
     pendingConversationGenerations.delete(conversationId)
   }

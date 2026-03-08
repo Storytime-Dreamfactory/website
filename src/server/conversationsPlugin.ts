@@ -8,6 +8,7 @@ import {
   type ConversationMetadata,
 } from './conversationStore.ts'
 import { createActivity } from './activityStore.ts'
+import { trackTraceActivitySafely } from './traceActivity.ts'
 import { triggerConversationEndedService } from './conversationLifecycleService.ts'
 import {
   orchestrateCharacterRuntimeTurn,
@@ -47,7 +48,7 @@ const toMetadata = (value: unknown): ConversationMetadata | undefined => {
   return value as ConversationMetadata
 }
 
-const DEFAULT_COUNTERPART_PERSON = 'Kind'
+const DEFAULT_COUNTERPART_PERSON = 'Yoko'
 const CONVERSATION_LINK_LABEL = 'Conversation ansehen'
 
 const toDisplayName = (value: string): string => {
@@ -160,9 +161,35 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         const content = typeof body.content === 'string' ? body.content : ''
         const eventType = typeof body.eventType === 'string' ? body.eventType : undefined
         const metadata = toMetadata(body.metadata)
+        let conversationCharacterId: string | undefined
+        let conversationLearningGoalIds: string[] | undefined
+        try {
+          const details = await getConversationDetails(conversationId)
+          conversationCharacterId = details.conversation.characterId
+          const context = contextFromMetadata(details.conversation.metadata)
+          conversationLearningGoalIds = context.learningGoalIds
+        } catch {
+          // Falls die Conversation nicht aufgeloest werden kann, behalten wir den bisherigen Fallback.
+        }
         // #region agent log
         fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N1',location:'conversationsPlugin.ts:/api/conversations/message',message:'Conversation message API empfangen',data:{conversationId,role,eventType,contentPreview:content.slice(0,120)},timestamp:Date.now()})}).catch(()=>{})
         // #endregion
+
+        await trackTraceActivitySafely({
+          activityType: 'trace.conversation.input.request',
+          summary: 'Conversation message eingegangen',
+          conversationId,
+          characterId: conversationCharacterId,
+          learningGoalIds: conversationLearningGoalIds,
+          traceStage: 'ingress',
+          traceKind: 'request',
+          traceSource: eventType?.startsWith('response.') ? 'realtime' : 'api',
+          input: {
+            role,
+            eventType,
+            contentPreview: content.slice(0, 240),
+          },
+        })
 
         const message = await appendConversationMessage({
           conversationId,
@@ -175,8 +202,9 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         await trackActivitySafely({
           activityType: 'conversation.message.created',
           isPublic: false,
+          characterId: conversationCharacterId,
           placeId: context.placeId,
-          learningGoalIds: context.learningGoalIds,
+          learningGoalIds: context.learningGoalIds ?? conversationLearningGoalIds,
           conversationId: message.conversationId,
           subject: {
             type: 'conversation',
@@ -192,6 +220,20 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         })
 
         if (role === 'user' || role === 'assistant') {
+          await trackTraceActivitySafely({
+            activityType: 'trace.runtime.orchestration.request',
+            summary: 'Runtime-Orchestrierung gestartet',
+            conversationId,
+            characterId: conversationCharacterId,
+            learningGoalIds: conversationLearningGoalIds,
+            traceStage: 'routing',
+            traceKind: 'request',
+            traceSource: 'runtime',
+            input: {
+              role,
+              eventType,
+            },
+          })
           void orchestrateCharacterRuntimeTurn({
             conversationId,
             role: role as 'user' | 'assistant',
@@ -200,6 +242,18 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
           }).catch((error) => {
             const reason = error instanceof Error ? error.message : String(error)
             console.warn(`Character runtime orchestration failed: ${reason}`)
+            void trackTraceActivitySafely({
+              activityType: 'trace.runtime.orchestration.error',
+              summary: 'Runtime-Orchestrierung fehlgeschlagen',
+              conversationId,
+              characterId: conversationCharacterId,
+              learningGoalIds: conversationLearningGoalIds,
+              traceStage: 'routing',
+              traceKind: 'error',
+              traceSource: 'runtime',
+              ok: false,
+              error: reason,
+            })
           })
         }
 

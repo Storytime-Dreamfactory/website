@@ -16,7 +16,7 @@ export const runLearningGoalQuizToolApi = async (input: {
     source: 'api',
   })
 
-export const displayExistingImageToolApi = async (input: {
+export const showImageToolApi = async (input: {
   conversationId: string
   queryText?: string
 }) =>

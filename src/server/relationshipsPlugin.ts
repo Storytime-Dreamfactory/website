@@ -5,7 +5,9 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 import { parse as parseYaml } from 'yaml'
 import {
+  type CharacterRelatedObject,
   listAllRelationships,
+  listRelationshipsByOtherRelatedObject,
   listRelationshipsForCharacter,
   upsertCharacterRelationship,
   type CharacterRelationshipMetadata,
@@ -80,6 +82,22 @@ const toMetadata = (value: unknown): CharacterRelationshipMetadata | undefined =
   return value as CharacterRelationshipMetadata
 }
 
+const toOtherRelatedObjects = (value: unknown): CharacterRelatedObject[] | undefined => {
+  if (!Array.isArray(value)) return undefined
+  const parsed = value
+    .filter((item): item is Record<string, unknown> => Boolean(item && typeof item === 'object'))
+    .map((item) => ({
+      type: typeof item.type === 'string' ? item.type : '',
+      id: typeof item.id === 'string' ? item.id : '',
+      label: typeof item.label === 'string' ? item.label : undefined,
+      metadata:
+        item.metadata && typeof item.metadata === 'object' && !Array.isArray(item.metadata)
+          ? (item.metadata as Record<string, unknown>)
+          : undefined,
+    }))
+  return parsed
+}
+
 const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
   middlewares.use('/api/relationships', async (request, response, next) => {
     try {
@@ -102,6 +120,23 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
 
         const relationships = await listRelationshipsForCharacter(characterId)
         json(response, 200, { relationships })
+        return
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/by-object') {
+        const type = requestUrl.searchParams.get('type')?.trim() || ''
+        const id = requestUrl.searchParams.get('id')?.trim() || ''
+        if (!type) {
+          json(response, 400, { error: 'type ist erforderlich.' })
+          return
+        }
+        if (!id) {
+          json(response, 400, { error: 'id ist erforderlich.' })
+          return
+        }
+
+        const matches = await listRelationshipsByOtherRelatedObject(type, id)
+        json(response, 200, { type, id, matches })
         return
       }
 
@@ -158,6 +193,7 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
         const relationship = typeof body.relationship === 'string' ? body.relationship : ''
         const description = typeof body.description === 'string' ? body.description : undefined
         const metadata = toMetadata(body.metadata)
+        const otherRelatedObjects = toOtherRelatedObjects(body.otherRelatedObjects)
 
         const storedRelationship = await upsertCharacterRelationship({
           sourceCharacterId,
@@ -167,6 +203,7 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
           relationship,
           description,
           metadata,
+          otherRelatedObjects,
         })
 
         json(response, 201, { relationship: storedRelationship })

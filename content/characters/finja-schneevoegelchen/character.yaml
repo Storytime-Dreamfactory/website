@@ -68,15 +68,6 @@ herkunft:
   historische_praegung:
     - lange Winter mit viel Zusammenhalt in der Vogelschar
   notizen: Herkunft betont das Miteinander und die Bedeutung kleiner, freundlicher Gesten
-relationships:
-  characters:
-    - character_id: romi
-      typ: Vorbild
-      beschreibung: Findet Romis Hilfsbereitschaft bewundernswert und traut sich dank ihr mehr zu.
-  places:
-    - place_id: whispering-meadow
-      typ: Lieblingsort
-      beschreibung: Hier beobachtet Finja oft andere Tiere und traeumt davon, mutig zu sein.
 bilder:
   standard_figur:
     datei: /content/characters/finja-schneevoegelchen/standard-figur.png

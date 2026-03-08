@@ -7,6 +7,13 @@ export type CharacterRelationshipDirection = 'outgoing' | 'incoming'
 
 export type CharacterRelationshipMetadata = Record<string, unknown>
 
+export type CharacterRelatedObject = {
+  type: string
+  id: string
+  label?: string
+  metadata?: Record<string, unknown>
+}
+
 export type CharacterRelationshipRecord = {
   relationshipId: string
   sourceCharacterId: string
@@ -16,6 +23,7 @@ export type CharacterRelationshipRecord = {
   relationship: string
   description?: string
   metadata?: CharacterRelationshipMetadata
+  otherRelatedObjects: CharacterRelatedObject[]
   createdAt: string
   updatedAt: string
 }
@@ -28,6 +36,7 @@ export type UpsertCharacterRelationshipInput = {
   relationship: string
   description?: string
   metadata?: CharacterRelationshipMetadata
+  otherRelatedObjects?: CharacterRelatedObject[]
 }
 
 type ListRelationshipsForCharacterResult = Array<
@@ -46,6 +55,7 @@ type CharacterRelationshipRow = {
   relationship: string
   description: string | null
   metadata: CharacterRelationshipMetadata | null
+  other_related_objects: CharacterRelatedObject[] | null
   created_at: string
   updated_at: string
 }
@@ -68,7 +78,12 @@ const getPool = (): Pool => {
 
 const ensureSchemaReady = async (): Promise<void> => {
   if (!schemaEnsurePromise) {
-    schemaEnsurePromise = ensureCharacterRelationshipTable().then(() => undefined)
+    schemaEnsurePromise = ensureCharacterRelationshipTable()
+      .then(() => undefined)
+      .catch((error) => {
+        schemaEnsurePromise = null
+        throw error
+      })
   }
   await schemaEnsurePromise
 }
@@ -93,19 +108,125 @@ const mapRowToRelationshipRecord = (
   relationship: row.relationship,
   description: row.description ?? undefined,
   metadata: row.metadata ?? undefined,
+  otherRelatedObjects: Array.isArray(row.other_related_objects) ? row.other_related_objects : [],
   createdAt: new Date(row.created_at).toISOString(),
   updatedAt: new Date(row.updated_at).toISOString(),
 })
 
-const normalizeInput = (input: UpsertCharacterRelationshipInput): UpsertCharacterRelationshipInput => ({
-  sourceCharacterId: input.sourceCharacterId.trim(),
-  targetCharacterId: input.targetCharacterId.trim(),
-  relationshipType: input.relationshipType.trim(),
-  relationshipTypeReadable: input.relationshipTypeReadable?.trim(),
-  relationship: input.relationship.trim(),
-  description: input.description?.trim(),
-  metadata: input.metadata,
-})
+const normalizeOtherRelatedObjects = (items: CharacterRelatedObject[] | undefined): CharacterRelatedObject[] => {
+  if (!Array.isArray(items)) return []
+
+  const uniqueByTypeAndId = new Map<string, CharacterRelatedObject>()
+  for (const item of items) {
+    if (!item || typeof item !== 'object') continue
+    const type = typeof item.type === 'string' ? item.type.trim() : ''
+    const id = typeof item.id === 'string' ? item.id.trim() : ''
+    if (!type || !id) continue
+    const label = typeof item.label === 'string' && item.label.trim() ? item.label.trim() : undefined
+    const metadata =
+      item.metadata && typeof item.metadata === 'object' && !Array.isArray(item.metadata)
+        ? item.metadata
+        : undefined
+    uniqueByTypeAndId.set(`${type.toLowerCase()}#${id.toLowerCase()}`, {
+      type,
+      id,
+      label,
+      metadata,
+    })
+  }
+
+  return Array.from(uniqueByTypeAndId.values())
+}
+
+const slugifyRelationshipType = (value: string): string =>
+  value
+    .trim()
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ß/g, 'ss')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+
+const humanizeRelationshipType = (value: string): string =>
+  value
+    .split('_')
+    .filter(Boolean)
+    .join(' ')
+    .trim()
+
+const deriveSemanticRelationshipType = (rawValues: string[]): string => {
+  const normalizedValues = rawValues
+    .map((value) => value.trim().toLowerCase())
+    .filter((value) => value.length > 0)
+
+  if (
+    normalizedValues.some((value) => value.includes('beste') && value.includes('freund'))
+  ) {
+    return 'beste_freundin'
+  }
+  if (
+    normalizedValues.some((value) => value.includes('gute') && value.includes('freund'))
+  ) {
+    return 'gute_freundin'
+  }
+  if (normalizedValues.some((value) => value.includes('schwester'))) {
+    return 'schwester'
+  }
+  if (normalizedValues.some((value) => value.includes('bruder'))) {
+    return 'bruder'
+  }
+  if (normalizedValues.some((value) => value.includes('geschwister'))) {
+    return 'geschwister'
+  }
+  if (
+    normalizedValues.some(
+      (value) =>
+        value.includes('furcht') ||
+        value.includes('fuercht') ||
+        (value.includes('angst') && value.includes('vor')),
+    )
+  ) {
+    return 'fuerchtet_sich_vor'
+  }
+
+  const explicitType = slugifyRelationshipType(rawValues[0] ?? '')
+  if (explicitType) return explicitType
+
+  for (const value of rawValues.slice(1)) {
+    const fallbackType = slugifyRelationshipType(value)
+    if (fallbackType) return fallbackType
+  }
+
+  return ''
+}
+
+const normalizeInput = (input: UpsertCharacterRelationshipInput): UpsertCharacterRelationshipInput => {
+  const sourceCharacterId = input.sourceCharacterId.trim()
+  const targetCharacterId = input.targetCharacterId.trim()
+  const rawRelationshipType = input.relationshipType.trim()
+  const rawRelationshipTypeReadable = input.relationshipTypeReadable?.trim() ?? ''
+  const rawRelationship = input.relationship.trim()
+  const relationshipType = deriveSemanticRelationshipType([
+    rawRelationshipType,
+    rawRelationshipTypeReadable,
+    rawRelationship,
+  ])
+  const relationship = rawRelationship || rawRelationshipTypeReadable || humanizeRelationshipType(relationshipType)
+  const relationshipTypeReadable =
+    rawRelationshipTypeReadable || relationship || humanizeRelationshipType(relationshipType)
+
+  return {
+    sourceCharacterId,
+    targetCharacterId,
+    relationshipType,
+    relationshipTypeReadable,
+    relationship,
+    description: input.description?.trim(),
+    metadata: input.metadata,
+    otherRelatedObjects: normalizeOtherRelatedObjects(input.otherRelatedObjects),
+  }
+}
 
 const validateInput = (input: UpsertCharacterRelationshipInput): void => {
   if (!input.sourceCharacterId) {
@@ -115,10 +236,10 @@ const validateInput = (input: UpsertCharacterRelationshipInput): void => {
     throw new Error('targetCharacterId ist erforderlich.')
   }
   if (!input.relationshipType) {
-    throw new Error('relationshipType ist erforderlich.')
+    throw new Error('relationshipType, relationshipTypeReadable oder relationship ist erforderlich.')
   }
   if (!input.relationship) {
-    throw new Error('relationship ist erforderlich.')
+    throw new Error('relationshipTypeReadable oder relationship ist erforderlich.')
   }
 }
 
@@ -151,9 +272,10 @@ export const upsertCharacterRelationship = async (
       relationship_type_readable,
       relationship,
       description,
-      metadata
+      metadata,
+      other_related_objects
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8::jsonb)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8::jsonb, $9::jsonb)
     ON CONFLICT (relationship_id)
     DO UPDATE SET
       source_character_id = EXCLUDED.source_character_id,
@@ -163,6 +285,7 @@ export const upsertCharacterRelationship = async (
       relationship = EXCLUDED.relationship,
       description = EXCLUDED.description,
       metadata = EXCLUDED.metadata,
+      other_related_objects = EXCLUDED.other_related_objects,
       updated_at = NOW()
     RETURNING
       relationship_id,
@@ -173,6 +296,7 @@ export const upsertCharacterRelationship = async (
       relationship,
       description,
       metadata,
+      other_related_objects,
       created_at::text,
       updated_at::text
     `,
@@ -185,6 +309,7 @@ export const upsertCharacterRelationship = async (
       input.relationship,
       input.description ?? null,
       JSON.stringify(input.metadata ?? {}),
+      JSON.stringify(input.otherRelatedObjects ?? []),
     ],
   )
 
@@ -213,6 +338,7 @@ export const listRelationshipsForCharacter = async (
       relationship,
       description,
       metadata,
+      other_related_objects,
       created_at::text,
       updated_at::text,
       'outgoing'::text AS direction
@@ -230,6 +356,7 @@ export const listRelationshipsForCharacter = async (
       relationship,
       description,
       metadata,
+      other_related_objects,
       created_at::text,
       updated_at::text,
       'incoming'::text AS direction
@@ -282,6 +409,7 @@ export const listAllRelationships = async (): Promise<CharacterRelationshipRecor
       relationship,
       description,
       metadata,
+      other_related_objects,
       created_at::text,
       updated_at::text
     FROM character_relationships
@@ -290,6 +418,63 @@ export const listAllRelationships = async (): Promise<CharacterRelationshipRecor
   )
 
   return data.rows.map((row) => mapRowToRelationshipRecord(row))
+}
+
+export type RelationshipByRelatedObjectRecord = {
+  relationship: CharacterRelationshipRecord
+  matchedObject: CharacterRelatedObject
+}
+
+export const listRelationshipsByOtherRelatedObject = async (
+  type: string,
+  id: string,
+): Promise<RelationshipByRelatedObjectRecord[]> => {
+  await ensureSchemaReady()
+
+  const normalizedType = type.trim()
+  const normalizedId = id.trim()
+  if (!normalizedType) {
+    throw new Error('type ist erforderlich.')
+  }
+  if (!normalizedId) {
+    throw new Error('id ist erforderlich.')
+  }
+
+  const db = getPool()
+  const data = await db.query<CharacterRelationshipRow>(
+    `
+    SELECT
+      relationship_id,
+      source_character_id,
+      target_character_id,
+      relationship_type,
+      relationship_type_readable,
+      relationship,
+      description,
+      metadata,
+      other_related_objects,
+      created_at::text,
+      updated_at::text
+    FROM character_relationships
+    WHERE other_related_objects @> $1::jsonb
+    ORDER BY updated_at DESC
+    `,
+    [JSON.stringify([{ type: normalizedType, id: normalizedId }])],
+  )
+
+  return data.rows
+    .map((row) => {
+      const relationship = mapRowToRelationshipRecord(row)
+      const matchedObject =
+        relationship.otherRelatedObjects.find(
+          (item) =>
+            item.type.toLowerCase() === normalizedType.toLowerCase() &&
+            item.id.toLowerCase() === normalizedId.toLowerCase(),
+        ) ?? null
+      if (!matchedObject) return null
+      return { relationship, matchedObject }
+    })
+    .filter((item): item is RelationshipByRelatedObjectRecord => item !== null)
 }
 
 export const ensureCharacterRelationshipTable = async (
@@ -318,6 +503,7 @@ export const ensureCharacterRelationshipTable = async (
       relationship TEXT NOT NULL,
       description TEXT,
       metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+      other_related_objects JSONB NOT NULL DEFAULT '[]'::jsonb,
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     );
@@ -334,9 +520,19 @@ export const ensureCharacterRelationshipTable = async (
     ALTER TABLE character_relationships
       ADD COLUMN IF NOT EXISTS relationship_type_readable TEXT;
 
+    ALTER TABLE character_relationships
+      ADD COLUMN IF NOT EXISTS other_related_objects JSONB NOT NULL DEFAULT '[]'::jsonb;
+
     UPDATE character_relationships
     SET relationship_type_readable = relationship
     WHERE relationship_type_readable IS NULL OR relationship_type_readable = '';
+
+    UPDATE character_relationships
+    SET other_related_objects = '[]'::jsonb
+    WHERE other_related_objects IS NULL;
+
+    CREATE INDEX IF NOT EXISTS idx_character_relationships_other_related_objects
+      ON character_relationships USING GIN (other_related_objects);
   `)
 
   return { tableName: 'character_relationships', created: !existedBefore }

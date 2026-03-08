@@ -12,7 +12,8 @@
     "/content/characters/carla/character.yaml",
     "/content/characters/leni/character.yaml",
     "/content/characters/wilma/character.yaml",
-    "/content/characters/yoko/character.yaml"
+    "/content/characters/yoko/character.yaml",
+    "/content/characters/merlin/character.yaml"
   ],
   "places": [
     "/content/places/crystal-lake.yaml",

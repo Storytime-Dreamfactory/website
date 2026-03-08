@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { Button, Drawer, Tag, Typography } from 'antd'
-import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, CheckOutlined, CopyOutlined, HeartOutlined } from '@ant-design/icons'
 import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
 import CharacterActivityStream, { type CharacterActivityItem } from './CharacterActivityStream'
@@ -39,6 +39,11 @@ type ApiActivityRecord = {
   createdAt: string
 }
 
+type TraceToolEvent = {
+  toolId: string
+  kind: 'request' | 'response' | 'error'
+}
+
 type ApiConversationMessageRecord = {
   messageId: number
   conversationId: string
@@ -66,6 +71,9 @@ type ApiConversationDetails = {
 const HERO_TRANSITION_MS = 1100
 const MEMORY_OVERLAY_MS = 4600
 const MEMORY_OVERLAY_CHARACTER_IDS = new Set(['yoko'])
+const FIXED_USER_NAME = 'Yoko'
+const ACTIVITY_PAGE_SIZE = 500
+const MAX_ACTIVITY_PAGES = 20
 
 const readTextValue = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -77,8 +85,7 @@ const readActivityDisplayValue = (value: ApiActivityData | undefined): string | 
   readTextValue(value?.text) ??
   readTextValue(value?.name) ??
   readTextValue(value?.label) ??
-  readTextValue(value?.title) ??
-  readTextValue(value?.id)
+  readTextValue(value?.title)
 
 const readLocalAssetUrl = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -103,30 +110,59 @@ const readLocalAssetUrl = (value: unknown): string | undefined => {
   return undefined
 }
 
+const isLikelyBflUrl = (value: string): boolean => {
+  const normalized = value.toLowerCase()
+  return normalized.includes('bfl') || normalized.includes('black-forest-labs')
+}
+
+const pickPreferredImageUrl = (values: unknown[]): string | undefined => {
+  type Candidate = { url: string; score: number }
+  let best: Candidate | undefined
+
+  for (const raw of values) {
+    const localUrl = readLocalAssetUrl(raw)
+    if (localUrl) {
+      const candidate = { url: localUrl, score: 4 }
+      if (!best || candidate.score > best.score) best = candidate
+      continue
+    }
+
+    const textUrl = readTextValue(raw)
+    if (!textUrl) continue
+
+    const isRemote = textUrl.startsWith('http://') || textUrl.startsWith('https://')
+    const candidate: Candidate = {
+      url: textUrl,
+      score: !isRemote ? 3 : isLikelyBflUrl(textUrl) ? 1 : 2,
+    }
+    if (!best || candidate.score > best.score) best = candidate
+  }
+
+  return best?.url
+}
+
 const readActivityImageUrl = (activity: ApiActivityRecord): string | undefined =>
-  readLocalAssetUrl(activity.metadata.imageAssetPath) ??
-  readTextValue(activity.metadata.imageLinkUrl) ??
-  readTextValue(activity.metadata.heroImageUrl) ??
-  readTextValue(activity.metadata.imageLinkUrl) ??
-  readTextValue(activity.metadata.imageUrl) ??
-  readTextValue(activity.object.url)
+  pickPreferredImageUrl([
+    activity.metadata.imageAssetPath,
+    activity.metadata.heroImageUrl,
+    activity.metadata.imageUrl,
+    activity.metadata.imageLinkUrl,
+    activity.object.url,
+  ])
 
 const readMessageImageUrl = (message: ApiConversationMessageRecord): string | undefined => {
   const metadata = message.metadata
   if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
     return undefined
   }
-  return (
-    readLocalAssetUrl(metadata.imageAssetPath) ??
-    readTextValue(metadata.imageLinkUrl) ??
-    readTextValue(metadata.heroImageUrl) ??
-    readTextValue(metadata.imageUrl) ??
-    readTextValue(metadata.originalImageUrl)
-  )
+  return pickPreferredImageUrl([
+    metadata.imageAssetPath,
+    metadata.heroImageUrl,
+    metadata.imageUrl,
+    metadata.imageLinkUrl,
+    metadata.originalImageUrl,
+  ])
 }
-
-const hasMessageImage = (message: ApiConversationMessageRecord): boolean =>
-  Boolean(normalizeImageUrl(readMessageImageUrl(message)))
 
 const normalizeImageUrl = (value: string | undefined): string | undefined => {
   if (!value) return undefined
@@ -218,12 +254,29 @@ const humanizeActivityType = (activityType: string): string => {
   }
 }
 
-const buildActivitySummary = (activity: ApiActivityRecord, characterName: string): string => {
+const buildActivitySummary = (
+  activity: ApiActivityRecord,
+  characterName: string,
+  resolvedSubjectLabel: string,
+  resolvedObjectLabel?: string,
+): string => {
   const metadataSummary = readTextValue(activity.metadata.summary)
   if (metadataSummary) return metadataSummary
 
-  const subjectLabel = readActivityDisplayValue(activity.subject) ?? characterName
-  const objectLabel = readActivityDisplayValue(activity.object)
+  const subjectLabel = resolvedSubjectLabel || characterName
+  const objectLabel = resolvedObjectLabel
+
+  if (activity.activityType === 'conversation.message.created') {
+    const role = readActivityRole(activity)
+    if (role === 'user') {
+      return `${FIXED_USER_NAME} spricht mit ${characterName}`
+    }
+    if (role === 'assistant') {
+      return `${characterName} spricht mit ${FIXED_USER_NAME}`
+    }
+    return `${subjectLabel} spricht mit ${characterName}`
+  }
+
   const activityLabel = humanizeActivityType(activity.activityType)
 
   if (objectLabel) {
@@ -231,6 +284,51 @@ const buildActivitySummary = (activity: ApiActivityRecord, characterName: string
   }
 
   return `${subjectLabel} ${activityLabel}`
+}
+
+const activityTimeValue = (activity: ApiActivityRecord): number => {
+  const occurredAt = new Date(activity.occurredAt).getTime()
+  if (Number.isFinite(occurredAt)) return occurredAt
+  const createdAt = new Date(activity.createdAt).getTime()
+  if (Number.isFinite(createdAt)) return createdAt
+  return 0
+}
+
+const sortActivitiesDesc = (items: ApiActivityRecord[]): ApiActivityRecord[] =>
+  items.slice().sort((a, b) => activityTimeValue(b) - activityTimeValue(a))
+
+const isTechnicalActivityType = (activityType: string): boolean =>
+  activityType.startsWith('trace.') ||
+  activityType.startsWith('tool.') ||
+  activityType.startsWith('skill.') ||
+  activityType.startsWith('runtime.')
+
+const parseTraceToolEvent = (activity: ApiActivityRecord): TraceToolEvent | null => {
+  if (!activity.activityType.startsWith('trace.tool.')) return null
+  const traceStage = readTextValue(activity.metadata.traceStage)
+  if (traceStage && traceStage !== 'tool') return null
+  const match = activity.activityType.match(/^trace\.tool\.([a-z0-9_]+)\.(request|response|error)$/i)
+  if (!match) return null
+  const metadataKind = readTextValue(activity.metadata.traceKind)
+  const kind = (metadataKind ?? match[2]).toLowerCase()
+  if (kind !== 'request' && kind !== 'response' && kind !== 'error') return null
+  return {
+    toolId: match[1],
+    kind,
+  }
+}
+
+const readActivityRole = (activity: ApiActivityRecord): string | undefined =>
+  readTextValue(activity.object.role)?.toLowerCase()
+
+const formatTracePayload = (value: unknown): string => {
+  if (value == null) return ''
+  if (typeof value === 'string') return value
+  try {
+    return JSON.stringify(value, null, 2)
+  } catch {
+    return String(value)
+  }
 }
 
 export default function CharacterDetailPage({ content }: Props) {
@@ -241,12 +339,14 @@ export default function CharacterDetailPage({ content }: Props) {
   const pointerFrameRef = useRef<number | null>(null)
   const [apiRelationships, setApiRelationships] = useState<ApiRelationship[] | null>(null)
   const [apiActivities, setApiActivities] = useState<ApiActivityRecord[] | null>(null)
+  const [showTechnicalActivities, setShowTechnicalActivities] = useState(false)
   const [activityStreamConnected, setActivityStreamConnected] = useState(false)
   const [isConversationPanelOpen, setIsConversationPanelOpen] = useState(false)
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
   const [conversationDetails, setConversationDetails] = useState<ApiConversationDetails | null>(null)
   const [conversationLoading, setConversationLoading] = useState(false)
   const [conversationError, setConversationError] = useState<string | null>(null)
+  const [copiedConversationText, setCopiedConversationText] = useState(false)
   const [activeHeroUrl, setActiveHeroUrl] = useState<string | undefined>(undefined)
   const [incomingHeroUrl, setIncomingHeroUrl] = useState<string | null>(null)
   const [isMemoryOverlayActive, setIsMemoryOverlayActive] = useState(false)
@@ -428,7 +528,7 @@ export default function CharacterDetailPage({ content }: Props) {
         setApiActivities((current) => {
           const existing = current ?? []
           const withoutDuplicate = existing.filter((item) => item.activityId !== activity.activityId)
-          return [activity, ...withoutDuplicate].slice(0, 12)
+          return sortActivitiesDesc([activity, ...withoutDuplicate])
         })
       } catch {
         // ignore invalid stream payloads
@@ -462,15 +562,28 @@ export default function CharacterDetailPage({ content }: Props) {
       }
 
       try {
-        const response = await fetch(
-          `/api/activities?characterId=${encodeURIComponent(id)}&includeNonPublic=true&limit=12`,
-        )
-        if (!response.ok) {
-          throw new Error(`API status ${response.status}`)
+        const collected: ApiActivityRecord[] = []
+        for (let page = 0; page < MAX_ACTIVITY_PAGES; page += 1) {
+          const offset = page * ACTIVITY_PAGE_SIZE
+          const response = await fetch(
+            `/api/activities?characterId=${encodeURIComponent(id)}&includeNonPublic=true&limit=${ACTIVITY_PAGE_SIZE}&offset=${offset}`,
+          )
+          if (!response.ok) {
+            throw new Error(`API status ${response.status}`)
+          }
+          const payload = (await response.json()) as { activities?: ApiActivityRecord[] }
+          const pageItems = Array.isArray(payload.activities) ? payload.activities : []
+          collected.push(...pageItems)
+          if (pageItems.length < ACTIVITY_PAGE_SIZE) {
+            break
+          }
         }
-        const payload = (await response.json()) as { activities?: ApiActivityRecord[] }
         if (!cancelled) {
-          setApiActivities(Array.isArray(payload.activities) ? payload.activities : [])
+          const dedupedById = new Map<string, ApiActivityRecord>()
+          for (const activity of collected) {
+            dedupedById.set(activity.activityId, activity)
+          }
+          setApiActivities(sortActivitiesDesc(Array.from(dedupedById.values())))
         }
       } catch {
         if (!cancelled) {
@@ -490,53 +603,74 @@ export default function CharacterDetailPage({ content }: Props) {
     if (!character) return []
 
     const dbRelations = apiRelationships ?? []
-    if (dbRelations.length > 0) {
-      return dbRelations.flatMap((relation) => {
-        const relatedCharacterId =
-          relation.direction === 'outgoing' ? relation.targetCharacterId : relation.sourceCharacterId
-        const relatedCharacter = content.characters.find((candidate) => candidate.id === relatedCharacterId)
-        if (!relatedCharacter) return []
-
-        return [
-          {
-            char: relatedCharacter,
-            relationLabel: relation.relationshipTypeReadable || relation.relationship || relation.relationshipType,
-          },
-        ]
-      })
-    }
-
-    const fallbackRelations = character.relationships?.characters ?? []
-    return fallbackRelations.flatMap((relation) => {
-      const relatedCharacter = content.characters.find((candidate) => candidate.id === relation.characterId)
+    return dbRelations.flatMap((relation) => {
+      const relatedCharacterId =
+        relation.direction === 'outgoing' ? relation.targetCharacterId : relation.sourceCharacterId
+      const relatedCharacter = content.characters.find((candidate) => candidate.id === relatedCharacterId)
       if (!relatedCharacter) return []
-      return [{ char: relatedCharacter, relationLabel: relation.type }]
+      return [
+        {
+          char: relatedCharacter,
+          relationLabel: relation.relationshipTypeReadable || relation.relationship || relation.relationshipType,
+        },
+      ]
     })
   }, [apiRelationships, character, content.characters])
 
   const activityItems = useMemo<CharacterActivityItem[]>(() => {
     if (!character) return []
     if (!apiActivities || apiActivities.length === 0) return []
+    const sourceItems = showTechnicalActivities
+      ? apiActivities
+      : apiActivities.filter((activity) => !isTechnicalActivityType(activity.activityType))
 
-    return apiActivities.map((activity) => ({
-      id: activity.activityId,
-      timestamp: activity.occurredAt || activity.createdAt,
-      isPublic: activity.isPublic,
-      rawActivityType: activity.activityType,
-      subject: readActivityDisplayValue(activity.subject) ?? character.name,
-      activityType: humanizeActivityType(activity.activityType),
-      object: readActivityDisplayValue(activity.object) ?? 'Aktivitaet',
-      summary: buildActivitySummary(activity, character.name),
-      conversationId: activity.conversationId,
-      conversationUrl: readTextValue(activity.metadata.conversationUrl),
-      conversationLabel: readTextValue(activity.metadata.conversationLinkLabel),
-      imageUrl: normalizeImageUrl(
-        readTextValue(activity.metadata.imageLinkUrl) ?? readActivityImageUrl(activity),
-      ),
-      imageLabel: readTextValue(activity.metadata.imageLinkLabel),
-      imagePrompt: readTextValue(activity.metadata.imageGenerationPrompt),
-    }))
-  }, [apiActivities, character])
+    const resolvedTraceToolCalls = new Set<string>()
+    const pendingTraceRequestIds = new Set<string>()
+    for (const activity of sourceItems) {
+      const traceEvent = parseTraceToolEvent(activity)
+      if (!traceEvent) continue
+      const callKey = `${activity.conversationId ?? ''}:${traceEvent.toolId}`
+      if (traceEvent.kind === 'response' || traceEvent.kind === 'error') {
+        resolvedTraceToolCalls.add(callKey)
+        continue
+      }
+      if (traceEvent.kind === 'request' && !resolvedTraceToolCalls.has(callKey)) {
+        pendingTraceRequestIds.add(activity.activityId)
+      }
+    }
+
+    return sourceItems.map((activity) => {
+      const subjectLabel = readActivityDisplayValue(activity.subject) ?? character.name
+      const objectLabel =
+        readActivityDisplayValue(activity.object) ??
+        (activity.activityType === 'conversation.message.created'
+          ? character.name
+          : activity.activityType === 'conversation.started' ||
+              activity.activityType === 'conversation.ended'
+            ? 'Conversation'
+            : 'Aktivitaet')
+
+      return {
+        id: activity.activityId,
+        timestamp: activity.occurredAt || activity.createdAt,
+        isPublic: activity.isPublic,
+        rawActivityType: activity.activityType,
+        subject: subjectLabel,
+        activityType: humanizeActivityType(activity.activityType),
+        object: objectLabel,
+        summary: buildActivitySummary(activity, character.name, subjectLabel, objectLabel),
+        conversationId: activity.conversationId,
+        conversationUrl: readTextValue(activity.metadata.conversationUrl),
+        conversationLabel:
+          readTextValue(activity.metadata.conversationLinkLabel) ??
+          (activity.conversationId ? 'Conversation ansehen' : undefined),
+        imageUrl: normalizeImageUrl(readActivityImageUrl(activity)),
+        imageLabel: readTextValue(activity.metadata.imageLinkLabel),
+        imagePrompt: readTextValue(activity.metadata.imageGenerationPrompt),
+        isPending: pendingTraceRequestIds.has(activity.activityId),
+      }
+    })
+  }, [apiActivities, character, showTechnicalActivities])
 
   const openConversationPanel = useCallback(
     (conversationId: string) => {
@@ -556,12 +690,34 @@ export default function CharacterDetailPage({ content }: Props) {
   const closeConversationPanel = useCallback(() => {
     setIsConversationPanelOpen(false)
     setSelectedConversationId(null)
+    setCopiedConversationText(false)
     setSearchParams((current) => {
       const next = new URLSearchParams(current)
       next.delete('conversationId')
       return next
     })
   }, [setSearchParams])
+
+  const copyConversationText = useCallback(async () => {
+    const messages = conversationDetails?.messages ?? []
+    if (messages.length === 0) return
+    const transcriptText = messages
+      .slice()
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+      .map((message) => message.content.trim())
+      .filter(Boolean)
+      .join('\n\n')
+    if (!transcriptText) return
+    try {
+      await navigator.clipboard.writeText(transcriptText)
+      setCopiedConversationText(true)
+      window.setTimeout(() => {
+        setCopiedConversationText(false)
+      }, 1200)
+    } catch {
+      // ignore clipboard errors silently
+    }
+  }, [conversationDetails])
 
   if (!character) {
     return (
@@ -634,13 +790,38 @@ export default function CharacterDetailPage({ content }: Props) {
       '--character-hero-url': `url('${activeHeroUrl}')`,
     } as CSSProperties
   }, [activeHeroUrl])
-  const visibleConversationMessages = useMemo(
-    () =>
-      conversationDetails?.messages.filter((message) => {
-        if (message.role !== 'system') return true
-        return hasMessageImage(message)
-      }) ?? [],
-    [conversationDetails],
+  const conversationTimelineItems = useMemo(() => {
+    if (!selectedConversationId) return []
+
+    const messageItems = (conversationDetails?.messages ?? []).map((message) => {
+      const timestampMs = new Date(message.createdAt).getTime()
+      return {
+        kind: 'message' as const,
+        id: `message-${message.messageId}`,
+        timestampMs: Number.isFinite(timestampMs) ? timestampMs : 0,
+        message,
+      }
+    })
+
+    const eventItems = (apiActivities ?? [])
+      .filter((activity) => activity.conversationId === selectedConversationId)
+      .map((activity) => ({
+        kind: 'activity' as const,
+        id: `activity-${activity.activityId}`,
+        timestampMs: activityTimeValue(activity),
+        activity,
+      }))
+
+    return [...messageItems, ...eventItems].sort((a, b) => b.timestampMs - a.timestampMs)
+  }, [apiActivities, conversationDetails, selectedConversationId])
+
+  const formatConversationRoleLabel = useCallback(
+    (role: ApiConversationMessageRecord['role']): string => {
+      if (role === 'user') return FIXED_USER_NAME
+      if (role === 'assistant') return character?.name ?? 'Assistant'
+      return 'System'
+    },
+    [character?.name],
   )
 
   return (
@@ -727,6 +908,8 @@ export default function CharacterDetailPage({ content }: Props) {
         <CharacterActivityStream
           items={activityItems}
           isLive={activityStreamConnected}
+          showTechnicalActivities={showTechnicalActivities}
+          onToggleTechnicalActivities={(next) => setShowTechnicalActivities(next)}
           onOpenConversation={openConversationPanel}
           onSelectImage={(imageUrl, item) =>
             transitionToHeroUrl(imageUrl, {
@@ -741,6 +924,29 @@ export default function CharacterDetailPage({ content }: Props) {
 
       <Drawer
         title="Conversation"
+        extra={
+          selectedConversationId ? (
+            <Button
+              type="text"
+              size="small"
+              onClick={() => {
+                void copyConversationText()
+              }}
+              icon={copiedConversationText ? <CheckOutlined /> : <CopyOutlined />}
+              disabled={!conversationDetails || conversationDetails.messages.length === 0}
+              title={
+                copiedConversationText
+                  ? 'Conversation-Text kopiert'
+                  : 'Gesamten Conversation-Text kopieren'
+              }
+              aria-label={
+                copiedConversationText
+                  ? 'Conversation-Text kopiert'
+                  : 'Gesamten Conversation-Text in Zwischenablage kopieren'
+              }
+            />
+          ) : null
+        }
         placement="right"
         open={isConversationPanelOpen}
         onClose={closeConversationPanel}
@@ -769,32 +975,79 @@ export default function CharacterDetailPage({ content }: Props) {
               </p>
             )}
             <div className="conversation-drawer-messages">
-              {visibleConversationMessages.length === 0 ? (
-                <p className="conversation-drawer-state">Keine Messages gespeichert.</p>
+              {conversationTimelineItems.length === 0 ? (
+                <p className="conversation-drawer-state">Keine Events gespeichert.</p>
               ) : (
-                visibleConversationMessages.map((message) => {
-                  const messageImageUrl = normalizeImageUrl(readMessageImageUrl(message))
+                conversationTimelineItems.map((timelineItem) => {
+                  if (timelineItem.kind === 'message') {
+                    const message = timelineItem.message
+                    const messageImageUrl = normalizeImageUrl(readMessageImageUrl(message))
+                    return (
+                      <div key={timelineItem.id} className="conversation-drawer-message">
+                        <p className="conversation-drawer-message-meta">
+                          <span>{formatConversationRoleLabel(message.role)}</span>
+                          <span>{formatTimestamp(message.createdAt)}</span>
+                        </p>
+                        <p className="conversation-drawer-message-content">{message.content}</p>
+                        {messageImageUrl && (
+                          <button
+                            type="button"
+                            className="conversation-drawer-image-button"
+                            onClick={() => transitionToHeroUrl(messageImageUrl)}
+                            aria-label="Bild als Hero-Hintergrund anzeigen"
+                          >
+                            <img
+                              src={messageImageUrl}
+                              alt="Generiertes Conversation-Bild"
+                              className="conversation-drawer-image"
+                            />
+                          </button>
+                        )}
+                      </div>
+                    )
+                  }
+
+                  const activity = timelineItem.activity
+                  const subjectLabel = readActivityDisplayValue(activity.subject) ?? character.name
+                  const objectLabel = readActivityDisplayValue(activity.object) ?? 'Aktivitaet'
+                  const summary = buildActivitySummary(activity, character.name, subjectLabel, objectLabel)
+                  const traceInput = formatTracePayload(activity.metadata.input)
+                  const traceOutput = formatTracePayload(activity.metadata.output)
+                  const traceError = readTextValue(activity.metadata.error)
+                  const traceStage = readTextValue(activity.metadata.traceStage)
+                  const traceKind = readTextValue(activity.metadata.traceKind)
+                  const traceSource = readTextValue(activity.metadata.traceSource)
+                  const isTrace = activity.activityType.startsWith('trace.')
                   return (
-                    <div key={message.messageId} className="conversation-drawer-message">
+                    <div key={timelineItem.id} className="conversation-drawer-message conversation-drawer-event">
                       <p className="conversation-drawer-message-meta">
-                        <span>{message.role}</span>
-                        <span>{formatTimestamp(message.createdAt)}</span>
+                        <span>{activity.activityType}</span>
+                        <span>{formatTimestamp(activity.occurredAt || activity.createdAt)}</span>
                       </p>
-                      <p className="conversation-drawer-message-content">{message.content}</p>
-                      {messageImageUrl && (
-                        <button
-                          type="button"
-                          className="conversation-drawer-image-button"
-                          onClick={() => transitionToHeroUrl(messageImageUrl)}
-                          aria-label="Bild als Hero-Hintergrund anzeigen"
-                        >
-                          <img
-                            src={messageImageUrl}
-                            alt="Generiertes Conversation-Bild"
-                            className="conversation-drawer-image"
-                          />
-                        </button>
-                      )}
+                      <p className="conversation-drawer-message-content">{summary}</p>
+                      {isTrace ? (
+                        <p className="conversation-drawer-trace-meta">
+                          {traceStage ?? '-'} / {traceKind ?? '-'} / {traceSource ?? '-'}
+                        </p>
+                      ) : null}
+                      {traceInput ? (
+                        <div className="conversation-drawer-trace-block">
+                          <p className="conversation-drawer-trace-label">Input</p>
+                          <pre className="conversation-drawer-trace-pre">{traceInput}</pre>
+                        </div>
+                      ) : null}
+                      {traceOutput ? (
+                        <div className="conversation-drawer-trace-block">
+                          <p className="conversation-drawer-trace-label">Output</p>
+                          <pre className="conversation-drawer-trace-pre">{traceOutput}</pre>
+                        </div>
+                      ) : null}
+                      {traceError ? (
+                        <div className="conversation-drawer-trace-block">
+                          <p className="conversation-drawer-trace-label">Error</p>
+                          <pre className="conversation-drawer-trace-pre">{traceError}</pre>
+                        </div>
+                      ) : null}
                     </div>
                   )
                 })

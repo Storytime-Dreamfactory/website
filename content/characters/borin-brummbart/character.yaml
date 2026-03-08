@@ -68,12 +68,6 @@ herkunft:
   historische_praegung:
     - Zwergenlegenden ueber Mut und Standhaftigkeit
   notizen: Kann gut als Figur genutzt werden, um mit Kindern ueber Ehrlichkeit, Frust und Zugehoerigkeit zu sprechen.
-relationships:
-  characters: []
-  places:
-    - place_id: crystal-lake
-      typ: Lieblingsplatz
-      beschreibung: Geht gern an den See, wenn er nachdenken will
 bilder:
   standard_figur:
     datei: /content/characters/borin-brummbart/standard-figur.png

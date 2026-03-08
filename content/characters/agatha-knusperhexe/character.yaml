@@ -67,12 +67,6 @@ herkunft:
   historische_praegung:
     - Geschichten ueber verlorene Kinder und Hexen im Wald
   notizen: Prototypische Maerchenhexe, deutlich maerchenhaft und nicht realweltlich boese
-relationships:
-  characters: []
-  places:
-    - place_id: whispering-meadow
-      typ: Nachbarort
-      beschreibung: Kommt manchmal zum Kraeutersammeln bis an den Rand der Flusswiese
 bilder:
   standard_figur:
     datei: /content/characters/agatha-knusperhexe/standard-figur.png

@@ -15,6 +15,12 @@ import {
   buildInteractionMetadata,
   parseInteractionTargets,
 } from './activityInteractionMetadata.ts'
+import {
+  collateRelatedCharacterObjects,
+  resolveCharacterImageRefs,
+  selectImageReferencesForPrompt,
+} from './runtime/context/contextCollationService.ts'
+import { trackTraceActivitySafely } from './traceActivity.ts'
 
 type CharacterYaml = {
   id?: string
@@ -185,6 +191,20 @@ const buildHeroPrompt = (
 export const generateConversationHeroToolApi = async (
   input: GenerateConversationHeroToolInput,
 ): Promise<GenerateConversationHeroToolResult> => {
+  await trackTraceActivitySafely({
+    activityType: 'trace.tool.generate_conversation_hero.request',
+    summary: 'generate_conversation_hero gestartet',
+    conversationId: input.conversationId,
+    characterId: input.characterId,
+    characterName: input.characterId,
+    traceStage: 'tool',
+    traceKind: 'request',
+    traceSource: 'api',
+    input: {
+      scenePrompt: input.scenePrompt?.slice(0, 240),
+      styleHint: input.styleHint?.slice(0, 120),
+    },
+  })
   const apiKey = process.env.BFL_API_KEY?.trim()
   if (!apiKey) {
     throw new ConversationImageToolApiError(
@@ -231,6 +251,41 @@ export const generateConversationHeroToolApi = async (
   const prompt = buildHeroPrompt(characterId, scenePrompt, styleHint, characterYaml)
   const characterName = characterYaml?.name?.trim() || characterId
   const interactionMetadata = buildInteractionMetadata(characterId, interactionTargets)
+  const relatedCharacterLinks = interactionTargets
+    .filter((target) => target.type === 'character')
+    .map((target) => ({
+      relatedCharacterId: target.id,
+      direction: 'outgoing' as const,
+      relationshipType: 'interaction_target',
+      relationshipTypeReadable: 'Interaction Target',
+      relationship: 'interaction_target',
+      otherRelatedObjects: [] as Array<{
+        type: string
+        id: string
+        label?: string
+        metadata?: Record<string, unknown>
+      }>,
+    }))
+  const relatedObjects = await collateRelatedCharacterObjects({
+    relatedCharacterIds: relatedCharacterLinks.map((item) => item.relatedCharacterId),
+    relationshipLinks: relatedCharacterLinks,
+  })
+  const selectedReferences = await selectImageReferencesForPrompt({
+    scenePrompt,
+    lastUserText: scenePrompt,
+    relatedObjects,
+    maxRelatedReferences: 5,
+  })
+  const primaryImageRefs = await resolveCharacterImageRefs(characterId)
+  const primaryReferencePath = primaryImageRefs[0]?.path
+  const referenceImagePaths = [
+    primaryReferencePath,
+    ...selectedReferences.selectedReferences.map((item) => item.imagePath),
+  ]
+    .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+    .map((item) => path.resolve(workspaceRoot, 'public', item.replace(/^\/+/, '')))
+    .filter((item, index, all) => all.indexOf(item) === index)
+    .slice(0, 6)
   const client = new FluxClient(apiKey)
 
   try {
@@ -265,14 +320,25 @@ export const generateConversationHeroToolApi = async (
       },
     })
 
-    const requestResult = await client.generateTextToImage({
-      model,
-      prompt,
-      width,
-      height,
-      outputFormat: 'jpeg',
-      seed,
-    })
+    const requestResult =
+      referenceImagePaths.length > 0
+        ? await client.editImage({
+            model,
+            prompt,
+            width,
+            height,
+            outputFormat: 'jpeg',
+            seed,
+            referenceImagePaths,
+          })
+        : await client.generateTextToImage({
+            model,
+            prompt,
+            width,
+            height,
+            outputFormat: 'jpeg',
+            seed,
+          })
     await trackImageActivitySafely({
       activityType: 'tool.image.requested',
       isPublic: false,
@@ -288,6 +354,8 @@ export const generateConversationHeroToolApi = async (
         scenePrompt,
         imageGenerationPrompt: prompt,
         model,
+        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        selectedReferences: selectedReferences.selectedReferences,
         ...interactionMetadata,
       },
     })
@@ -341,7 +409,29 @@ export const generateConversationHeroToolApi = async (
       requestId: requestResult.id,
       prefix: 'tool',
     })
-    const imageUrl = storedImage?.localUrl ?? remoteImageUrl
+    if (!storedImage?.localUrl) {
+      await trackImageActivitySafely({
+        activityType: 'tool.image.failed',
+        isPublic: false,
+        characterId,
+        characterName,
+        conversationId,
+        metadata: {
+          summary: `${characterName} konnte das Bild nicht lokal speichern`,
+          skillId: VISUAL_EXPRESSION_SKILL?.id,
+          toolId: CHARACTER_AGENT_TOOLS.generateImage,
+          requestId: requestResult.id,
+          reason: 'local-asset-store-failed',
+          originalImageUrl: remoteImageUrl,
+        },
+      })
+      throw new ConversationImageToolApiError(
+        'Bild wurde erzeugt, konnte aber nicht lokal gespeichert werden.',
+        502,
+      )
+    }
+
+    const imageUrl = storedImage.localUrl
     const summary = buildImageGeneratedSummary(characterName, scenePrompt)
 
     await appendConversationMessage({
@@ -364,6 +454,8 @@ export const generateConversationHeroToolApi = async (
         height,
         seed,
         requestId: requestResult.id,
+        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        selectedReferences: selectedReferences.selectedReferences,
         ...interactionMetadata,
       },
     })
@@ -382,6 +474,8 @@ export const generateConversationHeroToolApi = async (
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
         requestId: requestResult.id,
         scenePrompt,
+        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        selectedReferences: selectedReferences.selectedReferences,
         ...interactionMetadata,
       },
     })
@@ -424,11 +518,13 @@ export const generateConversationHeroToolApi = async (
         height,
         requestId: requestResult.id,
         seed,
+        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        selectedReferences: selectedReferences.selectedReferences,
         ...interactionMetadata,
       },
     })
 
-    return {
+    const result = {
       requestId: requestResult.id,
       imageUrl,
       heroImageUrl: imageUrl,
@@ -439,6 +535,22 @@ export const generateConversationHeroToolApi = async (
       seed,
       cost: requestResult.cost,
     }
+    await trackTraceActivitySafely({
+      activityType: 'trace.tool.generate_conversation_hero.response',
+      summary: 'generate_conversation_hero erfolgreich',
+      conversationId,
+      characterId,
+      characterName,
+      traceStage: 'tool',
+      traceKind: 'response',
+      traceSource: 'api',
+      output: {
+        requestId: result.requestId,
+        imageUrl: result.imageUrl,
+      },
+      ok: true,
+    })
+    return result
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
     await trackImageActivitySafely({
@@ -456,8 +568,32 @@ export const generateConversationHeroToolApi = async (
       },
     })
     if (error instanceof ConversationImageToolApiError) {
+      await trackTraceActivitySafely({
+        activityType: 'trace.tool.generate_conversation_hero.error',
+        summary: 'generate_conversation_hero fehlgeschlagen',
+        conversationId: input.conversationId,
+        characterId: input.characterId,
+        characterName: input.characterId,
+        traceStage: 'tool',
+        traceKind: 'error',
+        traceSource: 'api',
+        ok: false,
+        error: message,
+      })
       throw error
     }
+    await trackTraceActivitySafely({
+      activityType: 'trace.tool.generate_conversation_hero.error',
+      summary: 'generate_conversation_hero fehlgeschlagen',
+      conversationId: input.conversationId,
+      characterId: input.characterId,
+      characterName: input.characterId,
+      traceStage: 'tool',
+      traceKind: 'error',
+      traceSource: 'api',
+      ok: false,
+      error: message,
+    })
     throw new ConversationImageToolApiError(message, 500)
   }
 }
