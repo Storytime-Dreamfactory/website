@@ -68,6 +68,39 @@ API-Endpunkte (lokaler Vite-Server):
   - Liefert eingehende und ausgehende Beziehungen für eine Figur
 - `GET /api/relationships/all`
   - Liefert alle Character-Beziehungen (wird vom Frontend-Loader genutzt)
+- `POST /api/activities/`
+  - Legt einen Activity-Stream-Eintrag an
+  - Body: `activityType`, optional `isPublic` (default `false`), optional `characterId`, optional `placeId`, optional `skillIds[]`, optional `conversationId`, optional `subject`, optional `object`, optional `metadata`, optional `occurredAt`
+- `GET /api/activities/?characterId=<id>&placeId=<id>&skillId=<id>&conversationId=<id>&activityType=<type>&limit=100&offset=0`
+  - Listet standardmaessig nur `isPublic=true` Activities, optional gefiltert nach Character, Place, Skill, Conversation und Type
+  - Mit `includeNonPublic=true` werden auch interne/non-consumer-facing Activities geliefert
+  - Sortierung: neueste zuerst (`occurredAt DESC`)
+- `POST /api/images/generate`
+  - Schneller Prompt-zu-Bild Endpoint fuer Chat-Workflows
+  - Body: `prompt` (required), optional `model` (Default `flux-2-flex`), `width`, `height`, `outputFormat` (`jpeg` oder `png`), `seed`, `pollIntervalMs`, `maxPollAttempts`
+  - Response: `imageUrl`, `requestId`, aufgeloeste Parameter und optionale `cost`
+
+## Conversation-End Webhook
+
+Wenn eine Conversation per `POST /api/conversations/end` beendet wird, kann optional
+ein externer Service aufgerufen werden (Best-Effort).
+
+Umgebungsvariablen:
+
+- `CONVERSATION_END_WEBHOOK_URL` (optional)
+- `CONVERSATION_END_WEBHOOK_SECRET` (optional, wird als `X-Conversation-Webhook-Secret` Header gesendet)
+- `CONVERSATION_END_WEBHOOK_TIMEOUT_MS` (optional, Default: `4000`)
+
+Hinweis:
+
+- Beim Conversation-Flow werden zusaetzlich Activities automatisch erfasst:
+  - `conversation.started` (`isPublic=false`)
+  - `conversation.message.created` (`isPublic=false`)
+  - `conversation.ended` (`isPublic=false`)
+  - `character.chat.completed` (`isPublic=true`, derzeit mit hart codierter Person `Yoko` und Label `Check here`)
+- Place/Skill-Kontext kann ueber Conversation-Metadata mitgegeben werden:
+  - `placeId` oder `place_id`
+  - `skillIds` / `skill_ids` (Array) oder `skillId` (single)
 
 CLI-Query:
 

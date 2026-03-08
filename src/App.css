@@ -663,6 +663,111 @@
   filter: drop-shadow(0 16px 48px rgba(0, 0, 0, 0.5));
 }
 
+.character-activity-stream {
+  align-self: flex-start;
+  position: sticky;
+  top: 108px;
+  width: min(320px, 34vw);
+  margin-left: auto;
+  right: 0;
+  padding: 10px 12px 10px 18px;
+  border-radius: 14px;
+  background: linear-gradient(
+    270deg,
+    rgba(0, 0, 0, 0.36) 0%,
+    rgba(0, 0, 0, 0.2) 42%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.character-activity-stream-title {
+  margin: 0 0 12px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.character-activity-list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.character-activity-list::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 4px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.1) 62%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.character-activity-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+}
+
+.character-activity-marker {
+  width: 10px;
+  padding-top: 5px;
+  flex-shrink: 0;
+}
+
+.character-activity-dot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8bc8ff;
+  box-shadow: 0 0 0 1px rgba(8, 14, 32, 0.85);
+}
+
+.character-activity-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.character-activity-timestamp {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.character-activity-text {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.character-activity-subject,
+.character-activity-object {
+  color: #fff;
+}
+
+.character-activity-link {
+  color: rgba(151, 213, 255, 0.95);
+  text-decoration: none;
+}
+
+.character-activity-link:hover {
+  color: #c4e8ff;
+  text-decoration: underline;
+}
+
 .content-card-link {
   text-decoration: none;
 }
@@ -672,6 +777,17 @@
     flex-direction: column-reverse;
     align-items: flex-start;
     gap: 24px;
+  }
+
+  .character-activity-stream {
+    position: static;
+    width: 100%;
+    max-width: 540px;
+    margin-bottom: 2px;
+    margin-left: 0;
+    padding: 8px 0 0;
+    border-radius: 0;
+    background: transparent;
   }
 
   .character-detail-figure-img {

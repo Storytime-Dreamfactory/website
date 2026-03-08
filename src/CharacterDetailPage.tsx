@@ -5,6 +5,7 @@ import { Button, Tag, Typography } from 'antd'
 import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons'
 import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
+import CharacterActivityStream, { type CharacterActivityItem } from './CharacterActivityStream'
 
 const { Title, Text } = Typography
 
@@ -21,12 +22,68 @@ type ApiRelationship = {
   direction: 'outgoing' | 'incoming'
 }
 
+type ApiActivityData = Record<string, unknown>
+
+type ApiActivityRecord = {
+  activityId: string
+  activityType: string
+  characterId?: string
+  conversationId?: string
+  subject: ApiActivityData
+  object: ApiActivityData
+  metadata: ApiActivityData
+  occurredAt: string
+  createdAt: string
+}
+
+const readTextValue = (value: unknown): string | undefined => {
+  if (typeof value !== 'string') return undefined
+  const trimmed = value.trim()
+  return trimmed || undefined
+}
+
+const readActivityDisplayValue = (value: ApiActivityData | undefined): string | undefined =>
+  readTextValue(value?.text) ??
+  readTextValue(value?.name) ??
+  readTextValue(value?.label) ??
+  readTextValue(value?.title) ??
+  readTextValue(value?.id)
+
+const humanizeActivityType = (activityType: string): string => {
+  switch (activityType) {
+    case 'character.chat.completed':
+      return 'sprach mit'
+    case 'conversation.started':
+      return 'startete eine Unterhaltung'
+    case 'conversation.ended':
+      return 'beendete eine Unterhaltung'
+    default:
+      return activityType.replaceAll('.', ' ')
+  }
+}
+
+const buildActivitySummary = (activity: ApiActivityRecord, characterName: string): string => {
+  const metadataSummary = readTextValue(activity.metadata.summary)
+  if (metadataSummary) return metadataSummary
+
+  const subjectLabel = readActivityDisplayValue(activity.subject) ?? characterName
+  const objectLabel = readActivityDisplayValue(activity.object)
+  const activityLabel = humanizeActivityType(activity.activityType)
+
+  if (objectLabel) {
+    return `${subjectLabel} ${activityLabel} ${objectLabel}`
+  }
+
+  return `${subjectLabel} ${activityLabel}`
+}
+
 export default function CharacterDetailPage({ content }: Props) {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [reduceMotion, setReduceMotion] = useState(false)
   const pointerFrameRef = useRef<number | null>(null)
   const [apiRelationships, setApiRelationships] = useState<ApiRelationship[] | null>(null)
+  const [apiActivities, setApiActivities] = useState<ApiActivityRecord[] | null>(null)
 
   const character = useMemo(
     () => content.characters.find((c) => c.id === id),
@@ -78,6 +135,38 @@ export default function CharacterDetailPage({ content }: Props) {
     }
   }, [id])
 
+  useEffect(() => {
+    let cancelled = false
+
+    const loadActivities = async () => {
+      if (!id) {
+        setApiActivities(null)
+        return
+      }
+
+      try {
+        const response = await fetch(`/api/activities?characterId=${encodeURIComponent(id)}&limit=6`)
+        if (!response.ok) {
+          throw new Error(`API status ${response.status}`)
+        }
+        const payload = (await response.json()) as { activities?: ApiActivityRecord[] }
+        if (!cancelled) {
+          setApiActivities(Array.isArray(payload.activities) ? payload.activities : [])
+        }
+      } catch {
+        if (!cancelled) {
+          setApiActivities(null)
+        }
+      }
+    }
+
+    void loadActivities()
+
+    return () => {
+      cancelled = true
+    }
+  }, [id])
+
   const relatedCharacters = useMemo(() => {
     if (!character) return []
 
@@ -106,6 +195,25 @@ export default function CharacterDetailPage({ content }: Props) {
       return [{ char: relatedCharacter, relationLabel: relation.type, directionLabel: 'zu' }]
     })
   }, [apiRelationships, character, content.characters])
+
+  const activityItems = useMemo<CharacterActivityItem[]>(() => {
+    if (!character) return []
+    if (!apiActivities || apiActivities.length === 0) return []
+
+    return apiActivities.map((activity) => ({
+      id: activity.activityId,
+      timestamp: activity.occurredAt || activity.createdAt,
+      subject: readActivityDisplayValue(activity.subject) ?? character.name,
+      activityType: humanizeActivityType(activity.activityType),
+      object: readActivityDisplayValue(activity.object) ?? 'Aktivitaet',
+      summary: buildActivitySummary(activity, character.name),
+      conversationUrl: activity.conversationId
+        ? `/characters/${character.id}?conversationId=${encodeURIComponent(activity.conversationId)}`
+        : undefined,
+      conversationLabel:
+        readTextValue(activity.metadata.conversationLinkLabel) ?? 'Zur Conversation',
+    }))
+  }, [apiActivities, character])
 
   if (!character) {
     return (
@@ -245,6 +353,8 @@ export default function CharacterDetailPage({ content }: Props) {
             </div>
           )}
         </div>
+
+        <CharacterActivityStream items={activityItems} />
 
       </div>
 

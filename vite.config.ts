@@ -4,6 +4,8 @@ import { characterCreatorApiPlugin } from './tools/character-image-service/src/l
 import { realtimeApiPlugin } from './src/server/realtimePlugin.ts'
 import { relationshipsApiPlugin } from './src/server/relationshipsPlugin.ts'
 import { conversationsApiPlugin } from './src/server/conversationsPlugin.ts'
+import { activitiesApiPlugin } from './src/server/activitiesPlugin.ts'
+import { imageGenerationApiPlugin } from './src/server/imageGenerationPlugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -21,6 +23,8 @@ export default defineConfig(({ mode }) => {
       realtimeApiPlugin(),
       relationshipsApiPlugin(),
       conversationsApiPlugin(),
+      activitiesApiPlugin(),
+      imageGenerationApiPlugin(),
     ],
     server: {
       proxy: {
