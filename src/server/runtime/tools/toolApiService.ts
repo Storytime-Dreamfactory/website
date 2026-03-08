@@ -1,5 +1,6 @@
 import { runConversationQuizSkill } from '../../conversationQuizToolService.ts'
 import { recallConversationImage } from '../../conversationImageMemoryToolService.ts'
+import { generateConversationHeroToolApi as generateConversationHeroToolApiService } from '../../conversationImageToolService.ts'
 
 export const runLearningGoalQuizToolApi = async (input: {
   conversationId: string
@@ -24,3 +25,18 @@ export const displayExistingImageToolApi = async (input: {
     queryText: input.queryText,
     source: 'api',
   })
+
+export const generateConversationHeroToolApi = async (input: {
+  conversationId: string
+  characterId: string
+  scenePrompt: string
+  styleHint?: string
+  interactionTargets?: unknown
+  relatedCharacterIds?: unknown
+  relatedCharacterNames?: unknown
+  width?: unknown
+  height?: unknown
+  pollIntervalMs?: unknown
+  maxPollAttempts?: unknown
+  seed?: unknown
+}) => generateConversationHeroToolApiService(input)

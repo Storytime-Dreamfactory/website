@@ -6,7 +6,7 @@ Characters, Places und Lernziele werden als YAML gepflegt und von der App gelade
 Begriffslogik:
 - `Lernziele` sind fachliche Inhaltsobjekte.
 - `Skills` sind agentische Playbooks wie Quiz oder visuell ausdruecken.
-- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren oder spaeter Badges vergeben.
+- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, Bild wieder anzeigen oder Kontext lesen.
 
 ## Start hier
 

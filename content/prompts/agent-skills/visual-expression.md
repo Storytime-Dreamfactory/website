@@ -15,7 +15,6 @@ Nutze Bilder, vorhandene Szenen oder visuelle Vergleiche, um ein Lernziel sichtb
 - `generate_image`
 - `show_image`
 - `display_existing_image`
-- `change_background`
 - `read_relationships`
 
 ## Verhaltensregel

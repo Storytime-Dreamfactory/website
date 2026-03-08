@@ -6,7 +6,7 @@ Diese Regeln gelten fuer Prompt-Bausteine und den Character Image Service.
 
 - `Lernziele` sind fachliche Inhaltsobjekte unter `content/learning-goals/`.
 - `Skills` sind agentische Playbooks unter `content/prompts/agent-skills/`.
-- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, Relationships lesen oder spaeter Badges vergeben.
+- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, Bilder anzeigen oder Relationships lesen.
 - Ein Character entscheidet also idealerweise: Welches Lernziel ist aktiv, welcher Skill passt dazu, welche Tools braucht dieser Skill?
 
 ## Prompt-Struktur
