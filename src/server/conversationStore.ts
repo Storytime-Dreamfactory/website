@@ -6,6 +6,24 @@ const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant', 'system'])
 
 export type ConversationMetadata = Record<string, unknown>
 
+export type ConversationImageMetadata = {
+  heroImageUrl?: string
+  imageUrl?: string
+  imageLinkUrl?: string
+  originalImageUrl?: string
+  imageAssetPath?: string
+  scenePrompt?: string
+  interactionTargets?: Array<{
+    type: string
+    id: string
+    name?: string
+    interactionType?: string
+    role?: string
+  }>
+  interactionTargetIds?: string[]
+  interactionCharacterIds?: string[]
+}
+
 export type ConversationRecord = {
   conversationId: string
   userId?: string

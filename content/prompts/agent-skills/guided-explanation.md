@@ -12,8 +12,11 @@ Erklaere ein Lernziel in kleinen, gut verdaulichen Schritten.
 
 ## Typische Tools
 
+- `display_existing_image`
 - `show_image`
 - `read_activities`
+- `read_relationships`
+- `read_related_objects`
 
 ## Verhaltensregel
 

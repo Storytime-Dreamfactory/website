@@ -11,6 +11,12 @@ import {
   CHARACTER_AGENT_TOOLS,
   getCharacterAgentSkillPlaybook,
 } from './characterAgentDefinitions.ts'
+import { storeConversationImageAsset } from './conversationImageAssetStore.ts'
+import {
+  buildCharacterInteractionTargets,
+  buildInteractionMetadata,
+  parseInteractionTargets,
+} from './activityInteractionMetadata.ts'
 
 type MiddlewareStack = {
   use: (
@@ -81,6 +87,13 @@ const clampInteger = (value: unknown, fallback: number, min: number, max: number
 const readText = (value: unknown): string => {
   if (typeof value !== 'string') return ''
   return value.trim()
+}
+
+const readTextArray = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((item) => (typeof item === 'string' ? item.trim() : ''))
+    .filter((item) => item.length > 0)
 }
 
 const trackImageActivitySafely = async (input: {
@@ -199,6 +212,21 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
       const characterId = readText(body.characterId)
       const scenePrompt = readText(body.scenePrompt)
       const styleHint = readText(body.styleHint)
+      const providedInteractionTargets = parseInteractionTargets(body.interactionTargets)
+      const relatedCharacterIds = readTextArray(body.relatedCharacterIds)
+      const relatedCharacterNames = readTextArray(body.relatedCharacterNames)
+      const implicitCharacterTargets = buildCharacterInteractionTargets(
+        relatedCharacterIds.map((relatedCharacterId, index) => ({
+          characterId: relatedCharacterId,
+          name: relatedCharacterNames[index],
+        })),
+      )
+      const interactionTargets = [...providedInteractionTargets, ...implicitCharacterTargets].filter(
+        (target, index, allTargets) =>
+          allTargets.findIndex(
+            (candidate) => candidate.type === target.type && candidate.id === target.id,
+          ) === index,
+      )
 
       if (!conversationId) {
         json(response, 400, { error: 'conversationId ist erforderlich.' })
@@ -226,6 +254,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
       const characterYaml = await loadCharacterYaml(characterId)
       const prompt = buildHeroPrompt(characterId, scenePrompt, styleHint, characterYaml)
       const characterName = characterYaml?.name?.trim() || characterId
+      const interactionMetadata = buildInteractionMetadata(characterId, interactionTargets)
       failureContext = { characterId, characterName, conversationId, scenePrompt }
       await trackImageActivitySafely({
         activityType: 'skill.visual-expression.started',
@@ -238,6 +267,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           skillId: VISUAL_EXPRESSION_SKILL?.id,
           toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
           scenePrompt,
+          ...interactionMetadata,
         },
       })
       await trackImageActivitySafely({
@@ -253,6 +283,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
           scenePrompt,
           styleHint: styleHint || undefined,
+          ...interactionMetadata,
         },
       })
       console.log(
@@ -287,6 +318,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           scenePrompt,
           imageGenerationPrompt: prompt,
           model,
+          ...interactionMetadata,
         },
       })
       await trackImageActivitySafely({
@@ -300,6 +332,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           skillId: VISUAL_EXPRESSION_SKILL?.id,
           toolId: CHARACTER_AGENT_TOOLS.generateImage,
           requestId: requestResult.id,
+          ...interactionMetadata,
         },
       })
       const pollResult = await client.pollResult({
@@ -332,7 +365,14 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
         return
       }
 
-      const imageUrl = pollResult.result.sample
+      const remoteImageUrl = pollResult.result.sample
+      const storedImage = await storeConversationImageAsset({
+        conversationId,
+        imageUrl: remoteImageUrl,
+        requestId: requestResult.id,
+        prefix: 'tool',
+      })
+      const imageUrl = storedImage?.localUrl ?? remoteImageUrl
       const summary = buildImageGeneratedSummary(characterName, scenePrompt)
 
       await appendConversationMessage({
@@ -343,6 +383,8 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
         metadata: {
           imageUrl,
           heroImageUrl: imageUrl,
+          originalImageUrl: remoteImageUrl,
+          imageAssetPath: storedImage?.localFilePath,
           skillId: VISUAL_EXPRESSION_SKILL?.id,
           toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
           prompt,
@@ -353,6 +395,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           height,
           seed,
           requestId: requestResult.id,
+          ...interactionMetadata,
         },
       })
 
@@ -370,6 +413,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
           requestId: requestResult.id,
           scenePrompt,
+          ...interactionMetadata,
         },
       })
 
@@ -385,6 +429,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           skillId: VISUAL_EXPRESSION_SKILL?.id,
           toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
           scenePrompt,
+          ...interactionMetadata,
         },
       })
 
@@ -402,12 +447,15 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
           conversationLinkLabel: 'Conversation ansehen',
           heroImageUrl: imageUrl,
           imageUrl,
+          originalImageUrl: remoteImageUrl,
+          imageAssetPath: storedImage?.localFilePath,
           scenePrompt,
           model,
           width,
           height,
           requestId: requestResult.id,
           seed,
+          ...interactionMetadata,
         },
       })
 

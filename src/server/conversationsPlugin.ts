@@ -10,9 +10,9 @@ import {
 import { createActivity } from './activityStore.ts'
 import { triggerConversationEndedService } from './conversationLifecycleService.ts'
 import {
-  maybeGenerateSceneImageFromAssistantMessage,
-  noteExplicitImageRequestFromUserMessage,
-} from './conversationSceneImageService.ts'
+  orchestrateCharacterRuntimeTurn,
+} from './characterRuntimeOrchestrator.ts'
+import { contextFromMetadata } from './conversationRuntimeContext.ts'
 
 type MiddlewareStack = {
   use: (
@@ -56,11 +56,6 @@ const toDisplayName = (value: string): string => {
   return `${trimmed.charAt(0).toUpperCase()}${trimmed.slice(1)}`
 }
 
-const toStringArray = (value: unknown): string[] => {
-  if (!Array.isArray(value)) return []
-  return value.filter((item): item is string => typeof item === 'string').map((item) => item.trim())
-}
-
 const resolveCounterpartName = (metadata: ConversationMetadata | undefined): string => {
   const candidates = [metadata?.counterpartName, metadata?.userName, metadata?.displayName]
   for (const candidate of candidates) {
@@ -69,38 +64,6 @@ const resolveCounterpartName = (metadata: ConversationMetadata | undefined): str
     }
   }
   return DEFAULT_COUNTERPART_PERSON
-}
-
-const contextFromMetadata = (
-  metadata: ConversationMetadata | undefined,
-): { placeId?: string; learningGoalIds?: string[] } => {
-  if (!metadata) return {}
-  const placeCandidate = metadata.placeId ?? metadata.place_id
-  const placeId = typeof placeCandidate === 'string' ? placeCandidate.trim() : ''
-  const learningGoalIdsFromArray = toStringArray(
-    metadata.learningGoalIds ??
-      metadata.learning_goal_ids ??
-      metadata.skillIds ??
-      metadata.skill_ids,
-  )
-  const singleLearningGoal =
-    typeof metadata.learningGoalId === 'string'
-      ? metadata.learningGoalId.trim()
-      : typeof metadata.skillId === 'string'
-        ? metadata.skillId.trim()
-        : ''
-  const combinedLearningGoals = Array.from(
-    new Set(
-      [...learningGoalIdsFromArray, ...(singleLearningGoal ? [singleLearningGoal] : [])].filter(
-        (item) => item.length > 0,
-      ),
-    ),
-  )
-
-  return {
-    placeId: placeId || undefined,
-    learningGoalIds: combinedLearningGoals.length > 0 ? combinedLearningGoals : undefined,
-  }
 }
 
 const trackActivitySafely = async (input: {
@@ -197,13 +160,9 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         const content = typeof body.content === 'string' ? body.content : ''
         const eventType = typeof body.eventType === 'string' ? body.eventType : undefined
         const metadata = toMetadata(body.metadata)
-
-        if (role === 'user') {
-          noteExplicitImageRequestFromUserMessage({
-            conversationId,
-            userText: content,
-          })
-        }
+        // #region agent log
+        fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N1',location:'conversationsPlugin.ts:/api/conversations/message',message:'Conversation message API empfangen',data:{conversationId,role,eventType,contentPreview:content.slice(0,120)},timestamp:Date.now()})}).catch(()=>{})
+        // #endregion
 
         const message = await appendConversationMessage({
           conversationId,
@@ -232,17 +191,15 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
           metadata: message.metadata,
         })
 
-        if (role === 'assistant') {
-          console.log(
-            `[conversation-image] assistant message received (conversationId=${conversationId}, eventType=${eventType ?? 'n/a'})`,
-          )
-          void maybeGenerateSceneImageFromAssistantMessage({
+        if (role === 'user' || role === 'assistant') {
+          void orchestrateCharacterRuntimeTurn({
             conversationId,
-            assistantText: content,
+            role: role as 'user' | 'assistant',
+            content,
             eventType,
           }).catch((error) => {
             const reason = error instanceof Error ? error.message : String(error)
-            console.warn(`Conversation image generation scheduling failed: ${reason}`)
+            console.warn(`Character runtime orchestration failed: ${reason}`)
           })
         }
 

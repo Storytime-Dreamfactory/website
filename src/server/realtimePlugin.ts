@@ -22,6 +22,14 @@ type MiddlewareStack = {
   ) => void
 }
 
+type RelatedCharacterFact = {
+  characterId: string
+  name: string
+  species: string
+  shortDescription: string
+  coreTraits: string[]
+}
+
 const json = (response: ServerResponse, statusCode: number, data: unknown): void => {
   response.statusCode = statusCode
   response.setHeader('Content-Type', 'application/json')
@@ -46,6 +54,39 @@ const loadCharacterYaml = async (characterId: string): Promise<Record<string, un
   )
   const raw = await readFile(yamlPath, 'utf8')
   return parseYaml(raw) as Record<string, unknown>
+}
+
+const loadRelatedCharacterFacts = async (
+  characterIds: string[],
+): Promise<Record<string, RelatedCharacterFact>> => {
+  const uniqueIds = Array.from(
+    new Set(
+      characterIds
+        .map((item) => item.trim())
+        .filter((item) => item.length > 0),
+    ),
+  )
+  const entries = await Promise.all(
+    uniqueIds.map(async (characterId) => {
+      try {
+        const yaml = await loadCharacterYaml(characterId)
+        const fact: RelatedCharacterFact = {
+          characterId,
+          name: getString(yaml, 'name') || characterId,
+          species: getString(yaml, 'basis', 'species'),
+          shortDescription: getString(yaml, 'kurzbeschreibung'),
+          coreTraits: getArray(yaml, 'persoenlichkeit', 'core_traits').filter(
+            (item) => item.trim().length > 0,
+          ),
+        }
+        return [characterId, fact] as const
+      } catch {
+        return null
+      }
+    }),
+  )
+
+  return Object.fromEntries(entries.filter((entry): entry is readonly [string, RelatedCharacterFact] => entry !== null))
 }
 
 const loadPromptTemplate = async (): Promise<string> => {
@@ -142,14 +183,41 @@ const buildCharacterRelationshipsFromDb = (
 const buildRelationshipsBlock = (
   yaml: Record<string, unknown>,
   dbRelationships: Array<CharacterRelationshipRecord & { direction: 'outgoing' | 'incoming' }>,
+  relatedFactsByCharacterId: Record<string, RelatedCharacterFact>,
 ): string => {
   const lines: string[] = []
   const characterLines = buildCharacterRelationshipsFromDb(dbRelationships)
   const placeLines = buildPlaceRelationshipsFromYaml(yaml)
+  const relatedFactsLines: string[] = []
+
+  const relatedCharacterIds = Array.from(
+    new Set(
+      dbRelationships.map((relationship) =>
+        relationship.direction === 'outgoing'
+          ? relationship.targetCharacterId
+          : relationship.sourceCharacterId,
+      ),
+    ),
+  )
+  for (const relatedCharacterId of relatedCharacterIds) {
+    const fact = relatedFactsByCharacterId[relatedCharacterId]
+    if (!fact) continue
+    const speciesPart = fact.species ? ` (${fact.species})` : ''
+    const traitPart =
+      fact.coreTraits.length > 0 ? ` | Kernzuege: ${fact.coreTraits.slice(0, 3).join(', ')}` : ''
+    const summaryPart = fact.shortDescription ? `: ${fact.shortDescription}` : ''
+    relatedFactsLines.push(`- ${fact.name}${speciesPart}${summaryPart}${traitPart}`)
+  }
 
   if (characterLines.length > 0) {
     lines.push('Beziehungen zu Figuren (aus Datenbank):')
     lines.push(...characterLines)
+  }
+
+  if (relatedFactsLines.length > 0) {
+    if (lines.length > 0) lines.push('')
+    lines.push('Bekanntes ueber verknuepfte Figuren (Related Objects):')
+    lines.push(...relatedFactsLines)
   }
 
   if (placeLines.length > 0) {
@@ -165,6 +233,7 @@ const buildInstructions = (
   template: string,
   yaml: Record<string, unknown>,
   dbRelationships: Array<CharacterRelationshipRecord & { direction: 'outgoing' | 'incoming' }>,
+  relatedFactsByCharacterId: Record<string, RelatedCharacterFact>,
 ): string => {
   const name = getString(yaml, 'name')
   const species = getString(yaml, 'basis', 'species')
@@ -190,7 +259,11 @@ const buildInstructions = (
     '{{insecurity}}': getString(yaml, 'story_psychology', 'insecurity'),
     '{{stress_response}}': getString(yaml, 'story_psychology', 'stress_response'),
     '{{growth_direction}}': getString(yaml, 'story_psychology', 'growth_direction'),
-    '{{relationships_block}}': buildRelationshipsBlock(yaml, dbRelationships),
+    '{{relationships_block}}': buildRelationshipsBlock(
+      yaml,
+      dbRelationships,
+      relatedFactsByCharacterId,
+    ),
   }
 
   const herkunft = yaml.herkunft as Record<string, unknown> | undefined
@@ -220,6 +293,19 @@ const createEphemeralToken = async (
   instructions: string,
   voice: string,
 ): Promise<{ token: string; expiresAt: number }> => {
+  const realtimeTools = [
+    {
+      type: 'function',
+      name: 'unmute_user_microphone',
+      description:
+        'Entstummt das Mikrofon des Kindes nach deiner Antwort, damit es wieder sprechen kann.',
+      parameters: {
+        type: 'object',
+        properties: {},
+        additionalProperties: false,
+      },
+    },
+  ]
   const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
     method: 'POST',
     headers: {
@@ -230,7 +316,13 @@ const createEphemeralToken = async (
       model: 'gpt-realtime',
       voice,
       instructions,
+      tools: realtimeTools,
       input_audio_transcription: { model: 'gpt-4o-mini-transcribe' },
+      turn_detection: {
+        type: 'server_vad',
+        create_response: true,
+        interrupt_response: false,
+      },
     }),
   })
 
@@ -284,8 +376,19 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
         loadPromptTemplate(),
         listRelationshipsForCharacter(characterId),
       ])
+      const relatedCharacterIds = dbRelationships.map((relationship) =>
+        relationship.direction === 'outgoing'
+          ? relationship.targetCharacterId
+          : relationship.sourceCharacterId,
+      )
+      const relatedFactsByCharacterId = await loadRelatedCharacterFacts(relatedCharacterIds)
 
-      const instructions = buildInstructions(template, yaml, dbRelationships)
+      const instructions = buildInstructions(
+        template,
+        yaml,
+        dbRelationships,
+        relatedFactsByCharacterId,
+      )
       const { token, expiresAt } = await createEphemeralToken(instructions, voice)
 
       json(response, 200, { token, expiresAt })

@@ -1,0 +1,296 @@
+{
+  "generatedAt": "2026-03-08T11:34:14.623Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/mila/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/Screenshot_2026-03-08_at_12.28.50-0b655ede-9950-449e-89a7-a77a46a5f6e7.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/yoko/hero-image.jpg"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "mila",
+    "name": "Mila",
+    "shortDescription": "Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "feminin",
+      "roleArchetype": "shy_spark"
+    },
+    "appearance": {
+      "bodyShape": "klein, zart und kindlich",
+      "colors": [
+        "hellblond",
+        "beige",
+        "sanftes grau",
+        "warmes creme"
+      ],
+      "hairOrFur": {
+        "color": "hellblond",
+        "texture": "weich und leicht wellig",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "haselnussbraun",
+        "expression": "vorsichtig, ruhig und aufmerksam"
+      },
+      "distinctiveFeatures": [
+        "runde Wangen mit zarter Rosigkeit",
+        "feines, hellblondes Haar mit leichtem Seitenschwung",
+        "grosser, stiller Blick mit sanften Augenbrauen"
+      ],
+      "clothingStyle": "kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover"
+    },
+    "personality": {
+      "coreTraits": [
+        "schuechtern",
+        "empathisch",
+        "beobachtend"
+      ],
+      "temperament": "ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis",
+      "socialStyle": "bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen",
+      "strengths": [
+        "hoert sehr gut zu",
+        "erkennt feine Stimmungen in Gruppen",
+        "wird in vertrauter Umgebung kreativ und mutig"
+      ],
+      "weaknesses": [
+        "braucht lange, um in neuen Situationen aufzutauen",
+        "zieht sich bei Ueberforderung schnell zurueck",
+        "spricht Beduerfnisse manchmal zu spaet aus"
+      ],
+      "quirks": [
+        "knetet den Aermel ihres Pullovers, wenn sie nervoes ist",
+        "beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "sich trauen, in der Gruppe eigene Ideen laut auszusprechen",
+      "deeperNeed": "sichere Zugehoerigkeit, ohne sich verstellen zu muessen",
+      "fear": "in lauten Gruppen uebersehen zu werden",
+      "insecurity": "Vielleicht bin ich nur spannend, wenn andere mich mitziehen.",
+      "stressResponse": "freeze_then_seek_safe_person",
+      "growthDirection": "lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "peer",
+        "gentle_encourager"
+      ],
+      "suitableLearningGoals": [
+        "selbstvertrauen",
+        "soziale_sicherheit",
+        "gefuehle_benennen"
+      ],
+      "explanationStyle": "leise, bildhaft und bestaerkend"
+    },
+    "origin": {
+      "birthPlace": "Lindenhain",
+      "upbringingPlaces": [
+        "Lindenhain"
+      ],
+      "culturalContext": [
+        "ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln",
+        "wertschatzung fuer leise Toene und achtsamen Umgang"
+      ],
+      "religionOrBelief": "glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte",
+      "historicalContext": [
+        "wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen",
+        "lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft"
+      ],
+      "notes": "Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung."
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "yoko",
+          "type": "freundin",
+          "description": "Mit Yoko fuehlt Mila sich sicher und wird schnell lebhaft, lacht viel und spielt mutiger."
+        },
+        {
+          "characterId": "juna-lia",
+          "type": "freundin",
+          "description": "Mit Juna Lia wird Mila abenteuerlustig, bewegt sich viel und probiert neue Spiele aus."
+        }
+      ],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "wohlfuehlort",
+          "description": "Auf der Wiese kann Mila erst beobachten und dann mit Anlauf ins Spiel springen."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/mila/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur von Mila als kleines hellblondes Maedchen mit weichen realistischen Kindergesichtsproportionen, ruhigem Blick und kuscheligem graubeigem Pullover, hohe Aehnlichkeit zur Referenzperson."
+      },
+      "heroImage": {
+        "file": "/content/characters/mila/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in warmem Nachmittagslicht auf einer Spielwiese: Mila ist mit Yoko und Juna Lia in Bewegung, lacht offen und zeigt dieselbe Gesichtsidentitaet wie im Referenzbild."
+      },
+      "portrait": {
+        "file": "/content/characters/mila/portrait.png",
+        "description": "Halbnahes Character-Portrait von Mila mit sehr hoher Aehnlichkeit zur Referenzperson: weiche Wangen, grosses ruhiges Augenpaar, hellblondes leicht gewelltes Haar, sanfte und freundliche Ausstrahlung."
+      },
+      "profileImage": {
+        "file": "/content/characters/mila/profilbild.png",
+        "description": "Quadratisches Profilbild von Mila mit klar lesbarer Mimik und hoher Gesichtsaehnlichkeit zur Referenzperson, auch in kleiner Darstellung gut erkennbar."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_schuechtern",
+          "file": "/content/characters/mila/emotion-schuechtern.png",
+          "description": "Mila schaut erst vorsichtig zur Seite, haelt den Pulloveraermel fest und wirkt ruhig, freundlich und etwas zurueckhaltend."
+        },
+        {
+          "type": "emotion_aktiv_mit_freundinnen",
+          "file": "/content/characters/mila/emotion-aktiv-mit-freundinnen.png",
+          "description": "Mila spielt mit Yoko und Juna Lia voller Energie, lacht breit und bewegt sich dynamisch, bei konsistenter Gesichtsidentitaet."
+        }
+      ]
+    },
+    "tags": [
+      "schuechtern",
+      "freundschaft",
+      "selbstvertrauen",
+      "empathie",
+      "geschwisterfreundinnen",
+      "mut"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "mila:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Mila. Short description: Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv. Species: Mensch. Age feel: kindlich. Archetype: shy_spark. Body shape: klein, zart und kindlich. Dominant colors: hellblond, beige, sanftes grau, warmes creme. Hair or fur: hellblond weich und leicht wellig mittellang. Eyes: haselnussbraun, vorsichtig, ruhig und aufmerksam. Distinctive features: runde Wangen mit zarter Rosigkeit, feines, hellblondes Haar mit leichtem Seitenschwung, grosser, stiller Blick mit sanften Augenbrauen. Clothing style: kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover. Core traits: schuechtern, empathisch, beobachtend. Temperament: ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis. Social style: bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen. Strengths: hoert sehr gut zu, erkennt feine Stimmungen in Gruppen, wird in vertrauter Umgebung kreativ und mutig. Weaknesses: braucht lange, um in neuen Situationen aufzutauen, zieht sich bei Ueberforderung schnell zurueck, spricht Beduerfnisse manchmal zu spaet aus. Quirks: knetet den Aermel ihres Pullovers, wenn sie nervoes ist, beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen. Visible goal: sich trauen, in der Gruppe eigene Ideen laut auszusprechen. Deeper need: sichere Zugehoerigkeit, ohne sich verstellen zu muessen. Fear: in lauten Gruppen uebersehen zu werden. Insecurity: Vielleicht bin ich nur spannend, wenn andere mich mitziehen. Stress response: freeze_then_seek_safe_person. Growth direction: lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen. Teaching roles: peer, gentle_encourager. Explanation style: leise, bildhaft und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln, wertschatzung fuer leise Toene und achtsamen Umgang. Belief or worldview: glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte. Historical context: wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen, lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft. Origin notes: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Mila on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Freigestellte Ganzkoerperfigur von Mila als kleines hellblondes Maedchen mit weichen realistischen Kindergesichtsproportionen, ruhigem Blick und kuscheligem graubeigem Pullover, hohe Aehnlichkeit zur Referenzperson. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur von Mila als kleines hellblondes Maedchen mit weichen realistischen Kindergesichtsproportionen, ruhigem Blick und kuscheligem graubeigem Pullover, hohe Aehnlichkeit zur Referenzperson.",
+      "publicFilePath": "/content/characters/mila/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "7c427417-cb1a-4121-8b62-06d94fbdaf65",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=7c427417-cb1a-4121-8b62-06d94fbdaf65",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/7a840eef70744c32adb3374f4b4966eb_sample.png?se=2026-03-08T11%3A42%3A05Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=zvoPwbHaiWStWXXnREByIEOdpT1RDKuWEj6HkijKHQw%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "mila:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Mila. Short description: Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv. Species: Mensch. Age feel: kindlich. Archetype: shy_spark. Body shape: klein, zart und kindlich. Dominant colors: hellblond, beige, sanftes grau, warmes creme. Hair or fur: hellblond weich und leicht wellig mittellang. Eyes: haselnussbraun, vorsichtig, ruhig und aufmerksam. Distinctive features: runde Wangen mit zarter Rosigkeit, feines, hellblondes Haar mit leichtem Seitenschwung, grosser, stiller Blick mit sanften Augenbrauen. Clothing style: kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover. Core traits: schuechtern, empathisch, beobachtend. Temperament: ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis. Social style: bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen. Strengths: hoert sehr gut zu, erkennt feine Stimmungen in Gruppen, wird in vertrauter Umgebung kreativ und mutig. Weaknesses: braucht lange, um in neuen Situationen aufzutauen, zieht sich bei Ueberforderung schnell zurueck, spricht Beduerfnisse manchmal zu spaet aus. Quirks: knetet den Aermel ihres Pullovers, wenn sie nervoes ist, beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen. Visible goal: sich trauen, in der Gruppe eigene Ideen laut auszusprechen. Deeper need: sichere Zugehoerigkeit, ohne sich verstellen zu muessen. Fear: in lauten Gruppen uebersehen zu werden. Insecurity: Vielleicht bin ich nur spannend, wenn andere mich mitziehen. Stress response: freeze_then_seek_safe_person. Growth direction: lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen. Teaching roles: peer, gentle_encourager. Explanation style: leise, bildhaft und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln, wertschatzung fuer leise Toene und achtsamen Umgang. Belief or worldview: glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte. Historical context: wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen, lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft. Origin notes: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Mila in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in warmem Nachmittagslicht auf einer Spielwiese: Mila ist mit Yoko und Juna Lia in Bewegung, lacht offen und zeigt dieselbe Gesichtsidentitaet wie im Referenzbild. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in warmem Nachmittagslicht auf einer Spielwiese: Mila ist mit Yoko und Juna Lia in Bewegung, lacht offen und zeigt dieselbe Gesichtsidentitaet wie im Referenzbild.",
+      "publicFilePath": "/content/characters/mila/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "e2980a8c-75d2-45bb-9f47-18532e0a65f5",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=e2980a8c-75d2-45bb-9f47-18532e0a65f5",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/e26c4fc97cf741cbad4103c7a8e9ed6d_sample.jpeg?se=2026-03-08T11%3A42%3A50Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=IwhveuNPkHxrwIQJT7CIX6sY8ur1ZSLG/admUVu012k%3D",
+      "cost": 19
+    },
+    {
+      "id": "mila:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Mila. Short description: Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv. Species: Mensch. Age feel: kindlich. Archetype: shy_spark. Body shape: klein, zart und kindlich. Dominant colors: hellblond, beige, sanftes grau, warmes creme. Hair or fur: hellblond weich und leicht wellig mittellang. Eyes: haselnussbraun, vorsichtig, ruhig und aufmerksam. Distinctive features: runde Wangen mit zarter Rosigkeit, feines, hellblondes Haar mit leichtem Seitenschwung, grosser, stiller Blick mit sanften Augenbrauen. Clothing style: kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover. Core traits: schuechtern, empathisch, beobachtend. Temperament: ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis. Social style: bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen. Strengths: hoert sehr gut zu, erkennt feine Stimmungen in Gruppen, wird in vertrauter Umgebung kreativ und mutig. Weaknesses: braucht lange, um in neuen Situationen aufzutauen, zieht sich bei Ueberforderung schnell zurueck, spricht Beduerfnisse manchmal zu spaet aus. Quirks: knetet den Aermel ihres Pullovers, wenn sie nervoes ist, beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen. Visible goal: sich trauen, in der Gruppe eigene Ideen laut auszusprechen. Deeper need: sichere Zugehoerigkeit, ohne sich verstellen zu muessen. Fear: in lauten Gruppen uebersehen zu werden. Insecurity: Vielleicht bin ich nur spannend, wenn andere mich mitziehen. Stress response: freeze_then_seek_safe_person. Growth direction: lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen. Teaching roles: peer, gentle_encourager. Explanation style: leise, bildhaft und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln, wertschatzung fuer leise Toene und achtsamen Umgang. Belief or worldview: glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte. Historical context: wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen, lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft. Origin notes: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Mila. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Portrait von Mila mit sehr hoher Aehnlichkeit zur Referenzperson: weiche Wangen, grosses ruhiges Augenpaar, hellblondes leicht gewelltes Haar, sanfte und freundliche Ausstrahlung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Portrait von Mila mit sehr hoher Aehnlichkeit zur Referenzperson: weiche Wangen, grosses ruhiges Augenpaar, hellblondes leicht gewelltes Haar, sanfte und freundliche Ausstrahlung.",
+      "publicFilePath": "/content/characters/mila/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "5bcf34cb-cc26-47b5-a03d-879c0816a15d",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=5bcf34cb-cc26-47b5-a03d-879c0816a15d",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/08/6fc2a59ee1bb4a49a3bec3e73928d552_sample.png?se=2026-03-08T11%3A43%3A12Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=DRO/bIov5%2BW41gJ1GlaYTqdcQCEi/Xvcje2g1hHYeDo%3D",
+      "cost": 9
+    },
+    {
+      "id": "mila:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Mila. Short description: Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv. Species: Mensch. Age feel: kindlich. Archetype: shy_spark. Body shape: klein, zart und kindlich. Dominant colors: hellblond, beige, sanftes grau, warmes creme. Hair or fur: hellblond weich und leicht wellig mittellang. Eyes: haselnussbraun, vorsichtig, ruhig und aufmerksam. Distinctive features: runde Wangen mit zarter Rosigkeit, feines, hellblondes Haar mit leichtem Seitenschwung, grosser, stiller Blick mit sanften Augenbrauen. Clothing style: kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover. Core traits: schuechtern, empathisch, beobachtend. Temperament: ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis. Social style: bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen. Strengths: hoert sehr gut zu, erkennt feine Stimmungen in Gruppen, wird in vertrauter Umgebung kreativ und mutig. Weaknesses: braucht lange, um in neuen Situationen aufzutauen, zieht sich bei Ueberforderung schnell zurueck, spricht Beduerfnisse manchmal zu spaet aus. Quirks: knetet den Aermel ihres Pullovers, wenn sie nervoes ist, beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen. Visible goal: sich trauen, in der Gruppe eigene Ideen laut auszusprechen. Deeper need: sichere Zugehoerigkeit, ohne sich verstellen zu muessen. Fear: in lauten Gruppen uebersehen zu werden. Insecurity: Vielleicht bin ich nur spannend, wenn andere mich mitziehen. Stress response: freeze_then_seek_safe_person. Growth direction: lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen. Teaching roles: peer, gentle_encourager. Explanation style: leise, bildhaft und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln, wertschatzung fuer leise Toene und achtsamen Umgang. Belief or worldview: glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte. Historical context: wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen, lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft. Origin notes: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Mila. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild von Mila mit klar lesbarer Mimik und hoher Gesichtsaehnlichkeit zur Referenzperson, auch in kleiner Darstellung gut erkennbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild von Mila mit klar lesbarer Mimik und hoher Gesichtsaehnlichkeit zur Referenzperson, auch in kleiner Darstellung gut erkennbar.",
+      "publicFilePath": "/content/characters/mila/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "55dd64d3-5e5c-467b-a82f-fc78601bb1f2",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=55dd64d3-5e5c-467b-a82f-fc78601bb1f2",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/08/da614e160bb44f348457719ee867c70e_sample.png?se=2026-03-08T11%3A43%3A30Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=%2BpQ4rdWKpt9F7C12CiHVt71YXCwUCJ6E7CsQ/mXcG3Q%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "mila:emotion_schuechtern",
+      "type": "emotion_schuechtern",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Mila. Short description: Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv. Species: Mensch. Age feel: kindlich. Archetype: shy_spark. Body shape: klein, zart und kindlich. Dominant colors: hellblond, beige, sanftes grau, warmes creme. Hair or fur: hellblond weich und leicht wellig mittellang. Eyes: haselnussbraun, vorsichtig, ruhig und aufmerksam. Distinctive features: runde Wangen mit zarter Rosigkeit, feines, hellblondes Haar mit leichtem Seitenschwung, grosser, stiller Blick mit sanften Augenbrauen. Clothing style: kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover. Core traits: schuechtern, empathisch, beobachtend. Temperament: ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis. Social style: bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen. Strengths: hoert sehr gut zu, erkennt feine Stimmungen in Gruppen, wird in vertrauter Umgebung kreativ und mutig. Weaknesses: braucht lange, um in neuen Situationen aufzutauen, zieht sich bei Ueberforderung schnell zurueck, spricht Beduerfnisse manchmal zu spaet aus. Quirks: knetet den Aermel ihres Pullovers, wenn sie nervoes ist, beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen. Visible goal: sich trauen, in der Gruppe eigene Ideen laut auszusprechen. Deeper need: sichere Zugehoerigkeit, ohne sich verstellen zu muessen. Fear: in lauten Gruppen uebersehen zu werden. Insecurity: Vielleicht bin ich nur spannend, wenn andere mich mitziehen. Stress response: freeze_then_seek_safe_person. Growth direction: lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen. Teaching roles: peer, gentle_encourager. Explanation style: leise, bildhaft und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln, wertschatzung fuer leise Toene und achtsamen Umgang. Belief or worldview: glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte. Historical context: wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen, lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft. Origin notes: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create an additional character asset for Mila. Target brief: Mila schaut erst vorsichtig zur Seite, haelt den Pulloveraermel fest und wirkt ruhig, freundlich und etwas zurueckhaltend. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Mila schaut erst vorsichtig zur Seite, haelt den Pulloveraermel fest und wirkt ruhig, freundlich und etwas zurueckhaltend.",
+      "publicFilePath": "/content/characters/mila/emotion-schuechtern.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila/emotion-schuechtern.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "afa0678f-9471-449f-85b5-cb52d559dd7c",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=afa0678f-9471-449f-85b5-cb52d559dd7c",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/42d63cbc9b4a4c3a96ac5ae57171e821_sample.png?se=2026-03-08T11%3A43%3A51Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=LAyAlNg6bvN4vQtjmpebUAG9iP1TxbBJyVfKxA59uFk%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "mila:emotion_aktiv_mit_freundinnen",
+      "type": "emotion_aktiv_mit_freundinnen",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Mila. Short description: Mila ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald sie mit Yoko oder Juna Lia zusammen ist, wird sie lebendig, mutig und spielerisch aktiv. Species: Mensch. Age feel: kindlich. Archetype: shy_spark. Body shape: klein, zart und kindlich. Dominant colors: hellblond, beige, sanftes grau, warmes creme. Hair or fur: hellblond weich und leicht wellig mittellang. Eyes: haselnussbraun, vorsichtig, ruhig und aufmerksam. Distinctive features: runde Wangen mit zarter Rosigkeit, feines, hellblondes Haar mit leichtem Seitenschwung, grosser, stiller Blick mit sanften Augenbrauen. Clothing style: kuschelige, schlichte Kinderkleidung in Naturtoenen, oft ein weicher Strickpullover. Core traits: schuechtern, empathisch, beobachtend. Temperament: ruhig mit ploetzlichen Energie-Ausbruechen im vertrauten Kreis. Social style: bei neuen Kontakten zurueckhaltend, mit Yoko und Juna Lia verspielt und offen. Strengths: hoert sehr gut zu, erkennt feine Stimmungen in Gruppen, wird in vertrauter Umgebung kreativ und mutig. Weaknesses: braucht lange, um in neuen Situationen aufzutauen, zieht sich bei Ueberforderung schnell zurueck, spricht Beduerfnisse manchmal zu spaet aus. Quirks: knetet den Aermel ihres Pullovers, wenn sie nervoes ist, beginnt zu kichern und zu rennen, sobald Yoko oder Juna Lia sie anstupsen. Visible goal: sich trauen, in der Gruppe eigene Ideen laut auszusprechen. Deeper need: sichere Zugehoerigkeit, ohne sich verstellen zu muessen. Fear: in lauten Gruppen uebersehen zu werden. Insecurity: Vielleicht bin ich nur spannend, wenn andere mich mitziehen. Stress response: freeze_then_seek_safe_person. Growth direction: lernt, auch ohne Einladung kleine mutige Schritte in Gespraeche und Spiele zu machen. Teaching roles: peer, gentle_encourager. Explanation style: leise, bildhaft und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: ruhige Familienrituale mit Vorlesen und gemeinsamem Basteln, wertschatzung fuer leise Toene und achtsamen Umgang. Belief or worldview: glaubt, dass kleine mutige Schritte genauso wichtig sind wie grosse Auftritte. Historical context: wurde frueh darin bestaerkt, Gefuehle vorsichtig und ehrlich zu benennen, lernte durch Geschwisterfreundschaften, dass Verbundenheit Sicherheit schafft. Origin notes: Herkunft praegt ihre ruhige Sprache und sensible Wahrnehmung ohne klischeehafte Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create an additional character asset for Mila. Target brief: Mila spielt mit Yoko und Juna Lia voller Energie, lacht breit und bewegt sich dynamisch, bei konsistenter Gesichtsidentitaet. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Mila spielt mit Yoko und Juna Lia voller Energie, lacht breit und bewegt sich dynamisch, bei konsistenter Gesichtsidentitaet.",
+      "publicFilePath": "/content/characters/mila/emotion-aktiv-mit-freundinnen.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mila/emotion-aktiv-mit-freundinnen.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "066fdb1a-02ab-43d4-b56d-27521a22117b",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=066fdb1a-02ab-43d4-b56d-27521a22117b",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/9cac5632be694effa9dc8258697b012e_sample.png?se=2026-03-08T11%3A44%3A12Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=SEiAMFCNMdSZsns4loe%2BnhwTRjELqDVjf%2BRJbAlNwZ8%3D",
+      "cost": 7.5
+    }
+  ]
+}

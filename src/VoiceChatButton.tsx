@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AudioOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons'
+import { AudioMutedOutlined, AudioOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons'
 import type { Character } from './content/types'
 
 type ConnectionState = 'idle' | 'connecting' | 'connected' | 'error'
@@ -36,9 +36,54 @@ const resolveVoiceForCharacter = (character: Character): (typeof CHARACTER_VOICE
   return CHARACTER_VOICES[index]
 }
 
+const isAssistantResponseStartEvent = (eventType: string): boolean => {
+  return (
+    eventType === 'output_audio_buffer.started' ||
+    eventType === 'response.audio.delta' ||
+    eventType === 'response.output_audio.delta'
+  )
+}
+
+const isAssistantQuestion = (transcript: string): boolean => {
+  const normalized = transcript.trim()
+  if (!normalized) return false
+  return normalized.includes('?')
+}
+
+const DEBUG_ENDPOINT = 'http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6'
+const DEBUG_SESSION_ID = '16d83f'
+const DEBUG_RUN_ID = 'pre-fix'
+
+const sendDebugLog = (
+  hypothesisId: string,
+  location: string,
+  message: string,
+  data: Record<string, unknown>,
+): void => {
+  // #region agent log
+  fetch(DEBUG_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Debug-Session-Id': DEBUG_SESSION_ID,
+    },
+    body: JSON.stringify({
+      sessionId: DEBUG_SESSION_ID,
+      runId: DEBUG_RUN_ID,
+      hypothesisId,
+      location,
+      message,
+      data,
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {})
+  // #endregion
+}
+
 export default function VoiceChatButton({ character }: Props) {
   const [state, setState] = useState<ConnectionState>('idle')
   const [audioLevel, setAudioLevel] = useState(0)
+  const [isMicMutedByAssistant, setIsMicMutedByAssistant] = useState(false)
   const selectedVoice = useMemo(() => resolveVoiceForCharacter(character), [character])
 
   const pcRef = useRef<RTCPeerConnection | null>(null)
@@ -107,6 +152,7 @@ export default function VoiceChatButton({ character }: Props) {
   const cleanup = useCallback(() => {
     closeConversationSession('cleanup')
     cancelAnimationFrame(rafRef.current)
+    setIsMicMutedByAssistant(false)
     dataChannelRef.current?.close()
     dataChannelRef.current = null
     pcRef.current?.close()
@@ -135,7 +181,70 @@ export default function VoiceChatButton({ character }: Props) {
     rafRef.current = requestAnimationFrame(tick)
   }, [])
 
+  const setLocalMicEnabled = useCallback((
+    enabled: boolean,
+    context: { reason: string; hypothesisId: string; eventType?: string },
+  ) => {
+    const stream = localStreamRef.current
+    const tracks = stream?.getAudioTracks() ?? []
+    const before = tracks.map((track) => ({
+      id: track.id,
+      enabled: track.enabled,
+      readyState: track.readyState,
+    }))
+    if (!stream || tracks.length === 0) {
+      // #region agent log
+      sendDebugLog(context.hypothesisId, 'VoiceChatButton.tsx:setLocalMicEnabled', 'No local audio tracks available', {
+        requestedEnabled: enabled,
+        reason: context.reason,
+        eventType: context.eventType ?? '',
+      })
+      // #endregion
+      return
+    }
+    tracks.forEach((track) => {
+      track.enabled = enabled
+    })
+    const after = tracks.map((track) => ({
+      id: track.id,
+      enabled: track.enabled,
+      readyState: track.readyState,
+    }))
+    // #region agent log
+    sendDebugLog(context.hypothesisId, 'VoiceChatButton.tsx:setLocalMicEnabled', 'Updated local audio tracks', {
+      requestedEnabled: enabled,
+      reason: context.reason,
+      eventType: context.eventType ?? '',
+      before,
+      after,
+    })
+    // #endregion
+  }, [])
+
+  const sendRealtimeToolOutput = useCallback((callId: string, output: Record<string, unknown>) => {
+    const dc = dataChannelRef.current
+    if (!dc || dc.readyState !== 'open') return
+    const encodedOutput = JSON.stringify(output)
+    dc.send(
+      JSON.stringify({
+        type: 'conversation.item.create',
+        item: {
+          type: 'function_call_output',
+          call_id: callId,
+          output: encodedOutput,
+        },
+      }),
+    )
+    dc.send(JSON.stringify({ type: 'response.create' }))
+  }, [])
+
   const connect = useCallback(async () => {
+    // #region agent log
+    sendDebugLog('H6', 'VoiceChatButton.tsx:connect', 'Connect started', {
+      characterId: character.id,
+      selectedVoice,
+    })
+    // #endregion
     setState('connecting')
 
     try {
@@ -192,10 +301,44 @@ export default function VoiceChatButton({ character }: Props) {
           const eventType = typeof payload.type === 'string' ? payload.type : ''
           const eventId = typeof payload.event_id === 'string' ? payload.event_id : ''
           if (eventId && knownEventIdsRef.current.has(eventId)) {
+            // #region agent log
+            sendDebugLog('H4', 'VoiceChatButton.tsx:onmessage', 'Duplicate realtime event ignored', {
+              eventType,
+              eventId,
+            })
+            // #endregion
             return
           }
           if (eventId) {
             knownEventIdsRef.current.add(eventId)
+          }
+
+          const assistantSpeechStarted = isAssistantResponseStartEvent(eventType)
+          const micRelevantEvent =
+            assistantSpeechStarted ||
+            eventType === 'conversation.item.input_audio_transcription.completed' ||
+            eventType === 'input_audio_buffer.speech_started' ||
+            eventType === 'input_audio_buffer.speech_stopped' ||
+            eventType === 'response.audio_transcript.done' ||
+            eventType === 'response.output_audio_transcript.done'
+
+          if (micRelevantEvent) {
+            // #region agent log
+            sendDebugLog('H1', 'VoiceChatButton.tsx:onmessage', 'Realtime mic-relevant event received', {
+              eventType,
+              eventId,
+              assistantSpeechStarted,
+            })
+            // #endregion
+          }
+
+          if (assistantSpeechStarted) {
+            setLocalMicEnabled(false, {
+              reason: 'assistant_response_started',
+              hypothesisId: 'H2',
+              eventType,
+            })
+            setIsMicMutedByAssistant(true)
           }
 
           if (eventType === 'conversation.item.input_audio_transcription.completed') {
@@ -206,8 +349,19 @@ export default function VoiceChatButton({ character }: Props) {
             return
           }
 
-          if (eventType === 'response.audio_transcript.done') {
+          if (
+            eventType === 'response.audio_transcript.done' ||
+            eventType === 'response.output_audio_transcript.done'
+          ) {
             const transcript = typeof payload.transcript === 'string' ? payload.transcript : ''
+            const assistantQuestion = isAssistantQuestion(transcript)
+            // #region agent log
+            sendDebugLog('H3', 'VoiceChatButton.tsx:onmessage', 'Assistant transcript completed', {
+              eventType,
+              transcript,
+              assistantQuestion,
+            })
+            // #endregion
             if (transcript) {
               void appendMessage('assistant', transcript, eventType)
             }
@@ -239,6 +393,7 @@ export default function VoiceChatButton({ character }: Props) {
       const answerSdp = await sdpRes.text()
       await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp })
       conversationIdRef.current = await startConversationSession()
+      setIsMicMutedByAssistant(false)
 
       pc.onconnectionstatechange = () => {
         if (pc.connectionState === 'connected') {
@@ -256,28 +411,56 @@ export default function VoiceChatButton({ character }: Props) {
       setState('connected')
       monitorAudio()
     } catch {
+      // #region agent log
+      sendDebugLog('H6', 'VoiceChatButton.tsx:connect', 'Connect failed and cleanup triggered', {})
+      // #endregion
       closeConversationSession('error')
       setState('error')
       cleanup()
       setTimeout(() => setState('idle'), 2000)
     }
-  }, [character.id, cleanup, monitorAudio, selectedVoice, appendMessage, closeConversationSession, startConversationSession])
+  }, [
+    character.id,
+    cleanup,
+    monitorAudio,
+    selectedVoice,
+    appendMessage,
+    closeConversationSession,
+    startConversationSession,
+    setLocalMicEnabled,
+    sendRealtimeToolOutput,
+  ])
 
   useEffect(() => {
     return cleanup
   }, [cleanup])
 
   const handleClick = useCallback(() => {
+    if (state === 'connected' && isMicMutedByAssistant) {
+      setLocalMicEnabled(true, {
+        reason: 'manual_click_unmute',
+        hypothesisId: 'H8',
+      })
+      setIsMicMutedByAssistant(false)
+      return
+    }
     if (state === 'idle' || state === 'error') {
+      // #region agent log
+      sendDebugLog('H6', 'VoiceChatButton.tsx:handleClick', 'Voice button clicked for connect', {
+        state,
+        characterId: character.id,
+      })
+      // #endregion
       connect()
     }
-  }, [state, connect])
+  }, [state, connect, character.id, isMicMutedByAssistant, setLocalMicEnabled])
 
   const handleClose = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation()
       closeConversationSession('manual-close')
       cleanup()
+      setIsMicMutedByAssistant(false)
       setAudioLevel(0)
       setState('idle')
     },
@@ -315,7 +498,12 @@ export default function VoiceChatButton({ character }: Props) {
             </>
           )}
           {state === 'connecting' && <LoadingOutlined className="vcb-spinner" />}
-          {state === 'connected' && <AudioOutlined className="vcb-mic-icon vcb-mic-live" />}
+          {state === 'connected' &&
+            (isMicMutedByAssistant ? (
+              <AudioMutedOutlined className="vcb-mic-icon vcb-mic-live" />
+            ) : (
+              <AudioOutlined className="vcb-mic-icon vcb-mic-live" />
+            ))}
           {state === 'error' && <span className="vcb-error-dot" />}
         </span>
       </button>

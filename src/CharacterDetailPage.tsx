@@ -64,6 +64,8 @@ type ApiConversationDetails = {
 }
 
 const HERO_TRANSITION_MS = 1100
+const MEMORY_OVERLAY_MS = 4600
+const MEMORY_OVERLAY_CHARACTER_IDS = new Set(['yoko'])
 
 const readTextValue = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -78,7 +80,32 @@ const readActivityDisplayValue = (value: ApiActivityData | undefined): string | 
   readTextValue(value?.title) ??
   readTextValue(value?.id)
 
+const readLocalAssetUrl = (value: unknown): string | undefined => {
+  if (typeof value !== 'string') return undefined
+  const normalized = value.trim().replaceAll('\\', '/')
+  if (!normalized) return undefined
+  if (normalized.startsWith('/content/')) return normalized
+  if (normalized.startsWith('content/')) return `/${normalized}`
+
+  const publicMarker = '/public/'
+  const publicMarkerIndex = normalized.lastIndexOf(publicMarker)
+  if (publicMarkerIndex !== -1) {
+    const relativeToPublic = normalized.slice(publicMarkerIndex + publicMarker.length)
+    if (relativeToPublic.startsWith('content/')) return `/${relativeToPublic}`
+  }
+
+  const directPublicPrefix = 'public/'
+  if (normalized.startsWith(directPublicPrefix)) {
+    const relativeToPublic = normalized.slice(directPublicPrefix.length)
+    if (relativeToPublic.startsWith('content/')) return `/${relativeToPublic}`
+  }
+
+  return undefined
+}
+
 const readActivityImageUrl = (activity: ApiActivityRecord): string | undefined =>
+  readLocalAssetUrl(activity.metadata.imageAssetPath) ??
+  readTextValue(activity.metadata.imageLinkUrl) ??
   readTextValue(activity.metadata.heroImageUrl) ??
   readTextValue(activity.metadata.imageLinkUrl) ??
   readTextValue(activity.metadata.imageUrl) ??
@@ -89,7 +116,45 @@ const readMessageImageUrl = (message: ApiConversationMessageRecord): string | un
   if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
     return undefined
   }
-  return readTextValue(metadata.heroImageUrl) ?? readTextValue(metadata.imageUrl)
+  return (
+    readLocalAssetUrl(metadata.imageAssetPath) ??
+    readTextValue(metadata.imageLinkUrl) ??
+    readTextValue(metadata.heroImageUrl) ??
+    readTextValue(metadata.imageUrl) ??
+    readTextValue(metadata.originalImageUrl)
+  )
+}
+
+const hasMessageImage = (message: ApiConversationMessageRecord): boolean =>
+  Boolean(normalizeImageUrl(readMessageImageUrl(message)))
+
+const normalizeImageUrl = (value: string | undefined): string | undefined => {
+  if (!value) return undefined
+  const trimmed = value.trim()
+  if (!trimmed) return undefined
+
+  if (
+    trimmed.startsWith('http://') ||
+    trimmed.startsWith('https://') ||
+    trimmed.startsWith('data:') ||
+    trimmed.startsWith('blob:')
+  ) {
+    return trimmed
+  }
+
+  if (trimmed.startsWith('/')) {
+    return trimmed
+  }
+
+  if (trimmed.startsWith('content/')) {
+    return `/${trimmed}`
+  }
+
+  if (trimmed.startsWith('./content/')) {
+    return `/${trimmed.slice(2)}`
+  }
+
+  return trimmed
 }
 
 const formatTimestamp = (value: string | Date): string => {
@@ -110,6 +175,8 @@ const humanizeActivityType = (activityType: string): string => {
       return 'sprach mit'
     case 'conversation.image.generated':
       return 'zeigte ein Bild'
+    case 'conversation.image.recalled':
+      return 'zeigte ein frueheres Bild'
     case 'conversation.message.created':
       return 'sendete eine Nachricht'
     case 'conversation.started':
@@ -126,6 +193,14 @@ const humanizeActivityType = (activityType: string): string => {
       return 'startete ein Quiz'
     case 'skill.quiz.completed':
       return 'beendete ein Quiz'
+    case 'runtime.skill.routed':
+      return 'waehlte einen Skill'
+    case 'tool.activities.read':
+      return 'las Activities'
+    case 'tool.relationships.read':
+      return 'las Relationships'
+    case 'tool.related_objects.read':
+      return 'las verknuepfte Figureninfos'
     case 'tool.image.planning.started':
       return 'plant ein Bild'
     case 'tool.image.requested':
@@ -134,6 +209,8 @@ const humanizeActivityType = (activityType: string): string => {
       return 'erstellt gerade ein Bild'
     case 'tool.image.generated':
       return 'hat ein Bild fertiggestellt'
+    case 'tool.image.recalled':
+      return 'zeigte ein frueheres Bild'
     case 'tool.image.failed':
       return 'konnte kein Bild erstellen'
     default:
@@ -172,7 +249,9 @@ export default function CharacterDetailPage({ content }: Props) {
   const [conversationError, setConversationError] = useState<string | null>(null)
   const [activeHeroUrl, setActiveHeroUrl] = useState<string | undefined>(undefined)
   const [incomingHeroUrl, setIncomingHeroUrl] = useState<string | null>(null)
+  const [isMemoryOverlayActive, setIsMemoryOverlayActive] = useState(false)
   const heroTransitionTimerRef = useRef<number | null>(null)
+  const memoryOverlayTimerRef = useRef<number | null>(null)
   const activeHeroUrlRef = useRef<string | undefined>(undefined)
 
   const character = useMemo(
@@ -197,9 +276,20 @@ export default function CharacterDetailPage({ content }: Props) {
   }, [activeHeroUrl])
 
   const transitionToHeroUrl = useCallback(
-    (nextUrl: string | undefined) => {
-      const normalizedNextUrl = nextUrl?.trim()
+    (nextUrl: string | undefined, options?: { memoryOverlay?: boolean }) => {
+      const normalizedNextUrl = normalizeImageUrl(nextUrl)
       if (!normalizedNextUrl || normalizedNextUrl === activeHeroUrlRef.current) return
+
+      if (options?.memoryOverlay && character && MEMORY_OVERLAY_CHARACTER_IDS.has(character.id)) {
+        setIsMemoryOverlayActive(true)
+        if (memoryOverlayTimerRef.current != null) {
+          window.clearTimeout(memoryOverlayTimerRef.current)
+        }
+        memoryOverlayTimerRef.current = window.setTimeout(() => {
+          setIsMemoryOverlayActive(false)
+          memoryOverlayTimerRef.current = null
+        }, MEMORY_OVERLAY_MS)
+      }
 
       if (reduceMotion) {
         setIncomingHeroUrl(null)
@@ -217,7 +307,7 @@ export default function CharacterDetailPage({ content }: Props) {
         heroTransitionTimerRef.current = null
       }, HERO_TRANSITION_MS)
     },
-    [reduceMotion],
+    [character, reduceMotion],
   )
 
   useEffect(() => {
@@ -327,8 +417,13 @@ export default function CharacterDetailPage({ content }: Props) {
     const handleActivityCreated = (event: MessageEvent<string>) => {
       try {
         const activity = JSON.parse(event.data) as ApiActivityRecord
-        if (activity.activityType === 'conversation.image.generated') {
-          transitionToHeroUrl(readActivityImageUrl(activity))
+        if (
+          activity.activityType === 'conversation.image.generated' ||
+          activity.activityType === 'conversation.image.recalled'
+        ) {
+          transitionToHeroUrl(readActivityImageUrl(activity), {
+            memoryOverlay: activity.activityType === 'conversation.image.recalled',
+          })
         }
         setApiActivities((current) => {
           const existing = current ?? []
@@ -406,7 +501,6 @@ export default function CharacterDetailPage({ content }: Props) {
           {
             char: relatedCharacter,
             relationLabel: relation.relationshipTypeReadable || relation.relationship || relation.relationshipType,
-            directionLabel: relation.direction === 'outgoing' ? 'zu' : 'von',
           },
         ]
       })
@@ -416,7 +510,7 @@ export default function CharacterDetailPage({ content }: Props) {
     return fallbackRelations.flatMap((relation) => {
       const relatedCharacter = content.characters.find((candidate) => candidate.id === relation.characterId)
       if (!relatedCharacter) return []
-      return [{ char: relatedCharacter, relationLabel: relation.type, directionLabel: 'zu' }]
+      return [{ char: relatedCharacter, relationLabel: relation.type }]
     })
   }, [apiRelationships, character, content.characters])
 
@@ -428,6 +522,7 @@ export default function CharacterDetailPage({ content }: Props) {
       id: activity.activityId,
       timestamp: activity.occurredAt || activity.createdAt,
       isPublic: activity.isPublic,
+      rawActivityType: activity.activityType,
       subject: readActivityDisplayValue(activity.subject) ?? character.name,
       activityType: humanizeActivityType(activity.activityType),
       object: readActivityDisplayValue(activity.object) ?? 'Aktivitaet',
@@ -435,7 +530,9 @@ export default function CharacterDetailPage({ content }: Props) {
       conversationId: activity.conversationId,
       conversationUrl: readTextValue(activity.metadata.conversationUrl),
       conversationLabel: readTextValue(activity.metadata.conversationLinkLabel),
-      imageUrl: readTextValue(activity.metadata.imageLinkUrl) ?? readActivityImageUrl(activity),
+      imageUrl: normalizeImageUrl(
+        readTextValue(activity.metadata.imageLinkUrl) ?? readActivityImageUrl(activity),
+      ),
       imageLabel: readTextValue(activity.metadata.imageLinkLabel),
       imagePrompt: readTextValue(activity.metadata.imageGenerationPrompt),
     }))
@@ -484,6 +581,9 @@ export default function CharacterDetailPage({ content }: Props) {
       }
       if (heroTransitionTimerRef.current != null) {
         window.clearTimeout(heroTransitionTimerRef.current)
+      }
+      if (memoryOverlayTimerRef.current != null) {
+        window.clearTimeout(memoryOverlayTimerRef.current)
       }
     }
   }, [])
@@ -534,12 +634,22 @@ export default function CharacterDetailPage({ content }: Props) {
       '--character-hero-url': `url('${activeHeroUrl}')`,
     } as CSSProperties
   }, [activeHeroUrl])
+  const visibleConversationMessages = useMemo(
+    () =>
+      conversationDetails?.messages.filter((message) => {
+        if (message.role !== 'system') return true
+        return hasMessageImage(message)
+      }) ?? [],
+    [conversationDetails],
+  )
 
   return (
     <div
       className={`character-detail ${
         activeHeroUrl ? 'character-detail-has-hero' : ''
-      } ${isHeroParallaxEnabled ? 'character-detail-parallax' : ''}`}
+      } ${isHeroParallaxEnabled ? 'character-detail-parallax' : ''} ${
+        isMemoryOverlayActive ? 'character-detail-memory-overlay-active' : ''
+      }`}
       style={detailStyle}
       onMouseMove={handleHeroMouseMove}
       onMouseLeave={resetHeroParallax}
@@ -551,6 +661,7 @@ export default function CharacterDetailPage({ content }: Props) {
           aria-hidden="true"
         />
       ) : null}
+      <div className="character-detail-memory-overlay" aria-hidden="true" />
       <div className="character-detail-nav">
         <Link to="/characters" className="character-detail-back">
           <ArrowLeftOutlined />
@@ -589,9 +700,9 @@ export default function CharacterDetailPage({ content }: Props) {
             <div className="character-detail-friends">
               <Text className="character-detail-friends-label">Beziehungen</Text>
               <div className="character-detail-friends-list">
-                {relatedCharacters.map(({ char, relationLabel, directionLabel }) => (
+                {relatedCharacters.map(({ char, relationLabel }) => (
                   <Link
-                    key={`${char.id}-${relationLabel}-${directionLabel}`}
+                    key={`${char.id}-${relationLabel}`}
                     to={`/characters/${char.id}`}
                     className="character-detail-friend-link"
                   >
@@ -604,9 +715,7 @@ export default function CharacterDetailPage({ content }: Props) {
                     )}
                     <div className="character-detail-friend-info">
                       <span className="character-detail-friend-name">{char.name}</span>
-                      <span className="character-detail-friend-type">
-                        {directionLabel}: {relationLabel}
-                      </span>
+                      <span className="character-detail-friend-type">{relationLabel}</span>
                     </div>
                   </Link>
                 ))}
@@ -619,7 +728,13 @@ export default function CharacterDetailPage({ content }: Props) {
           items={activityItems}
           isLive={activityStreamConnected}
           onOpenConversation={openConversationPanel}
-          onSelectImage={transitionToHeroUrl}
+          onSelectImage={(imageUrl, item) =>
+            transitionToHeroUrl(imageUrl, {
+              memoryOverlay:
+                item.rawActivityType === 'conversation.image.recalled' ||
+                item.rawActivityType === 'tool.image.recalled',
+            })
+          }
         />
 
       </div>
@@ -629,13 +744,14 @@ export default function CharacterDetailPage({ content }: Props) {
         placement="right"
         open={isConversationPanelOpen}
         onClose={closeConversationPanel}
-        className="conversation-drawer"
-        width={420}
+        rootClassName="conversation-drawer"
+        width={440}
         styles={{
-          content: { background: 'rgba(0, 0, 0, 0.92)', color: 'rgba(255, 255, 255, 0.88)' },
-          header: { background: 'rgba(0, 0, 0, 0.92)', color: 'rgba(255, 255, 255, 0.88)' },
-          body: { background: 'rgba(0, 0, 0, 0.92)', color: 'rgba(255, 255, 255, 0.88)' },
-          mask: { background: 'rgba(0, 0, 0, 0.22)' },
+          content: { background: '#000', boxShadow: 'none' },
+          header: { background: '#000' },
+          body: { background: '#000' },
+          mask: { background: 'transparent' },
+          wrapper: { background: 'transparent' },
         }}
       >
         {conversationLoading && <p className="conversation-drawer-state">Lade Conversation...</p>}
@@ -653,11 +769,11 @@ export default function CharacterDetailPage({ content }: Props) {
               </p>
             )}
             <div className="conversation-drawer-messages">
-              {conversationDetails.messages.length === 0 ? (
+              {visibleConversationMessages.length === 0 ? (
                 <p className="conversation-drawer-state">Keine Messages gespeichert.</p>
               ) : (
-                conversationDetails.messages.map((message) => {
-                  const messageImageUrl = readMessageImageUrl(message)
+                visibleConversationMessages.map((message) => {
+                  const messageImageUrl = normalizeImageUrl(readMessageImageUrl(message))
                   return (
                     <div key={message.messageId} className="conversation-drawer-message">
                       <p className="conversation-drawer-message-meta">

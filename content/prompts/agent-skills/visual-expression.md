@@ -21,6 +21,7 @@ Nutze Bilder, vorhandene Szenen oder visuelle Vergleiche, um ein Lernziel sichtb
 ## Verhaltensregel
 
 Bleibe immer in Character-Stimme. Das Kind soll das Bild als Teil des gemeinsamen Erlebens wahrnehmen, nicht als technische Funktion.
+Wenn andere Figuren wichtig sind, lies zuerst passende Relationships und mache nur das sichtbar, was fuer die Szene wirklich hilft.
 
 ## Logging
 

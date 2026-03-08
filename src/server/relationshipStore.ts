@@ -241,7 +241,27 @@ export const listRelationshipsForCharacter = async (
     [normalizedCharacterId],
   )
 
-  return data.rows.map((row) => ({
+  const dedupedByCounterpart = new Map<string, CharacterRelationshipWithDirectionRow>()
+
+  for (const row of data.rows) {
+    const counterpartId =
+      row.source_character_id === normalizedCharacterId
+        ? row.target_character_id
+        : row.source_character_id
+    const existing = dedupedByCounterpart.get(counterpartId)
+
+    if (!existing) {
+      dedupedByCounterpart.set(counterpartId, row)
+      continue
+    }
+
+    // Prefer an outgoing relationship for display when both directions exist.
+    if (existing.direction === 'incoming' && row.direction === 'outgoing') {
+      dedupedByCounterpart.set(counterpartId, row)
+    }
+  }
+
+  return Array.from(dedupedByCounterpart.values()).map((row) => ({
     ...mapRowToRelationshipRecord(row),
     direction: row.direction,
   }))

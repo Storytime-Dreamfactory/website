@@ -521,6 +521,58 @@
   opacity: 1;
 }
 
+.character-detail-memory-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at 24% 22%,
+      rgba(196, 169, 255, 0.34) 0%,
+      rgba(196, 169, 255, 0.08) 34%,
+      rgba(196, 169, 255, 0) 66%
+    ),
+    radial-gradient(
+      circle at 74% 30%,
+      rgba(146, 222, 255, 0.22) 0%,
+      rgba(146, 222, 255, 0.07) 30%,
+      rgba(146, 222, 255, 0) 60%
+    ),
+    linear-gradient(120deg, rgba(16, 24, 54, 0.06), rgba(56, 37, 89, 0.16));
+  mix-blend-mode: screen;
+  transition: opacity 520ms ease;
+}
+
+.character-detail-memory-overlay-active .character-detail-memory-overlay {
+  opacity: 1;
+  animation: character-memory-dream-pulse 4.6s ease-in-out forwards;
+}
+
+@keyframes character-memory-dream-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  22% {
+    opacity: 0.9;
+    transform: scale(1.015) translateY(-3px);
+    filter: blur(0.8px);
+  }
+  58% {
+    opacity: 0.72;
+    transform: scale(1.01) translateY(-1px);
+    filter: blur(0.5px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+
 .character-detail-empty {
   position: relative;
   z-index: 1;
@@ -879,13 +931,17 @@
 .conversation-drawer .ant-drawer-content,
 .conversation-drawer .ant-drawer-header,
 .conversation-drawer .ant-drawer-body {
-  background: rgba(0, 0, 0, 0.68) !important;
-  backdrop-filter: blur(8px);
-  color: rgba(255, 255, 255, 0.88);
+  background: #000 !important;
+  backdrop-filter: none !important;
+  color: rgba(255, 255, 255, 0.88) !important;
 }
 
 .conversation-drawer .ant-drawer-mask {
-  background: rgba(0, 0, 0, 0.12) !important;
+  background: transparent !important;
+}
+
+.conversation-drawer .ant-drawer-content-wrapper {
+  box-shadow: none !important;
 }
 
 .conversation-drawer-content {
@@ -911,7 +967,7 @@
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 10px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.02);
+  background: transparent;
 }
 
 .conversation-drawer-message-meta {
@@ -1397,6 +1453,12 @@
   .character-detail-hero-transition-layer {
     transform: none;
     transition: none;
+  }
+
+  .character-detail-memory-overlay {
+    animation: none !important;
+    transition: none;
+    opacity: 0.22;
   }
 }
 

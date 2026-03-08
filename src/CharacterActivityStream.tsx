@@ -5,6 +5,7 @@ export type CharacterActivityItem = {
   id: string
   timestamp: string | Date
   isPublic?: boolean
+  rawActivityType?: string
   subject: string
   activityType: string
   object: string
@@ -21,7 +22,7 @@ type Props = {
   items: CharacterActivityItem[]
   isLive?: boolean
   onOpenConversation?: (conversationId: string) => void
-  onSelectImage?: (imageUrl: string) => void
+  onSelectImage?: (imageUrl: string, item: CharacterActivityItem) => void
 }
 
 const formatTimestamp = (value: string | Date): string => {
@@ -110,7 +111,7 @@ export default function CharacterActivityStream({
                         <button
                           type="button"
                           className="character-activity-link character-activity-link-button"
-                          onClick={() => onSelectImage(imageUrl)}
+                          onClick={() => onSelectImage(imageUrl, item)}
                         >
                           {item.imageLabel ?? 'Bild ansehen'}
                         </button>

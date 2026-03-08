@@ -11,6 +11,11 @@ import {
 } from './characterAgentDefinitions.ts'
 import { appendConversationMessage, getConversationDetails } from './conversationStore.ts'
 import { listRelationshipsForCharacter } from './relationshipStore.ts'
+import { storeConversationImageAsset } from './conversationImageAssetStore.ts'
+import {
+  buildCharacterInteractionTargets,
+  buildInteractionMetadata,
+} from './activityInteractionMetadata.ts'
 
 type CharacterYaml = {
   id?: string
@@ -24,6 +29,9 @@ type CharacterYaml = {
     distinctive_features?: string[]
   }
   bilder?: {
+    standard_figur?: {
+      datei?: string
+    }
     hero_image?: {
       datei?: string
     }
@@ -41,7 +49,7 @@ type CharacterReference = {
   name: string
   species: string
   shortDescription: string
-  referencePaths: string[]
+  standardReferencePath: string | null
 }
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../', import.meta.url)))
@@ -231,32 +239,43 @@ const fileExists = async (filePath: string): Promise<boolean> => {
 const toWorkspacePublicPath = (publicUrlPath: string): string =>
   path.resolve(workspaceRoot, 'public', publicUrlPath.replace(/^\/+/, ''))
 
-const resolveReferencePaths = async (
+const resolveFirstExistingPath = async (candidates: string[]): Promise<string | null> => {
+  for (const candidate of candidates) {
+    if (await fileExists(candidate)) {
+      return candidate
+    }
+  }
+  return null
+}
+
+const resolveCharacterReferenceImages = async (
   characterId: string,
   yaml: CharacterYaml | null,
-): Promise<string[]> => {
+): Promise<{ heroPath: string | null; standardPath: string | null }> => {
+  const yamlStandardPath = readText(yaml?.bilder?.standard_figur?.datei)
   const yamlHeroPath = readText(yaml?.bilder?.hero_image?.datei)
-  const yamlPortraitPath = readText(yaml?.bilder?.portrait?.datei)
-  const yamlProfilePath = readText(yaml?.bilder?.profilbild?.datei)
-  const candidates = [
+  const standardCandidates = [
+    yamlStandardPath,
+    `/content/characters/${characterId}/standard-figur.png`,
+    `/content/characters/${characterId}/standard-figur.jpg`,
+    `/content/characters/${characterId}/standard-figur.jpeg`,
+    `/content/characters/${characterId}/standard-figur.webp`,
+  ]
+    .filter((item) => item.length > 0)
+    .map((item) => toWorkspacePublicPath(item))
+  const heroCandidates = [
     yamlHeroPath,
-    yamlPortraitPath,
-    yamlProfilePath,
     `/content/characters/${characterId}/hero-image.jpg`,
     `/content/characters/${characterId}/hero-image.png`,
-    `/content/characters/${characterId}/portrait.png`,
-    `/content/characters/${characterId}/profilbild.png`,
+    `/content/characters/${characterId}/hero-image.jpeg`,
+    `/content/characters/${characterId}/hero-image.webp`,
   ]
     .filter((item) => item.length > 0)
     .map((item) => toWorkspacePublicPath(item))
 
-  const resolved: string[] = []
-  for (const candidate of candidates) {
-    if ((await fileExists(candidate)) && !resolved.includes(candidate)) {
-      resolved.push(candidate)
-    }
-  }
-  return resolved
+  const heroPath = await resolveFirstExistingPath(heroCandidates)
+  const standardPath = await resolveFirstExistingPath(standardCandidates)
+  return { heroPath, standardPath }
 }
 
 const normalizeText = (value: string): string =>
@@ -271,15 +290,24 @@ const textContainsWord = (text: string, candidate: string): boolean => {
   return regex.test(text)
 }
 
+const toIdentityTokens = (value: string): string[] =>
+  normalizeText(value)
+    .split(/[^a-z0-9]+/i)
+    .map((token) => token.trim())
+    .filter((token) => token.length >= 3)
+
+const FRIENDSHIP_REQUEST_RE = /(beste?\s+freundin|bester\s+freund|freundin|freund)/i
+
 const loadCharacterReference = async (characterId: string): Promise<CharacterReference> => {
   const yaml = await loadCharacterYaml(characterId)
   const name = readText(yaml?.name) || characterId
+  const references = await resolveCharacterReferenceImages(characterId, yaml)
   return {
     characterId,
     name,
     species: readText(yaml?.basis?.species) || 'Figur',
     shortDescription: readText(yaml?.kurzbeschreibung),
-    referencePaths: await resolveReferencePaths(characterId, yaml),
+    standardReferencePath: references.standardPath,
   }
 }
 
@@ -292,9 +320,28 @@ const selectRequestedRelatedCharacters = (
   const mentioned = relatedCharacters.filter((related) => {
     const normalizedName = normalizeText(related.name)
     const normalizedId = normalizeText(related.characterId)
-    return textContainsWord(haystack, normalizedName) || textContainsWord(haystack, normalizedId)
+    const aliasCandidates = Array.from(
+      new Set([
+        normalizedName,
+        normalizedId,
+        ...toIdentityTokens(related.name),
+        ...toIdentityTokens(related.characterId),
+      ]),
+    )
+    return aliasCandidates.some((alias) => alias.length > 0 && textContainsWord(haystack, alias))
   })
-  return mentioned.slice(0, 3)
+
+  if (mentioned.length > 0) {
+    return mentioned.slice(0, 3)
+  }
+
+  // Fallback: Wenn "Freund/Freundin" gefordert ist und nur 1 Beziehungskandidat existiert,
+  // wird diese Figur als gewuenschte Nebenfigur angenommen.
+  if (FRIENDSHIP_REQUEST_RE.test(haystack) && relatedCharacters.length === 1) {
+    return relatedCharacters
+  }
+
+  return []
 }
 
 const buildHeroPrompt = (characterId: string, scenePrompt: string, yaml: CharacterYaml | null): string => {
@@ -338,6 +385,7 @@ const buildFluxEditPrompt = (input: {
   scenePrompt: string
   lastUserText: string
   relatedCharacters: CharacterReference[]
+  referencedRelatedCharacters: CharacterReference[]
 }): string => {
   const explicitWish = extractExplicitUserWish(input.lastUserText)
   const mustIncludeLine = explicitWish
@@ -354,9 +402,26 @@ const buildFluxEditPrompt = (input: {
           'Wenn die Szene "mit" einer dieser Figuren verlangt, muessen diese sichtbar sein.',
         ].join('\n')
       : 'Keine zusaetzlichen Figuren explizit angefordert.'
+  const referenceMappingBlock =
+    input.referencedRelatedCharacters.length > 0
+      ? [
+          'REFERENZ-MAPPING (WICHTIG, NICHT VERTAUSCHEN):',
+          `- input_image = ${input.characterName} (aktive Figur, Stil- und Weltanker).`,
+          ...input.referencedRelatedCharacters.map(
+            (related, index) =>
+              `- input_image_${index + 2} = ${related.name} (Relationship-Figur: genau diese Figur zeigen).`,
+          ),
+          'Nutze jede Zusatz-Referenz nur fuer Identitaet der genannten Figur, nicht fuer deren Hintergrundwelt oder Stil.',
+        ].join('\n')
+      : [
+          'REFERENZ-MAPPING (WICHTIG):',
+          `- input_image = ${input.characterName} (aktive Figur, Stil- und Weltanker).`,
+        ].join('\n')
 
   return [
     `Nutze das Referenzbild von ${input.characterName} als strikte Stil- und Identitaetsvorlage.`,
+    'WICHTIG ZU REFERENZEN: Das erste Referenzbild definiert den Stil und die Welt. Weitere Referenzbilder sind nur fuer Figuren-Identitaet (Aussehen), nicht fuer Stil oder Ort.',
+    referenceMappingBlock,
     'Bearbeite/erweitere die Szene in exakt diesem Look (gleiches Color Grading, Licht, Render-Stil).',
     `Szenenziel: ${input.scenePrompt}`,
     mustIncludeLine,
@@ -498,8 +563,8 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       },
     })
 
-    const primaryReferencePaths = await resolveReferencePaths(characterId, yaml)
-    const primaryHeroReferencePath = primaryReferencePaths[0] ?? null
+    const primaryReferences = await resolveCharacterReferenceImages(characterId, yaml)
+    const primaryHeroReferencePath = primaryReferences.heroPath ?? primaryReferences.standardPath
     if (!primaryHeroReferencePath) {
       await trackImageActivitySafely({
         activityType: 'tool.image.failed',
@@ -547,8 +612,18 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       lastUserText,
       relatedCandidates,
     )
-    const relatedReferencePaths = requestedRelatedCharacters
-      .flatMap((related) => related.referencePaths.slice(0, 1))
+    const referencedRelatedCharacters = requestedRelatedCharacters.filter(
+      (related) => related.standardReferencePath,
+    )
+    const interactionTargets = buildCharacterInteractionTargets(
+      requestedRelatedCharacters.map((related) => ({
+        characterId: related.characterId,
+        name: related.name,
+      })),
+    )
+    const interactionMetadata = buildInteractionMetadata(characterId, interactionTargets)
+    const relatedReferencePaths = referencedRelatedCharacters
+      .flatMap((related) => (related.standardReferencePath ? [related.standardReferencePath] : []))
       .filter((value, index, array) => value.length > 0 && array.indexOf(value) === index)
 
     // Zwischenstufe: erst generischer Storytime-Scene-Intent, dann dedizierter FLUX-Edit-Prompt.
@@ -558,6 +633,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       scenePrompt: sceneIntentPrompt,
       lastUserText,
       relatedCharacters: requestedRelatedCharacters,
+      referencedRelatedCharacters,
     })
 
     const client = new FluxClient(apiKey)
@@ -585,6 +661,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         imageGenerationPrompt: fluxEditPrompt,
         model: requestResult.model,
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        ...interactionMetadata,
       },
     })
     await trackImageActivitySafely({
@@ -632,7 +709,14 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       return
     }
 
-    const imageUrl = pollResult.result.sample
+    const remoteImageUrl = pollResult.result.sample
+    const storedImage = await storeConversationImageAsset({
+      conversationId,
+      imageUrl: remoteImageUrl,
+      requestId: requestResult.requestId,
+      prefix: 'generated',
+    })
+    const imageUrl = storedImage?.localUrl ?? remoteImageUrl
     const summary = buildImageGeneratedSummary(characterName, scenePrompt)
 
     await appendConversationMessage({
@@ -643,6 +727,8 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
       metadata: {
         heroImageUrl: imageUrl,
         imageUrl,
+        originalImageUrl: remoteImageUrl,
+        imageAssetPath: storedImage?.localFilePath,
         imageLinkUrl: imageUrl,
         imageLinkLabel: 'Bild ansehen',
         skillId: VISUAL_EXPRESSION_SKILL?.id,
@@ -657,6 +743,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
         relatedCharacterIds: requestedRelatedCharacters.map((related) => related.characterId),
         relatedCharacterNames: requestedRelatedCharacters.map((related) => related.name),
+        ...interactionMetadata,
       },
     })
 
@@ -674,6 +761,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
         requestId: requestResult.requestId,
         scenePrompt,
+        ...interactionMetadata,
       },
     })
 
@@ -689,6 +777,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
         scenePrompt,
+        ...interactionMetadata,
       },
     })
 
@@ -706,6 +795,8 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         conversationLinkLabel: 'Conversation ansehen',
         heroImageUrl: imageUrl,
         imageUrl,
+        originalImageUrl: remoteImageUrl,
+        imageAssetPath: storedImage?.localFilePath,
         imageLinkUrl: imageUrl,
         imageLinkLabel: 'Bild ansehen',
         imageGenerationPrompt: fluxEditPrompt,
@@ -715,6 +806,7 @@ export const maybeGenerateSceneImageFromAssistantMessage = async (input: {
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
         relatedCharacterIds: requestedRelatedCharacters.map((related) => related.characterId),
         relatedCharacterNames: requestedRelatedCharacters.map((related) => related.name),
+        ...interactionMetadata,
       },
     })
   } catch (error) {

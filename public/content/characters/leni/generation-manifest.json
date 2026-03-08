@@ -1,0 +1,278 @@
+{
+  "generatedAt": "2026-03-08T14:19:45.355Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/leni/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/leni",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/Screenshot_2026-03-08_at_10.24.24-8fd8339c-9010-4f97-85ec-e3d10020a67f.png",
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/Screenshot_2026-03-08_at_10.24.45-18c7cc35-e52b-49f7-abae-4ed036a932a2.png",
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/Screenshot_2026-03-08_at_10.24.55-e6703f68-de2c-47d8-88c7-8cbe7fabd825.png",
+    "/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/Screenshot_2026-03-08_at_15.13.31-32f040c5-0bb4-46f0-bf91-1adf758de9fa.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro-preview",
+    "heroModel": "flux-2-max"
+  },
+  "character": {
+    "id": "leni",
+    "name": "Leni",
+    "shortDescription": "Leni ist ein aufgewecktes, braunhaariges Maedchen mit grossem warmem Kinderlaecheln, das schnell Vertrauen schenkt und in Freundschaften viel Verbundenheit schafft.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "feminin",
+      "roleArchetype": "social_connector"
+    },
+    "appearance": {
+      "bodyShape": "klein, beweglich und kindlich",
+      "colors": [
+        "warmes braun",
+        "creme",
+        "sanftes rosa",
+        "helles grau"
+      ],
+      "hairOrFur": {
+        "color": "mittelbraun",
+        "texture": "glatt bis leicht wellig",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "dunkelbraun",
+        "expression": "freundlich, offen und aufmerksam"
+      },
+      "distinctiveFeatures": [
+        "warmes breites Kinderlaecheln mit klar sichtbaren Schneidezaehnen",
+        "feine braune Haarstraehnen, die locker ins Gesicht fallen",
+        "heller Pullover mit rosa Herzdetails an den Aermeln"
+      ],
+      "clothingStyle": "bequeme, helle Kinderkleidung in creme und rosa Akzenten"
+    },
+    "personality": {
+      "coreTraits": [
+        "herzlich",
+        "verspielt",
+        "loyal"
+      ],
+      "temperament": "lebhaft und zugewandt",
+      "socialStyle": "offen im vertrauten Kreis, freundlich bei neuen Begegnungen",
+      "strengths": [
+        "bringt Kinder schnell ins gemeinsame Spiel",
+        "merkt, wenn jemand Ermutigung braucht",
+        "baut stabile Freundschaften auf"
+      ],
+      "weaknesses": [
+        "nimmt Spannungen in der Gruppe stark wahr",
+        "ist manchmal enttaeuscht, wenn Verabredungen nicht klappen",
+        "sagt selten sofort, wenn sie selbst Unterstuetzung braucht"
+      ],
+      "quirks": [
+        "legt beim Erzaehlen die Arme eng vor der Brust zusammen",
+        "kichert leise, bevor sie mutig eine Idee vorschlaegt"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "viel Zeit mit ihren Freundinnen verbringen und neue Spiele erfinden",
+      "deeperNeed": "sichere Zugehoerigkeit in ihrer Freundesgruppe",
+      "fear": "von engen Freundinnen ausgeschlossen zu werden",
+      "insecurity": "Vielleicht bin ich zu still, wenn ich aufgeregt bin.",
+      "stressResponse": "smile_then_withdraw",
+      "growthDirection": "lernt, eigene Wuensche frueh auszusprechen und sich aktiv Hilfe zu holen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "peer",
+        "social_bridge"
+      ],
+      "suitableLearningGoals": [
+        "freundschaft",
+        "selbstvertrauen",
+        "konfliktloesung"
+      ],
+      "explanationStyle": "warm, kindnah und bestaerkend"
+    },
+    "origin": {
+      "birthPlace": "Lindenhain",
+      "upbringingPlaces": [
+        "Lindenhain"
+      ],
+      "culturalContext": [
+        "gemeinsames Spielen im Hof mit Nachbarskindern",
+        "ruhige Abendrituale mit Geschichten und Gespraechen"
+      ],
+      "religionOrBelief": "glaubt daran, dass Freundlichkeit und Zusammenhalt den Alltag heller machen",
+      "historicalContext": [
+        "lernte frueh, juengere Kinder beim Spielen mitzunehmen",
+        "wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt"
+      ],
+      "notes": "Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung."
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "juna-lia",
+          "type": "beste_freundin",
+          "description": "Juna Lia ist Lenis beste Freundin; mit ihr ist Leni besonders mutig, aktiv und voller Ideen."
+        },
+        {
+          "characterId": "yoko",
+          "type": "gute_freundin",
+          "description": "Yoko ist eine gute Freundin von Leni; ihre waermende Naehe gibt Leni schnell Sicherheit."
+        },
+        {
+          "characterId": "nola",
+          "type": "gute_freundin",
+          "description": "Nola ist eine gute Freundin von Leni; ihre Abenteuerlust steckt Leni an und macht sie neugierig."
+        }
+      ],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "lieblingsort",
+          "description": "Auf der Wiese kann Leni frei spielen, lachen und neue Gruppenspiele erfinden."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/leni/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur von Leni als kleines Maedchen mit mittelbraunem Haar, grossem warmem Laecheln und heller Kinderkleidung mit rosa Details, hohe Aehnlichkeit zur Referenzperson."
+      },
+      "heroImage": {
+        "file": "/content/characters/leni/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene im weichen Nachmittagslicht auf einer Terrasse am Gartenrand: Leni lacht offen, wirkt zugewandt und zeigt dieselbe Gesichtsidentitaet wie im Referenzbild."
+      },
+      "portrait": {
+        "file": "/content/characters/leni/portrait.png",
+        "description": "Halbnahes Character-Portrait von Leni mit hoher Aehnlichkeit zur Referenzperson: freundliche dunkle Augen, weiche Gesichtszuege, mittelbraunes Haar mit feinen losen Straehnen und herzliche Ausstrahlung."
+      },
+      "profileImage": {
+        "file": "/content/characters/leni/profilbild.png",
+        "description": "Quadratisches Profilbild von Leni mit klar lesbarem Kinderlaecheln und hoher Gesichtsaehnlichkeit zur Referenzperson, auch in kleiner Darstellung gut erkennbar."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_freudig",
+          "file": "/content/characters/leni/emotion-freudig.png",
+          "description": "Leni strahlt mit lebendigem Blick und wirkt offen, herzlich und spielbereit."
+        }
+      ]
+    },
+    "tags": [
+      "freundschaft",
+      "herzlich",
+      "loyal",
+      "kindlich",
+      "gruppenspiel",
+      "selbstvertrauen"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "leni:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Leni. Short description: Leni ist ein aufgewecktes, braunhaariges Maedchen mit grossem warmem Kinderlaecheln, das schnell Vertrauen schenkt und in Freundschaften viel Verbundenheit schafft. Species: Mensch. Age feel: kindlich. Archetype: social_connector. Body shape: klein, beweglich und kindlich. Dominant colors: warmes braun, creme, sanftes rosa, helles grau. Hair or fur: mittelbraun glatt bis leicht wellig mittellang. Eyes: dunkelbraun, freundlich, offen und aufmerksam. Distinctive features: warmes breites Kinderlaecheln mit klar sichtbaren Schneidezaehnen, feine braune Haarstraehnen, die locker ins Gesicht fallen, heller Pullover mit rosa Herzdetails an den Aermeln. Clothing style: bequeme, helle Kinderkleidung in creme und rosa Akzenten. Core traits: herzlich, verspielt, loyal. Temperament: lebhaft und zugewandt. Social style: offen im vertrauten Kreis, freundlich bei neuen Begegnungen. Strengths: bringt Kinder schnell ins gemeinsame Spiel, merkt, wenn jemand Ermutigung braucht, baut stabile Freundschaften auf. Weaknesses: nimmt Spannungen in der Gruppe stark wahr, ist manchmal enttaeuscht, wenn Verabredungen nicht klappen, sagt selten sofort, wenn sie selbst Unterstuetzung braucht. Quirks: legt beim Erzaehlen die Arme eng vor der Brust zusammen, kichert leise, bevor sie mutig eine Idee vorschlaegt. Visible goal: viel Zeit mit ihren Freundinnen verbringen und neue Spiele erfinden. Deeper need: sichere Zugehoerigkeit in ihrer Freundesgruppe. Fear: von engen Freundinnen ausgeschlossen zu werden. Insecurity: Vielleicht bin ich zu still, wenn ich aufgeregt bin. Stress response: smile_then_withdraw. Growth direction: lernt, eigene Wuensche frueh auszusprechen und sich aktiv Hilfe zu holen. Teaching roles: peer, social_bridge. Explanation style: warm, kindnah und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: gemeinsames Spielen im Hof mit Nachbarskindern, ruhige Abendrituale mit Geschichten und Gespraechen. Belief or worldview: glaubt daran, dass Freundlichkeit und Zusammenhalt den Alltag heller machen. Historical context: lernte frueh, juengere Kinder beim Spielen mitzunehmen, wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt. Origin notes: Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Leni on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Freigestellte Ganzkoerperfigur von Leni als kleines Maedchen mit mittelbraunem Haar, grossem warmem Laecheln und heller Kinderkleidung mit rosa Details, hohe Aehnlichkeit zur Referenzperson. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur von Leni als kleines Maedchen mit mittelbraunem Haar, grossem warmem Laecheln und heller Kinderkleidung mit rosa Details, hohe Aehnlichkeit zur Referenzperson.",
+      "publicFilePath": "/content/characters/leni/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/leni/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "e1416225-2927-4bc3-bdcf-617d5f6a5ebd",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=e1416225-2927-4bc3-bdcf-617d5f6a5ebd",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/a14756358e3d49ada76e7dfe8e78ceb4_sample.png?se=2026-03-08T14%3A27%3A55Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=SCzjSMvsPzNp8mSgfmmaRyfFvXADJm%2BGQUKBO4j0F64%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "leni:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-max",
+      "prompt": "Character name: Leni. Short description: Leni ist ein aufgewecktes, braunhaariges Maedchen mit grossem warmem Kinderlaecheln, das schnell Vertrauen schenkt und in Freundschaften viel Verbundenheit schafft. Species: Mensch. Age feel: kindlich. Archetype: social_connector. Body shape: klein, beweglich und kindlich. Dominant colors: warmes braun, creme, sanftes rosa, helles grau. Hair or fur: mittelbraun glatt bis leicht wellig mittellang. Eyes: dunkelbraun, freundlich, offen und aufmerksam. Distinctive features: warmes breites Kinderlaecheln mit klar sichtbaren Schneidezaehnen, feine braune Haarstraehnen, die locker ins Gesicht fallen, heller Pullover mit rosa Herzdetails an den Aermeln. Clothing style: bequeme, helle Kinderkleidung in creme und rosa Akzenten. Core traits: herzlich, verspielt, loyal. Temperament: lebhaft und zugewandt. Social style: offen im vertrauten Kreis, freundlich bei neuen Begegnungen. Strengths: bringt Kinder schnell ins gemeinsame Spiel, merkt, wenn jemand Ermutigung braucht, baut stabile Freundschaften auf. Weaknesses: nimmt Spannungen in der Gruppe stark wahr, ist manchmal enttaeuscht, wenn Verabredungen nicht klappen, sagt selten sofort, wenn sie selbst Unterstuetzung braucht. Quirks: legt beim Erzaehlen die Arme eng vor der Brust zusammen, kichert leise, bevor sie mutig eine Idee vorschlaegt. Visible goal: viel Zeit mit ihren Freundinnen verbringen und neue Spiele erfinden. Deeper need: sichere Zugehoerigkeit in ihrer Freundesgruppe. Fear: von engen Freundinnen ausgeschlossen zu werden. Insecurity: Vielleicht bin ich zu still, wenn ich aufgeregt bin. Stress response: smile_then_withdraw. Growth direction: lernt, eigene Wuensche frueh auszusprechen und sich aktiv Hilfe zu holen. Teaching roles: peer, social_bridge. Explanation style: warm, kindnah und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: gemeinsames Spielen im Hof mit Nachbarskindern, ruhige Abendrituale mit Geschichten und Gespraechen. Belief or worldview: glaubt daran, dass Freundlichkeit und Zusammenhalt den Alltag heller machen. Historical context: lernte frueh, juengere Kinder beim Spielen mitzunehmen, wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt. Origin notes: Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Leni in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene im weichen Nachmittagslicht auf einer Terrasse am Gartenrand: Leni lacht offen, wirkt zugewandt und zeigt dieselbe Gesichtsidentitaet wie im Referenzbild. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene im weichen Nachmittagslicht auf einer Terrasse am Gartenrand: Leni lacht offen, wirkt zugewandt und zeigt dieselbe Gesichtsidentitaet wie im Referenzbild.",
+      "publicFilePath": "/content/characters/leni/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/leni/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "7b41b2c8-edac-4c3d-9654-2f3af43d847c",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=7b41b2c8-edac-4c3d-9654-2f3af43d847c",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/e28b1e4f16e84b7d8c4cbd84b4b04ed3_sample.jpeg?se=2026-03-08T14%3A28%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=bTFjWZ1pm3OlXanapwyNi8Ojg34hE%2BtvLP6uxLPVeto%3D",
+      "cost": 25
+    },
+    {
+      "id": "leni:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Leni. Short description: Leni ist ein aufgewecktes, braunhaariges Maedchen mit grossem warmem Kinderlaecheln, das schnell Vertrauen schenkt und in Freundschaften viel Verbundenheit schafft. Species: Mensch. Age feel: kindlich. Archetype: social_connector. Body shape: klein, beweglich und kindlich. Dominant colors: warmes braun, creme, sanftes rosa, helles grau. Hair or fur: mittelbraun glatt bis leicht wellig mittellang. Eyes: dunkelbraun, freundlich, offen und aufmerksam. Distinctive features: warmes breites Kinderlaecheln mit klar sichtbaren Schneidezaehnen, feine braune Haarstraehnen, die locker ins Gesicht fallen, heller Pullover mit rosa Herzdetails an den Aermeln. Clothing style: bequeme, helle Kinderkleidung in creme und rosa Akzenten. Core traits: herzlich, verspielt, loyal. Temperament: lebhaft und zugewandt. Social style: offen im vertrauten Kreis, freundlich bei neuen Begegnungen. Strengths: bringt Kinder schnell ins gemeinsame Spiel, merkt, wenn jemand Ermutigung braucht, baut stabile Freundschaften auf. Weaknesses: nimmt Spannungen in der Gruppe stark wahr, ist manchmal enttaeuscht, wenn Verabredungen nicht klappen, sagt selten sofort, wenn sie selbst Unterstuetzung braucht. Quirks: legt beim Erzaehlen die Arme eng vor der Brust zusammen, kichert leise, bevor sie mutig eine Idee vorschlaegt. Visible goal: viel Zeit mit ihren Freundinnen verbringen und neue Spiele erfinden. Deeper need: sichere Zugehoerigkeit in ihrer Freundesgruppe. Fear: von engen Freundinnen ausgeschlossen zu werden. Insecurity: Vielleicht bin ich zu still, wenn ich aufgeregt bin. Stress response: smile_then_withdraw. Growth direction: lernt, eigene Wuensche frueh auszusprechen und sich aktiv Hilfe zu holen. Teaching roles: peer, social_bridge. Explanation style: warm, kindnah und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: gemeinsames Spielen im Hof mit Nachbarskindern, ruhige Abendrituale mit Geschichten und Gespraechen. Belief or worldview: glaubt daran, dass Freundlichkeit und Zusammenhalt den Alltag heller machen. Historical context: lernte frueh, juengere Kinder beim Spielen mitzunehmen, wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt. Origin notes: Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Leni. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Portrait von Leni mit hoher Aehnlichkeit zur Referenzperson: freundliche dunkle Augen, weiche Gesichtszuege, mittelbraunes Haar mit feinen losen Straehnen und herzliche Ausstrahlung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Portrait von Leni mit hoher Aehnlichkeit zur Referenzperson: freundliche dunkle Augen, weiche Gesichtszuege, mittelbraunes Haar mit feinen losen Straehnen und herzliche Ausstrahlung.",
+      "publicFilePath": "/content/characters/leni/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/leni/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "963e5b9a-bda7-47e9-801c-b558cde55409",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=963e5b9a-bda7-47e9-801c-b558cde55409",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/5a7b9e0c22b04b668f679d667128ee4b_sample.png?se=2026-03-08T14%3A28%3A58Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=pbLLrlfNnUANEyV6rFtAlbX/VwM4PBNOY/PammAdzJU%3D",
+      "cost": 12
+    },
+    {
+      "id": "leni:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Leni. Short description: Leni ist ein aufgewecktes, braunhaariges Maedchen mit grossem warmem Kinderlaecheln, das schnell Vertrauen schenkt und in Freundschaften viel Verbundenheit schafft. Species: Mensch. Age feel: kindlich. Archetype: social_connector. Body shape: klein, beweglich und kindlich. Dominant colors: warmes braun, creme, sanftes rosa, helles grau. Hair or fur: mittelbraun glatt bis leicht wellig mittellang. Eyes: dunkelbraun, freundlich, offen und aufmerksam. Distinctive features: warmes breites Kinderlaecheln mit klar sichtbaren Schneidezaehnen, feine braune Haarstraehnen, die locker ins Gesicht fallen, heller Pullover mit rosa Herzdetails an den Aermeln. Clothing style: bequeme, helle Kinderkleidung in creme und rosa Akzenten. Core traits: herzlich, verspielt, loyal. Temperament: lebhaft und zugewandt. Social style: offen im vertrauten Kreis, freundlich bei neuen Begegnungen. Strengths: bringt Kinder schnell ins gemeinsame Spiel, merkt, wenn jemand Ermutigung braucht, baut stabile Freundschaften auf. Weaknesses: nimmt Spannungen in der Gruppe stark wahr, ist manchmal enttaeuscht, wenn Verabredungen nicht klappen, sagt selten sofort, wenn sie selbst Unterstuetzung braucht. Quirks: legt beim Erzaehlen die Arme eng vor der Brust zusammen, kichert leise, bevor sie mutig eine Idee vorschlaegt. Visible goal: viel Zeit mit ihren Freundinnen verbringen und neue Spiele erfinden. Deeper need: sichere Zugehoerigkeit in ihrer Freundesgruppe. Fear: von engen Freundinnen ausgeschlossen zu werden. Insecurity: Vielleicht bin ich zu still, wenn ich aufgeregt bin. Stress response: smile_then_withdraw. Growth direction: lernt, eigene Wuensche frueh auszusprechen und sich aktiv Hilfe zu holen. Teaching roles: peer, social_bridge. Explanation style: warm, kindnah und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: gemeinsames Spielen im Hof mit Nachbarskindern, ruhige Abendrituale mit Geschichten und Gespraechen. Belief or worldview: glaubt daran, dass Freundlichkeit und Zusammenhalt den Alltag heller machen. Historical context: lernte frueh, juengere Kinder beim Spielen mitzunehmen, wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt. Origin notes: Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Leni. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild von Leni mit klar lesbarem Kinderlaecheln und hoher Gesichtsaehnlichkeit zur Referenzperson, auch in kleiner Darstellung gut erkennbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild von Leni mit klar lesbarem Kinderlaecheln und hoher Gesichtsaehnlichkeit zur Referenzperson, auch in kleiner Darstellung gut erkennbar.",
+      "publicFilePath": "/content/characters/leni/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/leni/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "c631801d-e7b4-47aa-9f5e-ef5f78780f33",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=c631801d-e7b4-47aa-9f5e-ef5f78780f33",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/3b4b9bec2b2241e080367af47bd0a420_sample.png?se=2026-03-08T14%3A29%3A20Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=wbLhSSHK5nRes8O%2BtQrR/g2M8YPO4OaLz2z2asO8xP4%3D",
+      "cost": 10.5
+    },
+    {
+      "id": "leni:emotion_freudig",
+      "type": "emotion_freudig",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro-preview",
+      "prompt": "Character name: Leni. Short description: Leni ist ein aufgewecktes, braunhaariges Maedchen mit grossem warmem Kinderlaecheln, das schnell Vertrauen schenkt und in Freundschaften viel Verbundenheit schafft. Species: Mensch. Age feel: kindlich. Archetype: social_connector. Body shape: klein, beweglich und kindlich. Dominant colors: warmes braun, creme, sanftes rosa, helles grau. Hair or fur: mittelbraun glatt bis leicht wellig mittellang. Eyes: dunkelbraun, freundlich, offen und aufmerksam. Distinctive features: warmes breites Kinderlaecheln mit klar sichtbaren Schneidezaehnen, feine braune Haarstraehnen, die locker ins Gesicht fallen, heller Pullover mit rosa Herzdetails an den Aermeln. Clothing style: bequeme, helle Kinderkleidung in creme und rosa Akzenten. Core traits: herzlich, verspielt, loyal. Temperament: lebhaft und zugewandt. Social style: offen im vertrauten Kreis, freundlich bei neuen Begegnungen. Strengths: bringt Kinder schnell ins gemeinsame Spiel, merkt, wenn jemand Ermutigung braucht, baut stabile Freundschaften auf. Weaknesses: nimmt Spannungen in der Gruppe stark wahr, ist manchmal enttaeuscht, wenn Verabredungen nicht klappen, sagt selten sofort, wenn sie selbst Unterstuetzung braucht. Quirks: legt beim Erzaehlen die Arme eng vor der Brust zusammen, kichert leise, bevor sie mutig eine Idee vorschlaegt. Visible goal: viel Zeit mit ihren Freundinnen verbringen und neue Spiele erfinden. Deeper need: sichere Zugehoerigkeit in ihrer Freundesgruppe. Fear: von engen Freundinnen ausgeschlossen zu werden. Insecurity: Vielleicht bin ich zu still, wenn ich aufgeregt bin. Stress response: smile_then_withdraw. Growth direction: lernt, eigene Wuensche frueh auszusprechen und sich aktiv Hilfe zu holen. Teaching roles: peer, social_bridge. Explanation style: warm, kindnah und bestaerkend. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: gemeinsames Spielen im Hof mit Nachbarskindern, ruhige Abendrituale mit Geschichten und Gespraechen. Belief or worldview: glaubt daran, dass Freundlichkeit und Zusammenhalt den Alltag heller machen. Historical context: lernte frueh, juengere Kinder beim Spielen mitzunehmen, wurde in ihrer Familie zu respektvollem Zuhoeren ermutigt. Origin notes: Herkunft praegt ihre offene, zugewandte Art ohne stereotype Verengung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create an additional character asset for Leni. Target brief: Leni strahlt mit lebendigem Blick und wirkt offen, herzlich und spielbereit. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Leni strahlt mit lebendigem Blick und wirkt offen, herzlich und spielbereit.",
+      "publicFilePath": "/content/characters/leni/emotion-freudig.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/leni/emotion-freudig.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "ac162ae2-9882-4dc9-a9e9-058ad0ff0ed1",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=ac162ae2-9882-4dc9-a9e9-058ad0ff0ed1",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/08/23f79b8067ff4627a2cc67930a1c3854_sample.png?se=2026-03-08T14%3A29%3A41Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=rjI7TG2pKDjus3NTf3dzdwUBsAjkjv0O8ldLbppW748%3D",
+      "cost": 10.5
+    }
+  ]
+}
