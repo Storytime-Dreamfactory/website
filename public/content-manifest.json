@@ -7,14 +7,16 @@
     "/content/characters/malvarion-der-graue/character.yaml",
     "/content/characters/lina-flussmaedchen/character.yaml",
     "/content/characters/agatha-knusperhexe/character.yaml",
-    "/content/characters/lorelei-das-goldmaedchen/character.yaml"
+    "/content/characters/lorelei-das-goldmaedchen/character.yaml",
+    "/content/characters/juna-lia/character.yaml",
+    "/content/characters/yoko/character.yaml"
   ],
   "places": [
     "/content/places/crystal-lake.yaml",
     "/content/places/whispering-meadow.yaml"
   ],
-  "skills": [
-    "/content/skills/problem-solving.yaml",
-    "/content/skills/kindness.yaml"
+  "learningGoals": [
+    "/content/learning-goals/problem-solving.yaml",
+    "/content/learning-goals/kindness.yaml"
   ]
 }

@@ -53,7 +53,7 @@ Ein schlechter Charakter in diesem System ist:
 
 ## Story- und Lernorientierung
 
-Diese Charaktere werden spaeter in Geschichten verwendet, die Kindern ueber Storytelling bestimmte Skills vermitteln.
+Diese Charaktere werden spaeter in Geschichten verwendet, die Kindern ueber Storytelling bestimmte Lernziele vermitteln.
 
 Deshalb soll jeder Charakter:
 - fuer mindestens eine typische Lernrolle geeignet sein
@@ -65,7 +65,7 @@ Deshalb soll jeder Charakter:
 Besonders wichtig sind die Felder:
 - persoenlichkeit (core_traits, strengths, weaknesses)
 - story_psychology (visible_goal, deeper_need, fear, insecurity)
-- learning_function (teaching_roles, suitable_skills)
+- learning_function (teaching_roles, suitable_learning_goals)
 - bilder.*.beschreibung (muessen illustrierbar sein)
 - tags (fuer Retrieval und Filterbarkeit)
 
@@ -160,7 +160,7 @@ Bevor du das YAML ausgibst, pruefe:
 - Ist die Figur klar von den bestehenden Figuren unterscheidbar?
 - Ist die Figur klar in einer Region, Landschaft oder kulturellen Weltlogik verankert?
 - Sind Spezies und visuelle Marker spezifisch genug, um sie spaeter konsistent wiederzuerkennen?
-- Sind die Tags nicht nur Skill-Tags, sondern auch nuetzlich fuer Retrieval von Verhalten, Rolle, Arc und Weltkontext?
+- Sind die Tags nicht nur Lernziel-Tags, sondern auch nuetzlich fuer Retrieval von Verhalten, Rolle, Arc und Weltkontext?
 Wenn eine Antwort nein ist, verbessere den Charakter vor der Ausgabe.
 
 ## Output-Regeln
@@ -176,7 +176,7 @@ Wenn eine Antwort nein ist, verbessere den Charakter vor der Ausgabe.
 - Das Feld metadata.active muss true sein.
 - Bildpfade muessen dem Muster /content/characters/<id>/<bildtyp>.<ext> folgen (standard-figur.png, hero-image.jpg, portrait.png, profilbild.png).
 - Setze weitere_bilder auf eine leere Liste [].
-- Nutze in `tags` eine Mischung aus Skill-, Verhaltens-, Rollen-, Arc- und Welt-Tags, soweit sie aus dem Charakter sinnvoll ableitbar sind.
+- Nutze in `tags` eine Mischung aus Lernziel-, Verhaltens-, Rollen-, Arc- und Welt-Tags, soweit sie aus dem Charakter sinnvoll ableitbar sind.
 - Waehle fuer `story_psychology.stress_response` eine kurze, narrativ gut spielbare Reaktion. Vermeide monotone Wiederholungen desselben Musters ueber viele Figuren hinweg.
 
 ## YAML-Schema
@@ -238,9 +238,9 @@ learning_function:
   teaching_roles:
     - Rolle 1
     - Rolle 2
-  suitable_skills:
-    - skill-1
-    - skill-2
+  suitable_learning_goals:
+    - learning-goal-1
+    - learning-goal-2
   explanation_style: playful | question_based | example_based | calm
 herkunft:
   geburtsort: Ortsname aus der Storytime-Welt

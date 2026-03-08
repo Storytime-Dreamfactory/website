@@ -1,4 +1,4 @@
-import type { Character, Place, Skill } from './types'
+import type { Character, LearningGoal, Place } from './types'
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
@@ -219,9 +219,9 @@ export const validateCharacter = (
         'learning_function.teaching_roles',
         filePath,
       ),
-      suitableSkills: asStringList(
-        learningFunction.suitable_skills,
-        'learning_function.suitable_skills',
+      suitableLearningGoals: asStringList(
+        learningFunction.suitable_learning_goals,
+        'learning_function.suitable_learning_goals',
         filePath,
       ),
       explanationStyle: asString(
@@ -351,15 +351,23 @@ export const validatePlace = (value: unknown, id: string, filePath: string): Pla
   }
 }
 
-export const validateSkill = (value: unknown, id: string, filePath: string): Skill => {
+export const validateLearningGoal = (
+  value: unknown,
+  id: string,
+  filePath: string,
+): LearningGoal => {
   if (!isRecord(value)) {
-    throw new Error(`Invalid skill shape in ${filePath}`)
+    throw new Error(`Invalid learning goal shape in ${filePath}`)
   }
 
   return {
     id,
     name: asString(value.name, 'name', filePath),
+    topic: asString(value.topic, 'topic', filePath),
     description: asString(value.description, 'description', filePath),
-    quizExamples: asStringList(value.quiz_examples, 'quiz_examples', filePath),
+    ageRange: asOptionalStringList(value.age_range, 'age_range', filePath),
+    exampleQuestions: asStringList(value.example_questions, 'example_questions', filePath),
+    practiceIdeas: asOptionalStringList(value.practice_ideas, 'practice_ideas', filePath),
+    domainTags: asOptionalStringList(value.domain_tags, 'domain_tags', filePath),
   }
 }

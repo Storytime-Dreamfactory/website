@@ -61,7 +61,7 @@ export const saveCharacterYaml = async (yamlText: string): Promise<{
   const manifest = JSON.parse(manifestRaw) as {
     characters: string[]
     places: string[]
-    skills: string[]
+    learningGoals: string[]
   }
 
   const runtimePath = `/content/characters/${characterId}/character.yaml`

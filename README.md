@@ -1,7 +1,12 @@
 # Storytime Website
 
 Storytime ist eine React- und TypeScript-App mit **YAML-first Content-System**.
-Characters, Places und Skills werden als YAML gepflegt und von der App geladen.
+Characters, Places und Lernziele werden als YAML gepflegt und von der App geladen.
+
+Begriffslogik:
+- `Lernziele` sind fachliche Inhaltsobjekte.
+- `Skills` sind agentische Playbooks wie Quiz oder visuell ausdruecken.
+- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren oder spaeter Badges vergeben.
 
 ## Start hier
 
@@ -70,11 +75,14 @@ API-Endpunkte (lokaler Vite-Server):
   - Liefert alle Character-Beziehungen (wird vom Frontend-Loader genutzt)
 - `POST /api/activities/`
   - Legt einen Activity-Stream-Eintrag an
-  - Body: `activityType`, optional `isPublic` (default `false`), optional `characterId`, optional `placeId`, optional `skillIds[]`, optional `conversationId`, optional `subject`, optional `object`, optional `metadata`, optional `occurredAt`
-- `GET /api/activities/?characterId=<id>&placeId=<id>&skillId=<id>&conversationId=<id>&activityType=<type>&limit=100&offset=0`
-  - Listet standardmaessig nur `isPublic=true` Activities, optional gefiltert nach Character, Place, Skill, Conversation und Type
+  - Body: `activityType`, optional `isPublic` (default `false`), optional `characterId`, optional `placeId`, optional `learningGoalIds[]`, optional `conversationId`, optional `subject`, optional `object`, optional `metadata`, optional `occurredAt`
+- `GET /api/activities/?characterId=<id>&placeId=<id>&learningGoalId=<id>&conversationId=<id>&activityType=<type>&limit=100&offset=0`
+  - Listet standardmaessig nur `isPublic=true` Activities, optional gefiltert nach Character, Place, Lernziel, Conversation und Type
   - Mit `includeNonPublic=true` werden auch interne/non-consumer-facing Activities geliefert
   - Sortierung: neueste zuerst (`occurredAt DESC`)
+- `GET /api/activities/stream?characterId=<id>&placeId=<id>&learningGoalId=<id>&conversationId=<id>&activityType=<type>`
+  - Server-Sent-Events (SSE) Stream fuer Live-Updates aus der DB (Postgres `LISTEN/NOTIFY`)
+  - Nutzt dieselben Filter; standardmaessig nur `isPublic=true`, mit `includeNonPublic=true` auch interne Events
 - `POST /api/images/generate`
   - Schneller Prompt-zu-Bild Endpoint fuer Chat-Workflows
   - Body: `prompt` (required), optional `model` (Default `flux-2-flex`), `width`, `height`, `outputFormat` (`jpeg` oder `png`), `seed`, `pollIntervalMs`, `maxPollAttempts`
@@ -98,9 +106,9 @@ Hinweis:
   - `conversation.message.created` (`isPublic=false`)
   - `conversation.ended` (`isPublic=false`)
   - `character.chat.completed` (`isPublic=true`, derzeit mit hart codierter Person `Yoko` und Label `Check here`)
-- Place/Skill-Kontext kann ueber Conversation-Metadata mitgegeben werden:
+- Place-/Lernziel-Kontext kann ueber Conversation-Metadata mitgegeben werden:
   - `placeId` oder `place_id`
-  - `skillIds` / `skill_ids` (Array) oder `skillId` (single)
+  - `learningGoalIds` / `learning_goal_ids` (Array) oder `learningGoalId` (single)
 
 CLI-Query:
 

@@ -18,8 +18,8 @@ import {
 } from 'antd'
 import { HeartOutlined } from '@ant-design/icons'
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
-import storytimeIcon from './assets/storytime-icon.png'
 import storytimeLogo from './assets/storytime-logo.png'
+import userProfileAvatar from './assets/user-profile-avatar.png'
 import CharacterDetailPage from './CharacterDetailPage'
 import CharacterCreationChatOverlay from './CharacterCreationChatOverlay'
 import { loadStoryContent } from './content/loaders'
@@ -32,7 +32,7 @@ const { Title, Text } = Typography
 const PAGE_BACKGROUND_ASSETS = {
   characters: '/generated/characters-forest-background.png',
   places: '/generated/places-dolomites-background.png',
-  skills: '/generated/skills-finja-nola-learning-background.png',
+  learningGoals: '/generated/skills-finja-nola-learning-background.png',
 } as const
 
 const HOME_HERO_BACKGROUND = '/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg'
@@ -41,7 +41,7 @@ const menuItems = [
   { key: '/', label: 'Home' },
   { key: '/characters', label: 'Characters' },
   { key: '/places', label: 'Places' },
-  { key: '/skills', label: 'Skills' },
+  { key: '/learning-goals', label: 'Lernziele' },
   { key: '/design-system', label: 'Design System' },
 ]
 
@@ -53,7 +53,12 @@ function AppHeader({ source }: { source: StoryContent['source'] | undefined }) {
     if (location.pathname === '/') return '/'
     if (location.pathname.startsWith('/design-system')) return '/design-system'
     if (location.pathname.startsWith('/places')) return '/places'
-    if (location.pathname.startsWith('/skills')) return '/skills'
+    if (
+      location.pathname.startsWith('/learning-goals') ||
+      location.pathname.startsWith('/skills')
+    ) {
+      return '/learning-goals'
+    }
     if (location.pathname.startsWith('/characters')) return '/characters'
     return '/'
   }, [location.pathname])
@@ -78,7 +83,7 @@ function AppHeader({ source }: { source: StoryContent['source'] | undefined }) {
           onClick={({ key }) => navigate(key)}
         />
 
-        <Avatar src={storytimeIcon} size={40} />
+        <Avatar src={userProfileAvatar} size={40} />
       </div>
     </Header>
   )
@@ -87,7 +92,7 @@ function AppHeader({ source }: { source: StoryContent['source'] | undefined }) {
 type ContentCarouselProps = {
   title: string
   content: StoryContent
-  type: 'characters' | 'places' | 'skills'
+  type: 'characters' | 'places' | 'learningGoals'
   ids?: string[]
 }
 
@@ -113,9 +118,9 @@ function resolveCarouselItems(
   }
 
   const pool = ids
-    ? ids.map((id) => content.skills.find((s) => s.id === id)).filter(isDefined)
-    : content.skills
-  return pool.map((s) => ({ id: s.id, name: s.name }))
+    ? ids.map((id) => content.learningGoals.find((goal) => goal.id === id)).filter(isDefined)
+    : content.learningGoals
+  return pool.map((goal) => ({ id: goal.id, name: goal.name }))
 }
 
 function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
@@ -174,9 +179,9 @@ function resolveLayoutBackground(pathname: string) {
     }
   }
 
-  if (pathname.startsWith('/skills')) {
+  if (pathname.startsWith('/learning-goals')) {
     return {
-      background: `linear-gradient(92deg, rgba(8,11,28,0.86) 10%, rgba(8,11,28,0.46) 66%), url('${PAGE_BACKGROUND_ASSETS.skills}') center / cover no-repeat`,
+      background: `linear-gradient(92deg, rgba(8,11,28,0.86) 10%, rgba(8,11,28,0.46) 66%), url('${PAGE_BACKGROUND_ASSETS.learningGoals}') center / cover no-repeat`,
     }
   }
 
@@ -201,7 +206,7 @@ function HomePage({
         </Title>
         <Text className="hero-description">
           Storytime ist dein kreativer Startpunkt fuer eigene Abenteuer mit einzigartigen Figuren,
-          Orten und Faehigkeiten. Starte mit deinem eigenen Charakter.
+          Orten und Lernzielen. Starte mit deinem eigenen Charakter.
         </Text>
         <Space size="middle">
           <CharacterCreationChatOverlay onCharacterCreated={onCharacterCreated} />
@@ -247,7 +252,7 @@ function DesignSystemPage({ content }: { content: StoryContent }) {
         <Card className="ds-block" bordered={false} title="Navigation">
           <Text>Header mit Brand, Menu und Avatar wird global wiederverwendet.</Text>
           <Divider />
-          <Text>Menu-Items: Home, Characters, Places, Skills, Design System.</Text>
+          <Text>Menu-Items: Home, Characters, Places, Lernziele, Design System.</Text>
         </Card>
 
         <Card className="ds-block" bordered={false} title="Custom: Content Carousel Card">
@@ -457,9 +462,16 @@ function App() {
                   element={<ContentCarousel title="Places" content={content} type="places" />}
                 />
                 <Route
-                  path="/skills"
-                  element={<ContentCarousel title="Skills" content={content} type="skills" />}
+                  path="/learning-goals"
+                  element={
+                    <ContentCarousel
+                      title="Lernziele"
+                      content={content}
+                      type="learningGoals"
+                    />
+                  }
                 />
+                <Route path="/skills" element={<Navigate to="/learning-goals" replace />} />
                 <Route
                   path="/design-system"
                   element={<DesignSystemPage content={content} />}

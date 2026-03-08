@@ -45,7 +45,7 @@ export type CharacterStoryPsychology = {
 
 export type CharacterLearningFunction = {
   teachingRoles: string[]
-  suitableSkills: string[]
+  suitableLearningGoals: string[]
   explanationStyle: string
 }
 
@@ -121,24 +121,28 @@ export type Place = {
   description: string
 }
 
-export type Skill = {
+export type LearningGoal = {
   id: string
   name: string
+  topic: string
   description: string
-  quizExamples: string[]
+  ageRange: string[]
+  exampleQuestions: string[]
+  practiceIdeas: string[]
+  domainTags: string[]
 }
 
 export type StoryRequest = {
   childName: string
   characters: string[]
   place: string
-  skill: string
+  learningGoal: string
 }
 
 export type StoryContent = {
   characters: Character[]
   places: Place[]
-  skills: Skill[]
+  learningGoals: LearningGoal[]
   source: 'runtime' | 'fallback'
   warnings: string[]
 }
@@ -146,5 +150,5 @@ export type StoryContent = {
 export type ContentManifest = {
   characters: string[]
   places: string[]
-  skills: string[]
+  learningGoals: string[]
 }

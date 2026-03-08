@@ -26,8 +26,8 @@ Diese Anleitung hilft KI-Agents, Content konsistent zu lesen und zu erweitern.
 - **Neuen Character hinzufuegen**  
   YAML in `content/characters/` + `public/content/characters/` anlegen, Manifest ergaenzen.
 
-- **Skill-Quiz erweitern**  
-  `quiz_examples` in beiden Skill-Dateien pflegen, dann UI pruefen.
+- **Lernziel erweitern**  
+  `example_questions` und optional `practice_ideas` in beiden Lernziel-Dateien pflegen, dann UI pruefen.
 
 - **Place korrigieren**  
   Beschreibung in beiden Place-Dateien angleichen, Build pruefen.

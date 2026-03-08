@@ -68,7 +68,7 @@ learning_function:
   teaching_roles:
     - model
     - comic_relief
-  suitable_skills:
+  suitable_learning_goals:
     - patience
     - problem-solving
   explanation_style: playful
@@ -152,7 +152,7 @@ Pflichtfelder:
 - `story_psychology.stress_response: string`
 - `story_psychology.growth_direction: string`
 - `learning_function.teaching_roles: string[]`
-- `learning_function.suitable_skills: string[]`
+- `learning_function.suitable_learning_goals: string[]`
 - `learning_function.explanation_style: string`
 - `bilder.standard_figur: object`
 - `bilder.hero_image: object`
@@ -205,26 +205,49 @@ Pflichtfelder:
 - `name: string`
 - `description: string`
 
-## Skill
+## Learning Goal
 
-Pfad: `content/skills/*.yaml` und `public/content/skills/*.yaml`
+Pfad: `content/learning-goals/*.yaml` und `public/content/learning-goals/*.yaml`
 
 ```yaml
 name: Kindness
+topic: Freundlichkeit im Alltag
 description: Helping children understand...
-quiz_examples:
+age_range:
+  - 3-5
+  - 6-8
+example_questions:
   - Question 1?
   - Question 2?
+practice_ideas:
+  - Idee 1
+domain_tags:
+  - sozial
 ```
 
 Pflichtfelder:
 - `name: string`
+- `topic: string`
 - `description: string`
-- `quiz_examples: string[]`
+- `example_questions: string[]`
+
+Optionale Felder:
+- `age_range: string[]`
+- `practice_ideas: string[]`
+- `domain_tags: string[]`
+
+## Agentische Skills und Tools
+
+- `Lernziele` beschreiben den fachlichen Inhalt, den Kinder lernen oder erkunden sollen.
+- `Skills` beschreiben agentisches Verhalten wie `visual-expression` oder `run-quiz`.
+- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, bestehendes Bild anzeigen, Hintergrund wechseln, Activities lesen oder spaeter Badges vergeben.
+- Agentische Skills leben nicht in `content/learning-goals/`, sondern als Prompt-/Playbook-Bibliothek unter `content/prompts/agent-skills/`.
 
 ## Prompt-Bausteine
 
 Pfad: `content/prompts/*.yaml` und `public/content/prompts/*.yaml`
+
+Agentische Skill-Playbooks liegen zusaetzlich unter `content/prompts/agent-skills/*.md`.
 
 Beispiel:
 
@@ -234,7 +257,7 @@ story_request:
   characters:
     - Nola
   place: Crystal Lake
-  skill: Kindness
+  learning_goal: Kindness
 rules:
   - End with a short quiz.
 ```

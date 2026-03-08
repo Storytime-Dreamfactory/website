@@ -2,6 +2,13 @@
 
 Diese Regeln gelten fuer Prompt-Bausteine und den Character Image Service.
 
+## Begriffslogik
+
+- `Lernziele` sind fachliche Inhaltsobjekte unter `content/learning-goals/`.
+- `Skills` sind agentische Playbooks unter `content/prompts/agent-skills/`.
+- `Tools` sind konkrete Runtime-Aktionen wie Bild generieren, Relationships lesen oder spaeter Badges vergeben.
+- Ein Character entscheidet also idealerweise: Welches Lernziel ist aktiv, welcher Skill passt dazu, welche Tools braucht dieser Skill?
+
 ## Prompt-Struktur
 
 Reihenfolge fuer robuste FLUX-Prompts:
@@ -20,6 +27,7 @@ Reihenfolge fuer robuste FLUX-Prompts:
 - Beschreibe Licht konkret: warmes Key Light, kuehler Dunst, klare Tiefenstaffelung.
 - Nutze Bildzieltexte aus `bilder.*.beschreibung` als asset-spezifischen Brief.
 - Behandle das Character-YAML als Single Source of Truth.
+- Halte Prompt-Bausteine fuer agentische Skills knapp, trigger-orientiert und toolbewusst.
 
 ## Don't
 
@@ -33,6 +41,7 @@ Reihenfolge fuer robuste FLUX-Prompts:
 - `standard_figur` ist die erste kanonische Referenz fuer weitere Assets.
 - `hero_image`, `portrait` und `profilbild` muessen dasselbe Gesicht, dieselben Farben und dieselben Merkmale halten.
 - Seeds und Referenzbilder in `generation-manifest.json` nachvollziehbar speichern.
+- `agent-skills/*.md` beschreiben Verhalten, nicht Lerninhalte. Verweise auf Lernziele nur ueber IDs oder fachliche Namen.
 
 ## Beispiel-Denke
 

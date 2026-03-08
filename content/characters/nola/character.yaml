@@ -54,7 +54,7 @@ learning_function:
   teaching_roles:
     - model
     - comic_relief
-  suitable_skills:
+  suitable_learning_goals:
     - patience
     - problem-solving
     - teamwork

@@ -13,7 +13,7 @@ export type ActivityRecord = {
   isPublic: boolean
   characterId?: string
   placeId?: string
-  skillIds: string[]
+  learningGoalIds: string[]
   conversationId?: string
   subject: ActivityData
   object: ActivityData
@@ -27,7 +27,7 @@ export type CreateActivityInput = {
   isPublic?: boolean
   characterId?: string
   placeId?: string
-  skillIds?: string[]
+  learningGoalIds?: string[]
   conversationId?: string
   subject?: ActivityData
   object?: ActivityData
@@ -37,9 +37,10 @@ export type CreateActivityInput = {
 
 export type ListActivitiesInput = {
   isPublic?: boolean
+  activityId?: string
   characterId?: string
   placeId?: string
-  skillId?: string
+  learningGoalId?: string
   conversationId?: string
   activityType?: string
   limit?: number
@@ -52,6 +53,7 @@ type ActivityRow = {
   is_public: boolean
   character_id: string | null
   place_id: string | null
+  learning_goal_ids: string[] | null
   skill_ids: string[] | null
   conversation_id: string | null
   subject: ActivityData | null
@@ -61,8 +63,15 @@ type ActivityRow = {
   created_at: string
 }
 
+export type ActivityChangeEvent = {
+  event: 'created'
+  activityId: string
+}
+
 let pool: Pool | null = null
 let schemaEnsurePromise: Promise<void> | null = null
+let listenerInitPromise: Promise<void> | null = null
+const changeSubscribers = new Set<(event: ActivityChangeEvent) => void>()
 
 const getPool = (): Pool => {
   if (pool) return pool
@@ -88,7 +97,11 @@ const toActivityRecord = (row: ActivityRow): ActivityRecord => ({
   isPublic: row.is_public,
   characterId: row.character_id ?? undefined,
   placeId: row.place_id ?? undefined,
-  skillIds: Array.isArray(row.skill_ids) ? row.skill_ids : [],
+  learningGoalIds: Array.isArray(row.learning_goal_ids)
+    ? row.learning_goal_ids
+    : Array.isArray(row.skill_ids)
+      ? row.skill_ids
+      : [],
   conversationId: row.conversation_id ?? undefined,
   subject: row.subject ?? {},
   object: row.object ?? {},
@@ -116,12 +129,23 @@ const normalizeOffset = (value: number | undefined): number => {
   return Math.max(0, Math.floor(value))
 }
 
-const normalizeSkillIds = (value: string[] | undefined): string[] => {
+const normalizeLearningGoalIds = (value: string[] | undefined): string[] => {
   if (!Array.isArray(value)) return []
   const normalized = value
     .map((item) => item.trim())
     .filter((item) => item.length > 0)
   return Array.from(new Set(normalized))
+}
+
+const emitActivityChange = (event: ActivityChangeEvent): void => {
+  for (const handler of changeSubscribers) {
+    try {
+      handler(event)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      console.warn(`Activity change subscriber failed: ${message}`)
+    }
+  }
 }
 
 export const createActivity = async (input: CreateActivityInput): Promise<ActivityRecord> => {
@@ -136,7 +160,7 @@ export const createActivity = async (input: CreateActivityInput): Promise<Activi
   const isPublic = Boolean(input.isPublic)
   const characterId = input.characterId?.trim() || null
   const placeId = input.placeId?.trim() || null
-  const skillIds = normalizeSkillIds(input.skillIds)
+  const learningGoalIds = normalizeLearningGoalIds(input.learningGoalIds)
   const conversationId = input.conversationId?.trim() || null
   const subject = normalizeData(input.subject)
   const object = normalizeData(input.object)
@@ -152,7 +176,7 @@ export const createActivity = async (input: CreateActivityInput): Promise<Activi
       is_public,
       character_id,
       place_id,
-      skill_ids,
+      learning_goal_ids,
       conversation_id,
       subject,
       object,
@@ -166,6 +190,7 @@ export const createActivity = async (input: CreateActivityInput): Promise<Activi
       is_public,
       character_id,
       place_id,
+      learning_goal_ids,
       skill_ids,
       conversation_id,
       subject,
@@ -180,7 +205,7 @@ export const createActivity = async (input: CreateActivityInput): Promise<Activi
       isPublic,
       characterId,
       placeId,
-      skillIds,
+      learningGoalIds,
       conversationId,
       JSON.stringify(subject),
       JSON.stringify(object),
@@ -197,6 +222,12 @@ export const listActivities = async (input: ListActivitiesInput = {}): Promise<A
 
   const conditions: string[] = []
   const values: Array<string | number | boolean> = []
+
+  const activityId = input.activityId?.trim()
+  if (activityId) {
+    values.push(activityId)
+    conditions.push(`activity_id = $${values.length}`)
+  }
 
   if (typeof input.isPublic === 'boolean') {
     values.push(input.isPublic)
@@ -227,10 +258,10 @@ export const listActivities = async (input: ListActivitiesInput = {}): Promise<A
     conditions.push(`activity_type = $${values.length}`)
   }
 
-  const skillId = input.skillId?.trim()
-  if (skillId) {
-    values.push(skillId)
-    conditions.push(`$${values.length} = ANY(skill_ids)`)
+  const learningGoalId = input.learningGoalId?.trim()
+  if (learningGoalId) {
+    values.push(learningGoalId)
+    conditions.push(`$${values.length} = ANY(learning_goal_ids)`)
   }
 
   const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : ''
@@ -250,6 +281,7 @@ export const listActivities = async (input: ListActivitiesInput = {}): Promise<A
       is_public,
       character_id,
       place_id,
+      learning_goal_ids,
       skill_ids,
       conversation_id,
       subject,
@@ -267,6 +299,57 @@ export const listActivities = async (input: ListActivitiesInput = {}): Promise<A
   )
 
   return result.rows.map((row) => toActivityRecord(row))
+}
+
+export const getActivityById = async (activityId: string): Promise<ActivityRecord | null> => {
+  await ensureSchemaReady()
+
+  const normalized = activityId.trim()
+  if (!normalized) {
+    throw new Error('activityId ist erforderlich.')
+  }
+
+  const data = await listActivities({ activityId: normalized, limit: 1, offset: 0 })
+  return data[0] ?? null
+}
+
+const ensureActivityListener = async (): Promise<void> => {
+  if (!listenerInitPromise) {
+    listenerInitPromise = (async () => {
+      await ensureSchemaReady()
+      const db = getPool()
+      const listener = await db.connect()
+      listener.on('notification', (notification) => {
+        if (!notification.payload) return
+        try {
+          const payload = JSON.parse(notification.payload) as ActivityChangeEvent
+          if (payload && payload.event === 'created' && typeof payload.activityId === 'string') {
+            emitActivityChange(payload)
+          }
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
+          console.warn(`Activity notification parse failed: ${message}`)
+        }
+      })
+      listener.on('error', (error) => {
+        const message = error instanceof Error ? error.message : String(error)
+        console.warn(`Activity listener error: ${message}`)
+      })
+      await listener.query('LISTEN character_activities_changes')
+    })()
+  }
+
+  await listenerInitPromise
+}
+
+export const subscribeToActivityChanges = async (
+  handler: (event: ActivityChangeEvent) => void,
+): Promise<() => void> => {
+  await ensureActivityListener()
+  changeSubscribers.add(handler)
+  return () => {
+    changeSubscribers.delete(handler)
+  }
 }
 
 export const ensureActivityTable = async (): Promise<{ tableName: string; created: boolean }> => {
@@ -290,6 +373,7 @@ export const ensureActivityTable = async (): Promise<{ tableName: string; create
       is_public BOOLEAN NOT NULL DEFAULT FALSE,
       character_id TEXT,
       place_id TEXT,
+      learning_goal_ids TEXT[] NOT NULL DEFAULT '{}'::text[],
       skill_ids TEXT[] NOT NULL DEFAULT '{}'::text[],
       conversation_id TEXT,
       subject JSONB NOT NULL DEFAULT '{}'::jsonb,
@@ -309,10 +393,18 @@ export const ensureActivityTable = async (): Promise<{ tableName: string; create
       ADD COLUMN IF NOT EXISTS place_id TEXT;
 
     ALTER TABLE character_activities
+      ADD COLUMN IF NOT EXISTS learning_goal_ids TEXT[] NOT NULL DEFAULT '{}'::text[];
+
+    ALTER TABLE character_activities
       ADD COLUMN IF NOT EXISTS skill_ids TEXT[] NOT NULL DEFAULT '{}'::text[];
 
     ALTER TABLE character_activities
       ADD COLUMN IF NOT EXISTS is_public BOOLEAN NOT NULL DEFAULT FALSE;
+
+    UPDATE character_activities
+    SET learning_goal_ids = skill_ids
+    WHERE cardinality(learning_goal_ids) = 0
+      AND cardinality(skill_ids) > 0;
 
     CREATE INDEX IF NOT EXISTS idx_character_activities_place_id
       ON character_activities (place_id);
@@ -326,8 +418,31 @@ export const ensureActivityTable = async (): Promise<{ tableName: string; create
     CREATE INDEX IF NOT EXISTS idx_character_activities_occurred_at
       ON character_activities (occurred_at DESC);
 
-    CREATE INDEX IF NOT EXISTS idx_character_activities_skill_ids
-      ON character_activities USING GIN (skill_ids);
+    CREATE INDEX IF NOT EXISTS idx_character_activities_learning_goal_ids
+      ON character_activities USING GIN (learning_goal_ids);
+
+    CREATE OR REPLACE FUNCTION notify_character_activity_insert()
+    RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+    BEGIN
+      PERFORM pg_notify(
+        'character_activities_changes',
+        json_build_object(
+          'event', 'created',
+          'activityId', NEW.activity_id
+        )::text
+      );
+      RETURN NEW;
+    END;
+    $$;
+
+    DROP TRIGGER IF EXISTS trg_character_activities_notify_insert ON character_activities;
+
+    CREATE TRIGGER trg_character_activities_notify_insert
+    AFTER INSERT ON character_activities
+    FOR EACH ROW
+    EXECUTE FUNCTION notify_character_activity_insert();
   `)
 
   return { tableName: 'character_activities', created: !existedBefore }

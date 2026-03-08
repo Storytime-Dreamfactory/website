@@ -1,8 +1,20 @@
 name: Problem Solving
+topic: Probleme Schritt fuer Schritt loesen
 description: >
   Teaching children how to think through challenges step by step and try
   different ideas until something works.
-quiz_examples:
+age_range:
+  - 4-6
+  - 6-8
+example_questions:
   - What is the first thing you can do when a problem feels hard?
   - Can you think of two different ways to solve a problem?
   - Why is it okay if the first solution does not work?
+practice_ideas:
+  - Pause and name the problem before trying to fix it.
+  - Think of two possible ideas instead of only one.
+  - Try again with a new plan if the first idea does not work.
+domain_tags:
+  - denken
+  - alltag
+  - resilienz

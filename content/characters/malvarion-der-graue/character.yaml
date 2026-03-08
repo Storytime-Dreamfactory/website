@@ -52,7 +52,7 @@ learning_function:
   teaching_roles:
     - challenger
     - warning_example
-  suitable_skills:
+  suitable_learning_goals:
     - selbstregulation
     - umgang-mit-macht
   explanation_style: example_based

@@ -48,7 +48,7 @@ learning_function:
   teaching_roles:
     - model
     - comic_relief
-  suitable_skills:
+  suitable_learning_goals:
     - problem-solving
     - confidence
   explanation_style: playful

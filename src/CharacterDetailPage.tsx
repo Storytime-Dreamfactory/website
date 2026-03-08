@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import { Button, Tag, Typography } from 'antd'
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
+import { Button, Drawer, Tag, Typography } from 'antd'
 import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons'
 import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
@@ -27,7 +27,10 @@ type ApiActivityData = Record<string, unknown>
 type ApiActivityRecord = {
   activityId: string
   activityType: string
+  isPublic: boolean
   characterId?: string
+  placeId?: string
+  learningGoalIds: string[]
   conversationId?: string
   subject: ApiActivityData
   object: ApiActivityData
@@ -35,6 +38,32 @@ type ApiActivityRecord = {
   occurredAt: string
   createdAt: string
 }
+
+type ApiConversationMessageRecord = {
+  messageId: number
+  conversationId: string
+  role: 'user' | 'assistant' | 'system'
+  content: string
+  eventType?: string
+  createdAt: string
+  metadata?: ApiActivityData
+}
+
+type ApiConversationRecord = {
+  conversationId: string
+  userId?: string
+  characterId: string
+  startedAt: string
+  endedAt?: string
+  metadata?: ApiActivityData
+}
+
+type ApiConversationDetails = {
+  conversation: ApiConversationRecord
+  messages: ApiConversationMessageRecord[]
+}
+
+const HERO_TRANSITION_MS = 1100
 
 const readTextValue = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -49,14 +78,64 @@ const readActivityDisplayValue = (value: ApiActivityData | undefined): string | 
   readTextValue(value?.title) ??
   readTextValue(value?.id)
 
+const readActivityImageUrl = (activity: ApiActivityRecord): string | undefined =>
+  readTextValue(activity.metadata.heroImageUrl) ??
+  readTextValue(activity.metadata.imageLinkUrl) ??
+  readTextValue(activity.metadata.imageUrl) ??
+  readTextValue(activity.object.url)
+
+const readMessageImageUrl = (message: ApiConversationMessageRecord): string | undefined => {
+  const metadata = message.metadata
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) {
+    return undefined
+  }
+  return readTextValue(metadata.heroImageUrl) ?? readTextValue(metadata.imageUrl)
+}
+
+const formatTimestamp = (value: string | Date): string => {
+  const date = value instanceof Date ? value : new Date(value)
+  if (Number.isNaN(date.getTime())) return String(value)
+
+  return new Intl.DateTimeFormat('de-DE', {
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date)
+}
+
 const humanizeActivityType = (activityType: string): string => {
   switch (activityType) {
     case 'character.chat.completed':
       return 'sprach mit'
+    case 'conversation.image.generated':
+      return 'zeigte ein Bild'
+    case 'conversation.message.created':
+      return 'sendete eine Nachricht'
     case 'conversation.started':
       return 'startete eine Unterhaltung'
+    case 'conversation.learning_goal.activated':
+      return 'aktivierte ein Lernziel'
     case 'conversation.ended':
       return 'beendete eine Unterhaltung'
+    case 'skill.visual-expression.started':
+      return 'startete visuelles Erklaeren'
+    case 'skill.visual-expression.completed':
+      return 'beendete visuelles Erklaeren'
+    case 'skill.quiz.started':
+      return 'startete ein Quiz'
+    case 'skill.quiz.completed':
+      return 'beendete ein Quiz'
+    case 'tool.image.planning.started':
+      return 'plant ein Bild'
+    case 'tool.image.requested':
+      return 'startete die Bildgenerierung'
+    case 'tool.image.generating':
+      return 'erstellt gerade ein Bild'
+    case 'tool.image.generated':
+      return 'hat ein Bild fertiggestellt'
+    case 'tool.image.failed':
+      return 'konnte kein Bild erstellen'
     default:
       return activityType.replaceAll('.', ' ')
   }
@@ -79,18 +158,67 @@ const buildActivitySummary = (activity: ApiActivityRecord, characterName: string
 
 export default function CharacterDetailPage({ content }: Props) {
   const { id } = useParams<{ id: string }>()
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
   const [reduceMotion, setReduceMotion] = useState(false)
   const pointerFrameRef = useRef<number | null>(null)
   const [apiRelationships, setApiRelationships] = useState<ApiRelationship[] | null>(null)
   const [apiActivities, setApiActivities] = useState<ApiActivityRecord[] | null>(null)
+  const [activityStreamConnected, setActivityStreamConnected] = useState(false)
+  const [isConversationPanelOpen, setIsConversationPanelOpen] = useState(false)
+  const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
+  const [conversationDetails, setConversationDetails] = useState<ApiConversationDetails | null>(null)
+  const [conversationLoading, setConversationLoading] = useState(false)
+  const [conversationError, setConversationError] = useState<string | null>(null)
+  const [activeHeroUrl, setActiveHeroUrl] = useState<string | undefined>(undefined)
+  const [incomingHeroUrl, setIncomingHeroUrl] = useState<string | null>(null)
+  const heroTransitionTimerRef = useRef<number | null>(null)
+  const activeHeroUrlRef = useRef<string | undefined>(undefined)
 
   const character = useMemo(
     () => content.characters.find((c) => c.id === id),
     [content.characters, id],
   )
   const heroUrl = character?.images.heroImage?.file
-  const isHeroParallaxEnabled = Boolean(heroUrl) && !reduceMotion
+  const isHeroParallaxEnabled = Boolean(activeHeroUrl) && !reduceMotion
+
+  useEffect(() => {
+    setActiveHeroUrl(heroUrl)
+    activeHeroUrlRef.current = heroUrl
+    setIncomingHeroUrl(null)
+    if (heroTransitionTimerRef.current != null) {
+      window.clearTimeout(heroTransitionTimerRef.current)
+      heroTransitionTimerRef.current = null
+    }
+  }, [heroUrl, character?.id])
+
+  useEffect(() => {
+    activeHeroUrlRef.current = activeHeroUrl
+  }, [activeHeroUrl])
+
+  const transitionToHeroUrl = useCallback(
+    (nextUrl: string | undefined) => {
+      const normalizedNextUrl = nextUrl?.trim()
+      if (!normalizedNextUrl || normalizedNextUrl === activeHeroUrlRef.current) return
+
+      if (reduceMotion) {
+        setIncomingHeroUrl(null)
+        setActiveHeroUrl(normalizedNextUrl)
+        return
+      }
+
+      setIncomingHeroUrl(normalizedNextUrl)
+      if (heroTransitionTimerRef.current != null) {
+        window.clearTimeout(heroTransitionTimerRef.current)
+      }
+      heroTransitionTimerRef.current = window.setTimeout(() => {
+        setActiveHeroUrl(normalizedNextUrl)
+        setIncomingHeroUrl(null)
+        heroTransitionTimerRef.current = null
+      }, HERO_TRANSITION_MS)
+    },
+    [reduceMotion],
+  )
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -136,6 +264,100 @@ export default function CharacterDetailPage({ content }: Props) {
   }, [id])
 
   useEffect(() => {
+    const conversationId = searchParams.get('conversationId')?.trim() || ''
+    if (!conversationId) return
+    setSelectedConversationId(conversationId)
+    setIsConversationPanelOpen(true)
+  }, [searchParams])
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadConversationDetails = async () => {
+      if (!isConversationPanelOpen || !selectedConversationId) {
+        setConversationDetails(null)
+        setConversationLoading(false)
+        setConversationError(null)
+        return
+      }
+
+      setConversationLoading(true)
+      setConversationError(null)
+      try {
+        const response = await fetch(
+          `/api/conversations?conversationId=${encodeURIComponent(selectedConversationId)}`,
+        )
+        if (!response.ok) {
+          throw new Error(`API status ${response.status}`)
+        }
+        const payload = (await response.json()) as ApiConversationDetails
+        if (!cancelled) {
+          setConversationDetails(payload)
+          setConversationLoading(false)
+        }
+      } catch {
+        if (!cancelled) {
+          setConversationError('Conversation konnte nicht geladen werden.')
+          setConversationDetails(null)
+          setConversationLoading(false)
+        }
+      }
+    }
+
+    void loadConversationDetails()
+
+    return () => {
+      cancelled = true
+    }
+  }, [isConversationPanelOpen, selectedConversationId])
+
+  useEffect(() => {
+    if (!id) {
+      setActivityStreamConnected(false)
+      return
+    }
+
+    const streamUrl = `/api/activities/stream?characterId=${encodeURIComponent(id)}&includeNonPublic=true`
+    const eventSource = new EventSource(streamUrl)
+
+    const handleReady = () => {
+      setActivityStreamConnected(true)
+    }
+
+    const handleActivityCreated = (event: MessageEvent<string>) => {
+      try {
+        const activity = JSON.parse(event.data) as ApiActivityRecord
+        if (activity.activityType === 'conversation.image.generated') {
+          transitionToHeroUrl(readActivityImageUrl(activity))
+        }
+        setApiActivities((current) => {
+          const existing = current ?? []
+          const withoutDuplicate = existing.filter((item) => item.activityId !== activity.activityId)
+          return [activity, ...withoutDuplicate].slice(0, 12)
+        })
+      } catch {
+        // ignore invalid stream payloads
+      }
+    }
+
+    const handleError = () => {
+      setActivityStreamConnected(false)
+    }
+
+    eventSource.addEventListener('ready', handleReady as EventListener)
+    eventSource.addEventListener('activity.created', handleActivityCreated as EventListener)
+    eventSource.addEventListener('error', handleError as EventListener)
+
+    return () => {
+      eventSource.removeEventListener('ready', handleReady as EventListener)
+      eventSource.removeEventListener('activity.created', handleActivityCreated as EventListener)
+      eventSource.removeEventListener('error', handleError as EventListener)
+      eventSource.close()
+      setActivityStreamConnected(false)
+    }
+  }, [id, transitionToHeroUrl])
+
+  useEffect(() => {
     let cancelled = false
 
     const loadActivities = async () => {
@@ -145,7 +367,9 @@ export default function CharacterDetailPage({ content }: Props) {
       }
 
       try {
-        const response = await fetch(`/api/activities?characterId=${encodeURIComponent(id)}&limit=6`)
+        const response = await fetch(
+          `/api/activities?characterId=${encodeURIComponent(id)}&includeNonPublic=true&limit=12`,
+        )
         if (!response.ok) {
           throw new Error(`API status ${response.status}`)
         }
@@ -203,17 +427,44 @@ export default function CharacterDetailPage({ content }: Props) {
     return apiActivities.map((activity) => ({
       id: activity.activityId,
       timestamp: activity.occurredAt || activity.createdAt,
+      isPublic: activity.isPublic,
       subject: readActivityDisplayValue(activity.subject) ?? character.name,
       activityType: humanizeActivityType(activity.activityType),
       object: readActivityDisplayValue(activity.object) ?? 'Aktivitaet',
       summary: buildActivitySummary(activity, character.name),
-      conversationUrl: activity.conversationId
-        ? `/characters/${character.id}?conversationId=${encodeURIComponent(activity.conversationId)}`
-        : undefined,
-      conversationLabel:
-        readTextValue(activity.metadata.conversationLinkLabel) ?? 'Zur Conversation',
+      conversationId: activity.conversationId,
+      conversationUrl: readTextValue(activity.metadata.conversationUrl),
+      conversationLabel: readTextValue(activity.metadata.conversationLinkLabel),
+      imageUrl: readTextValue(activity.metadata.imageLinkUrl) ?? readActivityImageUrl(activity),
+      imageLabel: readTextValue(activity.metadata.imageLinkLabel),
+      imagePrompt: readTextValue(activity.metadata.imageGenerationPrompt),
     }))
   }, [apiActivities, character])
+
+  const openConversationPanel = useCallback(
+    (conversationId: string) => {
+      const normalized = conversationId.trim()
+      if (!normalized) return
+      setSelectedConversationId(normalized)
+      setIsConversationPanelOpen(true)
+      setSearchParams((current) => {
+        const next = new URLSearchParams(current)
+        next.set('conversationId', normalized)
+        return next
+      })
+    },
+    [setSearchParams],
+  )
+
+  const closeConversationPanel = useCallback(() => {
+    setIsConversationPanelOpen(false)
+    setSelectedConversationId(null)
+    setSearchParams((current) => {
+      const next = new URLSearchParams(current)
+      next.delete('conversationId')
+      return next
+    })
+  }, [setSearchParams])
 
   if (!character) {
     return (
@@ -230,6 +481,9 @@ export default function CharacterDetailPage({ content }: Props) {
     return () => {
       if (pointerFrameRef.current != null) {
         window.cancelAnimationFrame(pointerFrameRef.current)
+      }
+      if (heroTransitionTimerRef.current != null) {
+        window.clearTimeout(heroTransitionTimerRef.current)
       }
     }
   }, [])
@@ -275,21 +529,28 @@ export default function CharacterDetailPage({ content }: Props) {
   }, [updateHeroParallaxVariables])
 
   const detailStyle = useMemo(() => {
-    if (!heroUrl) return undefined
+    if (!activeHeroUrl) return undefined
     return {
-      '--character-hero-url': `url('${heroUrl}')`,
+      '--character-hero-url': `url('${activeHeroUrl}')`,
     } as CSSProperties
-  }, [heroUrl])
+  }, [activeHeroUrl])
 
   return (
     <div
       className={`character-detail ${
-        heroUrl ? 'character-detail-has-hero' : ''
+        activeHeroUrl ? 'character-detail-has-hero' : ''
       } ${isHeroParallaxEnabled ? 'character-detail-parallax' : ''}`}
       style={detailStyle}
       onMouseMove={handleHeroMouseMove}
       onMouseLeave={resetHeroParallax}
     >
+      {incomingHeroUrl ? (
+        <div
+          className="character-detail-hero-transition-layer is-visible"
+          style={{ '--character-next-hero-url': `url('${incomingHeroUrl}')` } as CSSProperties}
+          aria-hidden="true"
+        />
+      ) : null}
       <div className="character-detail-nav">
         <Link to="/characters" className="character-detail-back">
           <ArrowLeftOutlined />
@@ -354,10 +615,78 @@ export default function CharacterDetailPage({ content }: Props) {
           )}
         </div>
 
-        <CharacterActivityStream items={activityItems} />
+        <CharacterActivityStream
+          items={activityItems}
+          isLive={activityStreamConnected}
+          onOpenConversation={openConversationPanel}
+          onSelectImage={transitionToHeroUrl}
+        />
 
       </div>
 
+      <Drawer
+        title="Conversation"
+        placement="right"
+        open={isConversationPanelOpen}
+        onClose={closeConversationPanel}
+        className="conversation-drawer"
+        width={420}
+        styles={{
+          content: { background: 'rgba(0, 0, 0, 0.92)', color: 'rgba(255, 255, 255, 0.88)' },
+          header: { background: 'rgba(0, 0, 0, 0.92)', color: 'rgba(255, 255, 255, 0.88)' },
+          body: { background: 'rgba(0, 0, 0, 0.92)', color: 'rgba(255, 255, 255, 0.88)' },
+          mask: { background: 'rgba(0, 0, 0, 0.22)' },
+        }}
+      >
+        {conversationLoading && <p className="conversation-drawer-state">Lade Conversation...</p>}
+        {!conversationLoading && conversationError && (
+          <p className="conversation-drawer-state conversation-drawer-state-error">{conversationError}</p>
+        )}
+        {!conversationLoading && !conversationError && conversationDetails && (
+          <div className="conversation-drawer-content">
+            <p className="conversation-drawer-meta">
+              <strong>Gestartet:</strong> {formatTimestamp(conversationDetails.conversation.startedAt)}
+            </p>
+            {conversationDetails.conversation.endedAt && (
+              <p className="conversation-drawer-meta">
+                <strong>Beendet:</strong> {formatTimestamp(conversationDetails.conversation.endedAt)}
+              </p>
+            )}
+            <div className="conversation-drawer-messages">
+              {conversationDetails.messages.length === 0 ? (
+                <p className="conversation-drawer-state">Keine Messages gespeichert.</p>
+              ) : (
+                conversationDetails.messages.map((message) => {
+                  const messageImageUrl = readMessageImageUrl(message)
+                  return (
+                    <div key={message.messageId} className="conversation-drawer-message">
+                      <p className="conversation-drawer-message-meta">
+                        <span>{message.role}</span>
+                        <span>{formatTimestamp(message.createdAt)}</span>
+                      </p>
+                      <p className="conversation-drawer-message-content">{message.content}</p>
+                      {messageImageUrl && (
+                        <button
+                          type="button"
+                          className="conversation-drawer-image-button"
+                          onClick={() => transitionToHeroUrl(messageImageUrl)}
+                          aria-label="Bild als Hero-Hintergrund anzeigen"
+                        >
+                          <img
+                            src={messageImageUrl}
+                            alt="Generiertes Conversation-Bild"
+                            className="conversation-drawer-image"
+                          />
+                        </button>
+                      )}
+                    </div>
+                  )
+                })
+              )}
+            </div>
+          </div>
+        )}
+      </Drawer>
     </div>
   )
 }

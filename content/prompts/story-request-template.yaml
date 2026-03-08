@@ -3,11 +3,11 @@ story_request:
   characters:
     - Nola
   place: Crystal Lake
-  skill: Kindness
+  learning_goal: Kindness
 
 rules:
   - The chosen characters interact naturally.
   - The place shapes the adventure.
-  - The skill becomes the moral lesson.
+  - The learning goal becomes the learning thread.
   - The child can interrupt and ask questions.
   - End with a short quiz.

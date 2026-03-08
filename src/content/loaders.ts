@@ -5,7 +5,7 @@ import type {
   ContentManifest,
   StoryContent,
 } from './types'
-import { validateCharacter, validatePlace, validateSkill } from './validators'
+import { validateCharacter, validateLearningGoal, validatePlace } from './validators'
 
 const fallbackCharacterFiles = import.meta.glob('../../content/characters/*/character.yaml', {
   query: '?raw',
@@ -19,7 +19,7 @@ const fallbackPlaceFiles = import.meta.glob('../../content/places/*.yaml', {
   eager: true,
 }) as Record<string, string>
 
-const fallbackSkillFiles = import.meta.glob('../../content/skills/*.yaml', {
+const fallbackLearningGoalFiles = import.meta.glob('../../content/learning-goals/*.yaml', {
   query: '?raw',
   import: 'default',
   eager: true,
@@ -117,7 +117,7 @@ const mergeRelationshipsFromDatabase = async (
 const loadFromRuntime = async (): Promise<StoryContent> => {
   const manifest = await loadRuntimeManifest()
 
-  const [characters, places, skills] = await Promise.all([
+  const [characters, places, learningGoals] = await Promise.all([
     Promise.all(
       manifest.characters.map(async (path) => {
         const parsed = await loadRuntimeYaml(path)
@@ -131,9 +131,9 @@ const loadFromRuntime = async (): Promise<StoryContent> => {
       }),
     ),
     Promise.all(
-      manifest.skills.map(async (path) => {
+      manifest.learningGoals.map(async (path) => {
         const parsed = await loadRuntimeYaml(path)
-        return validateSkill(parsed, deriveIdFromPath(path), path)
+        return validateLearningGoal(parsed, deriveIdFromPath(path), path)
       }),
     ),
   ])
@@ -143,7 +143,7 @@ const loadFromRuntime = async (): Promise<StoryContent> => {
   return {
     characters: merged.characters,
     places,
-    skills,
+    learningGoals,
     source: 'runtime',
     warnings: merged.warning ? [merged.warning] : [],
   }
@@ -160,15 +160,15 @@ const loadFromFallback = (reason: string): StoryContent => {
     return validatePlace(parsed, deriveIdFromPath(filePath), filePath)
   })
 
-  const skills = Object.entries(fallbackSkillFiles).map(([filePath, rawYaml]) => {
+  const learningGoals = Object.entries(fallbackLearningGoalFiles).map(([filePath, rawYaml]) => {
     const parsed = parseYaml(rawYaml, filePath)
-    return validateSkill(parsed, deriveIdFromPath(filePath), filePath)
+    return validateLearningGoal(parsed, deriveIdFromPath(filePath), filePath)
   })
 
   return {
     characters,
     places,
-    skills,
+    learningGoals,
     source: 'fallback',
     warnings: [reason],
   }
