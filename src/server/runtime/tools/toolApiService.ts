@@ -29,7 +29,9 @@ export const showImageToolApi = async (input: {
 export const generateConversationHeroToolApi = async (input: {
   conversationId: string
   characterId: string
-  scenePrompt: string
+  sceneSummary?: string
+  imagePrompt?: string
+  scenePrompt?: string
   styleHint?: string
   interactionTargets?: unknown
   relatedCharacterIds?: unknown
@@ -40,4 +42,5 @@ export const generateConversationHeroToolApi = async (input: {
   pollIntervalMs?: unknown
   maxPollAttempts?: unknown
   seed?: unknown
+  model?: unknown
 }) => generateConversationHeroToolApiService(input)

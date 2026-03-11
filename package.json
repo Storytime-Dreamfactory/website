@@ -16,8 +16,14 @@
     "db:init-relationships": "node --env-file=.env --import tsx ./scripts/create-character-relationships-table.ts",
     "db:seed-relationships": "node --env-file=.env --import tsx ./scripts/seed-character-relationships.ts",
     "db:query-relationships": "node --env-file=.env --import tsx ./scripts/query-character-relationships.ts",
+    "db:migrate-relationship-uuids": "node --env-file=.env --import tsx ./scripts/migrate-relationship-slugs-to-uuids.ts",
+    "db:standardize-relationship-labels": "node --env-file=.env --import tsx ./scripts/standardize-relationship-labels.ts",
     "db:backfill-activity-images": "node --env-file=.env --import tsx ./scripts/backfill-activity-image-assets.ts",
-    "runtime:smoke": "node --env-file=.env --import tsx ./scripts/runtime-conversation-smoke.ts"
+    "db:backfill-story-summaries": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts",
+    "db:backfill-story-summaries:dry-run": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts --dry-run",
+    "db:backfill-story-summaries:force": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts --force",
+    "runtime:smoke": "node --env-file=.env --import tsx ./scripts/runtime-conversation-smoke.ts",
+    "character-images:smoke-eval": "node --env-file=.env --import tsx ./scripts/character-image-eval-smoke.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",

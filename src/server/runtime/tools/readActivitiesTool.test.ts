@@ -58,18 +58,20 @@ describe('readActivitiesTool', () => {
     const result = await readActivitiesTool.execute(
       {
         conversationId: 'conv-1',
-        characterId: 'nola',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
         characterName: 'Nola',
       },
       {
         scope: 'external',
         limit: 200,
         offset: 0,
+        conversationId: 'conv-1',
       },
     )
 
     expect(mocks.listActivitiesMock).toHaveBeenCalledWith(
       expect.objectContaining({
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
         conversationId: 'conv-1',
         isPublic: true,
         limit: 200,
@@ -88,5 +90,40 @@ describe('readActivitiesTool', () => {
         }),
       }),
     )
+  })
+
+  it('laedt bei fetchAll alle Activity-Seiten fuer den Character', async () => {
+    mocks.listActivitiesMock
+      .mockResolvedValueOnce([
+        {
+          activityId: 'a-1',
+          activityType: 'conversation.image.recalled',
+          isPublic: true,
+          conversationId: 'conv-1',
+          occurredAt: '2026-01-01T10:00:00.000Z',
+          createdAt: '2026-01-01T10:00:00.000Z',
+          object: {},
+          metadata: {},
+        },
+      ])
+      .mockResolvedValueOnce([])
+
+    const result = await readActivitiesTool.execute(
+      {
+        conversationId: 'conv-1',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+        characterName: 'Nola',
+      },
+      {
+        scope: 'external',
+        limit: 1,
+        offset: 0,
+        fetchAll: true,
+      },
+    )
+
+    expect(mocks.listActivitiesMock).toHaveBeenCalledTimes(2)
+    expect(result.hasMore).toBe(false)
+    expect(result.activityCount).toBe(1)
   })
 })

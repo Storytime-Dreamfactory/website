@@ -1,0 +1,289 @@
+{
+  "generatedAt": "2026-03-09T11:32:41.010Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/mira-windhopser/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser",
+  "styleReferencePaths": [],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-klein-4b",
+    "heroModel": "flux-2-klein-4b"
+  },
+  "character": {
+    "id": "mira-windhopser",
+    "name": "Mira Windhopser",
+    "shortDescription": "Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Eichhoernchen",
+      "genderExpression": "feminin",
+      "roleArchetype": "learner_helper"
+    },
+    "appearance": {
+      "bodyShape": "zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif",
+      "colors": [
+        "leuchtend rotbraun",
+        "cremeweiss",
+        "walnussbraun"
+      ],
+      "hairOrFur": {
+        "color": "rotbraun",
+        "texture": "weich und leicht strubbelig",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "warmes haselnussbraun",
+        "expression": "neugierig und freundlich"
+      },
+      "distinctiveFeatures": [
+        "buschiger Schweif",
+        "helle Bauchpartie",
+        "kleine, spitze Ohren mit hellen Pinselhaaren"
+      ],
+      "clothingStyle": "kleines, gruenes Halstuch mit Eichenblattmuster"
+    },
+    "personality": {
+      "coreTraits": [
+        "hilfsbereit",
+        "erfinderisch",
+        "lebhaft"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "offen",
+      "strengths": [
+        "kann gut klettern und balancieren",
+        "findet fuer fast jedes Problem eine kreative Loesung"
+      ],
+      "weaknesses": [
+        "wird manchmal ungeduldig",
+        "laesst sich leicht ablenken"
+      ],
+      "quirks": [
+        "sammelt gerne besondere Nuesse und Zapfen",
+        "spricht manchmal mit den Baemen, als waeren sie Freunde"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "moechte immer neue Dinge entdecken und anderen helfen",
+      "deeperNeed": "das Gefuehl, gebraucht und angenommen zu werden",
+      "fear": "allein und vergessen zu sein",
+      "insecurity": "Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, sich zu konzentrieren und Geduld zu haben"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "helper"
+      ],
+      "suitableLearningGoals": [
+        "geduld",
+        "freundlichkeit"
+      ],
+      "explanationStyle": "playful"
+    },
+    "origin": {
+      "birthPlace": "Windwald",
+      "upbringingPlaces": [
+        "Windwald",
+        "whispering-meadow"
+      ],
+      "culturalContext": [
+        "lebt naturnah und gemeinschaftlich",
+        "teilt gerne mit anderen Waldbewohnern"
+      ],
+      "religionOrBelief": "glaubt an die Weisheit der alten Baeume",
+      "historicalContext": [
+        "die Tradition, Wissen und Geschichten durch Spiele weiterzugeben"
+      ],
+      "notes": "Windwald ist ein laubreicher, luftiger Wald nahe Whispering Meadow, voller Baume und hufiger Windboeen."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "Lieblingsplatz",
+          "description": "Kommt oft hierher, um neue Freunde zu treffen und Abenteuer zu erleben."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/mira-windhopser/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur von Mira mit buschigem Schweif, gruenem Halstuch und spitzen Ohren, bereit zum Sprung, voller Energie und Entdeckerlust."
+      },
+      "heroImage": {
+        "file": "/content/characters/mira-windhopser/hero-image.jpg",
+        "description": "Mira springt von Ast zu Ast im Windwald, Sonnenstrahlen glitzern durchs Blattwerk, ihr Schweif leuchtet, und sie blickt lachend zu einem neuen Freund am Boden."
+      },
+      "portrait": {
+        "file": "/content/characters/mira-windhopser/portrait.png",
+        "description": "Halbnahes Portrait von Mira mit frischem, strubbeligem Fell, grossen, neugierigen braunen Augen und ihrem gruene Halstuch, freundlich und quirlig."
+      },
+      "profileImage": {
+        "file": "/content/characters/mira-windhopser/profilbild.png",
+        "description": "Quadratisches Bild mit Mira von vorne, buschiger Schweif im Hintergrund, spitze Ohren und breites Laecheln, ihr Gesicht lebhaft und offen."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/mira-windhopser/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Mira Windhopser mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/mira-windhopser/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Mira Windhopser mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "geduld",
+      "freundlichkeit",
+      "wald",
+      "explorer",
+      "learner",
+      "spiel",
+      "hilfe",
+      "lebhaft",
+      "windwald",
+      "neugier"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-09",
+      "updatedAt": "2026-03-09",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "mira-windhopser:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "skipped",
+      "mode": "text-to-image",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Mira Windhopser. Short description: Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen. Species: Eichhoernchen. The character must read unmistakably as a Eichhoernchen at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif. Dominant colors: leuchtend rotbraun, cremeweiss, walnussbraun. Hair or fur: rotbraun weich und leicht strubbelig mittellang. Eyes: warmes haselnussbraun, neugierig und freundlich. Distinctive features: buschiger Schweif, helle Bauchpartie, kleine, spitze Ohren mit hellen Pinselhaaren. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: kleines, gruenes Halstuch mit Eichenblattmuster. Core traits: hilfsbereit, erfinderisch, lebhaft. Temperament: lebhaft. Social style: offen. Strengths: kann gut klettern und balancieren, findet fuer fast jedes Problem eine kreative Loesung. Weaknesses: wird manchmal ungeduldig, laesst sich leicht ablenken. Quirks: sammelt gerne besondere Nuesse und Zapfen, spricht manchmal mit den Baemen, als waeren sie Freunde. Visible goal: moechte immer neue Dinge entdecken und anderen helfen. Deeper need: das Gefuehl, gebraucht und angenommen zu werden. Fear: allein und vergessen zu sein. Insecurity: Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen. Stress response: hesitate_then_try. Growth direction: lernt, sich zu konzentrieren und Geduld zu haben. Teaching roles: learner, helper. Explanation style: playful. Create a full-body standard character asset of Mira Windhopser on a solid pure white background. Show enough of the body to keep the Eichhoernchen identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur von Mira mit buschigem Schweif, gruenem Halstuch und spitzen Ohren, bereit zum Sprung, voller Energie und Entdeckerlust. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur von Mira mit buschigem Schweif, gruenem Halstuch und spitzen Ohren, bereit zum Sprung, voller Energie und Entdeckerlust.",
+      "publicFilePath": "/content/characters/mira-windhopser/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "1c87e469-5f69-4de3-ae28-9a6017641ab8",
+      "pollingUrl": "https://api.us3.bfl.ai/v1/get_result?id=1c87e469-5f69-4de3-ae28-9a6017641ab8",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/afe837191d3f45a3a954d92759ea37a7_sample.png?se=2026-03-09T11%3A42%3A08Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=dlXOj%2Bl10lmBwx8P6zIzOaHGxy89t3s62MgvbVOTiuE%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "mira-windhopser:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Mira Windhopser. Short description: Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen. Species: Eichhoernchen. The character must read unmistakably as a Eichhoernchen at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif. Dominant colors: leuchtend rotbraun, cremeweiss, walnussbraun. Hair or fur: rotbraun weich und leicht strubbelig mittellang. Eyes: warmes haselnussbraun, neugierig und freundlich. Distinctive features: buschiger Schweif, helle Bauchpartie, kleine, spitze Ohren mit hellen Pinselhaaren. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: kleines, gruenes Halstuch mit Eichenblattmuster. Core traits: hilfsbereit, erfinderisch, lebhaft. Temperament: lebhaft. Social style: offen. Strengths: kann gut klettern und balancieren, findet fuer fast jedes Problem eine kreative Loesung. Weaknesses: wird manchmal ungeduldig, laesst sich leicht ablenken. Quirks: sammelt gerne besondere Nuesse und Zapfen, spricht manchmal mit den Baemen, als waeren sie Freunde. Visible goal: moechte immer neue Dinge entdecken und anderen helfen. Deeper need: das Gefuehl, gebraucht und angenommen zu werden. Fear: allein und vergessen zu sein. Insecurity: Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen. Stress response: hesitate_then_try. Growth direction: lernt, sich zu konzentrieren und Geduld zu haben. Teaching roles: learner, helper. Explanation style: playful. Birth place: Windwald. Raised in: Windwald, whispering-meadow. Cultural context: lebt naturnah und gemeinschaftlich, teilt gerne mit anderen Waldbewohnern. Belief or worldview: glaubt an die Weisheit der alten Baeume. Historical context: die Tradition, Wissen und Geschichten durch Spiele weiterzugeben. Origin notes: Windwald ist ein laubreicher, luftiger Wald nahe Whispering Meadow, voller Baume und hufiger Windboeen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Mira Windhopser in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Mira springt von Ast zu Ast im Windwald, Sonnenstrahlen glitzern durchs Blattwerk, ihr Schweif leuchtet, und sie blickt lachend zu einem neuen Freund am Boden. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Mira springt von Ast zu Ast im Windwald, Sonnenstrahlen glitzern durchs Blattwerk, ihr Schweif leuchtet, und sie blickt lachend zu einem neuen Freund am Boden.",
+      "publicFilePath": "/content/characters/mira-windhopser/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "d89345ca-bb33-4c9a-a143-c935540baf72",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=d89345ca-bb33-4c9a-a143-c935540baf72",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/7aac814bdba4424695e7a20ca0be9c7c_sample.jpeg?se=2026-03-09T11%3A42%3A14Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=cPy84IlFYCIFc3%2BTw2SrwxBzYBfneTnBq6rwFORCaUk%3D",
+      "cost": 1.7000000000000002,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "mira-windhopser:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Mira Windhopser. Short description: Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen. Species: Eichhoernchen. The character must read unmistakably as a Eichhoernchen at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif. Dominant colors: leuchtend rotbraun, cremeweiss, walnussbraun. Hair or fur: rotbraun weich und leicht strubbelig mittellang. Eyes: warmes haselnussbraun, neugierig und freundlich. Distinctive features: buschiger Schweif, helle Bauchpartie, kleine, spitze Ohren mit hellen Pinselhaaren. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: kleines, gruenes Halstuch mit Eichenblattmuster. Core traits: hilfsbereit, erfinderisch, lebhaft. Temperament: lebhaft. Social style: offen. Strengths: kann gut klettern und balancieren, findet fuer fast jedes Problem eine kreative Loesung. Weaknesses: wird manchmal ungeduldig, laesst sich leicht ablenken. Quirks: sammelt gerne besondere Nuesse und Zapfen, spricht manchmal mit den Baemen, als waeren sie Freunde. Visible goal: moechte immer neue Dinge entdecken und anderen helfen. Deeper need: das Gefuehl, gebraucht und angenommen zu werden. Fear: allein und vergessen zu sein. Insecurity: Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen. Stress response: hesitate_then_try. Growth direction: lernt, sich zu konzentrieren und Geduld zu haben. Teaching roles: learner, helper. Explanation style: playful. Birth place: Windwald. Raised in: Windwald, whispering-meadow. Cultural context: lebt naturnah und gemeinschaftlich, teilt gerne mit anderen Waldbewohnern. Belief or worldview: glaubt an die Weisheit der alten Baeume. Historical context: die Tradition, Wissen und Geschichten durch Spiele weiterzugeben. Origin notes: Windwald ist ein laubreicher, luftiger Wald nahe Whispering Meadow, voller Baume und hufiger Windboeen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Mira Windhopser. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Portrait von Mira mit frischem, strubbeligem Fell, grossen, neugierigen braunen Augen und ihrem gruene Halstuch, freundlich und quirlig. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Portrait von Mira mit frischem, strubbeligem Fell, grossen, neugierigen braunen Augen und ihrem gruene Halstuch, freundlich und quirlig.",
+      "publicFilePath": "/content/characters/mira-windhopser/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "748db4be-acdb-4552-a8f1-e0b20434aab7",
+      "pollingUrl": "https://api.us3.bfl.ai/v1/get_result?id=748db4be-acdb-4552-a8f1-e0b20434aab7",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/8c75920005c440e3b0a15a1037326a67_sample.png?se=2026-03-09T11%3A42%3A21Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=fzfMmJ/nck7/21DGg/ZK0Lj79eFWNnp4/BqDT3H7cks%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "mira-windhopser:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Mira Windhopser. Short description: Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen. Species: Eichhoernchen. The character must read unmistakably as a Eichhoernchen at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif. Dominant colors: leuchtend rotbraun, cremeweiss, walnussbraun. Hair or fur: rotbraun weich und leicht strubbelig mittellang. Eyes: warmes haselnussbraun, neugierig und freundlich. Distinctive features: buschiger Schweif, helle Bauchpartie, kleine, spitze Ohren mit hellen Pinselhaaren. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: kleines, gruenes Halstuch mit Eichenblattmuster. Core traits: hilfsbereit, erfinderisch, lebhaft. Temperament: lebhaft. Social style: offen. Strengths: kann gut klettern und balancieren, findet fuer fast jedes Problem eine kreative Loesung. Weaknesses: wird manchmal ungeduldig, laesst sich leicht ablenken. Quirks: sammelt gerne besondere Nuesse und Zapfen, spricht manchmal mit den Baemen, als waeren sie Freunde. Visible goal: moechte immer neue Dinge entdecken und anderen helfen. Deeper need: das Gefuehl, gebraucht und angenommen zu werden. Fear: allein und vergessen zu sein. Insecurity: Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen. Stress response: hesitate_then_try. Growth direction: lernt, sich zu konzentrieren und Geduld zu haben. Teaching roles: learner, helper. Explanation style: playful. Birth place: Windwald. Raised in: Windwald, whispering-meadow. Cultural context: lebt naturnah und gemeinschaftlich, teilt gerne mit anderen Waldbewohnern. Belief or worldview: glaubt an die Weisheit der alten Baeume. Historical context: die Tradition, Wissen und Geschichten durch Spiele weiterzugeben. Origin notes: Windwald ist ein laubreicher, luftiger Wald nahe Whispering Meadow, voller Baume und hufiger Windboeen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Mira Windhopser. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Bild mit Mira von vorne, buschiger Schweif im Hintergrund, spitze Ohren und breites Laecheln, ihr Gesicht lebhaft und offen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Bild mit Mira von vorne, buschiger Schweif im Hintergrund, spitze Ohren und breites Laecheln, ihr Gesicht lebhaft und offen.",
+      "publicFilePath": "/content/characters/mira-windhopser/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "e6c48cd9-5e24-4373-8170-cb37b0e00bae",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=e6c48cd9-5e24-4373-8170-cb37b0e00bae",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/6569c8d5661749138e0176392eacedbd_sample.png?se=2026-03-09T11%3A42%3A26Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=rA6eLVYmHLDYlumpy7la07OabRBopPu%2BXQnJ%2BfK9Km4%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "mira-windhopser:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Mira Windhopser. Short description: Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen. Species: Eichhoernchen. The character must read unmistakably as a Eichhoernchen at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif. Dominant colors: leuchtend rotbraun, cremeweiss, walnussbraun. Hair or fur: rotbraun weich und leicht strubbelig mittellang. Eyes: warmes haselnussbraun, neugierig und freundlich. Distinctive features: buschiger Schweif, helle Bauchpartie, kleine, spitze Ohren mit hellen Pinselhaaren. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: kleines, gruenes Halstuch mit Eichenblattmuster. Core traits: hilfsbereit, erfinderisch, lebhaft. Temperament: lebhaft. Social style: offen. Strengths: kann gut klettern und balancieren, findet fuer fast jedes Problem eine kreative Loesung. Weaknesses: wird manchmal ungeduldig, laesst sich leicht ablenken. Quirks: sammelt gerne besondere Nuesse und Zapfen, spricht manchmal mit den Baemen, als waeren sie Freunde. Visible goal: moechte immer neue Dinge entdecken und anderen helfen. Deeper need: das Gefuehl, gebraucht und angenommen zu werden. Fear: allein und vergessen zu sein. Insecurity: Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen. Stress response: hesitate_then_try. Growth direction: lernt, sich zu konzentrieren und Geduld zu haben. Teaching roles: learner, helper. Explanation style: playful. Keep the same exact character identity as the character reference and show Mira Windhopser expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Eichhoernchen identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Mira Windhopser mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Mira Windhopser mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/mira-windhopser/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "c70cffb3-f0dd-4b82-8094-f31a820b282c",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=c70cffb3-f0dd-4b82-8094-f31a820b282c",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/a1366201358149dc962419a5a8bbffe1_sample.png?se=2026-03-09T11%3A42%3A33Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=GX6uk8AfeMgyt%2BKfBrNTzbCeBGhSXH24hyjLDAayXG8%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "mira-windhopser:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Mira Windhopser. Short description: Mira ist ein quirliges, federleichtes Eichhoernchen aus dem Windwald, das mit ihrem buschigen Schweif und leuchtend rotem Fell sofort ins Auge faellt. Sie liebt es, durch die Baumwipfel zu tollen und neue Freundschaften zu knuepfen. Species: Eichhoernchen. The character must read unmistakably as a Eichhoernchen at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: zierlich und wendig, mit langen Gliedmassen und grossem, buschigem Schweif. Dominant colors: leuchtend rotbraun, cremeweiss, walnussbraun. Hair or fur: rotbraun weich und leicht strubbelig mittellang. Eyes: warmes haselnussbraun, neugierig und freundlich. Distinctive features: buschiger Schweif, helle Bauchpartie, kleine, spitze Ohren mit hellen Pinselhaaren. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: kleines, gruenes Halstuch mit Eichenblattmuster. Core traits: hilfsbereit, erfinderisch, lebhaft. Temperament: lebhaft. Social style: offen. Strengths: kann gut klettern und balancieren, findet fuer fast jedes Problem eine kreative Loesung. Weaknesses: wird manchmal ungeduldig, laesst sich leicht ablenken. Quirks: sammelt gerne besondere Nuesse und Zapfen, spricht manchmal mit den Baemen, als waeren sie Freunde. Visible goal: moechte immer neue Dinge entdecken und anderen helfen. Deeper need: das Gefuehl, gebraucht und angenommen zu werden. Fear: allein und vergessen zu sein. Insecurity: Manchmal denke ich, ich bin einfach zu hibbelig fuer die anderen. Stress response: hesitate_then_try. Growth direction: lernt, sich zu konzentrieren und Geduld zu haben. Teaching roles: learner, helper. Explanation style: playful. Keep the same exact character identity as the character reference and show Mira Windhopser expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Eichhoernchen identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Mira Windhopser mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Mira Windhopser mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/mira-windhopser/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/mira-windhopser/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "3949fed0-0b14-44fc-858b-3deedc046c7f",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=3949fed0-0b14-44fc-858b-3deedc046c7f",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/9fff61b5100a4db0ab4374d0d73e6031_sample.png?se=2026-03-09T11%3A42%3A39Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=H7ETtTjNmOQQR7/4sIKGeKjjbYM309%2B2h19CMrTy/kw%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    }
+  ]
+}

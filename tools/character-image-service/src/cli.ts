@@ -13,8 +13,8 @@ Options:
   --character <path>           Required path to the character YAML file
   --style-reference <path>     Repeatable local file path to grounding/style images
   --output-root <path>         Root directory for generated assets (default: public/content/characters)
-  --model <name>               Default FLUX model (default: flux-2-pro-preview)
-  --hero-model <name>          FLUX model for hero renders (default: flux-2-max)
+  --model <name>               Default FLUX model (default: flux-2-klein-4b)
+  --hero-model <name>          FLUX model for hero renders (default: flux-2-klein-4b)
   --seed <number>              Base seed (default: 4242)
   --poll-interval-ms <number>  Polling interval (default: 1000)
   --max-poll-attempts <num>    Poll attempt limit (default: 120)
@@ -26,8 +26,9 @@ const parseArgs = (argv: string[]): GenerateCharacterImagesOptions => {
     characterPath: '',
     outputRoot: path.resolve(workspaceRoot, 'public/content/characters'),
     styleReferencePaths: [],
-    defaultModel: 'flux-2-pro-preview',
-    heroModel: 'flux-2-max',
+    characterReferencePaths: [],
+    defaultModel: 'flux-2-klein-4b',
+    heroModel: 'flux-2-klein-4b',
     dryRun: false,
     overwrite: false,
     baseSeed: 4242,

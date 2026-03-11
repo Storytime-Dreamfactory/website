@@ -7,8 +7,19 @@ import { appendConversationMessage, getConversationDetails } from './conversatio
 import { contextFromMetadata } from './conversationRuntimeContext.ts'
 import { loadCharacterRuntimeProfile } from './runtimeContentStore.ts'
 import { storeConversationImageAsset } from './conversationImageAssetStore.ts'
+import {
+  buildCharacterInteractionTargets,
+  buildInteractionMetadata,
+  parseInteractionTargets,
+} from './activityInteractionMetadata.ts'
 import { resolveCharacterImageRefs } from './runtime/context/contextCollationService.ts'
 import { trackTraceActivitySafely } from './traceActivity.ts'
+import { getOpenAiApiKey } from './openAiConfig.ts'
+import {
+  readCanonicalStoryText,
+  readImagePromptValue,
+  readSceneSummaryValue,
+} from '../storyText.ts'
 
 type RecallConversationImageInput = {
   conversationId: string
@@ -20,7 +31,8 @@ type RecallConversationImageInput = {
 
 export type RecalledConversationImage = {
   imageUrl: string
-  scenePrompt?: string
+  sceneSummary?: string
+  imagePrompt?: string
   reason: 'latest' | 'query_match'
 }
 
@@ -42,6 +54,7 @@ const trackImageMemoryActivitySafely = async (input: {
   conversationId: string
   learningGoalIds?: string[]
   imageUrl: string
+  storySummary?: string
   metadata: Record<string, unknown>
 }): Promise<void> => {
   try {
@@ -60,6 +73,7 @@ const trackImageMemoryActivitySafely = async (input: {
         type: 'image',
         url: input.imageUrl,
       },
+      storySummary: input.storySummary,
       metadata: input.metadata,
     })
   } catch (error) {
@@ -70,13 +84,17 @@ const trackImageMemoryActivitySafely = async (input: {
 
 type ImageMessageCandidate = {
   imageUrl: string
-  scenePrompt?: string
+  sceneSummary?: string
+  imagePrompt?: string
   imageVisualSummary?: string
   content: string
   sourceConversationId?: string
   occurredAt?: string
   sourceType: 'current_conversation' | 'activity_history'
   relatedText?: string
+  relatedCharacterIds?: string[]
+  relatedCharacterNames?: string[]
+  interactionTargets?: unknown
 }
 
 const tokenize = (value: string): string[] =>
@@ -143,7 +161,7 @@ const chooseImageCandidate = (
   let bestScore = 0
   for (const candidate of candidates) {
     const haystack =
-      `${candidate.scenePrompt ?? ''} ${candidate.imageVisualSummary ?? ''} ${candidate.content} ${candidate.relatedText ?? ''}`.toLowerCase()
+      `${candidate.sceneSummary ?? ''} ${candidate.imagePrompt ?? ''} ${candidate.imageVisualSummary ?? ''} ${candidate.content} ${candidate.relatedText ?? ''}`.toLowerCase()
     let score = 0
     for (const token of tokens) {
       if (haystack.includes(token)) score += 1
@@ -210,10 +228,10 @@ const pickPreferredCandidate = (
 
 const describeImageWithFastModel = async (input: {
   imageUrl: string
-  scenePrompt?: string
+  sceneSummary?: string
   fallbackText?: string
 }): Promise<string> => {
-  const apiKey = process.env.OPENAI_API_KEY?.trim()
+  const apiKey = getOpenAiApiKey()
   if (!apiKey) return ''
   const imageUrl = input.imageUrl.trim()
   if (!imageUrl) return ''
@@ -225,7 +243,7 @@ const describeImageWithFastModel = async (input: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-5.4',
         input: [
           {
             role: 'user',
@@ -236,8 +254,8 @@ const describeImageWithFastModel = async (input: {
                   'Beschreibe dieses Bild in genau 1-2 kurzen deutschen Saetzen fuer ein Kind.',
                   'Nenne nur sichtbare Inhalte (Figuren, Handlung, Umgebung, Stimmung, Farben).',
                   'Keine Vermutungen, keine Meta-Erklaerung, keine Aufzaehlung.',
-                  input.scenePrompt
-                    ? `Szenenkontext (optional): ${input.scenePrompt}`
+                  input.sceneSummary
+                    ? `Szenenkontext (optional): ${input.sceneSummary}`
                     : input.fallbackText
                       ? `Zusatzkontext (optional): ${input.fallbackText}`
                       : '',
@@ -316,19 +334,24 @@ export const recallConversationImage = async (
       readText(message.metadata?.imageUrl) ||
       readText(message.metadata?.imageLinkUrl)
     if (!imageUrl) continue
+    const metadata = (message.metadata ?? {}) as Record<string, unknown>
     currentConversationCandidates.push({
       imageUrl,
-      scenePrompt: readText(message.metadata?.scenePrompt),
-      imageVisualSummary: readText(message.metadata?.imageVisualSummary),
+      sceneSummary: readSceneSummaryValue(metadata) ?? readText(message.content),
+      imagePrompt: readImagePromptValue(metadata),
+      imageVisualSummary: readText(metadata.imageVisualSummary),
       content: message.content,
       sourceConversationId: message.conversationId,
       occurredAt: message.createdAt,
       sourceType: 'current_conversation',
       relatedText: [
-        ...readTextList(message.metadata?.relatedCharacterIds),
-        ...readTextList(message.metadata?.relatedCharacterNames),
+        ...readTextList(metadata.relatedCharacterIds),
+        ...readTextList(metadata.relatedCharacterNames),
       ]
         .join(' '),
+      relatedCharacterIds: readTextList(metadata.relatedCharacterIds),
+      relatedCharacterNames: readTextList(metadata.relatedCharacterNames),
+      interactionTargets: metadata.interactionTargets,
     })
   }
 
@@ -351,19 +374,33 @@ export const recallConversationImage = async (
       readText(activity.metadata.imageLinkUrl) ||
       readText(activity.object.url)
     if (!imageUrl) continue
+    const metadata = (activity.metadata ?? {}) as Record<string, unknown>
     activityCandidates.push({
       imageUrl,
-      scenePrompt: readText(activity.metadata.scenePrompt),
-      imageVisualSummary: readText(activity.metadata.imageVisualSummary),
-      content: readText(activity.metadata.summary) || activity.activityType,
+      sceneSummary: readCanonicalStoryText({
+        activityType: activity.activityType,
+        storySummary: activity.storySummary,
+        metadata,
+      }),
+      imagePrompt: readImagePromptValue(metadata),
+      imageVisualSummary: readText(metadata.imageVisualSummary),
+      content:
+        readCanonicalStoryText({
+          activityType: activity.activityType,
+          storySummary: activity.storySummary,
+          metadata,
+        }) || activity.activityType,
       sourceConversationId: activity.conversationId,
       occurredAt: activity.occurredAt || activity.createdAt,
       sourceType: 'activity_history',
       relatedText: [
-        ...readTextList(activity.metadata.relatedCharacterIds),
-        ...readTextList(activity.metadata.relatedCharacterNames),
+        ...readTextList(metadata.relatedCharacterIds),
+        ...readTextList(metadata.relatedCharacterNames),
       ]
         .join(' '),
+      relatedCharacterIds: readTextList(metadata.relatedCharacterIds),
+      relatedCharacterNames: readTextList(metadata.relatedCharacterNames),
+      interactionTargets: metadata.interactionTargets,
     })
   }
 
@@ -400,12 +437,15 @@ export const recallConversationImage = async (
       ? {
           candidate: {
             imageUrl: fallbackCharacterImage.path,
-            scenePrompt: `${characterName} als Charakterbild`,
+            sceneSummary: `${characterName} als Charakterbild`,
             content: `${characterName} zeigt sein Charakterbild.`,
             sourceConversationId: conversationId,
             occurredAt: new Date().toISOString(),
             sourceType: 'activity_history' as const,
             relatedText: characterName,
+            relatedCharacterIds: [],
+            relatedCharacterNames: [],
+            interactionTargets: [],
           },
           reason: 'latest' as const,
         }
@@ -452,17 +492,34 @@ export const recallConversationImage = async (
   // #endregion
   const imageVisualSummary = await describeImageWithFastModel({
     imageUrl: resolvedImageUrl,
-    scenePrompt: finalSelection.candidate.scenePrompt,
+    sceneSummary: finalSelection.candidate.sceneSummary,
     fallbackText: finalSelection.candidate.content,
   })
+  const relatedCharacterIds = finalSelection.candidate.relatedCharacterIds ?? []
+  const relatedCharacterNames = finalSelection.candidate.relatedCharacterNames ?? []
+  const parsedInteractionTargets = parseInteractionTargets(finalSelection.candidate.interactionTargets)
+  const fallbackInteractionTargets = buildCharacterInteractionTargets(
+    relatedCharacterIds.map((characterId, index) => ({
+      characterId,
+      name: relatedCharacterNames[index],
+    })),
+  )
+  const interactionTargets = parseInteractionTargets([
+    ...parsedInteractionTargets,
+    ...fallbackInteractionTargets,
+  ])
+  const interactionMetadata = buildInteractionMetadata(characterId, interactionTargets)
   const summaryWithVisual = imageVisualSummary
     ? `${summary} Darauf zu sehen: ${imageVisualSummary}`
     : summary
+  const publicRecallSummary = imageVisualSummary
+    ? `${characterName} zeigte noch einmal ein Bild: ${imageVisualSummary}`
+    : summaryWithVisual
 
   await appendConversationMessage({
     conversationId,
     role: 'system',
-    content: summaryWithVisual,
+    content: publicRecallSummary,
     eventType: 'tool.image.recalled',
     metadata: {
       heroImageUrl: resolvedImageUrl,
@@ -474,11 +531,16 @@ export const recallConversationImage = async (
       skillId: GUIDED_EXPLANATION_SKILL?.id,
       toolId: CHARACTER_AGENT_TOOLS.showImage,
       toolIds: GUIDED_EXPLANATION_SKILL?.toolIds ?? [],
-      scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+      summary: publicRecallSummary,
+      sceneSummary: finalSelection.candidate.sceneSummary || undefined,
+      imagePrompt: finalSelection.candidate.imagePrompt || undefined,
       source: input.source,
       recallReason: finalSelection.reason,
       sourceConversationId: finalSelection.candidate.sourceConversationId || undefined,
       imageVisualSummary: imageVisualSummary || undefined,
+      relatedCharacterIds,
+      relatedCharacterNames,
+      ...interactionMetadata,
     },
   })
 
@@ -496,11 +558,15 @@ export const recallConversationImage = async (
       toolId: CHARACTER_AGENT_TOOLS.showImage,
       source: input.source,
       recallReason: finalSelection.reason,
-      scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+      sceneSummary: finalSelection.candidate.sceneSummary || undefined,
+      imagePrompt: finalSelection.candidate.imagePrompt || undefined,
       sourceConversationId: finalSelection.candidate.sourceConversationId || undefined,
       originalImageUrl: storedImage?.originalUrl ?? finalSelection.candidate.imageUrl,
       imageAssetPath: storedImage?.localFilePath,
       imageVisualSummary: imageVisualSummary || undefined,
+      relatedCharacterIds,
+      relatedCharacterNames,
+      ...interactionMetadata,
     },
   })
 
@@ -512,8 +578,10 @@ export const recallConversationImage = async (
     conversationId,
     learningGoalIds: runtimeContext.learningGoalIds,
     imageUrl: resolvedImageUrl,
+    storySummary: publicRecallSummary,
     metadata: {
-      summary: summaryWithVisual,
+      summary: publicRecallSummary,
+      sceneSummary: finalSelection.candidate.sceneSummary || publicRecallSummary,
       conversationLinkLabel: 'Conversation ansehen',
       heroImageUrl: resolvedImageUrl,
       imageUrl: resolvedImageUrl,
@@ -523,11 +591,14 @@ export const recallConversationImage = async (
       toolId: CHARACTER_AGENT_TOOLS.showImage,
       source: input.source,
       recallReason: finalSelection.reason,
-      scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+      imagePrompt: finalSelection.candidate.imagePrompt || undefined,
       sourceConversationId: finalSelection.candidate.sourceConversationId || undefined,
       originalImageUrl: storedImage?.originalUrl ?? finalSelection.candidate.imageUrl,
       imageAssetPath: storedImage?.localFilePath,
       imageVisualSummary: imageVisualSummary || undefined,
+      relatedCharacterIds,
+      relatedCharacterNames,
+      ...interactionMetadata,
     },
   })
 
@@ -551,7 +622,8 @@ export const recallConversationImage = async (
 
   return {
     imageUrl: resolvedImageUrl,
-    scenePrompt: finalSelection.candidate.scenePrompt || undefined,
+    sceneSummary: finalSelection.candidate.sceneSummary || undefined,
+    imagePrompt: finalSelection.candidate.imagePrompt || undefined,
     reason: finalSelection.reason,
   }
 }

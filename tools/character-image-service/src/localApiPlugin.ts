@@ -1,4 +1,4 @@
-import { access } from 'node:fs/promises'
+import { access, mkdir, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { randomUUID } from 'node:crypto'
@@ -10,12 +10,30 @@ import { createCharacterDraft } from './createCharacterDraft.ts'
 import { saveCharacterYaml } from './saveCharacterYaml.ts'
 import { generateCharacterImages } from './generateCharacterImages.ts'
 import { loadWorldContext } from './loadWorldContext.ts'
+import { imageBufferToDataUrl, readImageAsDataUrl } from './imageDataUrl.ts'
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../../', import.meta.url)))
 
-const FALLBACK_STYLE_REFERENCE = path.resolve(
-  '/Users/fabianmaximilianjakobi/.cursor/projects/Users-fabianmaximilianjakobi-Development-Storytime-website/assets/38e36ab649947431e52d7164a7ce4824e3db6635-c9d99897-6ed4-4b42-a454-335b58395449.png',
+const CORE_BACKGROUND_STYLE_REFERENCE = path.resolve(
+  workspaceRoot,
+  'public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg',
 )
+const TEMP_REFERENCE_DIRECTORY = path.resolve(workspaceRoot, '.tmp/character-creator')
+const CHARACTER_CREATION_DEFAULT_MODEL = 'flux-2-max'
+const CHARACTER_CREATION_HERO_MODEL = 'flux-2-max'
+const DEFAULT_CHARACTER_REFERENCE_PATHS = [
+  path.resolve(workspaceRoot, 'public/content/characters/nola/standard-figur.png'),
+  path.resolve(workspaceRoot, 'public/content/characters/nova/standard-figur.png'),
+  path.resolve(workspaceRoot, 'public/content/characters/yoko/standard-figur.png'),
+]
+
+type UploadedReferenceImage = {
+  id: string
+  fileName: string
+  mimeType: string
+  tempFilePath: string
+  summary: string
+}
 
 type CharacterCreationJob = {
   id: string
@@ -27,9 +45,12 @@ type CharacterCreationJob = {
   yamlText?: string
   characterId?: string
   contentPath?: string
+  /** @deprecated removed – YAML is only written to content/ now */
   publicPath?: string
   manifestPath?: string
   error?: string
+  fillMissingFieldsCreatively?: boolean
+  referenceImages: UploadedReferenceImage[]
   assets: AssetGenerationRecord[]
 }
 
@@ -45,6 +66,7 @@ type MiddlewareStack = {
 }
 
 const jobs = new Map<string, CharacterCreationJob>()
+const referenceImages = new Map<string, UploadedReferenceImage>()
 
 type ChatMessage = {
   role: 'assistant' | 'user'
@@ -81,9 +103,42 @@ const fileExists = async (filePath: string): Promise<boolean> => {
   }
 }
 
+const safeFileName = (value: string): string => {
+  const trimmed = value.trim() || 'reference-image.png'
+  return path.basename(trimmed).replace(/[^a-zA-Z0-9._-]+/g, '-')
+}
+
+const extensionForMimeType = (mimeType: string): string => {
+  if (mimeType === 'image/jpeg') return '.jpg'
+  if (mimeType === 'image/webp') return '.webp'
+  if (mimeType === 'image/gif') return '.gif'
+  return '.png'
+}
+
+const parseDataUrl = (dataUrl: string): { mimeType: string; buffer: Buffer } => {
+  const match = dataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/)
+  if (!match) {
+    throw new Error('Ungueltiges Bildformat. Bitte lade eine PNG-, JPG-, WEBP- oder GIF-Datei hoch.')
+  }
+
+  return {
+    mimeType: match[1],
+    buffer: Buffer.from(match[2], 'base64'),
+  }
+}
+
+const cleanupReferenceImages = async (images: UploadedReferenceImage[]): Promise<void> => {
+  await Promise.all(
+    images.map(async (image) => {
+      referenceImages.delete(image.id)
+      await rm(image.tempFilePath, { force: true })
+    }),
+  )
+}
+
 const resolveStyleReferencePaths = async (): Promise<string[]> => {
   const configured = process.env.STORYTIME_STYLE_REFERENCE_PATH
-  const candidates = [configured, FALLBACK_STYLE_REFERENCE].filter(
+  const candidates = [configured, CORE_BACKGROUND_STYLE_REFERENCE].filter(
     (value): value is string => typeof value === 'string' && value.length > 0,
   )
 
@@ -97,6 +152,87 @@ const resolveStyleReferencePaths = async (): Promise<string[]> => {
   return [...new Set(result)]
 }
 
+const resolveDefaultCharacterReferencePaths = async (): Promise<string[]> => {
+  const result: string[] = []
+  for (const candidate of DEFAULT_CHARACTER_REFERENCE_PATHS) {
+    if (await fileExists(candidate)) {
+      result.push(candidate)
+    }
+  }
+
+  return [...new Set(result)]
+}
+
+const describeReferenceImageForCharacterCreation = async (
+  filePath: string,
+  fileName: string,
+): Promise<{ summary: string; merlinReply: string }> => {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    return {
+      summary: `Visuelle Referenz aus ${fileName}: Nutze dieses Bild als Hauptvorlage fuer Aussehen, Farben, Gesicht und Kleidung der Figur.`,
+      merlinReply:
+        'Ich habe dein Bild gespeichert und nutze es als Aussehens-Vorlage. Magst du mir jetzt noch sagen, wie dein Character heisst und wie er so ist? Zum Beispiel: mutig, vorsichtig oder lustig.',
+    }
+  }
+
+  const client = new OpenAI({ apiKey })
+  const dataUrl = await readImageAsDataUrl(filePath)
+  const completion = await client.chat.completions.create({
+    model: 'gpt-5.4',
+    temperature: 0.2,
+    messages: [
+      {
+        role: 'system',
+        content: [
+          'Du bist Merlin in Storytime.',
+          'Du analysierst ein Referenzbild fuer die Character-Erstellung.',
+          'Antworte nur als JSON mit den Feldern summary und merlinReply.',
+          'summary soll 2 bis 4 Saetze lang sein und nur kindgerechte sichtbare Merkmale beschreiben: Art/Spezies, Farben, Kleidung, Augen, auffaellige Merkmale, Grundstimmung.',
+          'merlinReply soll 1 bis 2 kurze deutsche Saetze fuer ein etwa 6-jaehriges Kind enthalten.',
+          'Keine Warntexte, keine Markdown-Formatierung, keine technischen Details.',
+        ].join(' '),
+      },
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'text',
+            text: 'Beschreibe das Bild als freundliche Character-Referenz fuer Storytime und frage danach auf kindgerechte Weise nach Name und Charaktereigenschaften.',
+          },
+          {
+            type: 'image_url',
+            image_url: { url: dataUrl },
+          },
+        ] as never,
+      },
+    ],
+  })
+
+  const raw = completion.choices[0]?.message?.content?.trim()
+  if (!raw) {
+    throw new Error('Die Bildanalyse hat keine Antwort geliefert.')
+  }
+
+  try {
+    const parsed = JSON.parse(raw) as { summary?: unknown; merlinReply?: unknown }
+    if (typeof parsed.summary === 'string' && typeof parsed.merlinReply === 'string') {
+      return {
+        summary: parsed.summary,
+        merlinReply: parsed.merlinReply,
+      }
+    }
+  } catch {
+    // Fallback below.
+  }
+
+  return {
+    summary: `Visuelle Referenz aus ${fileName}: Nutze dieses Bild als Hauptvorlage fuer Aussehen, Farben, Gesicht und Kleidung der Figur.`,
+    merlinReply:
+      'Ich habe dein Bild als Vorlage verstanden. Erzaehl mir jetzt noch: Wie heisst dein Character und was macht ihn besonders?',
+  }
+}
+
 const buildFallbackChatReply = (messages: ChatMessage[]) => {
   const userMessages = messages
     .filter((message) => message.role === 'user')
@@ -106,8 +242,8 @@ const buildFallbackChatReply = (messages: ChatMessage[]) => {
   const isReady = compiledPrompt.length >= 80
 
   const reply = isReady
-    ? 'Perfekt, das reicht mir. Wenn du moechtest, erstelle ich jetzt den Character und die Assets.'
-    : 'Cooler Start! Erzaehl mir noch Name, Aussehen, Outfit, Persoenlichkeit und eine kleine Hintergrundidee.'
+    ? 'Wunderbar, ich habe schon genug fuer deinen Character. Wenn du magst, drueck jetzt auf Erstellen oder auf Skip and create.'
+    : 'Ich bin Merlin. Erzaehl mir noch etwas mehr ueber deinen Character. Zum Beispiel: Wie sieht er aus? Wovor hat er Angst? Oder wie wuerde er sich selbst beschreiben?'
 
   return {
     reply,
@@ -124,16 +260,19 @@ const getChatAgentReply = async (messages: ChatMessage[]) => {
 
   const client = new OpenAI({ apiKey })
   const systemPrompt = [
-    'Du bist der Storytime Character Agent.',
-    'Fuehre eine kurze, freundliche Chat-Konversation auf Deutsch, um genug Infos fuer einen neuen Character zu sammeln.',
-    'Wichtige Daten: Name, Spezies/Art, visuelle Merkmale, Kleidung/Accessoires, Kern-Persoenlichkeit, Motivation oder Ziel.',
+    'Du bist Merlin, der zentrale freundliche Assistent von Storytime.',
+    'Fuehre eine warme, sehr einfache Chat-Konversation auf Deutsch fuer ein etwa 6-jaehriges Kind.',
+    'Stelle pro Antwort nur eine kleine Hauptfrage und gib immer 1 oder 2 kurze Beispiele.',
+    'Wichtige Character-Daten: Name, Spezies/Art, sichtbare Merkmale, Kleidung/Accessoires, core traits, Angst, Selbstbild/Selbstzweifel, Wunsch oder Ziel.',
+    'Wenn schon genug Informationen da sind, bestaetige das freundlich und erlaube Erstellen oder Skip and create.',
     'Antwort immer als JSON-Objekt mit den Feldern reply (string), isReady (boolean), compiledPrompt (string).',
-    'Wenn genug Informationen vorhanden sind, setze isReady=true und fasse alle Character-Details in compiledPrompt kompakt zusammen.',
-    'reply soll maximal 2-3 Saetze haben und keine YAML-Ausgabe enthalten.',
+    'compiledPrompt soll eine strukturierte Zusammenfassung als kurze Character-Notizen sein und bekannte Felder explizit benennen.',
+    'Wenn ein Bild bereits als Referenz im Chat genannt wurde, uebernimm diese sichtbaren Hinweise in compiledPrompt.',
+    'reply soll maximal 3 kurze Saetze haben und keine YAML-Ausgabe enthalten.',
   ].join(' ')
 
   const completion = await client.chat.completions.create({
-    model: 'gpt-4.1-mini',
+    model: 'gpt-5.4',
     temperature: 0.35,
     messages: [
       { role: 'system', content: systemPrompt },
@@ -185,34 +324,62 @@ const updateJob = (jobId: string, patch: Partial<CharacterCreationJob>): Charact
 
 const startGenerationJob = async (jobId: string): Promise<void> => {
   const job = jobs.get(jobId)
-  if (!job || !job.yamlText) {
+  if (!job) {
     return
   }
 
   try {
+    let yamlText = job.yamlText
+    if (!yamlText) {
+      updateJob(jobId, {
+        phase: 'draft',
+        message: 'Merlin baut jetzt den Character-Entwurf...',
+      })
+
+      const worldContext = await loadWorldContext()
+      const appearanceReferenceSummary = job.referenceImages
+        .map((image) => `Visuelle Referenz ${image.fileName}: ${image.summary}`)
+        .join('\n')
+      const draft = await createCharacterDraft(job.prompt ?? '', worldContext, {
+        fillMissingFieldsCreatively: job.fillMissingFieldsCreatively,
+        appearanceReferenceSummary,
+      })
+      yamlText = draft.yamlText
+
+      updateJob(jobId, {
+        yamlText,
+        characterId: draft.characterId,
+        message: 'Merlin hat den Character-Entwurf fertig.',
+      })
+    }
+
     updateJob(jobId, {
       phase: 'saving',
       message: 'Speichere Character-YAML und aktualisiere das Manifest...',
     })
 
-    const saved = await saveCharacterYaml(job.yamlText)
+    const saved = await saveCharacterYaml(yamlText)
     updateJob(jobId, {
       characterId: saved.characterId,
       contentPath: saved.contentPath,
-      publicPath: saved.publicPath,
       yamlText: saved.normalizedYamlText,
       phase: 'generating',
       message: 'Bereite die Bildjobs vor...',
     })
 
     const styleReferencePaths = await resolveStyleReferencePaths()
+    const defaultCharacterReferencePaths = await resolveDefaultCharacterReferencePaths()
 
     const { manifestPath } = await generateCharacterImages({
       characterPath: saved.contentPath,
       outputRoot: path.resolve(workspaceRoot, 'public/content/characters'),
       styleReferencePaths,
-      defaultModel: 'flux-2-pro-preview',
-      heroModel: 'flux-2-max',
+      characterReferencePaths: [
+        ...defaultCharacterReferencePaths,
+        ...job.referenceImages.map((image) => image.tempFilePath),
+      ],
+      defaultModel: CHARACTER_CREATION_DEFAULT_MODEL,
+      heroModel: CHARACTER_CREATION_HERO_MODEL,
       dryRun: false,
       overwrite: true,
       baseSeed: 4242,
@@ -288,6 +455,8 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
       message,
       error: message,
     })
+  } finally {
+    await cleanupReferenceImages(job.referenceImages)
   }
 }
 
@@ -306,15 +475,79 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
 
         const body = await readJsonBody(request)
         const prompt = typeof body.prompt === 'string' ? body.prompt.trim() : ''
+        const fillMissingFieldsCreatively = body.fillMissingFieldsCreatively === true
+        const referenceImageIds = Array.isArray(body.referenceImageIds)
+          ? body.referenceImageIds.filter((entry): entry is string => typeof entry === 'string')
+          : []
 
-        if (!prompt) {
+        if (!prompt && !fillMissingFieldsCreatively && referenceImageIds.length === 0) {
           json(response, 400, { error: 'Bitte gib eine Character-Beschreibung ein.' })
           return
         }
 
         const worldContext = await loadWorldContext()
-        const draft = await createCharacterDraft(prompt, worldContext)
+        const appearanceReferenceSummary = referenceImageIds
+          .map((id) => referenceImages.get(id))
+          .filter((image): image is UploadedReferenceImage => Boolean(image))
+          .map((image) => `Visuelle Referenz ${image.fileName}: ${image.summary}`)
+          .join('\n')
+        const draft = await createCharacterDraft(prompt, worldContext, {
+          fillMissingFieldsCreatively,
+          appearanceReferenceSummary,
+        })
         json(response, 200, draft)
+        return
+      }
+
+      if (request.method === 'POST' && requestUrl.pathname === '/reference-image') {
+        const body = await readJsonBody(request)
+        const dataUrl = typeof body.dataUrl === 'string' ? body.dataUrl.trim() : ''
+        const incomingFileName = typeof body.fileName === 'string' ? body.fileName : 'reference-image.png'
+
+        if (!dataUrl) {
+          json(response, 400, { error: 'Bitte sende ein Bild zum Hochladen.' })
+          return
+        }
+
+        const { mimeType, buffer } = parseDataUrl(dataUrl)
+        if (!mimeType.startsWith('image/')) {
+          json(response, 400, { error: 'Bitte lade eine Bilddatei hoch.' })
+          return
+        }
+        if (buffer.byteLength > 10 * 1024 * 1024) {
+          json(response, 400, { error: 'Das Bild ist zu gross. Bitte waehle eine Datei unter 10 MB.' })
+          return
+        }
+
+        await mkdir(TEMP_REFERENCE_DIRECTORY, { recursive: true })
+        const referenceId = randomUUID()
+        const safeName = safeFileName(incomingFileName)
+        const tempFilePath = path.resolve(
+          TEMP_REFERENCE_DIRECTORY,
+          `${referenceId}${path.extname(safeName) || extensionForMimeType(mimeType)}`,
+        )
+        await writeFile(tempFilePath, buffer)
+
+        const analysis = await describeReferenceImageForCharacterCreation(tempFilePath, safeName)
+        const referenceImage: UploadedReferenceImage = {
+          id: referenceId,
+          fileName: safeName,
+          mimeType,
+          tempFilePath,
+          summary: analysis.summary,
+        }
+        referenceImages.set(referenceId, referenceImage)
+
+        json(response, 200, {
+          referenceImage: {
+            id: referenceImage.id,
+            fileName: referenceImage.fileName,
+            mimeType: referenceImage.mimeType,
+            previewDataUrl: imageBufferToDataUrl(buffer, mimeType),
+            summary: referenceImage.summary,
+          },
+          reply: analysis.merlinReply,
+        })
         return
       }
 
@@ -359,9 +592,18 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
         const body = await readJsonBody(request)
         const yamlText = typeof body.yamlText === 'string' ? body.yamlText.trim() : ''
         const prompt = typeof body.prompt === 'string' ? body.prompt.trim() : undefined
+        const fillMissingFieldsCreatively = body.fillMissingFieldsCreatively === true
+        const referenceImageIds = Array.isArray(body.referenceImageIds)
+          ? body.referenceImageIds.filter((entry): entry is string => typeof entry === 'string')
+          : []
+        const selectedReferenceImages = referenceImageIds
+          .map((id) => referenceImages.get(id))
+          .filter((image): image is UploadedReferenceImage => Boolean(image))
 
-        if (!yamlText) {
-          json(response, 400, { error: 'Bitte gib ein YAML fuer den Character an.' })
+        if (!yamlText && !prompt && !fillMissingFieldsCreatively && selectedReferenceImages.length === 0) {
+          json(response, 400, {
+            error: 'Bitte gib YAML, eine Character-Beschreibung oder nutze Skip and create.',
+          })
           return
         }
 
@@ -373,7 +615,9 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
           phase: 'draft',
           message: 'Job angelegt.',
           prompt,
-          yamlText,
+          yamlText: yamlText || undefined,
+          fillMissingFieldsCreatively,
+          referenceImages: selectedReferenceImages,
           assets: [],
         }
 

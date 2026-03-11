@@ -8,7 +8,9 @@ import {
   clearExplicitImageRequestForConversation,
   noteExplicitImageRequestFromUserMessage,
 } from './conversationSceneImageService.ts'
-import { getConversationDetails } from './conversationStore.ts'
+import { appendConversationMessage, getConversationDetails } from './conversationStore.ts'
+import { toPublicConversationHistory } from './conversationActivityHelpers.ts'
+import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE } from './openAiConfig.ts'
 import {
   loadCharacterRuntimeProfile,
   loadLearningGoalRuntimeProfiles,
@@ -18,17 +20,17 @@ import {
   readRelatedObjectsRuntimeTool,
   readRelationshipsRuntimeTool,
 } from './runtime/tools/runtimeToolRegistry.ts'
-import {
-  detectRuntimeIntent,
-  detectRuntimeIntentModelDecision,
-  isMemoryImageRequest,
-  detectRuntimeToolExecutionIntent,
-} from './runtime/router/intentRouter.ts'
+import { detectRuntimeIntentModelDecision } from './runtime/router/intentRouter.ts'
 import {
   executeRoutedSkill,
   scheduleMemoryImageRecallFromUserTurn,
 } from './runtime/skills/skillExecutor.ts'
 import { trackTraceActivitySafely } from './traceActivity.ts'
+import type { SceneRelationshipContext } from './runtime/skills/createSceneBuilder.ts'
+import type {
+  RuntimeIntentModelDecision,
+  RuntimeIntentPublicMessage,
+} from './runtime/router/intentRouter.ts'
 
 type OrchestrateCharacterRuntimeTurnInput = {
   conversationId: string
@@ -36,8 +38,6 @@ type OrchestrateCharacterRuntimeTurnInput = {
   content: string
   eventType?: string
 }
-
-const ASSISTANT_VISUAL_MARKER_RE = /ich\s+zeige\s+dir\s+jetzt|schau\s+mal/i
 
 const trackRuntimeActivitySafely = async (input: {
   activityType: string
@@ -79,6 +79,14 @@ export const orchestrateCharacterRuntimeTurn = async (
   fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N1',location:'characterRuntimeOrchestrator.ts:orchestrate:start',message:'Runtime-Orchestrierung gestartet',data:{conversationId,role:input.role,eventType:input.eventType ?? null,contentPreview:content.slice(0,120)},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
 
+  let publicConversationHistory: RuntimeIntentPublicMessage[] = []
+  try {
+    const details = await getConversationDetails(conversationId)
+    publicConversationHistory = toPublicConversationHistory(details.messages)
+  } catch {
+    publicConversationHistory = []
+  }
+
   if (input.role === 'user') {
     await trackTraceActivitySafely({
       activityType: 'trace.runtime.user_turn.request',
@@ -92,7 +100,8 @@ export const orchestrateCharacterRuntimeTurn = async (
         eventType: input.eventType,
       },
     })
-    const memoryRequest = isMemoryImageRequest(content)
+    const userTurnDecision = await detectRuntimeIntentModelDecision(content, '', publicConversationHistory)
+    const memoryRequest = userTurnDecision.decision?.skillId === 'remember-something'
     // #region agent log
     fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N2',location:'characterRuntimeOrchestrator.ts:orchestrate:user-turn',message:'User-Turn auf Memory-Request geprueft',data:{conversationId,memoryRequest,userText:content},timestamp:Date.now()})}).catch(()=>{})
     // #endregion
@@ -111,6 +120,9 @@ export const orchestrateCharacterRuntimeTurn = async (
         traceSource: 'runtime',
         output: {
           memoryRequest: true,
+          routingDecisionSource: userTurnDecision.source,
+          skillId: userTurnDecision.decision?.skillId ?? null,
+          reason: userTurnDecision.decision?.reason ?? null,
         },
         ok: true,
       })
@@ -129,6 +141,14 @@ export const orchestrateCharacterRuntimeTurn = async (
       traceSource: 'runtime',
       output: {
         memoryRequest: false,
+        routingDecisionSource: userTurnDecision.source,
+        skillId: userTurnDecision.decision?.skillId ?? null,
+        reason: userTurnDecision.decision?.reason ?? null,
+        secondaryUsed: userTurnDecision.secondaryUsed,
+        primaryDecision: userTurnDecision.primaryDecision?.skillId ?? null,
+        secondaryDecision: userTurnDecision.secondaryDecision?.skillId ?? null,
+        primaryFailureReason: userTurnDecision.primaryFailureReason,
+        secondaryFailureReason: userTurnDecision.secondaryFailureReason,
       },
       ok: true,
     })
@@ -142,11 +162,17 @@ export const orchestrateCharacterRuntimeTurn = async (
   const characterName = characterProfile?.name ?? characterId
   const lastUserText =
     [...details.messages].reverse().find((item) => item.role === 'user')?.content?.trim() ?? ''
+  publicConversationHistory = toPublicConversationHistory(details.messages)
   const activeLearningGoals = await loadLearningGoalRuntimeProfiles(runtimeContext.learningGoalIds ?? [])
-  const runtimeIntentDecision = await detectRuntimeIntentModelDecision(lastUserText, content)
+  const runtimeIntentDecision = await detectRuntimeIntentModelDecision(
+    lastUserText,
+    content,
+    publicConversationHistory,
+  )
   const { relationshipsRequested, activitiesRequested } = runtimeIntentDecision.flags
 
   let relationshipCount = 0
+  let relationshipContext: SceneRelationshipContext | null = null
   if (relationshipsRequested) {
     const runtimeToolContext = {
       characterId,
@@ -156,10 +182,14 @@ export const orchestrateCharacterRuntimeTurn = async (
     }
     const relationshipResult = await readRelationshipsRuntimeTool().execute(runtimeToolContext, {})
     relationshipCount = relationshipResult.relationshipCount
-    await readRelatedObjectsRuntimeTool().execute(runtimeToolContext, {
+    const relatedObjectsResult = await readRelatedObjectsRuntimeTool().execute(runtimeToolContext, {
       relatedCharacterIds: relationshipResult.relatedCharacterIds,
       relationshipLinks: relationshipResult.relationshipLinks,
     })
+    relationshipContext = {
+      relationshipLinks: relationshipResult.relationshipLinks,
+      directRelatedObjects: relatedObjectsResult.relatedObjects,
+    }
   }
 
   let recentActivityCount = 0
@@ -174,20 +204,13 @@ export const orchestrateCharacterRuntimeTurn = async (
     recentActivityCount = activityResult.activityCount
   }
 
-  const detectedDecision = runtimeIntentDecision.decision ?? detectRuntimeIntent(lastUserText, content)
-  const decision =
-    detectedDecision ??
-    (ASSISTANT_VISUAL_MARKER_RE.test(content)
-      ? {
-          skillId: 'do-something' as const,
-          reason: 'degraded-visual-fallback',
-        }
-      : {
-          skillId: 'remember-something' as const,
-          reason: 'degraded-no-decision-fallback',
-        })
-  const degradedFallbackApplied = detectedDecision == null
-  const toolExecutionIntent = detectRuntimeToolExecutionIntent(lastUserText)
+  const decision = runtimeIntentDecision.decision
+  const toolExecutionIntent = runtimeIntentDecision.toolExecutionIntent
+  const decisionFailureReason =
+    runtimeIntentDecision.secondaryFailureReason ??
+    runtimeIntentDecision.primaryFailureReason ??
+    (runtimeIntentDecision.source === 'fallback' ? 'llm-intent-unavailable' : null)
+  const gracefulFailureApplied = decision == null
   await trackTraceActivitySafely({
     activityType: 'trace.runtime.decision.response',
     summary: 'Runtime-Entscheidung abgeschlossen',
@@ -199,25 +222,62 @@ export const orchestrateCharacterRuntimeTurn = async (
     traceKind: 'decision',
     traceSource: 'runtime',
     input: {
-      lastUserText: lastUserText.slice(0, 240),
-      assistantText: content.slice(0, 240),
+      lastUserText,
+      assistantText: content,
+      publicConversationHistory,
     },
     output: {
-      skillId: decision?.skillId,
-      reason: decision?.reason,
-      preDegradedSkillId: detectedDecision?.skillId ?? null,
-      preDegradedReason: detectedDecision?.reason ?? null,
-      degradedFallbackApplied,
+      skillId: decision?.skillId ?? null,
+      reason: decision?.reason ?? null,
       toolExecutionTaskId: toolExecutionIntent?.taskId,
       relationshipsRequested,
       activitiesRequested,
       routingDecisionSource: runtimeIntentDecision.source,
+      primaryDecision: runtimeIntentDecision.primaryDecision?.skillId ?? null,
+      secondaryDecision: runtimeIntentDecision.secondaryDecision?.skillId ?? null,
+      secondaryUsed: runtimeIntentDecision.secondaryUsed,
+      primaryFailureReason: runtimeIntentDecision.primaryFailureReason,
+      secondaryFailureReason: runtimeIntentDecision.secondaryFailureReason,
+      decisionFailureReason,
+      gracefulFailureApplied,
     },
     ok: true,
   })
   // #region agent log
   fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N3',location:'characterRuntimeOrchestrator.ts:orchestrate:decision',message:'Intent-Entscheidung erstellt',data:{conversationId,lastUserText,assistantText:content,decisionSkillId:decision?.skillId ?? null,decisionReason:decision?.reason ?? null},timestamp:Date.now()})}).catch(()=>{})
   // #endregion
+  if (!decision) {
+    await appendConversationMessage({
+      conversationId,
+      role: 'assistant',
+      content: RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE,
+      eventType: 'runtime.intent.unavailable',
+      metadata: {
+        sourceEventType: input.eventType,
+        decisionFailureReason,
+      },
+    })
+    await trackTraceActivitySafely({
+      activityType: 'trace.runtime.orchestration.response',
+      summary: 'Runtime-Orchestrierung mit Graceful-Fail beendet',
+      conversationId,
+      characterId,
+      characterName,
+      learningGoalIds: runtimeContext.learningGoalIds,
+      traceStage: 'egress',
+      traceKind: 'response',
+      traceSource: 'runtime',
+      output: {
+        skillId: null,
+        reason: 'llm-intent-unavailable',
+        gracefulFailureApplied: true,
+        decisionFailureReason,
+      },
+      ok: false,
+    })
+    return
+  }
+
   const playbook = getCharacterAgentSkillPlaybook(decision.skillId)
   await trackRuntimeActivitySafely({
     activityType: 'runtime.skill.routed',
@@ -258,6 +318,7 @@ export const orchestrateCharacterRuntimeTurn = async (
     characterName,
     learningGoalIds: runtimeContext.learningGoalIds,
     toolExecutionIntent,
+    relationshipContext,
   })
   await trackTraceActivitySafely({
     activityType: 'trace.runtime.orchestration.response',
@@ -272,6 +333,7 @@ export const orchestrateCharacterRuntimeTurn = async (
     output: {
       skillId: decision.skillId,
       reason: decision.reason,
+      gracefulFailureApplied: false,
     },
     ok: true,
   })

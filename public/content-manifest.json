@@ -13,7 +13,12 @@
     "/content/characters/leni/character.yaml",
     "/content/characters/wilma/character.yaml",
     "/content/characters/yoko/character.yaml",
-    "/content/characters/merlin/character.yaml"
+    "/content/characters/merlin/character.yaml",
+    "/content/characters/raina/character.yaml",
+    "/content/characters/pippa-pusteblume/character.yaml",
+    "/content/characters/mira-windhopser/character.yaml",
+    "/content/characters/tilda-tannenzapfen/character.yaml",
+    "/content/characters/flora-blumenfreude/character.yaml"
   ],
   "places": [
     "/content/places/crystal-lake.yaml",
@@ -22,5 +27,6 @@
   "learningGoals": [
     "/content/learning-goals/problem-solving.yaml",
     "/content/learning-goals/kindness.yaml"
-  ]
+  ],
+  "artifacts": []
 }

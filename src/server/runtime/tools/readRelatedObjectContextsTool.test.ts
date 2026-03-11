@@ -43,45 +43,45 @@ describe('readRelatedObjectContextsTool', () => {
     mocks.listRelationshipsByOtherRelatedObjectMock.mockResolvedValue([
       {
         relationship: {
-          relationshipId: 'nola#romi#freundin',
-          sourceCharacterId: 'nola',
-          targetCharacterId: 'romi',
+          relationshipId: '8eb40291-65ee-49b6-b826-d7c7e97404c0#e3bf634f-af12-4d51-aeb1-d1464bea2d13#freundin',
+          sourceCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+          targetCharacterId: 'e3bf634f-af12-4d51-aeb1-d1464bea2d13',
           relationshipType: 'freundin',
           relationshipTypeReadable: 'Freundin',
           relationship: 'Freundin',
           description: undefined,
           metadata: {},
-          otherRelatedObjects: [{ type: 'place', id: 'crystal-lake' }],
+          otherRelatedObjects: [{ type: 'place', id: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a' }],
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         },
-        matchedObject: { type: 'place', id: 'crystal-lake' },
+        matchedObject: { type: 'place', id: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a' },
       },
     ])
 
     const result = await readRelatedObjectContextsTool.execute(
       {
         conversationId: 'conv-1',
-        characterId: 'nola',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
         characterName: 'Nola',
       },
       {
         objectType: 'place',
-        objectId: 'crystal-lake',
+        objectId: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a',
       },
     )
 
     expect(result).toEqual(
       expect.objectContaining({
         matchCount: 1,
-        relatedCharacterIds: ['romi'],
+        relatedCharacterIds: ['e3bf634f-af12-4d51-aeb1-d1464bea2d13'],
         matchedContexts: expect.any(Array),
         relatedObjects: expect.any(Array),
       }),
     )
     expect(mocks.listRelationshipsByOtherRelatedObjectMock).toHaveBeenCalledWith(
       'place',
-      'crystal-lake',
+      'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a',
     )
     expect(mocks.appendConversationMessageMock).toHaveBeenCalled()
   })
@@ -91,7 +91,7 @@ describe('readRelatedObjectContextsTool', () => {
       readRelatedObjectContextsTool.execute(
         {
           conversationId: 'conv-1',
-          characterId: 'nola',
+          characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
           characterName: 'Nola',
         },
         {

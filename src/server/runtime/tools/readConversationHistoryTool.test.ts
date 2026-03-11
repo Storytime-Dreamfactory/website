@@ -40,7 +40,7 @@ describe('readConversationHistoryTool', () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
         conversationId: 'conv-1',
-        characterId: 'nola',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
         startedAt: '2026-01-01T10:00:00.000Z',
       },
       messages: [
@@ -53,7 +53,7 @@ describe('readConversationHistoryTool', () => {
           metadata: {
             imageUrl: '/content/conversations/conv-1/recalled-1.jpg',
             imageAssetPath: 'public/content/conversations/conv-1/recalled-1.jpg',
-            scenePrompt: 'Eiffelturm am Fluss',
+            sceneSummary: 'Eiffelturm am Fluss',
             object: { type: 'image', id: 'img-eiffel' },
           },
         },
@@ -63,7 +63,7 @@ describe('readConversationHistoryTool', () => {
     const result = await readConversationHistoryTool.execute(
       {
         conversationId: 'conv-1',
-        characterId: 'nola',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
         characterName: 'Nola',
       },
       {
@@ -97,5 +97,52 @@ describe('readConversationHistoryTool', () => {
         imageId: 'recalled-1',
       }),
     )
+  })
+
+  it('liefert bei fetchAll die komplette Conversation ohne Paging-Slice', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+        startedAt: '2026-01-01T10:00:00.000Z',
+      },
+      messages: [
+        {
+          messageId: 1,
+          role: 'user',
+          content: 'Hallo',
+          eventType: 'conversation.item.input_audio_transcription.completed',
+          createdAt: '2026-01-01T10:00:00.000Z',
+          metadata: {},
+        },
+        {
+          messageId: 2,
+          role: 'assistant',
+          content: 'Hi',
+          eventType: 'response.audio_transcript.done',
+          createdAt: '2026-01-01T10:01:00.000Z',
+          metadata: {},
+        },
+      ],
+    })
+
+    const result = await readConversationHistoryTool.execute(
+      {
+        conversationId: 'conv-1',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+        characterName: 'Nola',
+      },
+      {
+        scope: 'external',
+        conversationIds: ['conv-1'],
+        limit: 1,
+        offset: 0,
+        fetchAll: true,
+      },
+    )
+
+    expect(mocks.listActivitiesMock).not.toHaveBeenCalled()
+    expect(result.conversations[0].messages).toHaveLength(2)
+    expect(result.conversations[0].hasMore).toBe(false)
   })
 })

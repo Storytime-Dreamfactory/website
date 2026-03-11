@@ -1,0 +1,39 @@
+import { Pool } from 'pg'
+
+const POSTGRES_DEFAULT_URL = 'postgres://storytime:storytime@localhost:5433/storytime'
+const DEFAULT_POOL_MAX = 8
+const DEFAULT_IDLE_TIMEOUT_MS = 10_000
+const DEFAULT_CONNECTION_TIMEOUT_MS = 5_000
+
+let sharedPool: Pool | null = null
+
+const readIntegerEnv = (value: string | undefined, fallback: number): number => {
+  if (!value) return fallback
+  const parsed = Number.parseInt(value, 10)
+  if (!Number.isFinite(parsed)) return fallback
+  return parsed
+}
+
+export const getStorytimeDbPool = (): Pool => {
+  if (sharedPool) return sharedPool
+
+  const connectionString = process.env.DATABASE_URL?.trim() || POSTGRES_DEFAULT_URL
+  const max = Math.max(1, readIntegerEnv(process.env.DB_POOL_MAX, DEFAULT_POOL_MAX))
+  const idleTimeoutMillis = Math.max(
+    1_000,
+    readIntegerEnv(process.env.DB_POOL_IDLE_TIMEOUT_MS, DEFAULT_IDLE_TIMEOUT_MS),
+  )
+  const connectionTimeoutMillis = Math.max(
+    1_000,
+    readIntegerEnv(process.env.DB_POOL_CONNECTION_TIMEOUT_MS, DEFAULT_CONNECTION_TIMEOUT_MS),
+  )
+
+  sharedPool = new Pool({
+    connectionString,
+    max,
+    idleTimeoutMillis,
+    connectionTimeoutMillis,
+  })
+
+  return sharedPool
+}

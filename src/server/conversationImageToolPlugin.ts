@@ -44,7 +44,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
       const result = await generateConversationHeroToolApi({
         conversationId: readText(body.conversationId),
         characterId: readText(body.characterId),
-        scenePrompt: readText(body.scenePrompt),
+        imagePrompt: readText(body.imagePrompt) || readText(body.scenePrompt),
         styleHint: readText(body.styleHint),
         interactionTargets: body.interactionTargets,
         relatedCharacterIds: body.relatedCharacterIds,
@@ -55,6 +55,7 @@ const registerConversationImageToolApi = (middlewares: MiddlewareStack): void =>
         pollIntervalMs: body.pollIntervalMs,
         maxPollAttempts: body.maxPollAttempts,
         seed: body.seed,
+        model: body.model,
       })
       json(response, 200, result)
     } catch (error) {

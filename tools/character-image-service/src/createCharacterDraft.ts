@@ -1,10 +1,11 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { parse, stringify } from 'yaml'
+import { parse } from 'yaml'
 import type { WorldContext } from './loadWorldContext.ts'
 import { serializeWorldContextForPrompt } from './loadWorldContext.ts'
 import { generateCharacterYaml, retryWithFeedback } from './llmClient.ts'
+import { normalizeCharacterYamlWithStandardImages } from './standardCharacterImages.ts'
 import { validateCharacter } from '../../../src/content/validators.ts'
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../../', import.meta.url)))
@@ -36,14 +37,39 @@ const uniqueId = (baseId: string, context: WorldContext): string => {
 const loadSystemPrompt = async (): Promise<string> =>
   readFile(SYSTEM_PROMPT_PATH, 'utf8')
 
-const buildUserMessage = (prompt: string, context: WorldContext): string => {
+type CreateCharacterDraftOptions = {
+  fillMissingFieldsCreatively?: boolean
+  appearanceReferenceSummary?: string
+}
+
+const buildUserMessage = (
+  prompt: string,
+  context: WorldContext,
+  options: CreateCharacterDraftOptions,
+): string => {
   const worldSummary = serializeWorldContextForPrompt(context)
   const today = new Date().toISOString().slice(0, 10)
+  const trimmedPrompt = prompt.trim()
+  const promptBlock = trimmedPrompt || 'Keine direkten Nutzereingaben vorhanden.'
+  const creationMode = options.fillMissingFieldsCreatively
+    ? [
+        'Fehlende Details darfst und sollst du kreativ, kindgerecht und schema-treu ausfuellen.',
+        'Wenn nur wenig oder gar keine Nutzereingaben vorliegen, erfinde einen vollstaendigen neuen Character, der klar, warm und visuell lesbar ist.',
+      ].join(' ')
+    : 'Nutze nur das, was aus den Notizen sinnvoll ableitbar ist, und bleibe streng schema-treu.'
 
   return [
-    `Erstelle einen neuen Charakter basierend auf folgender Beschreibung:`,
+    'Erstelle einen neuen Charakter basierend auf folgenden Character-Notizen.',
     '',
-    prompt,
+    creationMode,
+    '',
+    '## Character-Notizen',
+    '',
+    promptBlock,
+    '',
+    options.appearanceReferenceSummary
+      ? ['## Visuelle Referenz', '', options.appearanceReferenceSummary, ''].join('\n')
+      : '',
     '',
     `Heutiges Datum fuer metadata: ${today}`,
     '',
@@ -68,32 +94,16 @@ const extractIdFromYaml = (yamlText: string): string | undefined => {
   return undefined
 }
 
-const normalizeYaml = (
-  yamlText: string,
-  characterId: string,
-): string => {
-  const parsed = parse(yamlText) as Record<string, unknown>
-  parsed.id = characterId
-
-  if (isRecord(parsed.bilder)) {
-    for (const key of ['standard_figur', 'hero_image', 'portrait', 'profilbild'] as const) {
-      const entry = parsed.bilder[key]
-      if (isRecord(entry)) {
-        const ext = key === 'hero_image' ? 'jpg' : 'png'
-        entry.datei = `/content/characters/${characterId}/${key.replace(/_/g, '-')}.${ext}`
-      }
-    }
-  }
-
-  return stringify(parsed, { lineWidth: 0 })
-}
+const normalizeYaml = (yamlText: string, characterId: string): string =>
+  normalizeCharacterYamlWithStandardImages(yamlText, characterId)
 
 export const createCharacterDraft = async (
   prompt: string,
   context: WorldContext = { characters: [], places: [] },
+  options: CreateCharacterDraftOptions = {},
 ): Promise<{ characterId: string; yamlText: string }> => {
   const systemPrompt = await loadSystemPrompt()
-  const userMessage = buildUserMessage(prompt.trim(), context)
+  const userMessage = buildUserMessage(prompt.trim(), context, options)
 
   let rawYaml = await generateCharacterYaml(systemPrompt, userMessage)
 

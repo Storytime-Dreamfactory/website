@@ -2,7 +2,9 @@ import { access, readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse as parseYaml } from 'yaml'
+import { getOpenAiApiKey, readServerEnv } from '../../openAiConfig.ts'
 import { listActivities } from '../../activityStore.ts'
+import { get as getGameObject, resolveYamlPathForGameObject } from '../../gameObjectService.ts'
 import { listRelationshipsForCharacter } from '../../relationshipStore.ts'
 import { loadCharacterRuntimeProfiles } from '../../runtimeContentStore.ts'
 
@@ -60,7 +62,7 @@ export type ImageReferenceSelectionResult = {
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)))
 const OPENAI_CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
-const REFERENCE_SELECTOR_MODEL = process.env.RUNTIME_REFERENCE_SELECTOR_MODEL?.trim() || 'gpt-5-mini'
+const REFERENCE_SELECTOR_MODEL = readServerEnv('RUNTIME_REFERENCE_SELECTOR_MODEL', 'gpt-5.4')
 
 type CharacterYaml = {
   name?: string
@@ -88,6 +90,12 @@ const toPublicUrl = (absolutePath: string): string => {
   const relative = path.relative(publicRoot, absolutePath).replaceAll(path.sep, '/')
   return relative.startsWith('..') ? absolutePath : `/${relative}`
 }
+
+const pickPreferredImageRef = (imageRefs: CollatedImageRef[]): CollatedImageRef | undefined =>
+  imageRefs.find((item) => item.kind === 'standard') ??
+  imageRefs.find((item) => item.kind === 'portrait') ??
+  imageRefs.find((item) => item.kind === 'hero') ??
+  imageRefs.find((item) => item.kind === 'profile')
 
 const exists = async (filePath: string): Promise<boolean> => {
   try {
@@ -120,9 +128,12 @@ const collectExistingImageRef = async (
 export const resolveCharacterImageRefs = async (characterId: string): Promise<CollatedImageRef[]> => {
   const normalizedId = characterId.trim()
   if (!normalizedId) return []
-  const yamlPath = path.resolve(workspaceRoot, 'content/characters', normalizedId, 'character.yaml')
+  const gameObject = await getGameObject(normalizedId)
+  const characterSlug = gameObject?.type === 'character' ? gameObject.slug : normalizedId
   let yaml: CharacterYaml | null = null
   try {
+    const yamlPath = await resolveYamlPathForGameObject(normalizedId, 'character')
+    if (!yamlPath) return []
     const raw = await readFile(yamlPath, 'utf8')
     yaml = parseYaml(raw) as CharacterYaml
   } catch {
@@ -131,31 +142,31 @@ export const resolveCharacterImageRefs = async (characterId: string): Promise<Co
 
   const heroRef = await collectExistingImageRef('hero', 'Hero', [
     readText(yaml?.bilder?.hero_image?.datei),
-    `/content/characters/${normalizedId}/hero-image.jpg`,
-    `/content/characters/${normalizedId}/hero-image.png`,
-    `/content/characters/${normalizedId}/hero-image.jpeg`,
-    `/content/characters/${normalizedId}/hero-image.webp`,
+    `/content/characters/${characterSlug}/hero-image.jpg`,
+    `/content/characters/${characterSlug}/hero-image.png`,
+    `/content/characters/${characterSlug}/hero-image.jpeg`,
+    `/content/characters/${characterSlug}/hero-image.webp`,
   ])
   const standardRef = await collectExistingImageRef('standard', 'Standard', [
     readText(yaml?.bilder?.standard_figur?.datei),
-    `/content/characters/${normalizedId}/standard-figur.png`,
-    `/content/characters/${normalizedId}/standard-figur.jpg`,
-    `/content/characters/${normalizedId}/standard-figur.jpeg`,
-    `/content/characters/${normalizedId}/standard-figur.webp`,
+    `/content/characters/${characterSlug}/standard-figur.png`,
+    `/content/characters/${characterSlug}/standard-figur.jpg`,
+    `/content/characters/${characterSlug}/standard-figur.jpeg`,
+    `/content/characters/${characterSlug}/standard-figur.webp`,
   ])
   const portraitRef = await collectExistingImageRef('portrait', 'Portrait', [
     readText(yaml?.bilder?.portrait?.datei),
-    `/content/characters/${normalizedId}/portrait.png`,
-    `/content/characters/${normalizedId}/portrait.jpg`,
-    `/content/characters/${normalizedId}/portrait.jpeg`,
-    `/content/characters/${normalizedId}/portrait.webp`,
+    `/content/characters/${characterSlug}/portrait.png`,
+    `/content/characters/${characterSlug}/portrait.jpg`,
+    `/content/characters/${characterSlug}/portrait.jpeg`,
+    `/content/characters/${characterSlug}/portrait.webp`,
   ])
   const profileRef = await collectExistingImageRef('profile', 'Profilbild', [
     readText(yaml?.bilder?.profilbild?.datei),
-    `/content/characters/${normalizedId}/profilbild.png`,
-    `/content/characters/${normalizedId}/profilbild.jpg`,
-    `/content/characters/${normalizedId}/profilbild.jpeg`,
-    `/content/characters/${normalizedId}/profilbild.webp`,
+    `/content/characters/${characterSlug}/profilbild.png`,
+    `/content/characters/${characterSlug}/profilbild.jpg`,
+    `/content/characters/${characterSlug}/profilbild.jpeg`,
+    `/content/characters/${characterSlug}/profilbild.webp`,
   ])
 
   return [heroRef, standardRef, portraitRef, profileRef].filter(
@@ -231,7 +242,7 @@ const buildFallbackSelection = (input: {
       if (item.relationshipLinks.some((link) => normalizeText(link.relationshipType).includes('freund'))) {
         score += 1
       }
-      const preferredImage = item.imageRefs[0]
+      const preferredImage = pickPreferredImageRef(item.imageRefs)
       return {
         item,
         score,
@@ -264,7 +275,7 @@ const requestReferenceSelectionFromLlm = async (input: {
   maxRelatedReferences: number
 }): Promise<ImageReferenceSelectionResult | null> => {
   if (process.env.NODE_ENV === 'test') return null
-  const apiKey = process.env.OPENAI_API_KEY?.trim()
+  const apiKey = getOpenAiApiKey()
   if (!apiKey) return null
 
   const candidates = input.relatedObjects
@@ -273,7 +284,7 @@ const requestReferenceSelectionFromLlm = async (input: {
       objectId: item.objectId,
       title: item.displayName,
       relationships: item.relationshipLinks.map((link) => link.relationshipTypeReadable || link.relationshipType),
-      imagePath: item.imageRefs[0]?.path ?? '',
+      imagePath: pickPreferredImageRef(item.imageRefs)?.path ?? '',
     }))
     .filter((item) => item.imagePath.length > 0)
   if (candidates.length === 0) return { selectedReferences: [] }

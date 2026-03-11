@@ -8,6 +8,9 @@ import { activitiesApiPlugin } from './src/server/activitiesPlugin.ts'
 import { imageGenerationApiPlugin } from './src/server/imageGenerationPlugin.ts'
 import { conversationImageToolApiPlugin } from './src/server/conversationImageToolPlugin.ts'
 import { conversationQuizToolApiPlugin } from './src/server/conversationQuizToolPlugin.ts'
+import { contentYamlPlugin } from './src/server/contentYamlPlugin.ts'
+import { gameObjectsApiPlugin } from './src/server/gameObjectsPlugin.ts'
+import { evalProcessorPlugin } from './src/server/evalProcessorPlugin.ts'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
@@ -21,14 +24,17 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
+      contentYamlPlugin(),
       characterCreatorApiPlugin(),
       realtimeApiPlugin(),
+      gameObjectsApiPlugin(),
       relationshipsApiPlugin(),
       conversationsApiPlugin(),
       activitiesApiPlugin(),
       imageGenerationApiPlugin(),
       conversationImageToolApiPlugin(),
       conversationQuizToolApiPlugin(),
+      evalProcessorPlugin(),
     ],
     server: {
       proxy: {

@@ -1,11 +1,13 @@
 import { parse } from 'yaml'
 import type {
+  Artifact,
   Character,
   CharacterRelationshipToCharacter,
-  ContentManifest,
+  LearningGoal,
+  Place,
   StoryContent,
 } from './types'
-import { validateCharacter, validateLearningGoal, validatePlace } from './validators'
+import { validateArtifact, validateCharacter, validateLearningGoal, validatePlace } from './validators'
 
 const fallbackCharacterFiles = import.meta.glob('../../content/characters/*/character.yaml', {
   query: '?raw',
@@ -25,7 +27,13 @@ const fallbackLearningGoalFiles = import.meta.glob('../../content/learning-goals
   eager: true,
 }) as Record<string, string>
 
-const deriveIdFromPath = (filePath: string): string => {
+const fallbackArtifactFiles = import.meta.glob('../../content/artifacts/*.yaml', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+}) as Record<string, string>
+
+const deriveSlugFromPath = (filePath: string): string => {
   const segments = filePath.split('/')
   const fileName = segments.pop() ?? ''
   if (/^character\.ya?ml$/i.test(fileName)) {
@@ -42,21 +50,14 @@ const parseYaml = (rawYaml: string, filePath: string): unknown => {
   }
 }
 
-const loadRuntimeManifest = async (): Promise<ContentManifest> => {
-  const response = await fetch('/content-manifest.json')
+const loadRuntimeGameObjects = async <T>(objectType: string): Promise<T[]> => {
+  const response = await fetch(`/api/game-objects?type=${encodeURIComponent(objectType)}`)
   if (!response.ok) {
-    throw new Error(`Runtime manifest could not be loaded: ${response.status}`)
+    throw new Error(`GameObjects API could not be loaded for ${objectType}: ${response.status}`)
   }
 
-  return (await response.json()) as ContentManifest
-}
-
-const loadRuntimeYaml = async (path: string): Promise<unknown> => {
-  const response = await fetch(path)
-  if (!response.ok) {
-    throw new Error(`Runtime YAML could not be loaded: ${path} (${response.status})`)
-  }
-  return parseYaml(await response.text(), path)
+  const payload = (await response.json()) as { gameObjects?: T[] }
+  return Array.isArray(payload.gameObjects) ? payload.gameObjects : []
 }
 
 type DbRelationshipResponse = {
@@ -122,27 +123,11 @@ const mergeRelationshipsFromDatabase = async (
 }
 
 const loadFromRuntime = async (): Promise<StoryContent> => {
-  const manifest = await loadRuntimeManifest()
-
-  const [characters, places, learningGoals] = await Promise.all([
-    Promise.all(
-      manifest.characters.map(async (path) => {
-        const parsed = await loadRuntimeYaml(path)
-        return validateCharacter(parsed, deriveIdFromPath(path), path)
-      }),
-    ),
-    Promise.all(
-      manifest.places.map(async (path) => {
-        const parsed = await loadRuntimeYaml(path)
-        return validatePlace(parsed, deriveIdFromPath(path), path)
-      }),
-    ),
-    Promise.all(
-      manifest.learningGoals.map(async (path) => {
-        const parsed = await loadRuntimeYaml(path)
-        return validateLearningGoal(parsed, deriveIdFromPath(path), path)
-      }),
-    ),
+  const [characters, places, learningGoals, artifacts] = await Promise.all([
+    loadRuntimeGameObjects<Character>('character'),
+    loadRuntimeGameObjects<Place>('place'),
+    loadRuntimeGameObjects<LearningGoal>('learning-goals'),
+    loadRuntimeGameObjects<Artifact>('artifact'),
   ])
 
   const merged = await mergeRelationshipsFromDatabase(characters)
@@ -151,6 +136,7 @@ const loadFromRuntime = async (): Promise<StoryContent> => {
     characters: merged.characters,
     places,
     learningGoals,
+    artifacts,
     source: 'runtime',
     warnings: merged.warning ? [merged.warning] : [],
   }
@@ -159,23 +145,29 @@ const loadFromRuntime = async (): Promise<StoryContent> => {
 const loadFromFallback = (reason: string): StoryContent => {
   const characters = Object.entries(fallbackCharacterFiles).map(([filePath, rawYaml]) => {
     const parsed = parseYaml(rawYaml, filePath)
-    return validateCharacter(parsed, deriveIdFromPath(filePath), filePath)
+    return validateCharacter(parsed, deriveSlugFromPath(filePath), filePath)
   })
 
   const places = Object.entries(fallbackPlaceFiles).map(([filePath, rawYaml]) => {
     const parsed = parseYaml(rawYaml, filePath)
-    return validatePlace(parsed, deriveIdFromPath(filePath), filePath)
+    return validatePlace(parsed, deriveSlugFromPath(filePath), filePath)
   })
 
   const learningGoals = Object.entries(fallbackLearningGoalFiles).map(([filePath, rawYaml]) => {
     const parsed = parseYaml(rawYaml, filePath)
-    return validateLearningGoal(parsed, deriveIdFromPath(filePath), filePath)
+    return validateLearningGoal(parsed, deriveSlugFromPath(filePath), filePath)
+  })
+
+  const artifacts = Object.entries(fallbackArtifactFiles).map(([filePath, rawYaml]) => {
+    const parsed = parseYaml(rawYaml, filePath)
+    return validateArtifact(parsed, deriveSlugFromPath(filePath), filePath)
   })
 
   return {
     characters,
     places,
     learningGoals,
+    artifacts,
     source: 'fallback',
     warnings: [reason],
   }

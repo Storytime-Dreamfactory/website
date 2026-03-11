@@ -2,6 +2,11 @@ import { listActivities } from '../../activityStore.ts'
 import { CHARACTER_AGENT_TOOLS } from '../../characterAgentDefinitions.ts'
 import { getConversationDetails } from '../../conversationStore.ts'
 import { trackTraceActivitySafely } from '../../traceActivity.ts'
+import {
+  readCanonicalStoryText,
+  readImagePromptValue,
+  readSceneSummaryValue,
+} from '../../../storyText.ts'
 import type { RuntimeToolHandler } from './runtimeToolTypes.ts'
 import { trackRuntimeToolActivitySafely } from './runtimeToolActivityLogger.ts'
 
@@ -10,6 +15,7 @@ type ReadConversationHistoryInput = {
   scope?: 'external' | 'all'
   limit?: number
   offset?: number
+  fetchAll?: boolean
 }
 
 type ReadConversationHistoryOutput = {
@@ -45,7 +51,8 @@ type ReadConversationHistoryOutput = {
       messageId: number
       imageId?: string
       imageUrl?: string
-      scenePrompt?: string
+      summary?: string
+      imagePrompt?: string
       source: 'message-metadata'
     }>
   }>
@@ -63,6 +70,8 @@ const clampOffset = (value: unknown): number => {
   if (typeof value !== 'number' || !Number.isFinite(value)) return 0
   return Math.max(0, Math.floor(value))
 }
+
+const shouldFetchAll = (value: unknown): boolean => value === true
 
 const readText = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -128,6 +137,7 @@ export const readConversationHistoryTool: RuntimeToolHandler<
     const scope = toScope(input.scope)
     const limit = clampLimit(input.limit)
     const offset = clampOffset(input.offset)
+    const fetchAll = shouldFetchAll(input.fetchAll)
     const requestedConversationIds = Array.isArray(input.conversationIds)
       ? input.conversationIds
           .map((item) => (typeof item === 'string' ? item.trim() : ''))
@@ -139,12 +149,29 @@ export const readConversationHistoryTool: RuntimeToolHandler<
         : Array.from(
             new Set(
               (
-                await listActivities({
-                  characterId: context.characterId,
-                  isPublic: scope === 'external' ? true : undefined,
-                  limit: DEFAULT_LIMIT,
-                  offset: 0,
-                })
+                fetchAll
+                  ? await (async () => {
+                      const allItems: Awaited<ReturnType<typeof listActivities>> = []
+                      let pageOffset = 0
+                      while (true) {
+                        const page = await listActivities({
+                          characterId: context.characterId,
+                          isPublic: scope === 'external' ? true : undefined,
+                          limit: DEFAULT_LIMIT,
+                          offset: pageOffset,
+                        })
+                        allItems.push(...page)
+                        if (page.length < DEFAULT_LIMIT) break
+                        pageOffset += page.length
+                      }
+                      return allItems
+                    })()
+                  : await listActivities({
+                      characterId: context.characterId,
+                      isPublic: scope === 'external' ? true : undefined,
+                      limit: DEFAULT_LIMIT,
+                      offset: 0,
+                    })
               )
                 .map((item) => item.conversationId?.trim() ?? '')
                 .filter((item) => item.length > 0),
@@ -156,7 +183,7 @@ export const readConversationHistoryTool: RuntimeToolHandler<
         const details = await getConversationDetails(conversationId)
         const scopedMessages =
           scope === 'all' ? details.messages : details.messages.filter((message) => isExternalMessage(message))
-        const pagedMessages = scopedMessages.slice(offset, offset + limit)
+        const pagedMessages = fetchAll ? scopedMessages : scopedMessages.slice(offset, offset + limit)
         const normalizedMessages = pagedMessages.map((message) => {
           const metadata = (message.metadata ?? {}) as Record<string, unknown>
           const heroImageUrl = readText(metadata.heroImageUrl)
@@ -203,7 +230,13 @@ export const readConversationHistoryTool: RuntimeToolHandler<
             messageId: message.messageId,
             imageId: message.imageRefs.imageId,
             imageUrl: message.imageRefs.imageUrl ?? message.imageRefs.heroImageUrl,
-            scenePrompt: readText(message.metadata.scenePrompt),
+            summary:
+              readSceneSummaryValue(message.metadata) ??
+              readCanonicalStoryText({
+                metadata: message.metadata,
+                fallbackSummary: message.content,
+              }),
+            imagePrompt: readImagePromptValue(message.metadata),
             source: 'message-metadata' as const,
           }))
 
@@ -213,8 +246,8 @@ export const readConversationHistoryTool: RuntimeToolHandler<
           startedAt: details.conversation.startedAt,
           endedAt: details.conversation.endedAt,
           messageCount: scopedMessages.length,
-          hasMore: scopedMessages.length > offset + pagedMessages.length,
-          nextOffset: offset + pagedMessages.length,
+          hasMore: fetchAll ? false : scopedMessages.length > offset + pagedMessages.length,
+          nextOffset: fetchAll ? scopedMessages.length : offset + pagedMessages.length,
           messages: normalizedMessages,
           imageCandidates,
         }
@@ -238,6 +271,7 @@ export const readConversationHistoryTool: RuntimeToolHandler<
         conversationCount: conversations.length,
         limit,
         offset,
+        fetchAll,
       },
     })
 
@@ -256,6 +290,7 @@ export const readConversationHistoryTool: RuntimeToolHandler<
         limit,
         offset,
         conversationCount: conversations.length,
+        fetchAll,
       },
       ok: true,
     })

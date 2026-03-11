@@ -1,14 +1,18 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 const traceMock = vi.hoisted(() => vi.fn())
 const createActivityMock = vi.hoisted(() => vi.fn())
+const appendConversationMessageMock = vi.hoisted(() => vi.fn())
 const recallMock = vi.hoisted(() => vi.fn())
 const generateHeroMock = vi.hoisted(() => vi.fn())
 const runQuizMock = vi.hoisted(() => vi.fn())
 const runCliExecuteMock = vi.hoisted(() => vi.fn())
 const readActivitiesExecuteMock = vi.hoisted(() => vi.fn())
 const readConversationHistoryExecuteMock = vi.hoisted(() => vi.fn())
+const readRelationshipsExecuteMock = vi.hoisted(() => vi.fn())
+const readRelatedObjectsExecuteMock = vi.hoisted(() => vi.fn())
 const readRelatedObjectContextsExecuteMock = vi.hoisted(() => vi.fn())
 const showImageExecuteMock = vi.hoisted(() => vi.fn())
+const resolveCharacterImageRefsMock = vi.hoisted(() => vi.fn())
 
 vi.mock('../../traceActivity.ts', () => ({
   trackTraceActivitySafely: traceMock,
@@ -16,6 +20,10 @@ vi.mock('../../traceActivity.ts', () => ({
 
 vi.mock('../../activityStore.ts', () => ({
   createActivity: createActivityMock,
+}))
+
+vi.mock('../../conversationStore.ts', () => ({
+  appendConversationMessage: appendConversationMessageMock,
 }))
 
 vi.mock('../../conversationImageMemoryToolService.ts', () => ({
@@ -30,12 +38,22 @@ vi.mock('../../conversationQuizToolService.ts', () => ({
   runConversationQuizSkill: runQuizMock,
 }))
 
+vi.mock('../context/contextCollationService.ts', () => ({
+  resolveCharacterImageRefs: resolveCharacterImageRefsMock,
+}))
+
 vi.mock('../tools/runtimeToolRegistry.ts', () => ({
   readActivitiesRuntimeTool: () => ({
     execute: readActivitiesExecuteMock,
   }),
   readConversationHistoryRuntimeTool: () => ({
     execute: readConversationHistoryExecuteMock,
+  }),
+  readRelationshipsRuntimeTool: () => ({
+    execute: readRelationshipsExecuteMock,
+  }),
+  readRelatedObjectsRuntimeTool: () => ({
+    execute: readRelatedObjectsExecuteMock,
   }),
   readRelatedObjectContextsRuntimeTool: () => ({
     execute: readRelatedObjectContextsExecuteMock,
@@ -57,6 +75,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     createActivityMock.mockResolvedValue({
       activityId: 'scene-1',
     })
+    appendConversationMessageMock.mockResolvedValue(undefined)
     recallMock.mockResolvedValue(null)
     generateHeroMock.mockResolvedValue({
       requestId: 'req-1',
@@ -69,6 +88,9 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       seed: 123,
     })
     runQuizMock.mockResolvedValue(null)
+    resolveCharacterImageRefsMock.mockResolvedValue([
+      { kind: 'standard', title: 'Standard', path: '/content/characters/yoko/standard-figur.png' },
+    ])
     readActivitiesExecuteMock.mockResolvedValue({
       activityCount: 1,
       hasMore: false,
@@ -96,7 +118,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       conversations: [
         {
           conversationId: 'conv-1',
-          characterId: 'yoko',
+          characterId: '00000000-0000-4000-8000-000000000001',
           startedAt: new Date().toISOString(),
           messageCount: 1,
           hasMore: false,
@@ -107,7 +129,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
               messageId: 1,
               imageId: 'img-1',
               imageUrl: '/content/img-1.jpg',
-              scenePrompt: 'Eiffelturm am Fluss',
+              summary: 'Eiffelturm am Fluss',
               source: 'message-metadata',
             },
           ],
@@ -117,13 +139,53 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     showImageExecuteMock.mockResolvedValue({
       imageUrl: '/content/img-1.jpg',
       reason: 'query_match',
-      scenePrompt: 'Eiffelturm am Fluss',
+      sceneSummary: 'Eiffelturm am Fluss',
     })
     readRelatedObjectContextsExecuteMock.mockResolvedValue({
       matchCount: 1,
-      relatedCharacterIds: ['nola'],
+      relatedCharacterIds: ['8eb40291-65ee-49b6-b826-d7c7e97404c0'],
       matchedContexts: [],
       relatedObjects: [],
+    })
+    readRelationshipsExecuteMock.mockResolvedValue({
+      relationshipCount: 1,
+      relatedCharacterIds: ['8eb40291-65ee-49b6-b826-d7c7e97404c0'],
+      objectMatchCount: 0,
+      relationshipLinks: [
+        {
+          relatedCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+          direction: 'outgoing',
+          relationshipType: 'freundin',
+          relationshipTypeReadable: 'Freundin',
+          relationship: 'Freundin',
+          otherRelatedObjects: [{ type: 'place', id: '00000000-0000-4000-8000-000000000005', label: 'Kristallsee' }],
+        },
+      ],
+    })
+    readRelatedObjectsExecuteMock.mockResolvedValue({
+      relatedObjectCount: 1,
+      relatedObjects: [
+        {
+          objectType: 'character',
+          objectId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+          displayName: 'Nola',
+          species: 'Elf',
+          shortDescription: 'freundlich',
+          relationshipLinks: [
+            {
+              relatedCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+              direction: 'outgoing',
+              relationshipType: 'freundin',
+              relationshipTypeReadable: 'Freundin',
+              relationship: 'Freundin',
+            },
+          ],
+          imageRefs: [
+            { kind: 'standard', title: 'Standard', path: '/content/characters/nola/standard-figur.png' },
+          ],
+          evidence: [],
+        },
+      ],
     })
     runCliExecuteMock.mockResolvedValue({
       ok: true,
@@ -141,7 +203,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       decision: { skillId: 'remember-something', reason: 'memory-image-request' },
       assistantText: 'Ich schaue kurz in unsere Erinnerungen.',
       lastUserText: 'Zeig mir ein Bild aus unserer Erinnerung.',
-      characterId: 'yoko',
+      characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
       toolExecutionIntent: null,
     })
@@ -181,13 +243,13 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     )
   })
 
-  it('fuehrt visuelle Generierung, Quiz und CLI-Task bei do-something aus', async () => {
+  it('fuehrt visuelle Generierung, Quiz und CLI-Task bei create_scene aus', async () => {
     await executeRoutedSkill({
       conversationId: 'conv-1',
-      decision: { skillId: 'do-something', reason: 'quiz-request' },
+      decision: { skillId: 'create_scene', reason: 'quiz-request' },
       assistantText: 'Ich zeige dir jetzt eine Szene. Und hier ist eine kleine Frage.',
       lastUserText: 'Bitte Quiz starten und Runtime Smoke ausfuehren.',
-      characterId: 'yoko',
+      characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
       toolExecutionIntent: {
         taskId: 'runtime_smoke',
@@ -200,21 +262,16 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       expect.any(Object),
       expect.objectContaining({ scope: 'external', limit: 200, fetchAll: true }),
     )
-    expect(readConversationHistoryExecuteMock).toHaveBeenCalled()
-    expect(readConversationHistoryExecuteMock).toHaveBeenCalledWith(
-      expect.any(Object),
-      expect.objectContaining({ scope: 'all', fetchAll: true }),
-    )
     expect(generateHeroMock).toHaveBeenCalledWith(
       expect.objectContaining({
         conversationId: 'conv-1',
-        characterId: 'yoko',
+        characterId: '00000000-0000-4000-8000-000000000001',
       }),
     )
     expect(createActivityMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activityType: 'conversation.scene.directed',
-        isPublic: true,
+        isPublic: false,
         conversationId: 'conv-1',
       }),
     )
@@ -233,7 +290,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
           toolExecutionTaskId: 'runtime_smoke',
           executedTools: expect.arrayContaining([
             'read_activities',
-            'read_conversation_history',
             'generate_image',
             'record_scene_activity',
             'run_quiz',
@@ -244,13 +300,13 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     )
   })
 
-  it('generiert bei do-something auch ohne visuelle Marker ein Bild und Scene-Activity', async () => {
+  it('generiert bei create_scene auch ohne visuelle Marker ein Bild und Scene-Activity', async () => {
     await executeRoutedSkill({
       conversationId: 'conv-2',
-      decision: { skillId: 'do-something', reason: 'action-request' },
+      decision: { skillId: 'create_scene', reason: 'action-request' },
       assistantText: 'Ich werde euch helfen.',
       lastUserText: 'Und beschuetzen.',
-      characterId: 'malvarion-der-graue',
+      characterId: '00000000-0000-4000-8000-000000000007',
       characterName: 'Malvarion der Graue',
       toolExecutionIntent: null,
     })
@@ -258,17 +314,98 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     expect(generateHeroMock).toHaveBeenCalledWith(
       expect.objectContaining({
         conversationId: 'conv-2',
-        characterId: 'malvarion-der-graue',
+        characterId: '00000000-0000-4000-8000-000000000007',
       }),
     )
     expect(createActivityMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activityType: 'conversation.scene.directed',
-        isPublic: true,
-        characterId: 'malvarion-der-graue',
+        isPublic: false,
+        characterId: '00000000-0000-4000-8000-000000000007',
         conversationId: 'conv-2',
         metadata: expect.objectContaining({
           summary: expect.any(String),
+          nextSceneSummary: expect.any(String),
+        }),
+      }),
+    )
+  })
+
+  it('reicht aufgeloeste Related Objects als Grounding in Summary, Prompt und Bildtool weiter', async () => {
+    const relationshipContext = {
+      relationshipLinks: [
+        {
+          relatedCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+          direction: 'incoming' as const,
+          relationshipType: 'fuerchtet_sich_vor',
+          relationshipTypeReadable: 'Hat Angst vor',
+          relationship: 'Hat Angst vor',
+          description: 'Lorelei fuerchtet Yoko.',
+          otherRelatedObjects: [],
+        },
+      ],
+      directRelatedObjects: [
+        {
+          objectType: 'character',
+          objectId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+          displayName: 'Lorelei',
+          species: 'Mensch',
+          shortDescription: 'wirkt anmutig und vorsichtig',
+          relationshipLinks: [
+            {
+              relatedCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+              direction: 'incoming' as const,
+              relationshipType: 'fuerchtet_sich_vor',
+              relationshipTypeReadable: 'Hat Angst vor',
+              relationship: 'Hat Angst vor',
+            },
+          ],
+          imageRefs: [
+            {
+              kind: 'standard' as const,
+              title: 'Standard',
+              path: '/content/characters/lorelei-das-goldmaedchen/standard-figur.png',
+            },
+          ],
+          evidence: ['Hat Angst vor'],
+        },
+      ],
+    }
+
+    await executeRoutedSkill({
+      conversationId: 'conv-rel',
+      decision: { skillId: 'create_scene', reason: 'action-request' },
+      assistantText: 'Ich zeige dir jetzt, wie die Szene aussieht.',
+      lastUserText: 'Zeig mir, wie der Charakter, der Angst vor dir hat, vor deinem Haus steht.',
+      characterId: '00000000-0000-4000-8000-000000000001',
+      characterName: 'Yoko',
+      toolExecutionIntent: null,
+      relationshipContext,
+    })
+
+    expect(generateHeroMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-rel',
+        relatedCharacterIds: ['8eb40291-65ee-49b6-b826-d7c7e97404c0'],
+        relatedCharacterNames: ['Lorelei'],
+        forceReferenceImagePaths: expect.arrayContaining([
+          '/content/characters/lorelei-das-goldmaedchen/standard-figur.png',
+        ]),
+      }),
+    )
+    expect(createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'conversation.scene.directed',
+        metadata: expect.objectContaining({
+          groundedSceneCharacters: expect.arrayContaining([
+            expect.objectContaining({
+              displayName: 'Lorelei',
+              source: 'relationship-name-match',
+              evidence: expect.arrayContaining(['Hat Angst vor']),
+            }),
+          ]),
+          imagePrompt: expect.stringContaining('Lorelei'),
+          nextSceneSummary: expect.stringContaining('Lorelei'),
         }),
       }),
     )
@@ -318,7 +455,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       conversations: [
         {
           conversationId: 'conv-juna-1',
-          characterId: 'juna-lia',
+          characterId: '00000000-0000-4000-8000-000000000002',
           startedAt: new Date('2026-03-07T09:30:00.000Z').toISOString(),
           messageCount: 1,
           hasMore: false,
@@ -329,7 +466,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
               messageId: 3,
               imageId: 'img-glitzerstein',
               imageUrl: '/content/conversations/eval-juna-lia/glitzernder-stein.svg',
-              scenePrompt: 'Juna Lia haelt einen glitzernden Stein in den Haenden',
+              summary: 'Juna Lia haelt einen glitzernden Stein in den Haenden',
               source: 'message-metadata',
             },
           ],
@@ -342,7 +479,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       decision: { skillId: 'remember-something', reason: 'memory-image-request' },
       assistantText: 'Ich schaue kurz nach.',
       lastUserText: 'Findest du ein Bild mit dem glitzernden Stein?',
-      characterId: 'juna-lia',
+      characterId: '00000000-0000-4000-8000-000000000002',
       characterName: 'Juna Lia',
       toolExecutionIntent: null,
     })
@@ -357,107 +494,162 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     )
   })
 
-  it('laedt bei do-something Ortskontext fuer Story-Kontinuitaet', async () => {
+  it('laedt im Minimal-Flow keine Relationships oder Objektkontexte', async () => {
     await executeRoutedSkill({
       conversationId: 'conv-1',
-      decision: { skillId: 'do-something', reason: 'action-request' },
+      decision: { skillId: 'create_scene', reason: 'action-request' },
       assistantText: 'Ich zeige dir jetzt: wir kommen am kristallsee an.',
       lastUserText: 'Gehe zum kristallsee und schau was dort ist.',
-      characterId: 'yoko',
+      characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
       toolExecutionIntent: null,
     })
 
-    expect(readRelatedObjectContextsExecuteMock).toHaveBeenCalledWith(
-      expect.any(Object),
-      expect.objectContaining({
-        objectType: 'place',
-        objectId: 'kristallsee',
-      }),
-    )
+    expect(readRelationshipsExecuteMock).not.toHaveBeenCalled()
+    expect(readRelatedObjectsExecuteMock).not.toHaveBeenCalled()
+    expect(readRelatedObjectContextsExecuteMock).not.toHaveBeenCalled()
     expect(generateHeroMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        relatedCharacterIds: ['nola'],
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
       }),
     )
+    const generatedInput = generateHeroMock.mock.calls.at(-1)?.[0]
+    expect(generatedInput.relatedCharacterIds).toBeUndefined()
+    expect(generatedInput.relatedCharacterNames).toBeUndefined()
   })
 
-  it('liefert Standardfiguren-Referenzen aus Objektkontext immer mit', async () => {
+  it('reicht nur die letzten zwei Szenenbilder als Pflichtreferenzen weiter und baut den Summary-first Prompt', async () => {
     readActivitiesExecuteMock.mockResolvedValueOnce({
-      activityCount: 1,
+      activityCount: 4,
       hasMore: false,
-      nextOffset: 1,
+      nextOffset: 4,
       items: [
         {
-          activityId: 'a-current',
+          activityId: 'a-context',
+          activityType: 'conversation.summary.updated',
+          isPublic: true,
+          conversationId: 'conv-std',
+          occurredAt: new Date('2026-03-08T08:00:00.000Z').toISOString(),
+          createdAt: new Date('2026-03-08T08:00:00.000Z').toISOString(),
+          imageRefs: {},
+          summary: 'Yoko begruesst die Kinder im Morgenlicht.',
+          metadata: {},
+        },
+        {
+          activityId: 'a-older-scene',
           activityType: 'conversation.image.generated',
           isPublic: true,
           conversationId: 'conv-std',
-          occurredAt: new Date().toISOString(),
-          createdAt: new Date().toISOString(),
+          occurredAt: new Date('2026-03-08T09:00:00.000Z').toISOString(),
+          createdAt: new Date('2026-03-08T09:00:00.000Z').toISOString(),
           objectType: 'image',
-          objectId: 'img-current',
-          imageRefs: { imageId: 'img-current', imageUrl: '/content/conversations/conv-std/last.jpg' },
-          summary: 'Yoko zeigt ein neues Bild: Du erzeugst die NAECHSTE Szene einer fortlaufenden Kinder-Bildergeschichte. SZENENKERN: Kissenburg.',
-          metadata: {
-            scenePrompt:
-              'Du erzeugst die NAECHSTE Szene einer fortlaufenden Kinder-Bildergeschichte.\nSZENENKERN:\nKissenburg mit ausgemalten Gesichtern\nLETZTE STORY-AKTIVITAETEN:',
-          },
-        },
-      ],
-    })
-    readRelatedObjectContextsExecuteMock.mockResolvedValueOnce({
-      matchCount: 2,
-      relatedCharacterIds: ['nola', 'romi'],
-      matchedContexts: [],
-      relatedObjects: [
-        {
-          objectType: 'character',
-          objectId: 'nola',
-          displayName: 'Nola',
-          species: 'Elf',
-          shortDescription: 'freundlich',
-          imageRefs: [
-            { kind: 'standard', title: 'Standard', path: '/content/characters/nola/standard-figur.png' },
-            { kind: 'hero', title: 'Hero', path: '/content/characters/nola/hero-image.jpg' },
-          ],
+          objectId: 'img-older',
+          imageRefs: { imageId: 'img-older', imageUrl: '/content/conversations/conv-std/older.jpg' },
+          summary: 'Yoko lief ueber die Bruecke.',
+          metadata: {},
         },
         {
-          objectType: 'character',
-          objectId: 'romi',
-          displayName: 'Romi',
-          species: 'Fuchs',
-          shortDescription: 'neugierig',
-          imageRefs: [
-            { kind: 'standard', title: 'Standard', path: '/content/characters/romi/standard-figur.png' },
-          ],
+          activityId: 'a-previous',
+          activityType: 'conversation.image.generated',
+          isPublic: true,
+          conversationId: 'conv-std',
+          occurredAt: new Date('2026-03-08T10:00:00.000Z').toISOString(),
+          createdAt: new Date('2026-03-08T10:00:00.000Z').toISOString(),
+          objectType: 'image',
+          objectId: 'img-previous',
+          imageRefs: { imageId: 'img-previous', imageUrl: '/content/conversations/conv-std/previous.jpg' },
+          storySummary: 'Yoko entdeckte eine weiche Kissenburg.',
+          summary: 'Yoko zeigt die Kissenburg.',
+          metadata: {},
+        },
+        {
+          activityId: 'a-latest',
+          activityType: 'conversation.image.recalled',
+          isPublic: true,
+          conversationId: 'conv-std',
+          occurredAt: new Date('2026-03-08T11:00:00.000Z').toISOString(),
+          createdAt: new Date('2026-03-08T11:00:00.000Z').toISOString(),
+          objectType: 'image',
+          objectId: 'img-latest',
+          imageRefs: { imageId: 'img-latest', imageUrl: '/content/conversations/conv-std/latest.jpg' },
+          storySummary: 'Yoko sprang lachend in die Kissenburg.',
+          summary: 'Yoko springt in die Kissenburg.',
+          metadata: {},
         },
       ],
     })
 
     await executeRoutedSkill({
       conversationId: 'conv-std',
-      decision: { skillId: 'do-something', reason: 'action-request' },
+      decision: { skillId: 'create_scene', reason: 'action-request' },
       assistantText: 'Ich zeige dir jetzt: wir besuchen den kristallsee.',
-      lastUserText: 'Gehe zum kristallsee und nimm alle Freunde mit.',
-      characterId: 'yoko',
+      lastUserText: 'Zeig mir, wie es in der Kissenburg weitergeht.',
+      characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
       toolExecutionIntent: null,
     })
 
     expect(generateHeroMock).toHaveBeenCalledWith(
       expect.objectContaining({
-        relatedCharacterIds: ['nola', 'romi'],
-        relatedCharacterNames: ['Nola', 'Romi'],
         forceReferenceImagePaths: [
-          '/content/conversations/conv-std/last.jpg',
-          '/content/characters/nola/standard-figur.png',
-          '/content/characters/romi/standard-figur.png',
+          '/content/conversations/conv-std/previous.jpg',
+          '/content/conversations/conv-std/latest.jpg',
         ],
       }),
     )
     const generatedInput = generateHeroMock.mock.calls.at(-1)?.[0]
-    expect(generatedInput.scenePrompt).toContain('Kissenburg')
-    expect(generatedInput.scenePrompt).not.toContain('Kissenburg mit ausgemalten Gesichtern LETZTE STORY-AKTIVITAETEN:')
+    expect(generatedInput.sceneSummary).toContain('Kissenburg')
+    expect(generatedInput.imagePrompt).toContain('Kissenburg')
+    expect(generatedInput.imagePrompt).not.toContain('NEXT SCENE IMAGE BRIEF')
+    expect(generatedInput.imagePrompt).not.toContain('SCENE TO RENDER:')
+    expect(generatedInput.imagePrompt).not.toContain('VISUAL CONTINUITY:')
+  })
+
+  it('gibt bei fehlender Szenen-Summary-LLM einen mueden Fehlertext statt einer kaputten Szene aus', async () => {
+    const originalApiKey = process.env.OPENAI_API_KEY
+    delete process.env.OPENAI_API_KEY
+
+    try {
+      await executeRoutedSkill({
+        conversationId: 'conv-err',
+        decision: { skillId: 'create_scene', reason: 'action-request' },
+        assistantText: 'Ich klettere mit dir auf den Baum.',
+        lastUserText: 'Kannst du da hinten den Baum hochklettern?',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        characterName: 'Yoko',
+        toolExecutionIntent: null,
+      })
+    } finally {
+      if (originalApiKey == null) {
+        delete process.env.OPENAI_API_KEY
+      } else {
+        process.env.OPENAI_API_KEY = originalApiKey
+      }
+    }
+
+    expect(generateHeroMock).not.toHaveBeenCalled()
+    expect(createActivityMock).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'conversation.scene.directed',
+      }),
+    )
+    expect(appendConversationMessageMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-err',
+        role: 'assistant',
+        eventType: 'runtime.skill.unavailable',
+        content:
+          'Ich bin aktuell leider sehr muede und kann nicht helfen. Probiere es ein bisschen spaeter noch einmal.',
+      }),
+    )
+    expect(traceMock).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        activityType: 'trace.skill.execution.response',
+        ok: false,
+        error: 'next-scene-summary-unavailable:missing-openai-api-key',
+      }),
+    )
   })
 })

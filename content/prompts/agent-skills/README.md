@@ -85,5 +85,5 @@ Jede Skill-Datei in diesem Ordner soll enthalten:
 ## Aktuelle Skills
 
 - `remember-something`
-- `do-something`
+- `create_scene`
 - `request-context`

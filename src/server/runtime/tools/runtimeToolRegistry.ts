@@ -31,7 +31,13 @@ export const getRuntimeToolHandler = <TInput, TOutput>(
 
 export const readActivitiesRuntimeTool = () =>
   getRuntimeToolHandler<
-    { limit?: number; offset?: number; scope?: 'external' | 'all'; conversationId?: string },
+    {
+      limit?: number
+      offset?: number
+      scope?: 'external' | 'all'
+      conversationId?: string
+      fetchAll?: boolean
+    },
     {
       activityCount: number
       hasMore: boolean
@@ -53,6 +59,7 @@ export const readActivitiesRuntimeTool = () =>
           imageAssetPath?: string
           originalImageUrl?: string
         }
+        storySummary?: string
         summary?: string
         metadata: Record<string, unknown>
       }>
@@ -63,7 +70,13 @@ export const readActivitiesRuntimeTool = () =>
 
 export const readConversationHistoryRuntimeTool = () =>
   getRuntimeToolHandler<
-    { conversationIds?: string[]; scope?: 'external' | 'all'; limit?: number; offset?: number },
+    {
+      conversationIds?: string[]
+      scope?: 'external' | 'all'
+      limit?: number
+      offset?: number
+      fetchAll?: boolean
+    },
     {
       scope: 'external' | 'all'
       limit: number
@@ -97,7 +110,8 @@ export const readConversationHistoryRuntimeTool = () =>
           messageId: number
           imageId?: string
           imageUrl?: string
-          scenePrompt?: string
+          summary?: string
+          imagePrompt?: string
           source: 'message-metadata'
         }>
       }>

@@ -1,0 +1,338 @@
+{
+  "generatedAt": "2026-03-09T11:05:54.576Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/pippa-pusteblume/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/merlin/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/agatha-knusperhexe/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/carla/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/wilma/standard-figur.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-klein-4b",
+    "heroModel": "flux-2-klein-4b"
+  },
+  "character": {
+    "id": "pippa-pusteblume",
+    "name": "Pippa Pusteblume",
+    "shortDescription": "Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Maulwurf",
+      "genderExpression": "feminin",
+      "roleArchetype": "explorer"
+    },
+    "appearance": {
+      "bodyShape": "klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten",
+      "colors": [
+        "erdschwarz",
+        "sonnengelb",
+        "himmelblau"
+      ],
+      "hairOrFur": {
+        "color": "schwarz mit gelben Flecken",
+        "texture": "weich, flauschig",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "warmes braun",
+        "expression": "staunend und lebhaft"
+      },
+      "distinctiveFeatures": [
+        "sonnengelbe Flecken am Rücken",
+        "große, krallenbewehrte Grabpfoten",
+        "blaue Latzhose mit bunter Blumenstickerei"
+      ],
+      "clothingStyle": "praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke"
+    },
+    "personality": {
+      "coreTraits": [
+        "neugierig",
+        "hilfsbereit",
+        "manchmal ungestüm"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "offen",
+      "strengths": [
+        "findet fast immer einen neuen Weg",
+        "kann gut zuhören, wenn es wichtig ist"
+      ],
+      "weaknesses": [
+        "verliert sich leicht in Details und vergisst die Zeit",
+        "scheut sich vor lauten Stimmen"
+      ],
+      "quirks": [
+        "sammelt kleine Steine und Wurzeln in ihrer Hosentasche",
+        "spricht oft mit Blumen, als wären es Freunde"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften",
+      "deeperNeed": "dazugehören und echte Freundschaft erleben",
+      "fear": "allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören",
+      "insecurity": "Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "model"
+      ],
+      "suitableLearningGoals": [
+        "neugier-foerdern",
+        "selbstregulation"
+      ],
+      "explanationStyle": "playful"
+    },
+    "origin": {
+      "birthPlace": "Sonnental-Blumenfeld",
+      "upbringingPlaces": [
+        "Sonnental-Blumenfeld"
+      ],
+      "culturalContext": [
+        "Naturnaehe und Sammelfreude",
+        "Gewohnheit, alles mit anderen zu teilen"
+      ],
+      "religionOrBelief": "glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt",
+      "historicalContext": [
+        "Die alten Geschichten der Feldblumen"
+      ],
+      "notes": "Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "Lieblingsplatz",
+          "description": "Hier sammelt Pippa oft neue Ideen und lauscht den Stimmen des Windes im Gras."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/pippa-pusteblume/standard-figur.png",
+        "description": "Pippa steht mit leicht schief gelegtem Kopf auf einer bunten Wiese, die Krallenpfoten vor sich, freundlich und voller Entdeckerlust, mit blauer Latzhose und sonnengelben Flecken auf dem Fell. Die Silhouette ist rundlich und einladend."
+      },
+      "heroImage": {
+        "file": "/content/characters/pippa-pusteblume/hero-image.jpg",
+        "description": "Pippa linst neugierig aus einem Erdloch ins blühende Feld, Sonnenstrahlen tanzen auf ihrer Latzhose, während sie mit einer Blume \"spricht\" und ein Marienkäfer auf ihrer Nase sitzt."
+      },
+      "portrait": {
+        "file": "/content/characters/pippa-pusteblume/portrait.png",
+        "description": "Nahaufnahme von Pippa mit strahlenden, braunen Augen, den Pfoten am Kinn und einem freundlichen, verspielten Lächeln. Die blauen Träger der Latzhose sind gut sichtbar."
+      },
+      "profileImage": {
+        "file": "/content/characters/pippa-pusteblume/profilbild.png",
+        "description": "Rundes Profilbild mit Pippas Gesicht und den markanten gelben Flecken, die Nase etwas schmutzig, vor einem Hintergrund aus bunten Blumen."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/pippa-pusteblume/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Pippa Pusteblume mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/pippa-pusteblume/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Pippa Pusteblume mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_brave",
+          "file": "/content/characters/pippa-pusteblume/emotion-brave.png",
+          "description": "Freigestellte Emotionsfigur von Pippa Pusteblume in mutiger Standpose mit aufgerichtetem Koerper, entschlossenem Blick, kleiner heldenhafter Brust und klar lesbarer Tapferkeits-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_shy",
+          "file": "/content/characters/pippa-pusteblume/emotion-shy.png",
+          "description": "Freigestellte Emotionsfigur von Pippa Pusteblume mit schuechternem Blick, leicht eingezogenen Schultern, zarten Haenden nahe am Koerper und klar lesbarer verlegener Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "neugier",
+      "explorer",
+      "model",
+      "selbstregulation",
+      "naturnaehe",
+      "sonnental",
+      "freundschaft",
+      "chaos-arc",
+      "blumenfeld"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-09",
+      "updatedAt": "2026-03-09",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "pippa-pusteblume:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Pippa Pusteblume on a transparent or visually clean isolated background. Show enough of the body to keep the Maulwurf identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Pippa steht mit leicht schief gelegtem Kopf auf einer bunten Wiese, die Krallenpfoten vor sich, freundlich und voller Entdeckerlust, mit blauer Latzhose und sonnengelben Flecken auf dem Fell. Die Silhouette ist rundlich und einladend. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Pippa steht mit leicht schief gelegtem Kopf auf einer bunten Wiese, die Krallenpfoten vor sich, freundlich und voller Entdeckerlust, mit blauer Latzhose und sonnengelben Flecken auf dem Fell. Die Silhouette ist rundlich und einladend.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "b6ded418-53b6-4f71-afa7-8712a2d87ca1",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=b6ded418-53b6-4f71-afa7-8712a2d87ca1",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/a864115586e147829ee839d30a2ba5c5_sample.png?se=2026-03-09T11%3A14%3A05Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=GhEZGSPH7svJOymUODu%2BxRFEkGctRzYAQNhkkDb3VK4%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Pippa Pusteblume in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Pippa linst neugierig aus einem Erdloch ins blühende Feld, Sonnenstrahlen tanzen auf ihrer Latzhose, während sie mit einer Blume \"spricht\" und ein Marienkäfer auf ihrer Nase sitzt. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Pippa linst neugierig aus einem Erdloch ins blühende Feld, Sonnenstrahlen tanzen auf ihrer Latzhose, während sie mit einer Blume \"spricht\" und ein Marienkäfer auf ihrer Nase sitzt.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "55c7657a-f013-4c2d-8726-f48324a039e5",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=55c7657a-f013-4c2d-8726-f48324a039e5",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/a3b54965bd554c88bca45f4f0eea8cf4_sample.jpeg?se=2026-03-09T11%3A14%3A22Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=/WeHnrLgNf28z42BBTxRUDxZlc68MQCZ2/TxqDNzLxk%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Pippa Pusteblume. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Nahaufnahme von Pippa mit strahlenden, braunen Augen, den Pfoten am Kinn und einem freundlichen, verspielten Lächeln. Die blauen Träger der Latzhose sind gut sichtbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Nahaufnahme von Pippa mit strahlenden, braunen Augen, den Pfoten am Kinn und einem freundlichen, verspielten Lächeln. Die blauen Träger der Latzhose sind gut sichtbar.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "df7961e3-98f2-4ef7-9e75-d83ebd3fd22a",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=df7961e3-98f2-4ef7-9e75-d83ebd3fd22a",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/6677580fe49f445eb3ac59acdf927b7e_sample.png?se=2026-03-09T11%3A14%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=1zYuwn6jWn/afpnaS4oMbkWJPk6SnaF5ngzi9tbcWzg%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Pippa Pusteblume. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Rundes Profilbild mit Pippas Gesicht und den markanten gelben Flecken, die Nase etwas schmutzig, vor einem Hintergrund aus bunten Blumen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Rundes Profilbild mit Pippas Gesicht und den markanten gelben Flecken, die Nase etwas schmutzig, vor einem Hintergrund aus bunten Blumen.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "983bdbf6-88d5-4f78-bd51-f3d915cfe42c",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=983bdbf6-88d5-4f78-bd51-f3d915cfe42c",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/4ac652ec70d947feb0645e4ff3319b2d_sample.png?se=2026-03-09T11%3A14%3A57Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=lhiDFQm/wOgmIIUae0nrc6pY7wJOmbojh8DN8abaNOQ%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and show Pippa Pusteblume expressing happy. Create a full-body or three-quarter character emotion asset on a transparent or visually clean isolated background with no environment props. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Maulwurf identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Target brief: Freigestellte Emotionsfigur von Pippa Pusteblume mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Emotion assets must stay on a clean transparent or isolated background with no scenery. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Pippa Pusteblume mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "77e087e1-2d1b-4141-9c03-3be5865a8b6d",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=77e087e1-2d1b-4141-9c03-3be5865a8b6d",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/d72bf40fe94544febf313b278604b3c0_sample.png?se=2026-03-09T11%3A15%3A10Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=QqJlSyrptmRCPEkS/excr/HFKtJU3DIF3ULNOh8dLCU%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and show Pippa Pusteblume expressing sad. Create a full-body or three-quarter character emotion asset on a transparent or visually clean isolated background with no environment props. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, careful vulnerable body language, and a clearly different pose from happy, brave, or shy. Even in the emotion pose, the Maulwurf identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Target brief: Freigestellte Emotionsfigur von Pippa Pusteblume mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Emotion assets must stay on a clean transparent or isolated background with no scenery. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Pippa Pusteblume mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "e2240d44-fd3e-4d27-a6f5-c40246cedde9",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=e2240d44-fd3e-4d27-a6f5-c40246cedde9",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/778a733943614ddb9038878feb844e15_sample.png?se=2026-03-09T11%3A15%3A25Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=G7mL0ikYahph3gjSb/onjHclStDpBaLqlr/1wntX6os%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:emotion_brave",
+      "type": "emotion_brave",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and show Pippa Pusteblume expressing brave. Create a full-body or three-quarter character emotion asset on a transparent or visually clean isolated background with no environment props. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable bravery with upright posture, grounded feet, steady determined eyes, a ready-to-help heroic stance, and visible courage instead of softness or shyness. Even in the emotion pose, the Maulwurf identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Target brief: Freigestellte Emotionsfigur von Pippa Pusteblume in mutiger Standpose mit aufgerichtetem Koerper, entschlossenem Blick, kleiner heldenhafter Brust und klar lesbarer Tapferkeits-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Emotion assets must stay on a clean transparent or isolated background with no scenery. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Pippa Pusteblume in mutiger Standpose mit aufgerichtetem Koerper, entschlossenem Blick, kleiner heldenhafter Brust und klar lesbarer Tapferkeits-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/emotion-brave.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/emotion-brave.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4248,
+      "requestId": "74aa05e9-469c-4c8c-9045-57766ebde382",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=74aa05e9-469c-4c8c-9045-57766ebde382",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/2c4d269c3bc8483c8cb5205872c5739e_sample.png?se=2026-03-09T11%3A15%3A38Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=mYd8TUFfLWHRmO96aob%2BSfRzQY/FlRNfCbIoW6Fs99E%3D",
+      "cost": 2.1
+    },
+    {
+      "id": "pippa-pusteblume:emotion_shy",
+      "type": "emotion_shy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Pippa Pusteblume. Short description: Pippa ist ein quirliger, pummelig-runder Maulwurf mit sonnengelb geflecktem Fell und einer blauen Latzhose, der am liebsten im bunten Blumenfeld wohnt und immer neugierig aus der Erde schaut. Species: Maulwurf. The character must read unmistakably as a Maulwurf at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: explorer. Body shape: klein, rundlich, sanft stupsnasig, mit kurzen, kräftigen Grabpfoten. Dominant colors: erdschwarz, sonnengelb, himmelblau. Hair or fur: schwarz mit gelben Flecken weich, flauschig kurz. Eyes: warmes braun, staunend und lebhaft. Distinctive features: sonnengelbe Flecken am Rücken, große, krallenbewehrte Grabpfoten, blaue Latzhose mit bunter Blumenstickerei. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: praktische, leicht schmutzige Latzhose mit bunten Flicken und kleiner Tasche für Fundstücke. Core traits: neugierig, hilfsbereit, manchmal ungestüm. Temperament: lebhaft. Social style: offen. Strengths: findet fast immer einen neuen Weg, kann gut zuhören, wenn es wichtig ist. Weaknesses: verliert sich leicht in Details und vergisst die Zeit, scheut sich vor lauten Stimmen. Quirks: sammelt kleine Steine und Wurzeln in ihrer Hosentasche, spricht oft mit Blumen, als wären es Freunde. Visible goal: neue Ecken des Blumenfeldes entdecken und kleine Geheimnisse lüften. Deeper need: dazugehören und echte Freundschaft erleben. Fear: allein im Dunkeln zu sein, ohne einen vertrauten Ton zu hören. Insecurity: Manchmal frage ich mich, ob ich zu chaotisch für die anderen bin. Stress response: hesitate_then_try. Growth direction: lernt, sich besser zu organisieren und ihre Neugier gezielter einzusetzen. Teaching roles: learner, model. Explanation style: playful. Birth place: Sonnental-Blumenfeld. Raised in: Sonnental-Blumenfeld. Cultural context: Naturnaehe und Sammelfreude, Gewohnheit, alles mit anderen zu teilen. Belief or worldview: glaubt, dass in jedem noch so kleinen Ding ein Wunder steckt. Historical context: Die alten Geschichten der Feldblumen. Origin notes: Ihre Herkunft spiegelt eine bunte, offene Feldkultur wider, in der Neugier und Sammelleidenschaft wertgeschaetzt werden. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and show Pippa Pusteblume expressing shy. Create a full-body or three-quarter character emotion asset on a transparent or visually clean isolated background with no environment props. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable shyness with turned-in posture, tucked shoulders, gentle hesitant hands near the body or face, a bashful expression, and a clearly different pose from the other emotions. Even in the emotion pose, the Maulwurf identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Target brief: Freigestellte Emotionsfigur von Pippa Pusteblume mit schuechternem Blick, leicht eingezogenen Schultern, zarten Haenden nahe am Koerper und klar lesbarer verlegener Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Emotion assets must stay on a clean transparent or isolated background with no scenery. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Pippa Pusteblume mit schuechternem Blick, leicht eingezogenen Schultern, zarten Haenden nahe am Koerper und klar lesbarer verlegener Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/pippa-pusteblume/emotion-shy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/pippa-pusteblume/emotion-shy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4249,
+      "requestId": "9580d0d4-9036-4716-8248-cfc83f2d33d4",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=9580d0d4-9036-4716-8248-cfc83f2d33d4",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/c38a5fb2f303432fafb4731e56c1da9d_sample.png?se=2026-03-09T11%3A15%3A52Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=PpLFpGAHzqFYc%2Ba4c8qn248VlCnmdwhmm5OVbSoZLlk%3D",
+      "cost": 2.1
+    }
+  ]
+}

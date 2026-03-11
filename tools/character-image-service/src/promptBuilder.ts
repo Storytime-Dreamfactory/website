@@ -3,6 +3,11 @@ import type { Character } from '../../../src/content/types.ts'
 import { STORYTIME_STYLE_PROFILE, describeStorytimeStyleProfile } from './storytimeStyleProfile.ts'
 import type { AssetKind, CharacterAssetSpec, FluxModel, ResolvedAssetJob } from './types.ts'
 
+const EMOTION_ASSET_LABELS: Record<string, string> = {
+  emotion_happy: 'Emotion Happy',
+  emotion_sad: 'Emotion Sad',
+}
+
 const CHARACTER_ASSET_SPECS: Record<Exclude<AssetKind, 'additional'>, CharacterAssetSpec> = {
   standard_figur: {
     kind: 'standard_figur',
@@ -45,9 +50,9 @@ const CHARACTER_ASSET_SPECS: Record<Exclude<AssetKind, 'additional'>, CharacterA
 
 const additionalAssetSpec = (type: string): CharacterAssetSpec => ({
   kind: 'additional',
-  label: `Additional Asset (${type})`,
+  label: EMOTION_ASSET_LABELS[type] ?? `Additional Asset (${type})`,
   width: 1024,
-  height: 1024,
+  height: type.startsWith('emotion_') ? 1408 : 1024,
   outputFormat: 'png',
   defaultFileName: `${slugify(type)}.png`,
   mode: 'image-edit',
@@ -95,6 +100,9 @@ const baseIdentity = (character: Character): string =>
     withPeriod(`Character name: ${character.name}`),
     withPeriod(`Short description: ${character.shortDescription}`),
     withPeriod(`Species: ${character.basis.species}`),
+    withPeriod(
+      `The character must read unmistakably as a ${character.basis.species} at first glance and must never be mistaken for another species`,
+    ),
     character.basis.ageHint ? withPeriod(`Age feel: ${character.basis.ageHint}`) : undefined,
     character.basis.roleArchetype
       ? withPeriod(`Archetype: ${character.basis.roleArchetype}`)
@@ -111,6 +119,9 @@ const baseIdentity = (character: Character): string =>
     withPeriod(`Eyes: ${character.appearance.eyes.color}, ${character.appearance.eyes.expression}`),
     withPeriod(
       `Distinctive features: ${character.appearance.distinctiveFeatures.join(', ')}`,
+    ),
+    withPeriod(
+      'Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it',
     ),
     withPeriod(`Clothing style: ${character.appearance.clothingStyle}`),
   ])
@@ -156,14 +167,81 @@ const originAnchor = (character: Character): string => {
 const styleAnchor = (): string =>
   `Follow the ${STORYTIME_STYLE_PROFILE.id} style profile. ${describeStorytimeStyleProfile()}`
 
+const whiteBackgroundStyleAnchor = (): string =>
+  joinParts([
+    withPeriod(`Follow the ${STORYTIME_STYLE_PROFILE.id} style profile for character rendering quality`),
+    withPeriod(STORYTIME_STYLE_PROFILE.summary),
+    withPeriod(
+      `Core style: ${STORYTIME_STYLE_PROFILE.promptFragments.coreStyle}`,
+    ),
+    withPeriod(
+      `Lighting: ${STORYTIME_STYLE_PROFILE.promptFragments.lighting}`,
+    ),
+    withPeriod(
+      'For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements',
+    ),
+    withPeriod(`Guardrails: ${STORYTIME_STYLE_PROFILE.promptFragments.guardrails}`),
+  ])
+
+const isEmotionAssetType = (type: string): boolean => type.startsWith('emotion_')
+const isWhiteBackgroundAsset = (kind: AssetKind, type: string): boolean =>
+  kind === 'standard_figur' || isEmotionAssetType(type)
+
+const emotionPoseInstruction = (type: string): string => {
+  if (type === 'emotion_happy') {
+    return 'Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral.'
+  }
+  if (type === 'emotion_sad') {
+    return 'Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy.'
+  }
+  return 'Use a clearly readable emotional pose that differs strongly from the other emotion assets.'
+}
+
+const emotionInstruction = (character: Character, type: string, description: string): string => {
+  const emotionLabel = type.replace(/^emotion_/, '').replaceAll('_', ' ')
+  return joinParts([
+    withPeriod(
+      `Keep the same exact character identity as the character reference and show ${character.name} expressing ${emotionLabel}`,
+    ),
+    withPeriod(
+      'Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient',
+    ),
+    withPeriod(
+      'The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI',
+    ),
+    withPeriod(emotionPoseInstruction(type)),
+    withPeriod(
+      `Even in the emotion pose, the ${character.basis.species} identity must stay obvious through face, ears, tail, paw shape, and silhouette`,
+    ),
+    withPeriod(
+      'This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose',
+    ),
+    withPeriod(
+      'Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling',
+    ),
+    withPeriod(
+      type === 'emotion_happy'
+        ? 'Prioritize open cheerful energy, lifted posture, and clear delight'
+        : 'Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness',
+    ),
+    withPeriod(`Target brief: ${description}`),
+  ])
+}
+
 const assetInstruction = (character: Character, kind: AssetKind, description: string): string => {
   if (kind === 'standard_figur') {
     return joinParts([
       withPeriod(
-        `Create a full-body hero asset of ${character.name} on a transparent or visually clean isolated background`,
+        `Create a full-body standard character asset of ${character.name} on a solid pure white background`,
+      ),
+      withPeriod(
+        `Show enough of the body to keep the ${character.basis.species} identity unmistakable, including species-specific markings and tail silhouette where applicable`,
       ),
       withPeriod(
         'The pose should feel natural, slightly dynamic, and immediately readable for compositing',
+      ),
+      withPeriod(
+        'Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only',
       ),
       withPeriod(`Target brief: ${description}`),
     ])
@@ -213,14 +291,25 @@ const assetInstruction = (character: Character, kind: AssetKind, description: st
   ])
 }
 
-const buildPrompt = (character: Character, kind: AssetKind, description: string): string =>
+const buildPrompt = (
+  character: Character,
+  kind: AssetKind,
+  description: string,
+  type: string,
+): string =>
   joinParts([
     baseIdentity(character),
     personalityAnchor(character),
-    originAnchor(character),
-    assetInstruction(character, kind, description),
-    styleAnchor(),
-    `Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. ${STORYTIME_STYLE_PROFILE.promptFragments.guardrails}`,
+    isWhiteBackgroundAsset(kind, type) ? '' : originAnchor(character),
+    isEmotionAssetType(type)
+      ? emotionInstruction(character, type, description)
+      : assetInstruction(character, kind, description),
+    isWhiteBackgroundAsset(kind, type) ? whiteBackgroundStyleAnchor() : styleAnchor(),
+    `Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. ${
+      isWhiteBackgroundAsset(kind, type)
+        ? 'This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop.'
+        : ''
+    } ${STORYTIME_STYLE_PROFILE.promptFragments.guardrails}`.trim(),
   ])
 
 const buildResolvedJob = ({
@@ -261,7 +350,7 @@ const buildResolvedJob = ({
     kind,
     type,
     label,
-    prompt: buildPrompt(character, kind, description),
+    prompt: buildPrompt(character, kind, description, type),
     width,
     height,
     outputFormat,
@@ -281,14 +370,20 @@ export const buildCharacterAssetJobs = ({
   defaultModel,
   heroModel,
   baseSeed,
+  styleReferencePaths = [],
+  characterReferencePaths = [],
 }: {
   character: Character
   outputRoot: string
   defaultModel: FluxModel
   heroModel: FluxModel
   baseSeed: number
+  styleReferencePaths?: string[]
+  characterReferencePaths?: string[]
 }): ResolvedAssetJob[] => {
   const jobs: ResolvedAssetJob[] = []
+  const hasInitialReferenceImages =
+    characterReferencePaths.length > 0 || styleReferencePaths.length > 0
   const orderedSpecs = [
     {
       spec: CHARACTER_ASSET_SPECS.standard_figur,
@@ -336,7 +431,10 @@ export const buildCharacterAssetJobs = ({
         width: spec.width,
         height: spec.height,
         outputFormat: spec.outputFormat,
-        mode: spec.mode,
+        mode:
+          spec.kind === 'standard_figur' && hasInitialReferenceImages
+            ? 'image-edit'
+            : spec.mode,
         model: spec.useHeroModel ? heroModel : defaultModel,
       }),
     )

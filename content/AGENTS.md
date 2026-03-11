@@ -12,14 +12,11 @@ Diese Regeln gelten fuer redaktionelle Pflege von Storytime-Content.
 - `herkunft` beschreibt kulturelle, historische und regionale Praegung nuanciert und respektvoll.
 - Relationships werden nicht in Character-YAML gepflegt; dafuer ausschliesslich die Relationship-DB/API verwenden.
 
-## Spiegelung
+## Dateipflege
 
-Bei Character-Content immer beide Quellen pflegen:
+Character-YAML wird nur in `content/characters/<id>/character.yaml` gepflegt (Single Source of Truth). Es gibt keine Spiegelung nach `public/content/`. Das Vite-Dev-Plugin `contentYamlPlugin` servt die YAMLs direkt aus `content/`.
 
-1. `content/characters/<id>/character.yaml`
-2. `public/content/characters/<id>/character.yaml`
-
-Danach `public/content-manifest.json` pruefen.
+Nach Aenderungen `public/content-manifest.json` pruefen.
 
 ## Gute Character-Beschreibungen
 

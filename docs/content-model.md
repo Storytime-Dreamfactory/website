@@ -8,14 +8,30 @@ Diese Datei beschreibt das YAML-Schema für Storytime-Content.
 - Encoding: UTF-8
 - Pflichtfelder muessen vorhanden und nicht leer sein
 - Listenfelder sind echte YAML-Listen (`- item`)
+- **Jedes Content-Objekt** (Character, Place, Learning Goal, Artifact) traegt immer drei Kopffelder:
+  - `id`: UUID (kanonischer fachlicher Schluessel, z. B. `8eb40291-65ee-49b6-b826-d7c7e97404c0`)
+  - `name`: lesbarer Anzeigename
+  - `type`: exakt `character`, `place`, `learning-goals` oder `artifact`
+- Der Ordner-/Dateiname (Slug) dient nur als Storage-Key. Die kanonische ID ist immer die UUID.
+- Alle CRUD-Operationen laufen ueber den zentralen `gameObjectService`.
+
+## Objekttypen
+
+| Typ | type-Feld | Pfad-Pattern |
+|-----|-----------|--------------|
+| Character | `character` | `content/characters/<slug>/character.yaml` |
+| Place | `place` | `content/places/<slug>.yaml` |
+| Learning Goal | `learning-goals` | `content/learning-goals/<slug>.yaml` |
+| Artifact | `artifact` | `content/artifacts/<slug>.yaml` |
 
 ## Character
 
-Pfad: `content/characters/<id>/character.yaml` und `public/content/characters/<id>/character.yaml`
+Pfad: `content/characters/<slug>/character.yaml`
 
 ```yaml
-id: nola
+id: 8eb40291-65ee-49b6-b826-d7c7e97404c0
 name: Nola
+type: character
 kurzbeschreibung: >
   Ein neugieriger kleiner Flussotter mit grossem Herzen, der aus jeder Huerde
   ein spielerisches Abenteuer macht.
@@ -121,8 +137,9 @@ metadata:
 ```
 
 Pflichtfelder:
-- `id: string`
+- `id: UUID` (kanonischer Schluessel)
 - `name: string`
+- `type: 'character'`
 - `kurzbeschreibung: string`
 - `basis.species: string`
 - `erscheinung.body_shape: string`
@@ -182,23 +199,29 @@ Hinweise:
 
 ## Place
 
-Pfad: `content/places/*.yaml` und `public/content/places/*.yaml`
+Pfad: `content/places/<slug>.yaml`
 
 ```yaml
+id: cb8ce8f2-1b10-48b9-8afc-905a7a8d060a
 name: Crystal Lake
+type: place
 description: A clear, sparkling lake...
 ```
 
 Pflichtfelder:
+- `id: UUID`
 - `name: string`
+- `type: 'place'`
 - `description: string`
 
 ## Learning Goal
 
-Pfad: `content/learning-goals/*.yaml` und `public/content/learning-goals/*.yaml`
+Pfad: `content/learning-goals/<slug>.yaml`
 
 ```yaml
+id: 313ab6c5-0d07-48d6-aae6-458a0218c020
 name: Kindness
+type: learning-goals
 topic: Freundlichkeit im Alltag
 description: Helping children understand...
 age_range:
@@ -214,7 +237,9 @@ domain_tags:
 ```
 
 Pflichtfelder:
+- `id: UUID`
 - `name: string`
+- `type: 'learning-goals'`
 - `topic: string`
 - `description: string`
 - `example_questions: string[]`
@@ -223,6 +248,30 @@ Optionale Felder:
 - `age_range: string[]`
 - `practice_ideas: string[]`
 - `domain_tags: string[]`
+
+## Artifact
+
+Pfad: `content/artifacts/<slug>.yaml`
+
+Artifacts sind generische Objekte (Gegenstaende, magische Items, Werkzeuge, etc.).
+
+```yaml
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+name: Zauberstab der Weisheit
+type: artifact
+artifact_type: wand
+description: >
+  Ein alter, knorriger Stab aus Eichenholz, der bei Beruehrung leise summt.
+content_folder: /content/artifacts/zauberstab-der-weisheit
+```
+
+Pflichtfelder:
+- `id: UUID`
+- `name: string`
+- `type: 'artifact'`
+- `artifact_type: string` (frei taxonomisch, z. B. `wand`, `book`, `amulet`)
+- `description: string`
+- `content_folder: string`
 
 ## Agentische Skills und Tools
 
@@ -254,7 +303,7 @@ Damit kann ein Character spaeter Bilder aus frueheren Conversations wieder anzei
 
 ## Prompt-Bausteine
 
-Pfad: `content/prompts/*.yaml` und `public/content/prompts/*.yaml`
+Pfad: `content/prompts/*.yaml`
 
 Agentische Skill-Playbooks liegen zusaetzlich unter `content/prompts/agent-skills/*.md`.
 
@@ -275,4 +324,20 @@ rules:
 
 `public/content-manifest.json` definiert, welche YAML-Dateien die App zuerst zur Laufzeit laden soll.
 
-Wenn Runtime-Laden fehlschlaegt, nutzt die App den Build-Time-Fallback aus `content/`.
+Das Manifest enthaelt die Schluessel `characters`, `places`, `learningGoals` und `artifacts`.
+
+Im Dev-Modus servt das `contentYamlPlugin` (Vite-Middleware) YAML-Dateien direkt aus `content/`. Im Production-Build greift der Build-Time-Fallback (`import.meta.glob` aus `content/`). YAML-Dateien werden nicht nach `public/content/` gespiegelt; dort liegen nur generierte Assets (Bilder).
+
+## gameObjectService
+
+Alle Content-Objekte werden ueber den zentralen `gameObjectService` (`src/server/gameObjectService.ts`) verwaltet:
+
+- `get(id)` -- Objekt per UUID holen (Fallback: Slug-Lookup fuer Legacy-Daten)
+- `getBySlug(type, slug)` -- Objekt per Typ und Storage-Slug holen
+- `create(input)` -- neues Objekt anlegen (YAML + Spiegel)
+- `update(id, patch)` -- Objekt aktualisieren
+- `remove(id)` -- Objekt loeschen
+- `listByType(type)` / `listAll()` -- Listen
+- `getContext(id)` / `getContextBatch(ids)` -- lesbaren Kontext (Name, Typ, Slug) liefern
+
+Relationship-Store und Activity-Store nutzen UUIDs als Referenzen und `getContextBatch` fuer die Aufloesung lesbarer Labels.

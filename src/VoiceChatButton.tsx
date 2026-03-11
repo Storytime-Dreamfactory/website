@@ -6,9 +6,12 @@ type ConnectionState = 'idle' | 'connecting' | 'connected' | 'error'
 
 type Props = {
   character: Character
+  conversationId?: string | null
 }
 
 const CHARACTER_VOICES = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'sage', 'shimmer', 'verse'] as const
+
+type CharacterVoice = (typeof CHARACTER_VOICES)[number]
 
 const VOICE_BY_GENDER_EXPRESSION: Record<string, (typeof CHARACTER_VOICES)[number]> = {
   maskulin: 'ash',
@@ -16,6 +19,44 @@ const VOICE_BY_GENDER_EXPRESSION: Record<string, (typeof CHARACTER_VOICES)[numbe
   maennlich: 'ash',
   weiblich: 'coral',
 }
+
+const VOICE_BY_ROLE_ARCHETYPE: Record<string, CharacterVoice> = {
+  caregiver: 'sage',
+  mentor: 'sage',
+  challenger: 'ballad',
+  hero: 'verse',
+  explorer: 'shimmer',
+  helper: 'coral',
+  learner: 'alloy',
+  learner_helper: 'coral',
+}
+
+const VOICE_BY_TEMPERAMENT: Record<string, CharacterVoice> = {
+  ruhig: 'sage',
+  nachdenklich: 'ballad',
+  lebhaft: 'shimmer',
+  impulsiv: 'echo',
+}
+
+const VOICE_BY_SOCIAL_STYLE: Record<string, CharacterVoice> = {
+  offen: 'coral',
+  schuechtern: 'ballad',
+  beschuetzend: 'sage',
+  kooperativ: 'verse',
+  unabhaengig: 'echo',
+}
+
+const VOICE_BY_CORE_TRAIT: Record<string, CharacterVoice> = {
+  listig: 'ballad',
+  verfuehrerisch: 'ballad',
+  misstrauisch: 'echo',
+  mutig: 'verse',
+  verspielt: 'shimmer',
+  ruhig: 'sage',
+  neugierig: 'alloy',
+}
+
+const normalizeValue = (value?: string): string => value?.trim().toLowerCase() ?? ''
 
 const hashCharacterId = (value: string): number => {
   let hash = 0
@@ -25,8 +66,30 @@ const hashCharacterId = (value: string): number => {
   return hash
 }
 
-const resolveVoiceForCharacter = (character: Character): (typeof CHARACTER_VOICES)[number] => {
-  const genderExpression = character.basis.genderExpression?.trim().toLowerCase()
+const resolveVoiceForCharacter = (character: Character): CharacterVoice => {
+  const roleArchetype = normalizeValue(character.basis.roleArchetype)
+  if (roleArchetype && VOICE_BY_ROLE_ARCHETYPE[roleArchetype]) {
+    return VOICE_BY_ROLE_ARCHETYPE[roleArchetype]
+  }
+
+  const coreTraitMatch = character.personality.coreTraits
+    .map((trait) => normalizeValue(trait))
+    .find((trait) => trait in VOICE_BY_CORE_TRAIT)
+  if (coreTraitMatch) {
+    return VOICE_BY_CORE_TRAIT[coreTraitMatch]
+  }
+
+  const temperament = normalizeValue(character.personality.temperament)
+  if (temperament && VOICE_BY_TEMPERAMENT[temperament]) {
+    return VOICE_BY_TEMPERAMENT[temperament]
+  }
+
+  const socialStyle = normalizeValue(character.personality.socialStyle)
+  if (socialStyle && VOICE_BY_SOCIAL_STYLE[socialStyle]) {
+    return VOICE_BY_SOCIAL_STYLE[socialStyle]
+  }
+
+  const genderExpression = normalizeValue(character.basis.genderExpression)
   if (genderExpression && VOICE_BY_GENDER_EXPRESSION[genderExpression]) {
     return VOICE_BY_GENDER_EXPRESSION[genderExpression]
   }
@@ -80,7 +143,7 @@ const sendDebugLog = (
   // #endregion
 }
 
-export default function VoiceChatButton({ character }: Props) {
+export default function VoiceChatButton({ character, conversationId }: Props) {
   const [state, setState] = useState<ConnectionState>('idle')
   const [audioLevel, setAudioLevel] = useState(0)
   const [isMicMutedByAssistant, setIsMicMutedByAssistant] = useState(false)
@@ -93,10 +156,21 @@ export default function VoiceChatButton({ character }: Props) {
   const analyserRef = useRef<AnalyserNode | null>(null)
   const rafRef = useRef<number>(0)
   const conversationIdRef = useRef<string | null>(null)
+  const conversationOwnedRef = useRef(false)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
   const recoverySentForCurrentTurnRef = useRef(false)
 
-  const startConversationSession = useCallback(async (): Promise<string | null> => {
+  const startConversationSession = useCallback(async (): Promise<{
+    conversationId: string | null
+    owned: boolean
+  }> => {
+    const existingConversationId = conversationId?.trim() ?? ''
+    if (existingConversationId) {
+      return {
+        conversationId: existingConversationId,
+        owned: false,
+      }
+    }
     try {
       const response = await fetch('/api/conversations/start', {
         method: 'POST',
@@ -106,13 +180,24 @@ export default function VoiceChatButton({ character }: Props) {
           metadata: { channel: 'realtime-voice', voice: selectedVoice },
         }),
       })
-      if (!response.ok) return null
+      if (!response.ok) {
+        return {
+          conversationId: null,
+          owned: false,
+        }
+      }
       const payload = (await response.json()) as { conversation?: { conversationId?: string } }
-      return payload.conversation?.conversationId ?? null
+      return {
+        conversationId: payload.conversation?.conversationId ?? null,
+        owned: true,
+      }
     } catch {
-      return null
+      return {
+        conversationId: null,
+        owned: false,
+      }
     }
-  }, [character.id, selectedVoice])
+  }, [character.id, conversationId, selectedVoice])
 
   const appendMessage = useCallback(
     async (role: 'user' | 'assistant' | 'system', content: string, eventType: string) => {
@@ -136,9 +221,11 @@ export default function VoiceChatButton({ character }: Props) {
 
   const closeConversationSession = useCallback((reason: string) => {
     const conversationId = conversationIdRef.current
+    const shouldEndConversation = conversationOwnedRef.current
     conversationIdRef.current = null
+    conversationOwnedRef.current = false
     knownEventIdsRef.current.clear()
-    if (!conversationId) return
+    if (!conversationId || !shouldEndConversation) return
 
     void fetch('/api/conversations/end', {
       method: 'POST',
@@ -249,10 +336,21 @@ export default function VoiceChatButton({ character }: Props) {
     setState('connecting')
 
     try {
+      const conversationSession = await startConversationSession()
+      if (!conversationSession.conversationId) {
+        throw new Error('Conversation konnte nicht gestartet werden.')
+      }
+      conversationIdRef.current = conversationSession.conversationId
+      conversationOwnedRef.current = conversationSession.owned
+
       const tokenRes = await fetch('/api/realtime/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ characterId: character.id, voice: selectedVoice }),
+        body: JSON.stringify({
+          characterId: character.id,
+          voice: selectedVoice,
+          conversationId: conversationSession.conversationId,
+        }),
       })
 
       if (!tokenRes.ok) {
@@ -365,7 +463,7 @@ export default function VoiceChatButton({ character }: Props) {
                   response: {
                     modalities: ['audio', 'text'],
                     instructions:
-                      'Bitte antworte freundlich auf Deutsch und bitte das Kind, den letzten Satz langsam zu wiederholen.',
+                      'Bitte antworte freundlich auf Deutsch, bitte das Kind, den letzten Satz langsam zu wiederholen, und stelle am Ende genau eine kurze Anschlussfrage.',
                   },
                 }),
               )
@@ -387,7 +485,7 @@ export default function VoiceChatButton({ character }: Props) {
                     response: {
                       modalities: ['audio', 'text'],
                       instructions:
-                        'Bitte antworte jetzt mit einem kurzen freundlichen Satz auf Deutsch.',
+                        'Bitte antworte jetzt mit einem kurzen freundlichen Satz auf Deutsch und stelle am Ende genau eine kurze Anschlussfrage.',
                     },
                   }),
                 )
@@ -439,9 +537,7 @@ export default function VoiceChatButton({ character }: Props) {
 
       const answerSdp = await sdpRes.text()
       await pc.setRemoteDescription({ type: 'answer', sdp: answerSdp })
-      conversationIdRef.current = await startConversationSession()
       setIsMicMutedByAssistant(false)
-
       pc.onconnectionstatechange = () => {
         if (pc.connectionState === 'connected') {
           setState('connected')

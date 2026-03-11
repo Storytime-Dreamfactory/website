@@ -11,9 +11,20 @@ import { createActivity } from './activityStore.ts'
 import { trackTraceActivitySafely } from './traceActivity.ts'
 import { triggerConversationEndedService } from './conversationLifecycleService.ts'
 import {
+  buildPublicConversationMessageSummary,
+  formatCharacterDisplayName,
+  isPublicConversationMessageRole,
+  resolveCounterpartName,
+} from './conversationActivityHelpers.ts'
+import { createConversationEndSummary } from './conversationEndSummaryService.ts'
+import {
   orchestrateCharacterRuntimeTurn,
 } from './characterRuntimeOrchestrator.ts'
 import { contextFromMetadata } from './conversationRuntimeContext.ts'
+import {
+  inspectLatestConversation,
+  inspectConversation,
+} from './debugConversationReadService.ts'
 
 type MiddlewareStack = {
   use: (
@@ -48,24 +59,7 @@ const toMetadata = (value: unknown): ConversationMetadata | undefined => {
   return value as ConversationMetadata
 }
 
-const DEFAULT_COUNTERPART_PERSON = 'Yoko'
 const CONVERSATION_LINK_LABEL = 'Conversation ansehen'
-
-const toDisplayName = (value: string): string => {
-  const trimmed = value.trim()
-  if (!trimmed) return value
-  return `${trimmed.charAt(0).toUpperCase()}${trimmed.slice(1)}`
-}
-
-const resolveCounterpartName = (metadata: ConversationMetadata | undefined): string => {
-  const candidates = [metadata?.counterpartName, metadata?.userName, metadata?.displayName]
-  for (const candidate of candidates) {
-    if (typeof candidate === 'string' && candidate.trim()) {
-      return candidate.trim()
-    }
-  }
-  return DEFAULT_COUNTERPART_PERSON
-}
 
 const trackActivitySafely = async (input: {
   activityType: string
@@ -163,9 +157,11 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         const metadata = toMetadata(body.metadata)
         let conversationCharacterId: string | undefined
         let conversationLearningGoalIds: string[] | undefined
+        let conversationMetadata: ConversationMetadata | undefined
         try {
           const details = await getConversationDetails(conversationId)
           conversationCharacterId = details.conversation.characterId
+          conversationMetadata = details.conversation.metadata
           const context = contextFromMetadata(details.conversation.metadata)
           conversationLearningGoalIds = context.learningGoalIds
         } catch {
@@ -201,22 +197,38 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         const context = contextFromMetadata(message.metadata)
         await trackActivitySafely({
           activityType: 'conversation.message.created',
-          isPublic: false,
+          isPublic: isPublicConversationMessageRole(message.role),
           characterId: conversationCharacterId,
           placeId: context.placeId,
           learningGoalIds: context.learningGoalIds ?? conversationLearningGoalIds,
           conversationId: message.conversationId,
           subject: {
-            type: 'conversation',
-            id: message.conversationId,
+            type: message.role === 'assistant' ? 'character' : 'person',
+            id:
+              message.role === 'assistant'
+                ? conversationCharacterId ?? 'character'
+                : resolveCounterpartName(conversationMetadata).toLowerCase(),
+            name:
+              message.role === 'assistant'
+                ? formatCharacterDisplayName(conversationCharacterId ?? 'Character')
+                : resolveCounterpartName(conversationMetadata),
           },
           object: {
-            type: 'message',
+            type: 'conversation_message',
             id: String(message.messageId),
             role: message.role,
             eventType: message.eventType,
           },
-          metadata: message.metadata,
+          metadata: {
+            ...message.metadata,
+            messageRole: message.role,
+            summary: buildPublicConversationMessageSummary({
+              role: message.role,
+              content: message.content,
+              characterId: conversationCharacterId,
+              conversationMetadata,
+            }),
+          },
         })
 
         if (role === 'user' || role === 'assistant') {
@@ -236,7 +248,7 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
           })
           void orchestrateCharacterRuntimeTurn({
             conversationId,
-            role: role as 'user' | 'assistant',
+            role,
             content,
             eventType,
           }).catch((error) => {
@@ -267,9 +279,9 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
           typeof body.conversationId === 'string' ? body.conversationId : ''
         const metadata = toMetadata(body.metadata)
 
-        const conversation = await endConversation(conversationId, { metadata })
-        const context = contextFromMetadata(conversation.metadata)
-        const characterDisplayName = toDisplayName(conversation.characterId)
+        let conversation = await endConversation(conversationId, { metadata })
+        let context = contextFromMetadata(conversation.metadata)
+        const characterDisplayName = formatCharacterDisplayName(conversation.characterId)
         const counterpartName = resolveCounterpartName(conversation.metadata)
         const publicSummary = `${characterDisplayName} sprach mit ${counterpartName}`
         await trackActivitySafely({
@@ -289,6 +301,14 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
           },
           metadata: conversation.metadata,
         })
+        try {
+          const summaryResult = await createConversationEndSummary(conversation)
+          conversation = summaryResult.conversation
+          context = contextFromMetadata(conversation.metadata)
+        } catch (error) {
+          const message = error instanceof Error ? error.message : String(error)
+          console.warn(`Conversation end summary failed: ${message}`)
+        }
         await trackActivitySafely({
           activityType: 'character.chat.completed',
           isPublic: true,
@@ -314,6 +334,36 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         })
         await triggerConversationEndedService(conversation)
         json(response, 200, { conversation })
+        return
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/latest-inspect') {
+        const characterId = requestUrl.searchParams.get('characterId')?.trim() || ''
+        if (!characterId) {
+          json(response, 400, { error: 'characterId query parameter ist erforderlich.' })
+          return
+        }
+        const result = await inspectLatestConversation(characterId)
+        if (!result) {
+          json(response, 404, { error: 'Keine Conversation fuer diesen Character gefunden.' })
+          return
+        }
+        json(response, 200, result)
+        return
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/inspect') {
+        const conversationId = requestUrl.searchParams.get('conversationId')?.trim() || ''
+        if (!conversationId) {
+          json(response, 400, { error: 'conversationId query parameter ist erforderlich.' })
+          return
+        }
+        const result = await inspectConversation(conversationId)
+        if (!result) {
+          json(response, 404, { error: 'Conversation nicht gefunden.' })
+          return
+        }
+        json(response, 200, result)
         return
       }
 

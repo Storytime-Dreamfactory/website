@@ -7,7 +7,7 @@ Der Character holt gezielt fehlenden Welt- und Objektkontext, damit anschliessen
 ## Trigger
 
 - Fragen nach Beziehungen, beteiligten Figuren, Orten, Objekten oder deren Zusammenhaengen.
-- Situationen, in denen fuer `remember-something` oder `do-something` noch Schluesselkontext fehlt.
+- Situationen, in denen fuer `remember-something` oder `create_scene` noch Schluesselkontext fehlt.
 
 ## Nicht-Trigger
 

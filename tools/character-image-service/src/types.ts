@@ -122,6 +122,7 @@ export type GenerationManifest = {
   sourceCharacterPath: string
   outputDirectory: string
   styleReferencePaths: string[]
+  characterReferencePaths: string[]
   models: {
     defaultModel: FluxModel
     heroModel: FluxModel
@@ -134,6 +135,7 @@ export type GenerateCharacterImagesOptions = {
   characterPath: string
   outputRoot: string
   styleReferencePaths: string[]
+  characterReferencePaths?: string[]
   defaultModel: FluxModel
   heroModel: FluxModel
   dryRun: boolean

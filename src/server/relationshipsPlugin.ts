@@ -1,9 +1,5 @@
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
-import { parse as parseYaml } from 'yaml'
 import {
   type CharacterRelatedObject,
   listAllRelationships,
@@ -12,8 +8,8 @@ import {
   upsertCharacterRelationship,
   type CharacterRelationshipMetadata,
 } from './relationshipStore.ts'
-
-const workspaceRoot = path.resolve(fileURLToPath(new URL('../../', import.meta.url)))
+import * as gameObjectService from './gameObjectService.ts'
+import type { Character } from '../content/types.ts'
 
 type MiddlewareStack = {
   use: (
@@ -24,40 +20,6 @@ type MiddlewareStack = {
       next: (error?: unknown) => void,
     ) => void | Promise<void>,
   ) => void
-}
-
-const loadCharacterYaml = async (characterId: string): Promise<Record<string, unknown> | null> => {
-  const yamlPath = path.resolve(workspaceRoot, 'content/characters', characterId, 'character.yaml')
-  try {
-    const raw = await readFile(yamlPath, 'utf8')
-    return parseYaml(raw) as Record<string, unknown>
-  } catch {
-    return null
-  }
-}
-
-const readText = (obj: Record<string, unknown> | null, ...keys: string[]): string => {
-  if (!obj) return ''
-  let current: unknown = obj
-  for (const key of keys) {
-    if (!current || typeof current !== 'object') return ''
-    current = (current as Record<string, unknown>)[key]
-  }
-  return typeof current === 'string' ? current.trim() : ''
-}
-
-const readStringArray = (obj: Record<string, unknown> | null, ...keys: string[]): string[] => {
-  if (!obj) return []
-  let current: unknown = obj
-  for (const key of keys) {
-    if (!current || typeof current !== 'object') return []
-    current = (current as Record<string, unknown>)[key]
-  }
-  if (!Array.isArray(current)) return []
-  return current
-    .filter((item): item is string => typeof item === 'string')
-    .map((item) => item.trim())
-    .filter((item) => item.length > 0)
 }
 
 const json = (response: ServerResponse, statusCode: number, data: unknown): void => {
@@ -159,14 +121,15 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
         ).filter((id) => id && id !== characterId)
         const relatedObjects = await Promise.all(
           relatedCharacterIds.map(async (relatedCharacterId) => {
-            const yaml = await loadCharacterYaml(relatedCharacterId)
+            const relatedObject = await gameObjectService.get(relatedCharacterId)
+            const character = relatedObject?.type === 'character' ? (relatedObject as Character) : null
             return {
               type: 'character',
               characterId: relatedCharacterId,
-              name: readText(yaml, 'name') || relatedCharacterId,
-              species: readText(yaml, 'basis', 'species') || undefined,
-              shortDescription: readText(yaml, 'kurzbeschreibung') || undefined,
-              coreTraits: readStringArray(yaml, 'persoenlichkeit', 'core_traits'),
+              name: character?.name ?? relatedCharacterId,
+              species: character?.basis.species || undefined,
+              shortDescription: character?.shortDescription || undefined,
+              coreTraits: character?.personality.coreTraits ?? [],
             }
           }),
         )

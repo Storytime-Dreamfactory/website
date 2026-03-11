@@ -14,8 +14,9 @@ export type CharacterAgentToolId =
 
 export type CharacterAgentSkillPlaybookId =
   | 'remember-something'
-  | 'do-something'
+  | 'create_scene'
   | 'request-context'
+  | 'evaluate-feedback'
   | 'visual-expression'
   | 'run-quiz'
   | 'guided-explanation'
@@ -44,8 +45,8 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
     promptPath: 'content/prompts/agent-skills/remember-something.md',
   },
   {
-    id: 'do-something',
-    name: 'Do Something',
+    id: 'create_scene',
+    name: 'Create Scene',
     purpose: 'Fuehrt eine angefragte Aktion aus und erzeugt bei Bedarf neue Szenen.',
     toolIds: [
       CHARACTER_AGENT_TOOLS.readActivities,
@@ -55,7 +56,7 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
       CHARACTER_AGENT_TOOLS.readRelatedObjects,
       CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
     ],
-    promptPath: 'content/prompts/agent-skills/do-something.md',
+    promptPath: 'content/prompts/agent-skills/create_scene.md',
   },
   {
     id: 'request-context',
@@ -67,6 +68,16 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
       CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
     ],
     promptPath: 'content/prompts/agent-skills/request-context.md',
+  },
+  {
+    id: 'evaluate-feedback',
+    name: 'Evaluate Feedback',
+    purpose: 'Nimmt Meta-Feedback zur Qualitaet entgegen und startet einen asynchronen Verbesserungs-Flow.',
+    toolIds: [
+      CHARACTER_AGENT_TOOLS.readActivities,
+      CHARACTER_AGENT_TOOLS.readConversationHistory,
+    ],
+    promptPath: 'content/prompts/agent-skills/evaluate-feedback.md',
   },
 ]
 

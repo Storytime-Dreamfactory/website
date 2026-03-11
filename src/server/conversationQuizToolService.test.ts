@@ -35,13 +35,13 @@ describe('conversationQuizToolService', () => {
     mocks.createActivityMock.mockResolvedValue({})
     mocks.listActivitiesMock.mockResolvedValue([])
     mocks.loadCharacterRuntimeProfileMock.mockResolvedValue({
-      id: 'yoko',
+      id: '00000000-0000-4000-8000-000000000001',
       name: 'Yoko',
-      suitableLearningGoalIds: ['kindness'],
+      suitableLearningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
     })
     mocks.loadLearningGoalRuntimeProfilesMock.mockResolvedValue([
       {
-        id: 'kindness',
+        id: '313ab6c5-0d07-48d6-aae6-458a0218c020',
         name: 'Kindness',
         topic: 'Freundlichkeit im Alltag',
         exampleQuestions: ['Frage 1', 'Frage 2'],
@@ -49,7 +49,7 @@ describe('conversationQuizToolService', () => {
       },
     ])
     mocks.loadLearningGoalRuntimeProfileMock.mockResolvedValue({
-      id: 'kindness',
+      id: '313ab6c5-0d07-48d6-aae6-458a0218c020',
       name: 'Kindness',
       topic: 'Freundlichkeit im Alltag',
       exampleQuestions: ['Frage 1', 'Frage 2'],
@@ -58,9 +58,9 @@ describe('conversationQuizToolService', () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
         conversationId: 'conv-quiz',
-        characterId: 'yoko',
+        characterId: '00000000-0000-4000-8000-000000000001',
         metadata: {
-          learningGoalIds: ['kindness'],
+          learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
         },
       },
       messages: [],
@@ -86,7 +86,7 @@ describe('conversationQuizToolService', () => {
 
     expect(result).toEqual(
       expect.objectContaining({
-        learningGoalId: 'kindness',
+        learningGoalId: '313ab6c5-0d07-48d6-aae6-458a0218c020',
         question: 'Frage 2',
         questionIndex: 2,
         totalQuestions: 2,
@@ -97,7 +97,7 @@ describe('conversationQuizToolService', () => {
         conversationId: 'conv-quiz',
         eventType: 'skill.quiz.prompt.generated',
         metadata: expect.objectContaining({
-          learningGoalId: 'kindness',
+          learningGoalId: '313ab6c5-0d07-48d6-aae6-458a0218c020',
           question: 'Frage 2',
           questionIndex: 2,
         }),
@@ -106,7 +106,7 @@ describe('conversationQuizToolService', () => {
     expect(mocks.createActivityMock).toHaveBeenCalledWith(
       expect.objectContaining({
         activityType: 'tool.activities.read',
-        learningGoalIds: ['kindness'],
+        learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
       }),
     )
   })

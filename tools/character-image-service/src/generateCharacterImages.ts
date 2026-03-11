@@ -1,9 +1,9 @@
 import path from 'node:path'
 import { buildCharacterAssetJobs } from './promptBuilder.ts'
-import { FluxClient } from './fluxClient.ts'
 import { loadCharacterFromYaml } from './loadCharacter.ts'
 import { writeDownloadedImage, writeManifest } from './assetWriter.ts'
 import { STORYTIME_STYLE_PROFILE } from './storytimeStyleProfile.ts'
+import { generateImageWithModel } from '../../../src/server/imageGenerationService.ts'
 import type {
   AssetGenerationRecord,
   GenerateCharacterImagesOptions,
@@ -38,18 +38,29 @@ const resolveReferenceImages = (
   job: ResolvedAssetJob,
   standardFigurePath: string | null,
   styleReferencePaths: string[],
+  characterReferencePaths: string[],
 ): string[] => {
   if (job.kind === 'standard_figur') {
-    return styleReferencePaths
+    return [...characterReferencePaths]
   }
 
-  return [standardFigurePath, ...styleReferencePaths].filter((value): value is string => Boolean(value))
+  if (job.type.startsWith('emotion_')) {
+    if (standardFigurePath) {
+      return [standardFigurePath]
+    }
+    return [...characterReferencePaths]
+  }
+
+  return [standardFigurePath, ...characterReferencePaths, ...styleReferencePaths].filter(
+    (value): value is string => Boolean(value),
+  )
 }
 
 const buildManifest = (input: {
   characterPath: string
   outputRoot: string
   styleReferencePaths: string[]
+  characterReferencePaths: string[]
   defaultModel: GenerateCharacterImagesOptions['defaultModel']
   heroModel: GenerateCharacterImagesOptions['heroModel']
   character: Awaited<ReturnType<typeof loadCharacterFromYaml>>
@@ -61,6 +72,7 @@ const buildManifest = (input: {
   sourceCharacterPath: input.characterPath,
   outputDirectory: path.resolve(input.outputRoot, input.character.id),
   styleReferencePaths: input.styleReferencePaths,
+  characterReferencePaths: input.characterReferencePaths,
   models: {
     defaultModel: input.defaultModel,
     heroModel: input.heroModel,
@@ -79,6 +91,8 @@ export const generateCharacterImages = async (
     defaultModel: options.defaultModel,
     heroModel: options.heroModel,
     baseSeed: options.baseSeed,
+    styleReferencePaths: options.styleReferencePaths,
+    characterReferencePaths: options.characterReferencePaths ?? [],
   })
 
   const assetRecords: AssetGenerationRecord[] = []
@@ -101,6 +115,7 @@ export const generateCharacterImages = async (
       characterPath: options.characterPath,
       outputRoot: options.outputRoot,
       styleReferencePaths: options.styleReferencePaths,
+      characterReferencePaths: options.characterReferencePaths ?? [],
       defaultModel: options.defaultModel,
       heroModel: options.heroModel,
       character,
@@ -121,20 +136,12 @@ export const generateCharacterImages = async (
     return { manifest, manifestPath }
   }
 
-  const apiKey = process.env.BFL_API_KEY
-  if (!apiKey) {
-    const message = 'BFL_API_KEY is required for image generation'
-    options.onProgress?.({ type: 'failed', message })
-    throw new Error(message)
-  }
-
-  const fluxClient = new FluxClient(apiKey)
-
   for (const job of jobs) {
     const referenceImagePaths = resolveReferenceImages(
       job,
       standardFigureReferencePath,
       options.styleReferencePaths,
+      options.characterReferencePaths ?? [],
     )
 
     if (job.mode === 'image-edit' && referenceImagePaths.length === 0) {
@@ -146,41 +153,28 @@ export const generateCharacterImages = async (
 
     options.onProgress?.({ type: 'asset-started', asset: job })
 
-    const request =
-      job.mode === 'text-to-image'
-        ? await fluxClient.generateTextToImage({
-            model: job.model,
-            prompt: job.prompt,
-            width: job.width,
-            height: job.height,
-            outputFormat: job.outputFormat,
-            seed: job.seed,
-          })
-        : await fluxClient.editImage({
-            model: job.model,
-            prompt: job.prompt,
-            width: job.width,
-            height: job.height,
-            outputFormat: job.outputFormat,
-            seed: job.seed,
-            referenceImagePaths,
-          })
-
-    const pollResult = await fluxClient.pollResult({
-      pollingUrl: request.polling_url,
-      pollIntervalMs: options.pollIntervalMs,
-      maxAttempts: options.maxPollAttempts,
-    })
-
-    if (pollResult.status !== 'Ready') {
-      const errorMessage = 'error' in pollResult ? pollResult.error : undefined
-      const message = `Generation failed for ${job.type}: ${errorMessage ?? 'Unknown FLUX error'}`
+    let result: Awaited<ReturnType<typeof generateImageWithModel>>
+    try {
+      result = await generateImageWithModel({
+        model: job.model,
+        prompt: job.prompt,
+        width: job.width,
+        height: job.height,
+        outputFormat: job.outputFormat,
+        seed: job.seed,
+        pollIntervalMs: options.pollIntervalMs,
+        maxPollAttempts: options.maxPollAttempts,
+        referenceImagePaths: job.mode === 'image-edit' ? referenceImagePaths : undefined,
+      })
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : String(error)
+      const message = `Generation failed for ${job.type}: ${errorMessage}`
       options.onProgress?.({ type: 'failed', message })
       throw new Error(message)
     }
 
     const writeStatus = await writeDownloadedImage({
-      sourceUrl: pollResult.result.sample,
+      sourceUrl: result.imageUrl,
       outputFilePath: job.outputFilePath,
       overwrite: options.overwrite,
     })
@@ -188,10 +182,9 @@ export const generateCharacterImages = async (
     const record: AssetGenerationRecord = {
       ...createPlannedRecord(job),
       status: writeStatus === 'written' ? 'generated' : 'skipped',
-      requestId: request.id,
-      pollingUrl: request.polling_url,
-      sampleUrl: pollResult.result.sample,
-      cost: request.cost,
+      requestId: result.requestId,
+      sampleUrl: result.imageUrl,
+      cost: result.cost,
       reason: writeStatus === 'skipped' ? 'File already exists and overwrite=false' : undefined,
     }
 
@@ -207,6 +200,7 @@ export const generateCharacterImages = async (
     characterPath: options.characterPath,
     outputRoot: options.outputRoot,
     styleReferencePaths: options.styleReferencePaths,
+    characterReferencePaths: options.characterReferencePaths ?? [],
     defaultModel: options.defaultModel,
     heroModel: options.heroModel,
     character,

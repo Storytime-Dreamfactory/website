@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
+import { getStorytimeDbPool } from './dbPool.ts'
 
 const RELATIONSHIP_ID_SEPARATOR = '#'
-const POSTGRES_DEFAULT_URL = 'postgres://storytime:storytime@localhost:5433/storytime'
 
 export type CharacterRelationshipDirection = 'outgoing' | 'incoming'
 
@@ -67,11 +67,7 @@ type CharacterRelationshipWithDirectionRow = CharacterRelationshipRow & {
 const getPool = (): Pool => {
   if (pool) return pool
 
-  const connectionString = process.env.DATABASE_URL?.trim() || POSTGRES_DEFAULT_URL
-
-  pool = new Pool({
-    connectionString,
-  })
+  pool = getStorytimeDbPool()
 
   return pool
 }
@@ -104,8 +100,8 @@ const mapRowToRelationshipRecord = (
   sourceCharacterId: row.source_character_id,
   targetCharacterId: row.target_character_id,
   relationshipType: row.relationship_type,
-  relationshipTypeReadable: row.relationship_type_readable ?? row.relationship_type,
-  relationship: row.relationship,
+  relationshipTypeReadable: toStandardRelationshipLabel(row.relationship_type),
+  relationship: toStandardRelationshipLabel(row.relationship_type),
   description: row.description ?? undefined,
   metadata: row.metadata ?? undefined,
   otherRelatedObjects: Array.isArray(row.other_related_objects) ? row.other_related_objects : [],
@@ -154,6 +150,34 @@ const humanizeRelationshipType = (value: string): string =>
     .filter(Boolean)
     .join(' ')
     .trim()
+
+const STANDARD_RELATIONSHIP_LABELS: Record<string, string> = {
+  beste_freundin: 'Beste Freundin',
+  gute_freundin: 'Gute Freundin',
+  schwester: 'Schwester',
+  bruder: 'Bruder',
+  geschwister: 'Geschwister',
+  bezugsmensch: 'Bezugsmensch',
+  spielgefaehrtin: 'Spielgefaehrtin',
+  huendin: 'Huendin',
+  vorbild: 'Vorbild',
+  feind: 'Feind',
+  fuerchtet_sich_vor: 'Hat Angst vor',
+}
+
+const toStandardRelationshipLabel = (relationshipType: string): string => {
+  const normalizedType = relationshipType.trim().toLowerCase()
+  const explicitLabel = STANDARD_RELATIONSHIP_LABELS[normalizedType]
+  if (explicitLabel) return explicitLabel
+
+  const humanized = humanizeRelationshipType(normalizedType)
+  if (!humanized) return ''
+  return humanized
+    .split(' ')
+    .filter(Boolean)
+    .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
+    .join(' ')
+}
 
 const deriveSemanticRelationshipType = (rawValues: string[]): string => {
   const normalizedValues = rawValues
@@ -212,9 +236,9 @@ const normalizeInput = (input: UpsertCharacterRelationshipInput): UpsertCharacte
     rawRelationshipTypeReadable,
     rawRelationship,
   ])
-  const relationship = rawRelationship || rawRelationshipTypeReadable || humanizeRelationshipType(relationshipType)
-  const relationshipTypeReadable =
-    rawRelationshipTypeReadable || relationship || humanizeRelationshipType(relationshipType)
+  const standardizedLabel = toStandardRelationshipLabel(relationshipType)
+  const relationship = standardizedLabel || rawRelationship || rawRelationshipTypeReadable
+  const relationshipTypeReadable = standardizedLabel || rawRelationshipTypeReadable || relationship
 
   return {
     sourceCharacterId,
@@ -243,12 +267,42 @@ const validateInput = (input: UpsertCharacterRelationshipInput): void => {
   }
 }
 
+const resolveCanonicalGameObjectId = async (value: string): Promise<string> => {
+  const normalized = value.trim()
+  if (!normalized) return ''
+  try {
+    const resolved = await gameObjectService.get(normalized)
+    return resolved?.id ?? normalized
+  } catch {
+    return normalized
+  }
+}
+
+const resolveCanonicalRelationshipRecord = async (
+  record: CharacterRelationshipRecord,
+): Promise<CharacterRelationshipRecord> => {
+  const [sourceCharacterId, targetCharacterId] = await Promise.all([
+    resolveCanonicalGameObjectId(record.sourceCharacterId),
+    resolveCanonicalGameObjectId(record.targetCharacterId),
+  ])
+
+  return {
+    ...record,
+    sourceCharacterId,
+    targetCharacterId,
+  }
+}
+
 export const upsertCharacterRelationship = async (
   payload: UpsertCharacterRelationshipInput,
 ): Promise<CharacterRelationshipRecord> => {
   await ensureSchemaReady()
 
-  const input = normalizeInput(payload)
+  const input = normalizeInput({
+    ...payload,
+    sourceCharacterId: await resolveCanonicalGameObjectId(payload.sourceCharacterId),
+    targetCharacterId: await resolveCanonicalGameObjectId(payload.targetCharacterId),
+  })
   validateInput(input)
 
   const relationshipId = toRelationshipId(
@@ -313,7 +367,7 @@ export const upsertCharacterRelationship = async (
     ],
   )
 
-  return mapRowToRelationshipRecord(result.rows[0])
+  return resolveCanonicalRelationshipRecord(mapRowToRelationshipRecord(result.rows[0]))
 }
 
 export const listRelationshipsForCharacter = async (
@@ -321,7 +375,7 @@ export const listRelationshipsForCharacter = async (
 ): Promise<ListRelationshipsForCharacterResult> => {
   await ensureSchemaReady()
 
-  const normalizedCharacterId = characterId.trim()
+  const normalizedCharacterId = await resolveCanonicalGameObjectId(characterId)
   if (!normalizedCharacterId) {
     throw new Error('characterId ist erforderlich.')
   }
@@ -388,10 +442,12 @@ export const listRelationshipsForCharacter = async (
     }
   }
 
-  return Array.from(dedupedByCounterpart.values()).map((row) => ({
-    ...mapRowToRelationshipRecord(row),
-    direction: row.direction,
-  }))
+  return Promise.all(
+    Array.from(dedupedByCounterpart.values()).map(async (row) => ({
+      ...(await resolveCanonicalRelationshipRecord(mapRowToRelationshipRecord(row))),
+      direction: row.direction,
+    })),
+  )
 }
 
 export const listAllRelationships = async (): Promise<CharacterRelationshipRecord[]> => {
@@ -417,7 +473,7 @@ export const listAllRelationships = async (): Promise<CharacterRelationshipRecor
     `,
   )
 
-  return data.rows.map((row) => mapRowToRelationshipRecord(row))
+  return Promise.all(data.rows.map((row) => resolveCanonicalRelationshipRecord(mapRowToRelationshipRecord(row))))
 }
 
 export type RelationshipByRelatedObjectRecord = {
@@ -464,17 +520,26 @@ export const listRelationshipsByOtherRelatedObject = async (
 
   return data.rows
     .map((row) => {
-      const relationship = mapRowToRelationshipRecord(row)
+      const relationship = row
       const matchedObject =
-        relationship.otherRelatedObjects.find(
+        (Array.isArray(relationship.other_related_objects) ? relationship.other_related_objects : []).find(
           (item) =>
             item.type.toLowerCase() === normalizedType.toLowerCase() &&
             item.id.toLowerCase() === normalizedId.toLowerCase(),
         ) ?? null
       if (!matchedObject) return null
-      return { relationship, matchedObject }
+      return { relationship: mapRowToRelationshipRecord(row), matchedObject }
     })
     .filter((item): item is RelationshipByRelatedObjectRecord => item !== null)
+    .map(async (item) => ({
+      relationship: await resolveCanonicalRelationshipRecord(item.relationship),
+      matchedObject: item.matchedObject,
+    }))
+    .reduce<Promise<RelationshipByRelatedObjectRecord[]>>(async (accPromise, itemPromise) => {
+      const acc = await accPromise
+      acc.push(await itemPromise)
+      return acc
+    }, Promise.resolve([]))
 }
 
 export const ensureCharacterRelationshipTable = async (
@@ -536,4 +601,58 @@ export const ensureCharacterRelationshipTable = async (
   `)
 
   return { tableName: 'character_relationships', created: !existedBefore }
+}
+
+// ---------------------------------------------------------------------------
+// Generalized UUID-based object relationship API
+// The underlying DB columns are named source_character_id / target_character_id
+// but they now store UUIDs of any game object type.
+// ---------------------------------------------------------------------------
+
+import * as gameObjectService from './gameObjectService.ts'
+import type { GameObjectType } from '../content/types.ts'
+
+export type ObjectRelationshipContext = {
+  relationshipId: string
+  source: { id: string; name: string; type: GameObjectType; slug: string }
+  target: { id: string; name: string; type: GameObjectType; slug: string }
+  relationshipType: string
+  relationshipTypeReadable: string
+  relationship: string
+  description?: string
+  otherRelatedObjects: CharacterRelatedObject[]
+  direction: CharacterRelationshipDirection
+}
+
+export const listRelationshipsForObject = async (
+  objectId: string,
+): Promise<ObjectRelationshipContext[]> => {
+  const records = await listRelationshipsForCharacter(objectId)
+
+  const allIds = new Set<string>()
+  for (const record of records) {
+    allIds.add(record.sourceCharacterId)
+    allIds.add(record.targetCharacterId)
+  }
+
+  const contextMap = new Map<string, { id: string; name: string; type: GameObjectType; slug: string }>()
+  const contexts = await gameObjectService.getContextBatch(Array.from(allIds))
+  for (const ctx of contexts) {
+    contextMap.set(ctx.id, ctx)
+  }
+
+  const fallbackContext = (id: string) =>
+    contextMap.get(id) ?? { id, name: id, type: 'character' as GameObjectType, slug: id }
+
+  return records.map((record) => ({
+    relationshipId: record.relationshipId,
+    source: fallbackContext(record.sourceCharacterId),
+    target: fallbackContext(record.targetCharacterId),
+    relationshipType: record.relationshipType,
+    relationshipTypeReadable: record.relationshipTypeReadable,
+    relationship: record.relationship,
+    description: record.description,
+    otherRelatedObjects: record.otherRelatedObjects,
+    direction: record.direction,
+  }))
 }

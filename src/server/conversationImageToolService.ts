@@ -2,25 +2,27 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parse as parseYaml } from 'yaml'
-import { FluxClient } from '../../tools/character-image-service/src/fluxClient.ts'
 import { appendConversationMessage } from './conversationStore.ts'
 import { createActivity } from './activityStore.ts'
+import { generateImageWithModel, resolveDefaultConversationImageModel } from './imageGenerationService.ts'
+import { parseSupportedImageModel } from './imageModelSupport.ts'
+import { getOpenAiApiKey } from './openAiConfig.ts'
 import {
   CHARACTER_AGENT_TOOLS,
   getCharacterAgentSkillPlaybook,
 } from './characterAgentDefinitions.ts'
 import { storeConversationImageAsset } from './conversationImageAssetStore.ts'
+import { resolveYamlPathForGameObject } from './gameObjectService.ts'
 import {
   buildCharacterInteractionTargets,
   buildInteractionMetadata,
   parseInteractionTargets,
 } from './activityInteractionMetadata.ts'
 import {
-  collateRelatedCharacterObjects,
   resolveCharacterImageRefs,
-  selectImageReferencesForPrompt,
 } from './runtime/context/contextCollationService.ts'
 import { trackTraceActivitySafely } from './traceActivity.ts'
+import type { SupportedImageModel } from './imageModelSupport.ts'
 
 type CharacterYaml = {
   id?: string
@@ -38,7 +40,9 @@ type CharacterYaml = {
 type GenerateConversationHeroToolInput = {
   conversationId: string
   characterId: string
-  scenePrompt: string
+  sceneSummary?: string
+  imagePrompt?: string
+  scenePrompt?: string
   styleHint?: string
   interactionTargets?: unknown
   relatedCharacterIds?: unknown
@@ -49,6 +53,7 @@ type GenerateConversationHeroToolInput = {
   pollIntervalMs?: unknown
   maxPollAttempts?: unknown
   seed?: unknown
+  model?: unknown
 }
 
 export type GenerateConversationHeroToolResult = {
@@ -80,14 +85,29 @@ const DEFAULT_POLL_INTERVAL_MS = 800
 const DEFAULT_MAX_POLL_ATTEMPTS = 90
 const VISUAL_EXPRESSION_SKILL = getCharacterAgentSkillPlaybook('visual-expression')
 
-const summarizeScene = (scenePrompt: string): string => {
-  const compact = scenePrompt.replace(/\s+/g, ' ').trim()
-  if (compact.length <= 180) return compact
-  return `${compact.slice(0, 177)}...`
+const joinCharacterNames = (names: string[]): string => {
+  if (names.length === 0) return ''
+  if (names.length === 1) return names[0]
+  if (names.length === 2) return `${names[0]} und ${names[1]}`
+  return `${names.slice(0, -1).join(', ')} und ${names[names.length - 1]}`
 }
 
-const buildImageGeneratedSummary = (characterName: string, scenePrompt: string): string =>
-  `${characterName} zeigt ein neues Bild: ${summarizeScene(scenePrompt)}`
+const buildImageGeneratedSummary = (
+  characterName: string,
+  sceneSummary: string,
+  imageVisualSummary: string,
+  relatedCharacterNames: string[],
+): string => {
+  const canonicalSummary = sceneSummary.trim()
+  if (canonicalSummary) return canonicalSummary
+  const narration = imageVisualSummary.trim()
+  const companions = joinCharacterNames(
+    Array.from(new Set(relatedCharacterNames.map((item) => item.trim()).filter(Boolean))),
+  )
+  const actorLine = companions ? `${characterName} mit ${companions}` : characterName
+  if (narration) return `${actorLine} zeigte eine neue Szene: ${narration}`
+  return `${actorLine} zeigte eine neue Szene.`
+}
 
 const clampDimension = (value: unknown, fallback: number): number => {
   if (typeof value !== 'number' || !Number.isFinite(value)) return fallback
@@ -108,6 +128,72 @@ const readTextArray = (value: unknown): string[] => {
     .filter((item) => item.length > 0)
 }
 
+const describeImageWithFastModel = async (input: {
+  imageUrl: string
+  sceneSummary?: string
+  fallbackText?: string
+}): Promise<string> => {
+  const apiKey = getOpenAiApiKey()
+  if (!apiKey) return ''
+  const imageUrl = input.imageUrl.trim()
+  if (!imageUrl) return ''
+  try {
+    const response = await fetch('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-5.4',
+        input: [
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'input_text',
+                text: [
+                  'Beschreibe dieses Bild in genau 1-2 kurzen deutschen Saetzen fuer ein Kind.',
+                  'Nenne nur sichtbare Inhalte (Figuren, Handlung, Umgebung, Stimmung, Farben).',
+                  'Keine Vermutungen, keine Meta-Erklaerung, keine Aufzaehlung.',
+                  input.sceneSummary
+                    ? `Szenenkontext (optional): ${input.sceneSummary}`
+                    : input.fallbackText
+                      ? `Zusatzkontext (optional): ${input.fallbackText}`
+                      : '',
+                ]
+                  .filter((line) => line.length > 0)
+                  .join('\n'),
+              },
+              {
+                type: 'input_image',
+                image_url: imageUrl,
+              },
+            ],
+          },
+        ],
+        max_output_tokens: 120,
+      }),
+    })
+    if (!response.ok) return ''
+    const data = (await response.json()) as {
+      output_text?: string
+      output?: Array<{
+        content?: Array<{ type?: string; text?: string }>
+      }>
+    }
+    const directText = typeof data.output_text === 'string' ? data.output_text.trim() : ''
+    if (directText) return directText
+    const nestedText = data.output
+      ?.flatMap((item) => item.content ?? [])
+      .find((item) => item.type === 'output_text' && typeof item.text === 'string')
+      ?.text?.trim()
+    return nestedText ?? ''
+  } catch {
+    return ''
+  }
+}
+
 const trackImageActivitySafely = async (input: {
   activityType: string
   isPublic: boolean
@@ -115,6 +201,7 @@ const trackImageActivitySafely = async (input: {
   characterName: string
   conversationId: string
   imageUrl?: string
+  storySummary?: string
   metadata?: Record<string, unknown>
 }): Promise<void> => {
   try {
@@ -131,6 +218,7 @@ const trackImageActivitySafely = async (input: {
       object: input.imageUrl
         ? { type: 'image', url: input.imageUrl, format: 'hero' }
         : { type: 'tool', id: 'conversation-image' },
+      storySummary: input.storySummary,
       metadata: input.metadata,
     })
   } catch (error) {
@@ -140,8 +228,9 @@ const trackImageActivitySafely = async (input: {
 }
 
 const loadCharacterYaml = async (characterId: string): Promise<CharacterYaml | null> => {
-  const yamlPath = path.resolve(workspaceRoot, 'content/characters', characterId, 'character.yaml')
   try {
+    const yamlPath = await resolveYamlPathForGameObject(characterId, 'character')
+    if (!yamlPath) return null
     const raw = await readFile(yamlPath, 'utf8')
     return parseYaml(raw) as CharacterYaml
   } catch {
@@ -160,7 +249,8 @@ const takeTop = (input: string[] | undefined, limit: number): string =>
 
 const buildHeroPrompt = (
   characterId: string,
-  scenePrompt: string,
+  sceneSummary: string,
+  imagePrompt: string,
   styleHint: string,
   yaml: CharacterYaml | null,
 ): string => {
@@ -176,11 +266,19 @@ const buildHeroPrompt = (
 
   return [
     'Hero-Hintergrund im Storytime-Stil, Querformat 4:3, fuer Vollbild-Background.',
-    `Motiv: ${name} (${species}) zeigt waehrend eines Gespraechs aktiv eine Szene.`,
+    'PRIORITAET 1: Rendere die Szene aus dem Image Prompt klar, sichtbar und eindeutig.',
+    'PRIORITAET 2: Fuehre die visuelle Kontinuitaet der letzten zwei Szenenbilder glaubwuerdig weiter.',
+    'Die letzten zwei Szenenbilder sind die primaeren Grounding-Quellen fuer Ort, Licht, Farben, Raum und Bildsprache.',
+    sceneSummary ? `VERBINDLICHE SZENENBESCHREIBUNG: ${sceneSummary}.` : '',
+    `HAUPTFIGUR: ${name} (${species}).`,
     shortDescription ? `Charakterkontext: ${shortDescription}` : '',
     colors ? `Wichtige Farben: ${colors}.` : '',
     features ? `Wichtige Merkmale: ${features}.` : '',
-    `Szene, die gezeigt werden soll: ${scenePrompt}.`,
+    '',
+    imagePrompt,
+    '',
+    'Kontinuitaet ist wichtig, aber die neue Szene darf nicht wie eine unveraenderte Kopie der letzten Einstellung wirken.',
+    'Die Hauptaktion muss auf den ersten Blick lesbar sein.',
     styleLine,
     'Softe cinematic Beleuchtung, hohe Lesbarkeit, keine Logos, keine Schrift, kein UI, kein Text.',
     'Keine fotorealistische, keine horrorartige, keine sexualisierte oder brutale Darstellung.',
@@ -202,21 +300,15 @@ export const generateConversationHeroToolApi = async (
     traceKind: 'request',
     traceSource: 'api',
     input: {
-      scenePrompt: input.scenePrompt?.slice(0, 240),
-      styleHint: input.styleHint?.slice(0, 120),
+      imagePrompt: input.imagePrompt ?? input.scenePrompt,
+      sceneSummary: input.sceneSummary,
+      styleHint: input.styleHint,
     },
   })
-  const apiKey = process.env.BFL_API_KEY?.trim()
-  if (!apiKey) {
-    throw new ConversationImageToolApiError(
-      'BFL_API_KEY fehlt. Bitte setze den FLUX API Key in der Umgebung.',
-      400,
-    )
-  }
-
   const conversationId = readText(input.conversationId)
   const characterId = readText(input.characterId)
-  const scenePrompt = readText(input.scenePrompt)
+  const sceneSummary = readText(input.sceneSummary)
+  const imagePrompt = readText(input.imagePrompt) || readText(input.scenePrompt)
   const styleHint = readText(input.styleHint)
   const providedInteractionTargets = parseInteractionTargets(input.interactionTargets)
   const relatedCharacterIds = readTextArray(input.relatedCharacterIds)
@@ -237,59 +329,37 @@ export const generateConversationHeroToolApi = async (
 
   if (!conversationId) throw new ConversationImageToolApiError('conversationId ist erforderlich.', 400)
   if (!characterId) throw new ConversationImageToolApiError('characterId ist erforderlich.', 400)
-  if (!scenePrompt) throw new ConversationImageToolApiError('scenePrompt ist erforderlich.', 400)
+  if (!imagePrompt) throw new ConversationImageToolApiError('imagePrompt ist erforderlich.', 400)
 
   const width = clampDimension(input.width, DEFAULT_WIDTH)
   const height = clampDimension(input.height, DEFAULT_HEIGHT)
   const pollIntervalMs = clampInteger(input.pollIntervalMs, DEFAULT_POLL_INTERVAL_MS, 200, 10_000)
   const maxPollAttempts = clampInteger(input.maxPollAttempts, DEFAULT_MAX_POLL_ATTEMPTS, 10, 300)
-  const model = 'flux-2-flex'
+  const model: SupportedImageModel = parseSupportedImageModel(
+    input.model,
+    resolveDefaultConversationImageModel(),
+  )
   const seed =
     typeof input.seed === 'number' && Number.isFinite(input.seed)
       ? Math.floor(input.seed)
       : Math.floor(Math.random() * 2_147_483_647)
 
   const characterYaml = await loadCharacterYaml(characterId)
-  const prompt = buildHeroPrompt(characterId, scenePrompt, styleHint, characterYaml)
+  const prompt = buildHeroPrompt(characterId, sceneSummary, imagePrompt, styleHint, characterYaml)
   const characterName = characterYaml?.name?.trim() || characterId
   const interactionMetadata = buildInteractionMetadata(characterId, interactionTargets)
-  const relatedCharacterLinks = interactionTargets
-    .filter((target) => target.type === 'character')
-    .map((target) => ({
-      relatedCharacterId: target.id,
-      direction: 'outgoing' as const,
-      relationshipType: 'interaction_target',
-      relationshipTypeReadable: 'Interaction Target',
-      relationship: 'interaction_target',
-      otherRelatedObjects: [] as Array<{
-        type: string
-        id: string
-        label?: string
-        metadata?: Record<string, unknown>
-      }>,
-    }))
-  const relatedObjects = await collateRelatedCharacterObjects({
-    relatedCharacterIds: relatedCharacterLinks.map((item) => item.relatedCharacterId),
-    relationshipLinks: relatedCharacterLinks,
-  })
-  const selectedReferences = await selectImageReferencesForPrompt({
-    scenePrompt,
-    lastUserText: scenePrompt,
-    relatedObjects,
-    maxRelatedReferences: 5,
-  })
-  const primaryImageRefs = await resolveCharacterImageRefs(characterId)
-  const primaryReferencePath = primaryImageRefs[0]?.path
-  const referenceImagePaths = [
-    primaryReferencePath,
-    ...forceReferenceImagePaths,
-    ...selectedReferences.selectedReferences.map((item) => item.imagePath),
-  ]
+  const latestConversationReferencePaths = forceReferenceImagePaths
+  const primaryReferencePaths =
+    latestConversationReferencePaths.length === 0
+      ? (await resolveCharacterImageRefs(characterId))
+          .filter((item) => item.kind === 'standard')
+          .map((item) => item.path)
+      : []
+  const referenceImagePaths = [...latestConversationReferencePaths, ...primaryReferencePaths]
     .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
     .map((item) => path.resolve(workspaceRoot, 'public', item.replace(/^\/+/, '')))
     .filter((item, index, all) => all.indexOf(item) === index)
     .slice(0, 6)
-  const client = new FluxClient(apiKey)
 
   try {
     await trackImageActivitySafely({
@@ -302,7 +372,8 @@ export const generateConversationHeroToolApi = async (
         summary: `${characterName} startet visuelles Erklaeren`,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        scenePrompt,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
         ...interactionMetadata,
       },
     })
@@ -317,31 +388,24 @@ export const generateConversationHeroToolApi = async (
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolId: CHARACTER_AGENT_TOOLS.generateImage,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        scenePrompt,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
         styleHint: styleHint || undefined,
         ...interactionMetadata,
       },
     })
 
-    const requestResult =
-      referenceImagePaths.length > 0
-        ? await client.editImage({
-            model,
-            prompt,
-            width,
-            height,
-            outputFormat: 'jpeg',
-            seed,
-            referenceImagePaths,
-          })
-        : await client.generateTextToImage({
-            model,
-            prompt,
-            width,
-            height,
-            outputFormat: 'jpeg',
-            seed,
-          })
+    const requestResult = await generateImageWithModel({
+      model,
+      prompt,
+      width,
+      height,
+      outputFormat: 'jpeg',
+      seed,
+      pollIntervalMs,
+      maxPollAttempts,
+      referenceImagePaths,
+    })
     await trackImageActivitySafely({
       activityType: 'tool.image.requested',
       isPublic: false,
@@ -353,12 +417,12 @@ export const generateConversationHeroToolApi = async (
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolId: CHARACTER_AGENT_TOOLS.generateImage,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        requestId: requestResult.id,
-        scenePrompt,
+        requestId: requestResult.requestId,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
         imageGenerationPrompt: prompt,
         model,
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
-        selectedReferences: selectedReferences.selectedReferences,
         ...interactionMetadata,
       },
     })
@@ -372,44 +436,15 @@ export const generateConversationHeroToolApi = async (
         summary: `${characterName} erstellt gerade ein Bild`,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolId: CHARACTER_AGENT_TOOLS.generateImage,
-        requestId: requestResult.id,
+        requestId: requestResult.requestId,
         ...interactionMetadata,
       },
     })
-    const pollResult = await client.pollResult({
-      pollingUrl: requestResult.polling_url,
-      pollIntervalMs,
-      maxAttempts: maxPollAttempts,
-    })
-
-    if (pollResult.status !== 'Ready') {
-      const errorMessage = 'error' in pollResult ? pollResult.error : undefined
-      await trackImageActivitySafely({
-        activityType: 'tool.image.failed',
-        isPublic: false,
-        characterId,
-        characterName,
-        conversationId,
-        metadata: {
-          summary: `${characterName} konnte das Bild nicht fertigstellen`,
-          skillId: VISUAL_EXPRESSION_SKILL?.id,
-          toolId: CHARACTER_AGENT_TOOLS.generateImage,
-          requestId: requestResult.id,
-          status: pollResult.status,
-          reason: errorMessage ?? pollResult.status,
-        },
-      })
-      throw new ConversationImageToolApiError(
-        errorMessage ?? 'FLUX konnte kein Hero-Bild erzeugen.',
-        502,
-      )
-    }
-
-    const remoteImageUrl = pollResult.result.sample
+    const remoteImageUrl = requestResult.imageUrl
     const storedImage = await storeConversationImageAsset({
       conversationId,
       imageUrl: remoteImageUrl,
-      requestId: requestResult.id,
+      requestId: requestResult.requestId,
       prefix: 'tool',
     })
     if (!storedImage?.localUrl) {
@@ -423,7 +458,7 @@ export const generateConversationHeroToolApi = async (
           summary: `${characterName} konnte das Bild nicht lokal speichern`,
           skillId: VISUAL_EXPRESSION_SKILL?.id,
           toolId: CHARACTER_AGENT_TOOLS.generateImage,
-          requestId: requestResult.id,
+          requestId: requestResult.requestId,
           reason: 'local-asset-store-failed',
           originalImageUrl: remoteImageUrl,
         },
@@ -435,7 +470,17 @@ export const generateConversationHeroToolApi = async (
     }
 
     const imageUrl = storedImage.localUrl
-    const summary = buildImageGeneratedSummary(characterName, scenePrompt)
+    const imageVisualSummary = await describeImageWithFastModel({
+      imageUrl,
+      sceneSummary,
+      fallbackText: sceneSummary || undefined,
+    })
+    const summary = buildImageGeneratedSummary(
+      characterName,
+      sceneSummary,
+      imageVisualSummary,
+      relatedCharacterNames,
+    )
 
     await appendConversationMessage({
       conversationId,
@@ -445,20 +490,24 @@ export const generateConversationHeroToolApi = async (
       metadata: {
         imageUrl,
         heroImageUrl: imageUrl,
+        imageVisualSummary: imageVisualSummary || undefined,
         originalImageUrl: remoteImageUrl,
         imageAssetPath: storedImage?.localFilePath,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
+        summary,
         prompt,
-        scenePrompt,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
         styleHint: styleHint || undefined,
         model,
         width,
         height,
         seed,
-        requestId: requestResult.id,
+        requestId: requestResult.requestId,
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
-        selectedReferences: selectedReferences.selectedReferences,
+        relatedCharacterIds,
+        relatedCharacterNames,
         ...interactionMetadata,
       },
     })
@@ -475,10 +524,13 @@ export const generateConversationHeroToolApi = async (
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolId: CHARACTER_AGENT_TOOLS.showImage,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        requestId: requestResult.id,
-        scenePrompt,
+        requestId: requestResult.requestId,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
+        imageVisualSummary: imageVisualSummary || undefined,
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
-        selectedReferences: selectedReferences.selectedReferences,
+        relatedCharacterIds,
+        relatedCharacterNames,
         ...interactionMetadata,
       },
     })
@@ -494,7 +546,8 @@ export const generateConversationHeroToolApi = async (
         summary: `${characterName} hat visuelles Erklaeren abgeschlossen`,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        scenePrompt,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
         ...interactionMetadata,
       },
     })
@@ -506,8 +559,11 @@ export const generateConversationHeroToolApi = async (
       characterName,
       conversationId,
       imageUrl,
+      storySummary: summary,
       metadata: {
         summary,
+        sceneSummary: sceneSummary || undefined,
+        imageVisualSummary: imageVisualSummary || undefined,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
         conversationLinkLabel: 'Conversation ansehen',
@@ -515,20 +571,21 @@ export const generateConversationHeroToolApi = async (
         imageUrl,
         originalImageUrl: remoteImageUrl,
         imageAssetPath: storedImage?.localFilePath,
-        scenePrompt,
+        imagePrompt,
         model,
         width,
         height,
-        requestId: requestResult.id,
+        requestId: requestResult.requestId,
         seed,
         styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
-        selectedReferences: selectedReferences.selectedReferences,
+        relatedCharacterIds,
+        relatedCharacterNames,
         ...interactionMetadata,
       },
     })
 
     const result = {
-      requestId: requestResult.id,
+      requestId: requestResult.requestId,
       imageUrl,
       heroImageUrl: imageUrl,
       summary,
@@ -566,7 +623,8 @@ export const generateConversationHeroToolApi = async (
         summary: `${characterName} konnte das Bild nicht erstellen`,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolId: CHARACTER_AGENT_TOOLS.generateImage,
-        scenePrompt,
+        imagePrompt,
+        sceneSummary: sceneSummary || undefined,
         reason: message,
       },
     })
@@ -584,6 +642,26 @@ export const generateConversationHeroToolApi = async (
         error: message,
       })
       throw error
+    }
+    if (
+      message.includes('BFL_API_KEY fehlt') ||
+      message.includes('GOOGLE_GEMINI_API_KEY fehlt') ||
+      message.includes('OPENAI_API_KEY fehlt') ||
+      message.includes('Unsupported image model')
+    ) {
+      await trackTraceActivitySafely({
+        activityType: 'trace.tool.generate_conversation_hero.error',
+        summary: 'generate_conversation_hero fehlgeschlagen',
+        conversationId: input.conversationId,
+        characterId: input.characterId,
+        characterName: input.characterId,
+        traceStage: 'tool',
+        traceKind: 'error',
+        traceSource: 'api',
+        ok: false,
+        error: message,
+      })
+      throw new ConversationImageToolApiError(message, 400)
     }
     await trackTraceActivitySafely({
       activityType: 'trace.tool.generate_conversation_hero.error',

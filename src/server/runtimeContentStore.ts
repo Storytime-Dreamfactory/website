@@ -1,7 +1,6 @@
 import { readFile } from 'node:fs/promises'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import { parse as parseYaml } from 'yaml'
+import { resolveYamlPathForGameObject } from './gameObjectService.ts'
 
 type CharacterYaml = {
   name?: string
@@ -47,7 +46,6 @@ export type LearningGoalRuntimeProfile = {
   domainTags: string[]
 }
 
-const workspaceRoot = path.resolve(fileURLToPath(new URL('../../', import.meta.url)))
 const characterProfileCache = new Map<string, Promise<CharacterRuntimeProfile | null>>()
 const learningGoalCache = new Map<string, Promise<LearningGoalRuntimeProfile | null>>()
 
@@ -71,8 +69,9 @@ export const loadCharacterRuntimeProfile = async (
   if (existing) return existing
 
   const nextPromise = (async () => {
-    const yamlPath = path.resolve(workspaceRoot, 'content/characters', normalizedId, 'character.yaml')
     try {
+      const yamlPath = await resolveYamlPathForGameObject(normalizedId, 'character')
+      if (!yamlPath) return null
       const raw = await readFile(yamlPath, 'utf8')
       const parsed = parseYaml(raw) as CharacterYaml
       return {
@@ -104,12 +103,9 @@ export const loadLearningGoalRuntimeProfile = async (
   if (existing) return existing
 
   const nextPromise = (async () => {
-    const yamlPath = path.resolve(
-      workspaceRoot,
-      'content/learning-goals',
-      `${normalizedId}.yaml`,
-    )
     try {
+      const yamlPath = await resolveYamlPathForGameObject(normalizedId, 'learning-goals')
+      if (!yamlPath) return null
       const raw = await readFile(yamlPath, 'utf8')
       const parsed = parseYaml(raw) as LearningGoalYaml
       return {

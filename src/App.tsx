@@ -71,7 +71,7 @@ function AppHeader({ source }: { source: StoryContent['source'] | undefined }) {
             <img src={storytimeLogo} alt="Storytime Logo" className="brand-logo-image" />
           </Link>
           <Tag color="blue" className="source-tag">
-            {source === 'runtime' ? 'Runtime YAML' : 'Fallback YAML'}
+            {source === 'runtime' ? 'Runtime API' : 'Fallback YAML'}
           </Tag>
         </div>
 

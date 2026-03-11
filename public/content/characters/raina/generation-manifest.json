@@ -1,0 +1,280 @@
+{
+  "generatedAt": "2026-03-09T08:53:41.051Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/raina/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/carla/portrait.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/carla/emotion-schuechtern.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "raina",
+    "name": "Raina",
+    "shortDescription": "Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern.",
+    "basis": {
+      "ageHint": "jung",
+      "species": "Mensch",
+      "genderExpression": "feminin",
+      "roleArchetype": "joy_spark"
+    },
+    "appearance": {
+      "bodyShape": "schlank, weich und aufrecht",
+      "colors": [
+        "tiefes indigo",
+        "warmes gold",
+        "dunkelbraun",
+        "sandbeige"
+      ],
+      "hairOrFur": {
+        "color": "tiefdunkelbraun",
+        "texture": "weich und leicht gewellt",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "warmes braun",
+        "expression": "freundlich, ruhig und aufmunternd"
+      },
+      "distinctiveFeatures": [
+        "langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel",
+        "warmes ruhiges Laecheln mit weichen Wangen",
+        "kleine goldene Creolen und offener direkter Blick"
+      ],
+      "clothingStyle": "moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen"
+    },
+    "personality": {
+      "coreTraits": [
+        "bestaerkend",
+        "lebensfroh",
+        "verbindend"
+      ],
+      "temperament": "optimistisch und ausgeglichen",
+      "socialStyle": "offen, ermutigend und gastfreundlich",
+      "strengths": [
+        "laesst andere sich gesehen und getragen fuehlen",
+        "schafft schnell warme entspannte Gruppenmomente",
+        "findet kleine Anlaesse fuer Dankbarkeit und Freude"
+      ],
+      "weaknesses": [
+        "uebernimmt leicht die Stimmungspflege fuer alle",
+        "ueberspielt eigene Erschoepfung mit einem Laecheln",
+        "sagt selten nein, wenn jemand Unterstuetzung braucht"
+      ],
+      "quirks": [
+        "organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks",
+        "nickt ermutigend, bevor sie jemandem Mut zuspricht"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen.",
+      "deeperNeed": "Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt.",
+      "fear": "Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt.",
+      "insecurity": "Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe.",
+      "stressResponse": "soothe_others_then_pause",
+      "growthDirection": "lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen."
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "peer",
+        "social_bridge",
+        "gentle_encourager"
+      ],
+      "suitableLearningGoals": [
+        "freundschaft",
+        "dankbarkeit",
+        "selbstfuersorge"
+      ],
+      "explanationStyle": "warm, bestaerkend und alltagsnah"
+    },
+    "origin": {
+      "birthPlace": "Manipal, Karnataka",
+      "upbringingPlaces": [
+        "Manipal",
+        "Udupi-Kueste"
+      ],
+      "culturalContext": [
+        "gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden",
+        "mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe",
+        "Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag"
+      ],
+      "religionOrBelief": "glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist",
+      "historicalContext": [
+        "wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren",
+        "lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen"
+      ],
+      "notes": "Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren."
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/raina/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur von Raina im Storytime-Stil: lange dunkelbraune leicht gewellte Haare, warmbraune Augen, kleine goldene Creolen, ruhiges herzliches Laecheln und moderne indigofarbene Kleidung mit dezent festlicher Note."
+      },
+      "heroImage": {
+        "file": "/content/characters/raina/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in einem gruenen Innenhof in Manipal bei warmem Abendlicht: Raina richtet eine kleine Feier mit Lichterkette, Tee und Blumen her, lacht herzlich und laesst alle willkommen wirken, warm, hochwertig und klar im Storytime-Hausstil."
+      },
+      "portrait": {
+        "file": "/content/characters/raina/portrait.png",
+        "description": "Halbnahes Character-Portrait von Raina im Storytime-Stil: warmbraune Augen, langes weich fallendes dunkles Haar, sanftes Laecheln, kleine goldene Creolen und ruhige aufmunternde Ausstrahlung."
+      },
+      "profileImage": {
+        "file": "/content/characters/raina/profilbild.png",
+        "description": "Quadratisches Profilbild von Raina mit klar lesbarem freundlichem Blick im Storytime-Stil; auch klein gut erkennbar, dunkles Haar rahmt das Gesicht weich ein."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_feierfreude",
+          "file": "/content/characters/raina/emotion-feierfreude.png",
+          "description": "Raina verteilt kleine Lichter und Snacks bei einer spontanen Minifeier, strahlt offen und ansteckend und bleibt visuell konsistent im Storytime-Hausstil."
+        },
+        {
+          "type": "emotion_bestaerkend",
+          "file": "/content/characters/raina/emotion-bestaerkend.png",
+          "description": "Raina sitzt nah bei einem Freund oder Kind, schenkt mit ruhigem Laecheln Mut und Rueckhalt und bleibt visuell konsistent im Storytime-Hausstil."
+        }
+      ]
+    },
+    "tags": [
+      "manipal",
+      "indien",
+      "freude",
+      "gemeinschaft",
+      "gastfreundschaft",
+      "freundschaft",
+      "bestaerkung",
+      "dankbarkeit"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-09",
+      "updatedAt": "2026-03-09",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "raina:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Raina. Short description: Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern. Species: Mensch. Age feel: jung. Archetype: joy_spark. Body shape: schlank, weich und aufrecht. Dominant colors: tiefes indigo, warmes gold, dunkelbraun, sandbeige. Hair or fur: tiefdunkelbraun weich und leicht gewellt lang. Eyes: warmes braun, freundlich, ruhig und aufmunternd. Distinctive features: langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel, warmes ruhiges Laecheln mit weichen Wangen, kleine goldene Creolen und offener direkter Blick. Clothing style: moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen. Core traits: bestaerkend, lebensfroh, verbindend. Temperament: optimistisch und ausgeglichen. Social style: offen, ermutigend und gastfreundlich. Strengths: laesst andere sich gesehen und getragen fuehlen, schafft schnell warme entspannte Gruppenmomente, findet kleine Anlaesse fuer Dankbarkeit und Freude. Weaknesses: uebernimmt leicht die Stimmungspflege fuer alle, ueberspielt eigene Erschoepfung mit einem Laecheln, sagt selten nein, wenn jemand Unterstuetzung braucht. Quirks: organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks, nickt ermutigend, bevor sie jemandem Mut zuspricht. Visible goal: Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen. Deeper need: Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt. Fear: Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt. Insecurity: Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe. Stress response: soothe_others_then_pause. Growth direction: lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen. Teaching roles: peer, social_bridge, gentle_encourager. Explanation style: warm, bestaerkend und alltagsnah. Birth place: Manipal, Karnataka. Raised in: Manipal, Udupi-Kueste. Cultural context: gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden, mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe, Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag. Belief or worldview: glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist. Historical context: wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren, lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen. Origin notes: Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Create a full-body hero asset of Raina on a transparent or visually clean isolated background. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Target brief: Freigestellte Ganzkoerperfigur von Raina im Storytime-Stil: lange dunkelbraune leicht gewellte Haare, warmbraune Augen, kleine goldene Creolen, ruhiges herzliches Laecheln und moderne indigofarbene Kleidung mit dezent festlicher Note. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur von Raina im Storytime-Stil: lange dunkelbraune leicht gewellte Haare, warmbraune Augen, kleine goldene Creolen, ruhiges herzliches Laecheln und moderne indigofarbene Kleidung mit dezent festlicher Note.",
+      "publicFilePath": "/content/characters/raina/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 90517,
+      "requestId": "21b7922c-677a-474b-932d-10418c0d68cc",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=21b7922c-677a-474b-932d-10418c0d68cc",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/69fdf31b4243446596191770c790029a_sample.png?se=2026-03-09T09%3A01%3A07Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=V8ODCdjFUJX8K6D6ROWQkRpnxoCyNFE4T%2BmHHm5pC9M%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "raina:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Raina. Short description: Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern. Species: Mensch. Age feel: jung. Archetype: joy_spark. Body shape: schlank, weich und aufrecht. Dominant colors: tiefes indigo, warmes gold, dunkelbraun, sandbeige. Hair or fur: tiefdunkelbraun weich und leicht gewellt lang. Eyes: warmes braun, freundlich, ruhig und aufmunternd. Distinctive features: langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel, warmes ruhiges Laecheln mit weichen Wangen, kleine goldene Creolen und offener direkter Blick. Clothing style: moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen. Core traits: bestaerkend, lebensfroh, verbindend. Temperament: optimistisch und ausgeglichen. Social style: offen, ermutigend und gastfreundlich. Strengths: laesst andere sich gesehen und getragen fuehlen, schafft schnell warme entspannte Gruppenmomente, findet kleine Anlaesse fuer Dankbarkeit und Freude. Weaknesses: uebernimmt leicht die Stimmungspflege fuer alle, ueberspielt eigene Erschoepfung mit einem Laecheln, sagt selten nein, wenn jemand Unterstuetzung braucht. Quirks: organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks, nickt ermutigend, bevor sie jemandem Mut zuspricht. Visible goal: Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen. Deeper need: Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt. Fear: Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt. Insecurity: Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe. Stress response: soothe_others_then_pause. Growth direction: lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen. Teaching roles: peer, social_bridge, gentle_encourager. Explanation style: warm, bestaerkend und alltagsnah. Birth place: Manipal, Karnataka. Raised in: Manipal, Udupi-Kueste. Cultural context: gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden, mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe, Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag. Belief or worldview: glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist. Historical context: wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren, lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen. Origin notes: Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Raina in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in einem gruenen Innenhof in Manipal bei warmem Abendlicht: Raina richtet eine kleine Feier mit Lichterkette, Tee und Blumen her, lacht herzlich und laesst alle willkommen wirken, warm, hochwertig und klar im Storytime-Hausstil. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in einem gruenen Innenhof in Manipal bei warmem Abendlicht: Raina richtet eine kleine Feier mit Lichterkette, Tee und Blumen her, lacht herzlich und laesst alle willkommen wirken, warm, hochwertig und klar im Storytime-Hausstil.",
+      "publicFilePath": "/content/characters/raina/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 90518,
+      "requestId": "6556db98-5a65-4c0a-95a2-dafc7978ef35",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=6556db98-5a65-4c0a-95a2-dafc7978ef35",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/f4692089bbb74c30aed97771f07a4fde_sample.jpeg?se=2026-03-09T09%3A01%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=IsF439fSLzoHRBehS2Dq1%2B7qHp6R1MV1QAhqpmja0Qo%3D",
+      "cost": 9
+    },
+    {
+      "id": "raina:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Raina. Short description: Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern. Species: Mensch. Age feel: jung. Archetype: joy_spark. Body shape: schlank, weich und aufrecht. Dominant colors: tiefes indigo, warmes gold, dunkelbraun, sandbeige. Hair or fur: tiefdunkelbraun weich und leicht gewellt lang. Eyes: warmes braun, freundlich, ruhig und aufmunternd. Distinctive features: langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel, warmes ruhiges Laecheln mit weichen Wangen, kleine goldene Creolen und offener direkter Blick. Clothing style: moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen. Core traits: bestaerkend, lebensfroh, verbindend. Temperament: optimistisch und ausgeglichen. Social style: offen, ermutigend und gastfreundlich. Strengths: laesst andere sich gesehen und getragen fuehlen, schafft schnell warme entspannte Gruppenmomente, findet kleine Anlaesse fuer Dankbarkeit und Freude. Weaknesses: uebernimmt leicht die Stimmungspflege fuer alle, ueberspielt eigene Erschoepfung mit einem Laecheln, sagt selten nein, wenn jemand Unterstuetzung braucht. Quirks: organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks, nickt ermutigend, bevor sie jemandem Mut zuspricht. Visible goal: Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen. Deeper need: Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt. Fear: Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt. Insecurity: Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe. Stress response: soothe_others_then_pause. Growth direction: lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen. Teaching roles: peer, social_bridge, gentle_encourager. Explanation style: warm, bestaerkend und alltagsnah. Birth place: Manipal, Karnataka. Raised in: Manipal, Udupi-Kueste. Cultural context: gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden, mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe, Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag. Belief or worldview: glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist. Historical context: wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren, lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen. Origin notes: Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Raina. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Portrait von Raina im Storytime-Stil: warmbraune Augen, langes weich fallendes dunkles Haar, sanftes Laecheln, kleine goldene Creolen und ruhige aufmunternde Ausstrahlung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Portrait von Raina im Storytime-Stil: warmbraune Augen, langes weich fallendes dunkles Haar, sanftes Laecheln, kleine goldene Creolen und ruhige aufmunternde Ausstrahlung.",
+      "publicFilePath": "/content/characters/raina/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 90519,
+      "requestId": "21437779-51de-4182-9fd7-9f0f27bfc7a3",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=21437779-51de-4182-9fd7-9f0f27bfc7a3",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/16976f9652204a5facec42efd225aa71_sample.png?se=2026-03-09T09%3A02%3A20Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=8%2BeykH1mNtGcXLvOBx%2B9/1FclR6qj3tVlaENIb/Pf9I%3D",
+      "cost": 9
+    },
+    {
+      "id": "raina:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Raina. Short description: Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern. Species: Mensch. Age feel: jung. Archetype: joy_spark. Body shape: schlank, weich und aufrecht. Dominant colors: tiefes indigo, warmes gold, dunkelbraun, sandbeige. Hair or fur: tiefdunkelbraun weich und leicht gewellt lang. Eyes: warmes braun, freundlich, ruhig und aufmunternd. Distinctive features: langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel, warmes ruhiges Laecheln mit weichen Wangen, kleine goldene Creolen und offener direkter Blick. Clothing style: moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen. Core traits: bestaerkend, lebensfroh, verbindend. Temperament: optimistisch und ausgeglichen. Social style: offen, ermutigend und gastfreundlich. Strengths: laesst andere sich gesehen und getragen fuehlen, schafft schnell warme entspannte Gruppenmomente, findet kleine Anlaesse fuer Dankbarkeit und Freude. Weaknesses: uebernimmt leicht die Stimmungspflege fuer alle, ueberspielt eigene Erschoepfung mit einem Laecheln, sagt selten nein, wenn jemand Unterstuetzung braucht. Quirks: organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks, nickt ermutigend, bevor sie jemandem Mut zuspricht. Visible goal: Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen. Deeper need: Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt. Fear: Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt. Insecurity: Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe. Stress response: soothe_others_then_pause. Growth direction: lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen. Teaching roles: peer, social_bridge, gentle_encourager. Explanation style: warm, bestaerkend und alltagsnah. Birth place: Manipal, Karnataka. Raised in: Manipal, Udupi-Kueste. Cultural context: gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden, mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe, Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag. Belief or worldview: glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist. Historical context: wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren, lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen. Origin notes: Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Raina. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild von Raina mit klar lesbarem freundlichem Blick im Storytime-Stil; auch klein gut erkennbar, dunkles Haar rahmt das Gesicht weich ein. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild von Raina mit klar lesbarem freundlichem Blick im Storytime-Stil; auch klein gut erkennbar, dunkles Haar rahmt das Gesicht weich ein.",
+      "publicFilePath": "/content/characters/raina/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 90520,
+      "requestId": "d858704e-3f7c-4a19-80e5-9cf24007d295",
+      "pollingUrl": "https://api.us2.bfl.ai/v1/get_result?id=d858704e-3f7c-4a19-80e5-9cf24007d295",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/09/f5e9479a61d843b3bdabb7ff4c889601_sample.png?se=2026-03-09T09%3A02%3A43Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Vdqbk06kgg%2BuJlk0Hi36H7osMLFlmBKQpjNiTJnVaZo%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "raina:emotion_feierfreude",
+      "type": "emotion_feierfreude",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Raina. Short description: Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern. Species: Mensch. Age feel: jung. Archetype: joy_spark. Body shape: schlank, weich und aufrecht. Dominant colors: tiefes indigo, warmes gold, dunkelbraun, sandbeige. Hair or fur: tiefdunkelbraun weich und leicht gewellt lang. Eyes: warmes braun, freundlich, ruhig und aufmunternd. Distinctive features: langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel, warmes ruhiges Laecheln mit weichen Wangen, kleine goldene Creolen und offener direkter Blick. Clothing style: moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen. Core traits: bestaerkend, lebensfroh, verbindend. Temperament: optimistisch und ausgeglichen. Social style: offen, ermutigend und gastfreundlich. Strengths: laesst andere sich gesehen und getragen fuehlen, schafft schnell warme entspannte Gruppenmomente, findet kleine Anlaesse fuer Dankbarkeit und Freude. Weaknesses: uebernimmt leicht die Stimmungspflege fuer alle, ueberspielt eigene Erschoepfung mit einem Laecheln, sagt selten nein, wenn jemand Unterstuetzung braucht. Quirks: organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks, nickt ermutigend, bevor sie jemandem Mut zuspricht. Visible goal: Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen. Deeper need: Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt. Fear: Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt. Insecurity: Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe. Stress response: soothe_others_then_pause. Growth direction: lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen. Teaching roles: peer, social_bridge, gentle_encourager. Explanation style: warm, bestaerkend und alltagsnah. Birth place: Manipal, Karnataka. Raised in: Manipal, Udupi-Kueste. Cultural context: gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden, mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe, Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag. Belief or worldview: glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist. Historical context: wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren, lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen. Origin notes: Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create an additional character asset for Raina. Target brief: Raina verteilt kleine Lichter und Snacks bei einer spontanen Minifeier, strahlt offen und ansteckend und bleibt visuell konsistent im Storytime-Hausstil. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Raina verteilt kleine Lichter und Snacks bei einer spontanen Minifeier, strahlt offen und ansteckend und bleibt visuell konsistent im Storytime-Hausstil.",
+      "publicFilePath": "/content/characters/raina/emotion-feierfreude.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina/emotion-feierfreude.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 90521,
+      "requestId": "209a5cda-56df-4e47-baa7-f32b5967aa5c",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=209a5cda-56df-4e47-baa7-f32b5967aa5c",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/0f4ca6270f0944f3b18b5d888c53ebf5_sample.png?se=2026-03-09T09%3A03%3A11Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=xI%2BfiYiNVDSqf7C23n6NE3riKotfkPVZnXxMacmkvQQ%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "raina:emotion_bestaerkend",
+      "type": "emotion_bestaerkend",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Raina. Short description: Raina ist eine junge Frau aus Manipal mit warmem braunem Blick, langem dunklem Haar und einem ruhigen herzlichen Laecheln. Sie schenkt anderen schnell Rueckhalt, bleibt fast immer zuversichtlich und findet oft einen kleinen Anlass, das Leben gemeinsam zu feiern. Species: Mensch. Age feel: jung. Archetype: joy_spark. Body shape: schlank, weich und aufrecht. Dominant colors: tiefes indigo, warmes gold, dunkelbraun, sandbeige. Hair or fur: tiefdunkelbraun weich und leicht gewellt lang. Eyes: warmes braun, freundlich, ruhig und aufmunternd. Distinctive features: langes dunkelbraunes Haar mit sanften Wellen und Mittelscheitel, warmes ruhiges Laecheln mit weichen Wangen, kleine goldene Creolen und offener direkter Blick. Clothing style: moderne elegante Alltagskleidung in tiefem indigo und dunklen Naturtoenen, oft mit dezenten goldenen Akzenten und weichen Stofflagen. Core traits: bestaerkend, lebensfroh, verbindend. Temperament: optimistisch und ausgeglichen. Social style: offen, ermutigend und gastfreundlich. Strengths: laesst andere sich gesehen und getragen fuehlen, schafft schnell warme entspannte Gruppenmomente, findet kleine Anlaesse fuer Dankbarkeit und Freude. Weaknesses: uebernimmt leicht die Stimmungspflege fuer alle, ueberspielt eigene Erschoepfung mit einem Laecheln, sagt selten nein, wenn jemand Unterstuetzung braucht. Quirks: organisiert spontan Mini-Feiern mit Tee, Lichtern oder kleinen Snacks, nickt ermutigend, bevor sie jemandem Mut zuspricht. Visible goal: Menschen zusammenbringen und aus kleinen Momenten etwas Besonderes machen. Deeper need: Sie moechte spuerbare Verbundenheit schaffen, in der niemand sich allein fuehlt. Fear: Dass jemand in ihrer Naehe sich uebersehen oder ungestuetzt fuehlt. Insecurity: Vielleicht bin ich nur wertvoll, wenn ich fuer alle stark und froehlich bleibe. Stress response: soothe_others_then_pause. Growth direction: lernt, Unterstuetzung auch selbst anzunehmen und Freude nicht immer allein tragen zu muessen. Teaching roles: peer, social_bridge, gentle_encourager. Explanation style: warm, bestaerkend und alltagsnah. Birth place: Manipal, Karnataka. Raised in: Manipal, Udupi-Kueste. Cultural context: gemeinschaftliche Treffen mit Freunden und Familie, bei denen kleine Anlaesse bewusst gefeiert werden, mehrsprachiger Alltag zwischen Campusstadt, Nachbarschaft und Kuestennaehe, Wertschaetzung fuer Gastfreundschaft, gegenseitige Unterstuetzung und leichte festliche Rituale im Alltag. Belief or worldview: glaubt, dass Freude waechst, wenn man sie teilt, und dass Zugewandtheit ein Alltagsgeschenk ist. Historical context: wuchs in einem Umfeld auf, in dem Zusammenhalt und Bildung gleichermassen wichtig waren, lernte frueh, dass kleine Gesten wie Einladen, Zuhoeren und Mitfeiern Menschen staerken koennen. Origin notes: Herkunft praegt ihre offene, herzliche Art ueber Gemeinschaft, Sprache und alltagsnahe Feierkultur, ohne sie auf Klischees zu reduzieren. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create an additional character asset for Raina. Target brief: Raina sitzt nah bei einem Freund oder Kind, schenkt mit ruhigem Laecheln Mut und Rueckhalt und bleibt visuell konsistent im Storytime-Hausstil. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, and distinctive features in every generation. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Raina sitzt nah bei einem Freund oder Kind, schenkt mit ruhigem Laecheln Mut und Rueckhalt und bleibt visuell konsistent im Storytime-Hausstil.",
+      "publicFilePath": "/content/characters/raina/emotion-bestaerkend.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/raina/emotion-bestaerkend.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 90522,
+      "requestId": "63855f62-a33b-40a8-ab87-1338fcde05b3",
+      "pollingUrl": "https://api.eu2.bfl.ai/v1/get_result?id=63855f62-a33b-40a8-ab87-1338fcde05b3",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/09/264f22ff02ea4261a27a7b818196c6c4_sample.png?se=2026-03-09T09%3A03%3A39Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=PRJRcy%2BvYdD%2B9ts0s04k10p8oBBOjZsy91ActFpULuk%3D",
+      "cost": 7.5
+    }
+  ]
+}

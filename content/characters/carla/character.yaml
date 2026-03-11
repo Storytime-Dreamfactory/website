@@ -1,5 +1,6 @@
-id: carla
+id: 7f8cc9c1-8a1f-48b5-87c6-70aed1d08d6a
 name: Carla
+type: character
 kurzbeschreibung: >
   Carla ist ein schuechternes, hellblondes Maedchen mit weichen Gesichtszuegen
   und nachdenklichem Blick. In ruhigen Runden spricht sie leise, aber sobald
@@ -83,11 +84,12 @@ bilder:
       mit weichen realistischen Kindergesichtsproportionen, ruhigem Blick und
       kuscheligem graubeigem Pullover, hohe Aehnlichkeit zur Referenzperson.
   hero_image:
-    datei: /content/characters/carla/hero-image.jpg
+    datei: /content/characters/carla/emotion-schuechtern.png
     beschreibung: >
-      Cinematische Storytime-Szene in warmem Nachmittagslicht auf einer
-      Spielwiese: Carla ist mit Juna Lia, Yoko und Nola in Bewegung, lacht offen und
-      zeigt dieselbe Gesichtsidentitaet wie im Referenzbild.
+      Carla steht in einer warmen, stillen Storytime-Waldszene, schaut
+      vorsichtig zur Seite und haelt leicht ihren Pulloveraermel fest. Die
+      Szene wirkt ruhig, freundlich und schuechtern bei konsistenter
+      Gesichtsidentitaet.
   portrait:
     datei: /content/characters/carla/portrait.png
     beschreibung: >
@@ -117,5 +119,5 @@ tags:
 metadata:
   active: true
   created_at: "2026-03-08"
-  updated_at: "2026-03-08"
+  updated_at: "2026-03-09"
   version: 1

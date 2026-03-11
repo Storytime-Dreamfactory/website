@@ -6,6 +6,8 @@ import { ArrowLeftOutlined, CheckOutlined, CopyOutlined, HeartOutlined } from '@
 import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
 import CharacterActivityStream, { type CharacterActivityItem } from './CharacterActivityStream'
+import { shouldShowActivityInPanel } from './activityPanelVisibility'
+import { readCanonicalStoryText } from './storyText'
 
 const { Title, Text } = Typography
 
@@ -13,9 +15,17 @@ type Props = {
   content: StoryContent
 }
 
+type ApiRelationshipObject = {
+  id: string
+  name: string
+  type: string
+  slug: string
+}
+
 type ApiRelationship = {
-  sourceCharacterId: string
-  targetCharacterId: string
+  relationshipId: string
+  source: ApiRelationshipObject
+  target: ApiRelationshipObject
   relationshipType: string
   relationshipTypeReadable?: string
   relationship: string
@@ -35,6 +45,7 @@ type ApiActivityRecord = {
   subject: ApiActivityData
   object: ApiActivityData
   metadata: ApiActivityData
+  storySummary?: string
   occurredAt: string
   createdAt: string
 }
@@ -42,6 +53,11 @@ type ApiActivityRecord = {
 type TraceToolEvent = {
   toolId: string
   kind: 'request' | 'response' | 'error'
+}
+
+type SummaryCharacterLink = {
+  id: string
+  name: string
 }
 
 type ApiConversationMessageRecord = {
@@ -68,12 +84,38 @@ type ApiConversationDetails = {
   messages: ApiConversationMessageRecord[]
 }
 
+type HeroViewMode = 'latest-activity' | 'character-hero'
+
 const HERO_TRANSITION_MS = 1100
 const MEMORY_OVERLAY_MS = 4600
 const MEMORY_OVERLAY_CHARACTER_IDS = new Set(['yoko'])
 const FIXED_USER_NAME = 'Yoko'
 const ACTIVITY_PAGE_SIZE = 500
 const MAX_ACTIVITY_PAGES = 20
+const UUID_LIKE_RE = /^[0-9a-f]{8}(?:[-\s]?[0-9a-f]{4}){3}[-\s]?[0-9a-f]{12}$/i
+
+const looksLikeUuid = (value: string | undefined): boolean => {
+  const normalized = value?.trim()
+  if (!normalized) return false
+  return UUID_LIKE_RE.test(normalized)
+}
+
+const escapeRegex = (value: string): string => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+const buildUuidLikeValueRegex = (value: string): RegExp | null => {
+  const normalized = value.trim()
+  if (!looksLikeUuid(normalized)) return null
+  const hex = normalized.replace(/[^a-f0-9]/gi, '')
+  if (hex.length !== 32) return null
+  const pattern = [
+    hex.slice(0, 8),
+    hex.slice(8, 12),
+    hex.slice(12, 16),
+    hex.slice(16, 20),
+    hex.slice(20, 32),
+  ].join('[-\\s]?')
+  return new RegExp(pattern, 'gi')
+}
 
 const readTextValue = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -81,11 +123,133 @@ const readTextValue = (value: unknown): string | undefined => {
   return trimmed || undefined
 }
 
+const readTextList = (value: unknown): string[] => {
+  if (!Array.isArray(value)) return []
+  return value
+    .map((item) => (typeof item === 'string' ? item.trim() : ''))
+    .filter((item) => item.length > 0)
+}
+
 const readActivityDisplayValue = (value: ApiActivityData | undefined): string | undefined =>
   readTextValue(value?.text) ??
   readTextValue(value?.name) ??
   readTextValue(value?.label) ??
   readTextValue(value?.title)
+
+const readConversationMessageRole = (
+  activity: ApiActivityRecord,
+): ApiConversationMessageRecord['role'] | undefined => {
+  const role = readTextValue(activity.object?.role) ?? readTextValue(activity.metadata?.messageRole)
+  if (role === 'user' || role === 'assistant' || role === 'system') return role
+  return undefined
+}
+
+const resolveConversationCounterpartName = (activity: ApiActivityRecord): string | undefined => {
+  const candidates = [
+    readTextValue(activity.metadata?.counterpartName),
+    readTextValue(activity.metadata?.userName),
+    readTextValue(activity.metadata?.displayName),
+    readActivityDisplayValue(activity.subject),
+  ]
+  return candidates.find((candidate) => candidate && !looksLikeUuid(candidate))
+}
+
+const resolveConversationAssistantName = (activity: ApiActivityRecord, characterName: string): string => {
+  const subjectName = readActivityDisplayValue(activity.subject)
+  if (subjectName && !looksLikeUuid(subjectName)) return subjectName
+  return characterName
+}
+
+const resolveActivitySubjectLabel = (activity: ApiActivityRecord, characterName: string): string => {
+  const role = readConversationMessageRole(activity)
+  if (activity.activityType === 'conversation.message.created' && role === 'user') {
+    return resolveConversationCounterpartName(activity) ?? FIXED_USER_NAME
+  }
+  if (activity.activityType === 'conversation.message.created' && role === 'assistant') {
+    return resolveConversationAssistantName(activity, characterName)
+  }
+  return readActivityDisplayValue(activity.subject) ?? characterName
+}
+
+const normalizeConversationMessageSummary = (
+  activity: ApiActivityRecord,
+  summary: string,
+  characterName: string,
+): string => {
+  const trimmedSummary = summary.trim()
+  if (!trimmedSummary || activity.activityType !== 'conversation.message.created') return trimmedSummary
+
+  const role = readConversationMessageRole(activity)
+  if (!role) return trimmedSummary
+
+  const speakerName =
+    role === 'assistant'
+      ? resolveConversationAssistantName(activity, characterName)
+      : resolveConversationCounterpartName(activity) ?? FIXED_USER_NAME
+
+  const match = trimmedSummary.match(/^([^:]{1,160}):\s*(.+)$/s)
+  if (!match) return trimmedSummary
+
+  const [, prefix, content] = match
+  const subjectId = readTextValue(activity.subject?.id)
+  const subjectName = readActivityDisplayValue(activity.subject)
+  const normalizedPrefix = prefix.trim()
+  const matchesKnownSubject =
+    normalizedPrefix === subjectId || normalizedPrefix === subjectName || looksLikeUuid(normalizedPrefix)
+
+  if (!matchesKnownSubject || normalizedPrefix === speakerName) {
+    return trimmedSummary
+  }
+
+  return `${speakerName}: ${content.trimStart()}`
+}
+
+const normalizeLegacyCharacterNamesInSummary = (input: {
+  activity: ApiActivityRecord
+  summary: string
+  characterName: string
+  allCharactersById: Map<string, { id: string; name: string }>
+}): string => {
+  const normalizedSummary = input.summary.trim()
+  if (!normalizedSummary) return normalizedSummary
+
+  const replacements = new Map<string, string>()
+  const addReplacement = (id: string | undefined, name: string | undefined) => {
+    const normalizedId = id?.trim()
+    const normalizedName = name?.trim()
+    if (!normalizedId || !normalizedName) return
+    if (!looksLikeUuid(normalizedId)) return
+    if (looksLikeUuid(normalizedName)) return
+    replacements.set(normalizedId, normalizedName)
+  }
+
+  addReplacement(input.activity.characterId, input.characterName)
+  addReplacement(readTextValue(input.activity.subject?.id), readActivityDisplayValue(input.activity.subject))
+  addReplacement(readTextValue(input.activity.object?.id), readActivityDisplayValue(input.activity.object))
+
+  const relatedIds = readTextList(input.activity.metadata.relatedCharacterIds)
+  const relatedNames = readTextList(input.activity.metadata.relatedCharacterNames)
+  relatedIds.forEach((id, index) => {
+    const knownCharacter = input.allCharactersById.get(id)
+    addReplacement(id, relatedNames[index] ?? knownCharacter?.name)
+  })
+
+  for (const target of readInteractionTargets(input.activity)) {
+    addReplacement(target.id, target.name)
+  }
+
+  let result = normalizedSummary
+  for (const [id, name] of replacements) {
+    const uuidRegex = buildUuidLikeValueRegex(id)
+    if (uuidRegex) {
+      result = result.replace(uuidRegex, name)
+      continue
+    }
+    result = result.replace(new RegExp(escapeRegex(id), 'g'), name)
+  }
+
+  return result
+}
 
 const readLocalAssetUrl = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -147,8 +311,70 @@ const readActivityImageUrl = (activity: ApiActivityRecord): string | undefined =
     activity.metadata.heroImageUrl,
     activity.metadata.imageUrl,
     activity.metadata.imageLinkUrl,
+    activity.metadata.originalImageUrl,
+    activity.subject.url,
     activity.object.url,
   ])
+
+const readAllActivityImageUrls = (activity: ApiActivityRecord): string[] => {
+  const metadata = activity.metadata
+  const imageArrayValues = [
+    metadata.imageUrls,
+    metadata.generatedImageUrls,
+    metadata.images,
+    metadata.imageCandidates,
+    metadata.generatedImages,
+  ]
+
+  const explicitCandidates: unknown[] = [
+    metadata.imageAssetPath,
+    metadata.heroImageUrl,
+    metadata.imageUrl,
+    metadata.imageLinkUrl,
+    metadata.originalImageUrl,
+    activity.subject.url,
+    activity.object.url,
+  ]
+
+  for (const value of imageArrayValues) {
+    if (!Array.isArray(value)) continue
+    for (const entry of value) {
+      if (entry && typeof entry === 'object' && !Array.isArray(entry)) {
+        explicitCandidates.push(
+          (entry as ApiActivityData).url,
+          (entry as ApiActivityData).imageUrl,
+          (entry as ApiActivityData).imageAssetPath,
+          (entry as ApiActivityData).originalImageUrl,
+        )
+      } else {
+        explicitCandidates.push(entry)
+      }
+    }
+  }
+
+  const preferredUrl = readActivityImageUrl(activity)
+  const uniqueUrls = new Set<string>()
+  if (preferredUrl) {
+    const normalizedPreferred = normalizeImageUrl(preferredUrl)
+    if (normalizedPreferred) uniqueUrls.add(normalizedPreferred)
+  }
+
+  for (const raw of explicitCandidates) {
+    const localUrl = readLocalAssetUrl(raw)
+    const normalizedLocal = normalizeImageUrl(localUrl)
+    if (normalizedLocal) {
+      uniqueUrls.add(normalizedLocal)
+      continue
+    }
+    const textUrl = readTextValue(raw)
+    const normalizedText = normalizeImageUrl(textUrl)
+    if (normalizedText) {
+      uniqueUrls.add(normalizedText)
+    }
+  }
+
+  return Array.from(uniqueUrls)
+}
 
 const readMessageImageUrl = (message: ApiConversationMessageRecord): string | undefined => {
   const metadata = message.metadata
@@ -205,53 +431,49 @@ const formatTimestamp = (value: string | Date): string => {
   }).format(date)
 }
 
-const humanizeActivityType = (activityType: string): string => {
-  switch (activityType) {
-    case 'character.chat.completed':
-      return 'sprach mit'
-    case 'conversation.image.generated':
-      return 'zeigte ein Bild'
-    case 'conversation.image.recalled':
-      return 'zeigte ein frueheres Bild'
-    case 'conversation.message.created':
-      return 'sendete eine Nachricht'
-    case 'conversation.started':
-      return 'startete eine Unterhaltung'
-    case 'conversation.learning_goal.activated':
-      return 'aktivierte ein Lernziel'
-    case 'conversation.ended':
-      return 'beendete eine Unterhaltung'
-    case 'skill.visual-expression.started':
-      return 'startete visuelles Erklaeren'
-    case 'skill.visual-expression.completed':
-      return 'beendete visuelles Erklaeren'
-    case 'skill.quiz.started':
-      return 'startete ein Quiz'
-    case 'skill.quiz.completed':
-      return 'beendete ein Quiz'
-    case 'runtime.skill.routed':
-      return 'waehlte einen Skill'
-    case 'tool.activities.read':
-      return 'las Activities'
-    case 'tool.relationships.read':
-      return 'las Relationships'
-    case 'tool.related_objects.read':
-      return 'las verknuepfte Figureninfos'
-    case 'tool.image.planning.started':
-      return 'plant ein Bild'
-    case 'tool.image.requested':
-      return 'startete die Bildgenerierung'
-    case 'tool.image.generating':
-      return 'erstellt gerade ein Bild'
-    case 'tool.image.generated':
-      return 'hat ein Bild fertiggestellt'
-    case 'tool.image.recalled':
-      return 'zeigte ein frueheres Bild'
-    case 'tool.image.failed':
-      return 'konnte kein Bild erstellen'
-    default:
-      return activityType.replaceAll('.', ' ')
+const readInteractionTargets = (activity: ApiActivityRecord): SummaryCharacterLink[] => {
+  const rawTargets = activity.metadata.interactionTargets
+  if (!Array.isArray(rawTargets)) return []
+  return rawTargets.flatMap((value) => {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return []
+    const target = value as ApiActivityData
+    const type = readTextValue(target.type)?.toLowerCase()
+    const id = readTextValue(target.id)
+    const name = readTextValue(target.name)
+    if (type !== 'character' || !id || !name) return []
+    return [{ id, name }]
+  })
+}
+
+const collectSummaryCharacterLinks = (input: {
+  activity: ApiActivityRecord
+  allCharactersById: Map<string, { id: string; name: string }>
+}): SummaryCharacterLink[] => {
+  const links = new Map<string, SummaryCharacterLink>()
+  const add = (id: string | undefined, name: string | undefined) => {
+    const normalizedId = id?.trim()
+    const normalizedName = name?.trim()
+    if (!normalizedId || !normalizedName) return
+    links.set(normalizedId, { id: normalizedId, name: normalizedName })
   }
+
+  for (const target of readInteractionTargets(input.activity)) {
+    add(target.id, target.name)
+  }
+
+  for (const id of readTextList(input.activity.metadata.interactionCharacterIds)) {
+    const knownCharacter = input.allCharactersById.get(id)
+    add(id, knownCharacter?.name)
+  }
+
+  const relatedIds = readTextList(input.activity.metadata.relatedCharacterIds)
+  const relatedNames = readTextList(input.activity.metadata.relatedCharacterNames)
+  relatedIds.forEach((id, index) => {
+    const knownCharacter = input.allCharactersById.get(id)
+    add(id, relatedNames[index] ?? knownCharacter?.name)
+  })
+
+  return [...links.values()]
 }
 
 const buildActivitySummary = (
@@ -260,30 +482,10 @@ const buildActivitySummary = (
   resolvedSubjectLabel: string,
   resolvedObjectLabel?: string,
 ): string => {
-  const metadataSummary = readTextValue(activity.metadata.summary)
-  if (metadataSummary) return metadataSummary
-
   const subjectLabel = resolvedSubjectLabel || characterName
-  const objectLabel = resolvedObjectLabel
-
-  if (activity.activityType === 'conversation.message.created') {
-    const role = readActivityRole(activity)
-    if (role === 'user') {
-      return `${FIXED_USER_NAME} spricht mit ${characterName}`
-    }
-    if (role === 'assistant') {
-      return `${characterName} spricht mit ${FIXED_USER_NAME}`
-    }
-    return `${subjectLabel} spricht mit ${characterName}`
-  }
-
-  const activityLabel = humanizeActivityType(activity.activityType)
-
-  if (objectLabel) {
-    return `${subjectLabel} ${activityLabel} ${objectLabel}`
-  }
-
-  return `${subjectLabel} ${activityLabel}`
+  const activityLabel = activity.activityType
+  const objectLabel = resolvedObjectLabel || 'none'
+  return `${subjectLabel} | ${activityLabel} | ${objectLabel}`
 }
 
 const activityTimeValue = (activity: ApiActivityRecord): number => {
@@ -297,11 +499,14 @@ const activityTimeValue = (activity: ApiActivityRecord): number => {
 const sortActivitiesDesc = (items: ApiActivityRecord[]): ApiActivityRecord[] =>
   items.slice().sort((a, b) => activityTimeValue(b) - activityTimeValue(a))
 
-const isTechnicalActivityType = (activityType: string): boolean =>
-  activityType.startsWith('trace.') ||
-  activityType.startsWith('tool.') ||
-  activityType.startsWith('skill.') ||
-  activityType.startsWith('runtime.')
+const readLatestActivityImageUrl = (items: ApiActivityRecord[] | null): string | undefined => {
+  if (!items || items.length === 0) return undefined
+  for (const activity of items) {
+    const imageUrl = normalizeImageUrl(readActivityImageUrl(activity))
+    if (imageUrl) return imageUrl
+  }
+  return undefined
+}
 
 const parseTraceToolEvent = (activity: ApiActivityRecord): TraceToolEvent | null => {
   if (!activity.activityType.startsWith('trace.tool.')) return null
@@ -317,9 +522,6 @@ const parseTraceToolEvent = (activity: ApiActivityRecord): TraceToolEvent | null
     kind,
   }
 }
-
-const readActivityRole = (activity: ApiActivityRecord): string | undefined =>
-  readTextValue(activity.object.role)?.toLowerCase()
 
 const formatTracePayload = (value: unknown): string => {
   if (value == null) return ''
@@ -339,7 +541,6 @@ export default function CharacterDetailPage({ content }: Props) {
   const pointerFrameRef = useRef<number | null>(null)
   const [apiRelationships, setApiRelationships] = useState<ApiRelationship[] | null>(null)
   const [apiActivities, setApiActivities] = useState<ApiActivityRecord[] | null>(null)
-  const [showTechnicalActivities, setShowTechnicalActivities] = useState(false)
   const [activityStreamConnected, setActivityStreamConnected] = useState(false)
   const [isConversationPanelOpen, setIsConversationPanelOpen] = useState(false)
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
@@ -348,6 +549,7 @@ export default function CharacterDetailPage({ content }: Props) {
   const [conversationError, setConversationError] = useState<string | null>(null)
   const [copiedConversationText, setCopiedConversationText] = useState(false)
   const [activeHeroUrl, setActiveHeroUrl] = useState<string | undefined>(undefined)
+  const [heroViewMode, setHeroViewMode] = useState<HeroViewMode>('latest-activity')
   const [incomingHeroUrl, setIncomingHeroUrl] = useState<string | null>(null)
   const [isMemoryOverlayActive, setIsMemoryOverlayActive] = useState(false)
   const heroTransitionTimerRef = useRef<number | null>(null)
@@ -362,6 +564,7 @@ export default function CharacterDetailPage({ content }: Props) {
   const isHeroParallaxEnabled = Boolean(activeHeroUrl) && !reduceMotion
 
   useEffect(() => {
+    setHeroViewMode('latest-activity')
     setActiveHeroUrl(heroUrl)
     activeHeroUrlRef.current = heroUrl
     setIncomingHeroUrl(null)
@@ -411,6 +614,12 @@ export default function CharacterDetailPage({ content }: Props) {
   )
 
   useEffect(() => {
+    if (heroViewMode !== 'latest-activity') return
+    const latestActivityImageUrl = readLatestActivityImageUrl(apiActivities)
+    transitionToHeroUrl(latestActivityImageUrl ?? heroUrl)
+  }, [apiActivities, heroUrl, heroViewMode, transitionToHeroUrl])
+
+  useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const updatePreference = () => setReduceMotion(mediaQuery.matches)
     updatePreference()
@@ -431,7 +640,9 @@ export default function CharacterDetailPage({ content }: Props) {
       }
 
       try {
-        const response = await fetch(`/api/relationships/?characterId=${encodeURIComponent(id)}`)
+        const response = await fetch(
+          `/api/game-objects/${encodeURIComponent(id)}/relationships`,
+        )
         if (!response.ok) {
           throw new Error(`API status ${response.status}`)
         }
@@ -521,6 +732,7 @@ export default function CharacterDetailPage({ content }: Props) {
           activity.activityType === 'conversation.image.generated' ||
           activity.activityType === 'conversation.image.recalled'
         ) {
+          setHeroViewMode('latest-activity')
           transitionToHeroUrl(readActivityImageUrl(activity), {
             memoryOverlay: activity.activityType === 'conversation.image.recalled',
           })
@@ -605,7 +817,7 @@ export default function CharacterDetailPage({ content }: Props) {
     const dbRelations = apiRelationships ?? []
     return dbRelations.flatMap((relation) => {
       const relatedCharacterId =
-        relation.direction === 'outgoing' ? relation.targetCharacterId : relation.sourceCharacterId
+        relation.direction === 'outgoing' ? relation.target.id : relation.source.id
       const relatedCharacter = content.characters.find((candidate) => candidate.id === relatedCharacterId)
       if (!relatedCharacter) return []
       return [
@@ -617,12 +829,22 @@ export default function CharacterDetailPage({ content }: Props) {
     })
   }, [apiRelationships, character, content.characters])
 
+  const allCharactersById = useMemo(
+    () => new Map(content.characters.map((item) => [item.id, { id: item.id, name: item.name }] as const)),
+    [content.characters],
+  )
+
   const activityItems = useMemo<CharacterActivityItem[]>(() => {
     if (!character) return []
     if (!apiActivities || apiActivities.length === 0) return []
-    const sourceItems = showTechnicalActivities
-      ? apiActivities
-      : apiActivities.filter((activity) => !isTechnicalActivityType(activity.activityType))
+    const sourceItems = apiActivities.filter((activity) => {
+      return shouldShowActivityInPanel({
+        activityType: activity.activityType,
+        isPublic: activity.isPublic,
+        object: activity.object,
+        metadata: activity.metadata,
+      })
+    })
 
     const resolvedTraceToolCalls = new Set<string>()
     const pendingTraceRequestIds = new Set<string>()
@@ -640,7 +862,7 @@ export default function CharacterDetailPage({ content }: Props) {
     }
 
     return sourceItems.map((activity) => {
-      const subjectLabel = readActivityDisplayValue(activity.subject) ?? character.name
+      const subjectLabel = resolveActivitySubjectLabel(activity, character.name)
       const objectLabel =
         readActivityDisplayValue(activity.object) ??
         (activity.activityType === 'conversation.message.created'
@@ -656,21 +878,39 @@ export default function CharacterDetailPage({ content }: Props) {
         isPublic: activity.isPublic,
         rawActivityType: activity.activityType,
         subject: subjectLabel,
-        activityType: humanizeActivityType(activity.activityType),
+        activityType: activity.activityType,
         object: objectLabel,
-        summary: buildActivitySummary(activity, character.name, subjectLabel, objectLabel),
+        summary: normalizeConversationMessageSummary(
+          activity,
+          normalizeLegacyCharacterNamesInSummary({
+            activity,
+            summary:
+              readCanonicalStoryText({
+                activityType: activity.activityType,
+                storySummary: activity.storySummary,
+                metadata: activity.metadata,
+              }) ?? buildActivitySummary(activity, character.name, subjectLabel, objectLabel),
+            characterName: character.name,
+            allCharactersById,
+          }),
+          character.name,
+        ),
+        summaryCharacters: collectSummaryCharacterLinks({
+          activity,
+          allCharactersById,
+        }),
         conversationId: activity.conversationId,
         conversationUrl: readTextValue(activity.metadata.conversationUrl),
         conversationLabel:
           readTextValue(activity.metadata.conversationLinkLabel) ??
           (activity.conversationId ? 'Conversation ansehen' : undefined),
         imageUrl: normalizeImageUrl(readActivityImageUrl(activity)),
+        imageUrls: readAllActivityImageUrls(activity),
         imageLabel: readTextValue(activity.metadata.imageLinkLabel),
-        imagePrompt: readTextValue(activity.metadata.imageGenerationPrompt),
         isPending: pendingTraceRequestIds.has(activity.activityId),
       }
     })
-  }, [apiActivities, character, showTechnicalActivities])
+  }, [allCharactersById, apiActivities, character])
 
   const openConversationPanel = useCallback(
     (conversationId: string) => {
@@ -697,38 +937,6 @@ export default function CharacterDetailPage({ content }: Props) {
       return next
     })
   }, [setSearchParams])
-
-  const copyConversationText = useCallback(async () => {
-    const messages = conversationDetails?.messages ?? []
-    if (messages.length === 0) return
-    const transcriptText = messages
-      .slice()
-      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-      .map((message) => message.content.trim())
-      .filter(Boolean)
-      .join('\n\n')
-    if (!transcriptText) return
-    try {
-      await navigator.clipboard.writeText(transcriptText)
-      setCopiedConversationText(true)
-      window.setTimeout(() => {
-        setCopiedConversationText(false)
-      }, 1200)
-    } catch {
-      // ignore clipboard errors silently
-    }
-  }, [conversationDetails])
-
-  if (!character) {
-    return (
-      <div className="character-detail-empty">
-        <Title level={2}>Charakter nicht gefunden</Title>
-        <Button type="primary" onClick={() => navigate('/characters')}>
-          Alle Charaktere ansehen
-        </Button>
-      </div>
-    )
-  }
 
   useEffect(() => {
     return () => {
@@ -824,6 +1032,92 @@ export default function CharacterDetailPage({ content }: Props) {
     [character?.name],
   )
 
+  const copyConversationText = useCallback(async () => {
+    if (conversationTimelineItems.length === 0) return
+
+    const chronological = conversationTimelineItems.slice().sort((a, b) => a.timestampMs - b.timestampMs)
+
+    const sections: string[] = []
+
+    if (conversationDetails?.conversation.startedAt) {
+      sections.push(`Gestartet: ${formatTimestamp(conversationDetails.conversation.startedAt)}`)
+    }
+    if (conversationDetails?.conversation.endedAt) {
+      sections.push(`Beendet: ${formatTimestamp(conversationDetails.conversation.endedAt)}`)
+    }
+
+    for (const item of chronological) {
+      if (item.kind === 'message') {
+        const msg = item.message
+        const role = formatConversationRoleLabel(msg.role)
+        const time = formatTimestamp(msg.createdAt)
+        const content = msg.content.trim()
+        if (content) {
+          sections.push(`[${role}] (${time})\n${content}`)
+        }
+      } else {
+        const activity = item.activity
+        const subjectLabel = resolveActivitySubjectLabel(activity, character?.name ?? '')
+        const objectLabel = readActivityDisplayValue(activity.object) ?? 'Aktivitaet'
+        const summary = normalizeConversationMessageSummary(
+          activity,
+          normalizeLegacyCharacterNamesInSummary({
+            activity,
+            summary:
+              readCanonicalStoryText({
+                activityType: activity.activityType,
+                storySummary: activity.storySummary,
+                metadata: activity.metadata,
+              }) ?? buildActivitySummary(activity, character?.name ?? '', subjectLabel, objectLabel),
+            characterName: character?.name ?? '',
+            allCharactersById,
+          }),
+          character?.name ?? '',
+        )
+        const time = formatTimestamp(activity.occurredAt || activity.createdAt)
+        const isTrace = activity.activityType.startsWith('trace.')
+        const parts: string[] = [`[${activity.activityType}] (${time})`]
+        if (summary) parts.push(summary)
+        if (isTrace) {
+          const stage = readTextValue(activity.metadata.traceStage) ?? '-'
+          const kind = readTextValue(activity.metadata.traceKind) ?? '-'
+          const source = readTextValue(activity.metadata.traceSource) ?? '-'
+          parts.push(`${stage} / ${kind} / ${source}`)
+        }
+        const traceInput = formatTracePayload(activity.metadata.input)
+        const traceOutput = formatTracePayload(activity.metadata.output)
+        const traceError = readTextValue(activity.metadata.error)
+        if (traceInput) parts.push(`Input:\n${traceInput}`)
+        if (traceOutput) parts.push(`Output:\n${traceOutput}`)
+        if (traceError) parts.push(`Error:\n${traceError}`)
+        sections.push(parts.join('\n'))
+      }
+    }
+
+    const transcriptText = sections.join('\n\n')
+    if (!transcriptText) return
+    try {
+      await navigator.clipboard.writeText(transcriptText)
+      setCopiedConversationText(true)
+      window.setTimeout(() => {
+        setCopiedConversationText(false)
+      }, 1200)
+    } catch {
+      // ignore clipboard errors silently
+    }
+  }, [conversationTimelineItems, conversationDetails, character?.name, allCharactersById, formatConversationRoleLabel])
+
+  if (!character) {
+    return (
+      <div className="character-detail-empty">
+        <Title level={2}>Charakter nicht gefunden</Title>
+        <Button type="primary" onClick={() => navigate('/characters')}>
+          Alle Charaktere ansehen
+        </Button>
+      </div>
+    )
+  }
+
   return (
     <div
       className={`character-detail ${
@@ -835,13 +1129,11 @@ export default function CharacterDetailPage({ content }: Props) {
       onMouseMove={handleHeroMouseMove}
       onMouseLeave={resetHeroParallax}
     >
-      {incomingHeroUrl ? (
-        <div
-          className="character-detail-hero-transition-layer is-visible"
-          style={{ '--character-next-hero-url': `url('${incomingHeroUrl}')` } as CSSProperties}
-          aria-hidden="true"
-        />
-      ) : null}
+      <div
+        className={`character-detail-hero-transition-layer${incomingHeroUrl ? ' is-visible' : ''}`}
+        style={incomingHeroUrl ? { '--character-next-hero-url': `url('${incomingHeroUrl}')` } as CSSProperties : undefined}
+        aria-hidden="true"
+      />
       <div className="character-detail-memory-overlay" aria-hidden="true" />
       <div className="character-detail-nav">
         <Link to="/characters" className="character-detail-back">
@@ -854,7 +1146,16 @@ export default function CharacterDetailPage({ content }: Props) {
         <div className="character-detail-info">
           <Text className="character-detail-species">{character.basis.species}</Text>
           <Title level={1} className="character-detail-name">
-            {character.name}
+            <button
+              type="button"
+              className="character-detail-name-button"
+              onClick={() => {
+                setHeroViewMode('character-hero')
+                transitionToHeroUrl(heroUrl)
+              }}
+            >
+              {character.name}
+            </button>
           </Title>
           <Text className="character-detail-description">
             {character.shortDescription}
@@ -867,7 +1168,7 @@ export default function CharacterDetailPage({ content }: Props) {
             ))}
           </div>
           <div className="character-detail-actions">
-            <VoiceChatButton character={character} />
+            <VoiceChatButton character={character} conversationId={selectedConversationId} />
             <Button
               shape="circle"
               size="large"
@@ -908,15 +1209,16 @@ export default function CharacterDetailPage({ content }: Props) {
         <CharacterActivityStream
           items={activityItems}
           isLive={activityStreamConnected}
-          showTechnicalActivities={showTechnicalActivities}
-          onToggleTechnicalActivities={(next) => setShowTechnicalActivities(next)}
           onOpenConversation={openConversationPanel}
           onSelectImage={(imageUrl, item) =>
-            transitionToHeroUrl(imageUrl, {
-              memoryOverlay:
-                item.rawActivityType === 'conversation.image.recalled' ||
-                item.rawActivityType === 'tool.image.recalled',
-            })
+            {
+              setHeroViewMode('latest-activity')
+              transitionToHeroUrl(imageUrl, {
+                memoryOverlay:
+                  item.rawActivityType === 'conversation.image.recalled' ||
+                  item.rawActivityType === 'tool.image.recalled',
+              })
+            }
           }
         />
 
@@ -1008,9 +1310,23 @@ export default function CharacterDetailPage({ content }: Props) {
                   }
 
                   const activity = timelineItem.activity
-                  const subjectLabel = readActivityDisplayValue(activity.subject) ?? character.name
+                  const subjectLabel = resolveActivitySubjectLabel(activity, character.name)
                   const objectLabel = readActivityDisplayValue(activity.object) ?? 'Aktivitaet'
-                  const summary = buildActivitySummary(activity, character.name, subjectLabel, objectLabel)
+                  const summary = normalizeConversationMessageSummary(
+                    activity,
+                    normalizeLegacyCharacterNamesInSummary({
+                      activity,
+                      summary:
+                        readCanonicalStoryText({
+                          activityType: activity.activityType,
+                          storySummary: activity.storySummary,
+                          metadata: activity.metadata,
+                        }) ?? buildActivitySummary(activity, character.name, subjectLabel, objectLabel),
+                      characterName: character.name,
+                      allCharactersById,
+                    }),
+                    character.name,
+                  )
                   const traceInput = formatTracePayload(activity.metadata.input)
                   const traceOutput = formatTracePayload(activity.metadata.output)
                   const traceError = readTextValue(activity.metadata.error)

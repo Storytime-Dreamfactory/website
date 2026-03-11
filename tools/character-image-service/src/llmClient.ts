@@ -1,6 +1,6 @@
 import OpenAI from 'openai'
 
-const MODEL = 'gpt-4.1'
+const MODEL = 'gpt-5.4'
 const TEMPERATURE = 0.7
 const MAX_TOKENS = 4096
 

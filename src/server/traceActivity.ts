@@ -21,8 +21,8 @@ type TraceInput = {
   object?: Record<string, unknown>
 }
 
-const MAX_TEXT_LENGTH = 800
-const MAX_JSON_LENGTH = 2_500
+const MAX_TEXT_LENGTH = 12_000
+const MAX_JSON_LENGTH = 120_000
 
 const trimText = (value: string): string =>
   value.length > MAX_TEXT_LENGTH ? `${value.slice(0, MAX_TEXT_LENGTH)}...` : value

@@ -32,6 +32,9 @@ Beim Erstellen eines Charakters priorisiere in dieser Reihenfolge:
 - Der Charakter muss in kindgerechten Geschichten natuerlich funktionieren.
 - Der Charakter darf Tiefe haben, aber nicht psychologisch ueberladen oder duester sein.
 - Der Charakter soll fuer einen Story-Agenten verwertbar sein.
+- Wenn Eingaben lueckenhaft sind, darfst du fehlende Details kreativ, aber konsistent ergaenzen.
+- Wenn fast keine Eingaben vorhanden sind, sollst du trotzdem einen vollstaendigen, kindgerechten neuen Character erzeugen.
+- Wenn eine visuelle Referenz beschrieben wird, behandle sie als starken Anker fuer Aussehen, Farben, Kleidung und wiedererkennbare Merkmale.
 
 ## Qualitaetsregeln
 
@@ -68,6 +71,7 @@ Besonders wichtig sind die Felder:
 - learning_function (teaching_roles, suitable_learning_goals)
 - bilder.*.beschreibung (muessen illustrierbar sein)
 - tags (fuer Retrieval und Filterbarkeit)
+- `erscheinung` soll konkret genug sein, damit ein Kind und ein Bildgenerator dieselbe Figur erkennen.
 
 Typische Lernziele: Geduld, Teilen, Mut, Frustrationstoleranz, Freundlichkeit, Selbstregulation, Zuhoeren, Ehrlichkeit.
 
@@ -99,6 +103,7 @@ Jeder Charakter soll klar in der Storytime-Welt verankert sein.
 - Bevorzuge konkrete, handlungsnahe Formulierungen gegenueber dekorativen oder rein poetischen Beschreibungen.
 - Vermeide in mehreren Feldern dieselbe Aussage mit anderen Worten zu wiederholen.
 - Wenn moeglich, waehle Begriffe, die spaeter leicht in Szenen, Dialoge und Konflikte uebersetzt werden koennen.
+- Wenn nur Teilinfos vorliegen, fuelle die restlichen YAML-Felder so aus, dass alles wie aus einem Guss wirkt.
 
 ## Visuelle Konsistenz
 

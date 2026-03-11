@@ -8,8 +8,14 @@ import {
   listRelationshipsForCharacter,
   type CharacterRelationshipRecord,
 } from './relationshipStore.ts'
+import { getConversationDetails, type ConversationDetailsRecord } from './conversationStore.ts'
+import { resolveCounterpartName, toPublicConversationHistory } from './conversationActivityHelpers.ts'
+import { getOpenAiApiKey } from './openAiConfig.ts'
+import * as gameObjectService from './gameObjectService.ts'
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../', import.meta.url)))
+const MAX_REALTIME_CONTEXT_MESSAGES = 12
+const REALTIME_VAD_SILENCE_DURATION_MS = 900
 
 type MiddlewareStack = {
   use: (
@@ -46,10 +52,14 @@ const readJsonBody = async (request: IncomingMessage): Promise<Record<string, un
 }
 
 const loadCharacterYaml = async (characterId: string): Promise<Record<string, unknown>> => {
+  const characterObject = await gameObjectService.get(characterId)
+  if (!characterObject || characterObject.type !== 'character') {
+    throw new Error(`Character not found: ${characterId}`)
+  }
   const yamlPath = path.resolve(
     workspaceRoot,
     'content/characters',
-    characterId,
+    characterObject.slug,
     'character.yaml',
   )
   const raw = await readFile(yamlPath, 'utf8')
@@ -69,17 +79,18 @@ const loadRelatedCharacterFacts = async (
   const entries = await Promise.all(
     uniqueIds.map(async (characterId) => {
       try {
+        const characterObject = await gameObjectService.get(characterId)
         const yaml = await loadCharacterYaml(characterId)
         const fact: RelatedCharacterFact = {
-          characterId,
-          name: getString(yaml, 'name') || characterId,
+          characterId: characterObject?.id ?? characterId,
+          name: getString(yaml, 'name') || characterObject?.name || characterId,
           species: getString(yaml, 'basis', 'species'),
           shortDescription: getString(yaml, 'kurzbeschreibung'),
           coreTraits: getArray(yaml, 'persoenlichkeit', 'core_traits').filter(
             (item) => item.trim().length > 0,
           ),
         }
-        return [characterId, fact] as const
+        return [characterObject?.id ?? characterId, fact] as const
       } catch {
         return null
       }
@@ -229,6 +240,54 @@ const buildRelationshipsBlock = (
   return lines.length > 0 ? lines.join('\n') : 'Keine bekannten Beziehungen hinterlegt.'
 }
 
+const uniqueNonEmpty = (values: string[]): string[] => {
+  return Array.from(new Set(values.map((value) => value.trim()).filter((value) => value.length > 0)))
+}
+
+const normalizeInlineText = (value: string): string => value.replace(/\s+/g, ' ').trim()
+
+const buildSpeechStyleBlock = (yaml: Record<string, unknown>): string => {
+  const coreTraits = uniqueNonEmpty(getArray(yaml, 'persoenlichkeit', 'core_traits'))
+  const strengths = uniqueNonEmpty(getArray(yaml, 'persoenlichkeit', 'strengths'))
+  const weaknesses = uniqueNonEmpty(getArray(yaml, 'persoenlichkeit', 'weaknesses'))
+  const quirks = uniqueNonEmpty(getArray(yaml, 'persoenlichkeit', 'quirks'))
+  const temperament = getString(yaml, 'persoenlichkeit', 'temperament')
+  const socialStyle = getString(yaml, 'persoenlichkeit', 'social_style')
+  const roleArchetype = getString(yaml, 'basis', 'role_archetype')
+
+  const lines: string[] = [
+    '- Sprich nicht neutral oder austauschbar, sondern so, dass man dich an deiner Art sofort erkennt.',
+  ]
+
+  if (coreTraits.length > 0) {
+    lines.push(`- Lass diese Kernzuege staendig in deiner Sprache mitschwingen: ${coreTraits.join(', ')}.`)
+  }
+  if (temperament) {
+    lines.push(`- Dein Grundtempo und deine Satzmelodie passen zu diesem Temperament: ${temperament}.`)
+  }
+  if (socialStyle) {
+    lines.push(`- Deine Naehe, Distanz und Offenheit im Gespraech folgen diesem Sozialstil: ${socialStyle}.`)
+  }
+  if (roleArchetype) {
+    lines.push(`- Deine Haltung im Gespraech soll zu dieser Story-Rolle passen: ${roleArchetype}.`)
+  }
+  if (strengths.length > 0) {
+    lines.push(`- Wenn du hilfst oder fuehrst, tue es auf eine Weise, die deine Staerken zeigt: ${strengths.join(', ')}.`)
+  }
+  if (weaknesses.length > 0) {
+    lines.push(`- Kleine Reibungen duerfen aus deinen Schwaechen entstehen, ohne dass du das Gespraech blockierst: ${weaknesses.join(', ')}.`)
+  }
+  if (quirks.length > 0) {
+    lines.push(`- Deine Eigenheiten duerfen in kleinen Dosen hoerbar werden: ${quirks.join(', ')}.`)
+  }
+
+  lines.push(
+    '- Wenn du sprichst, sollen Wortwahl, Rhythmus, Pausen und emotionale Faerbung zu deiner Figur passen.',
+  )
+
+  return lines.join('\n')
+}
+
 const buildInstructions = (
   template: string,
   yaml: Record<string, unknown>,
@@ -253,6 +312,7 @@ const buildInstructions = (
     '{{strengths}}': getArray(yaml, 'persoenlichkeit', 'strengths').join(', '),
     '{{weaknesses}}': getArray(yaml, 'persoenlichkeit', 'weaknesses').join(', '),
     '{{quirks}}': getArray(yaml, 'persoenlichkeit', 'quirks').join(', ') || 'keine besonderen',
+    '{{speech_style_block}}': buildSpeechStyleBlock(yaml),
     '{{visible_goal}}': getString(yaml, 'story_psychology', 'visible_goal'),
     '{{deeper_need}}': getString(yaml, 'story_psychology', 'deeper_need'),
     '{{fear}}': getString(yaml, 'story_psychology', 'fear'),
@@ -289,6 +349,32 @@ const buildInstructions = (
   return result
 }
 
+const buildConversationContextBlock = (input: {
+  details: ConversationDetailsRecord
+  characterName: string
+}): string => {
+  const counterpartName = resolveCounterpartName(input.details.conversation.metadata)
+  const publicHistory = toPublicConversationHistory(input.details.messages)
+    .slice(-MAX_REALTIME_CONTEXT_MESSAGES)
+    .map((message) => {
+      const speakerName = message.role === 'assistant' ? input.characterName : counterpartName
+      return `- ${speakerName}: ${normalizeInlineText(message.content)}`
+    })
+
+  if (publicHistory.length === 0) return ''
+
+  return [
+    '## Laufender Gespraechskontext',
+    `Wichtig: Das ist bereits ein laufendes Gespraech zwischen dir (${input.characterName}) und ${counterpartName}.`,
+    '- Begruesse NICHT erneut.',
+    '- Stelle dich NICHT erneut vor.',
+    '- Antworte direkt auf den naechsten User-Turn und knuepfe an den Verlauf an.',
+    '',
+    'LETZTE OEFFENTLICHE NACHRICHTEN (aelteste zuerst):',
+    ...publicHistory,
+  ].join('\n')
+}
+
 const createEphemeralToken = async (
   instructions: string,
   voice: string,
@@ -309,7 +395,7 @@ const createEphemeralToken = async (
   const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
+      'Authorization': `Bearer ${getOpenAiApiKey()}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -322,6 +408,7 @@ const createEphemeralToken = async (
         type: 'server_vad',
         create_response: true,
         interrupt_response: false,
+        silence_duration_ms: REALTIME_VAD_SILENCE_DURATION_MS,
       },
     }),
   })
@@ -352,7 +439,7 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
         return
       }
 
-      if (!process.env.OPENAI_API_KEY) {
+      if (!getOpenAiApiKey()) {
         json(response, 400, {
           error: 'OPENAI_API_KEY fehlt. Bitte in .env setzen.',
         })
@@ -361,6 +448,7 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
 
       const body = await readJsonBody(request)
       const characterId = typeof body.characterId === 'string' ? body.characterId.trim() : ''
+      const conversationId = typeof body.conversationId === 'string' ? body.conversationId.trim() : ''
 
       if (!characterId) {
         json(response, 400, { error: 'characterId ist erforderlich.' })
@@ -371,10 +459,27 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
         ? body.voice
         : 'coral'
 
+      const characterObject = await gameObjectService.get(characterId)
+      if (!characterObject || characterObject.type !== 'character') {
+        json(response, 404, { error: 'Character nicht gefunden.' })
+        return
+      }
+
+      let conversationDetails: ConversationDetailsRecord | null = null
+      if (conversationId) {
+        conversationDetails = await getConversationDetails(conversationId)
+        if (conversationDetails.conversation.characterId !== characterObject.id) {
+          json(response, 400, {
+            error: 'conversationId passt nicht zum angefragten Character.',
+          })
+          return
+        }
+      }
+
       const [yaml, template, dbRelationships] = await Promise.all([
         loadCharacterYaml(characterId),
         loadPromptTemplate(),
-        listRelationshipsForCharacter(characterId),
+        listRelationshipsForCharacter(characterObject.id),
       ])
       const relatedCharacterIds = dbRelationships.map((relationship) =>
         relationship.direction === 'outgoing'
@@ -389,7 +494,17 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
         dbRelationships,
         relatedFactsByCharacterId,
       )
-      const { token, expiresAt } = await createEphemeralToken(instructions, voice)
+      const characterName = getString(yaml, 'name') || characterObject.name || characterId
+      const conversationContextBlock = conversationDetails
+        ? buildConversationContextBlock({
+            details: conversationDetails,
+            characterName,
+          })
+        : ''
+      const fullInstructions = conversationContextBlock
+        ? `${instructions}\n\n${conversationContextBlock}`
+        : instructions
+      const { token, expiresAt } = await createEphemeralToken(fullInstructions, voice)
 
       json(response, 200, { token, expiresAt })
     } catch (error) {

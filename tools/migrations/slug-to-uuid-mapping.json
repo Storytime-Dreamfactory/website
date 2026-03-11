@@ -1,0 +1,31 @@
+{
+  "characters": {
+    "agatha-knusperhexe": "7d688ec8-6d27-43d1-9803-6b0d4448f10a",
+    "borin-brummbart": "9f61bd38-e771-4e94-b985-a02bfa656820",
+    "carla": "7f8cc9c1-8a1f-48b5-87c6-70aed1d08d6a",
+    "finja-schneevoegelchen": "4e35de62-56fe-405f-9935-2f3c9e5a41f0",
+    "flora-blumenfreude": "78a52cad-30b5-468f-9687-c50c30a4bd39",
+    "juna-lia": "f78472dd-f4b8-4881-82ab-d2be564ff283",
+    "leni": "3234380c-c1a0-4d69-ac9e-fe07b8e76557",
+    "lina-flussmaedchen": "c247cba6-247e-453b-8bea-c853e2f24af1",
+    "lorelei-das-goldmaedchen": "555305a8-e7d2-4d1d-8dbd-3d1194f6972a",
+    "malvarion-der-graue": "8beac193-c00b-4363-a75a-84152df9b137",
+    "merlin": "53182bc0-c460-4fc8-9a57-cae6dd2ec28b",
+    "mira-windhopser": "ae1687d9-51ab-4459-95fb-c579a9dca94a",
+    "nola": "8eb40291-65ee-49b6-b826-d7c7e97404c0",
+    "pippa-pusteblume": "6903d27b-0444-4368-a361-046f57511f85",
+    "raina": "1a5d87f3-0efe-4d22-af5c-60de37e24cb1",
+    "romi": "e3bf634f-af12-4d51-aeb1-d1464bea2d13",
+    "tilda-tannenzapfen": "8c42a128-bffd-4ea7-ab96-9d3c84b34f2a",
+    "wilma": "3d832246-c0ba-45b1-a6c4-69df50bd85f6",
+    "yoko": "3d1ad7b2-990f-4655-902c-e1baf8d87cbe"
+  },
+  "places": {
+    "crystal-lake": "cb8ce8f2-1b10-48b9-8afc-905a7a8d060a",
+    "whispering-meadow": "ce0cc7ef-99e8-4138-a3ac-a6255e891532"
+  },
+  "learningGoals": {
+    "kindness": "313ab6c5-0d07-48d6-aae6-458a0218c020",
+    "problem-solving": "126aa8c8-a7f5-46e0-928b-ee3cc53e564e"
+  }
+}

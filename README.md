@@ -64,6 +64,10 @@ npm run db:init-relationships
 Umgebungsvariablen:
 
 - `DATABASE_URL` (z. B. `postgres://storytime:storytime@localhost:5433/storytime`)
+- `BFL_API_KEY` fuer FLUX-Bildmodelle
+- `GOOGLE_GEMINI_API_KEY` fuer Gemini-Bildmodelle wie `gemini-3.1-flash-image`
+- `OPENAI_API_KEY` fuer OpenAI-Bildmodelle wie `gpt-image-1.5` oder `chatgpt-image-latest`
+- `CONVERSATION_IMAGE_MODEL` optional fuer das Standardmodell der Conversation-Hero-Bildgenerierung, z. B. `mini` (`flux-2-klein-4b`), `flux-2-flex`, `banana` (`gemini-2.5-flash-image`) oder `chatgpt` (`chatgpt-image-latest`). Default: `flux-2-flex`
 
 API-Endpunkte (lokaler Vite-Server):
 
@@ -85,7 +89,7 @@ API-Endpunkte (lokaler Vite-Server):
   - Nutzt dieselben Filter; standardmaessig nur `isPublic=true`, mit `includeNonPublic=true` auch interne Events
 - `POST /api/images/generate`
   - Schneller Prompt-zu-Bild Endpoint fuer Chat-Workflows
-  - Body: `prompt` (required), optional `model` (Default `flux-2-flex`), `width`, `height`, `outputFormat` (`jpeg` oder `png`), `seed`, `pollIntervalMs`, `maxPollAttempts`
+  - Body: `prompt` (required), optional `model` (z. B. `mini`, `banana`, `chatgpt`, `openai`, `flux-2-klein-4b`, `flux-2-max`, `gemini-3.1-flash-image`, `gpt-image-1.5`, `chatgpt-image-latest`; Default `flux-2-klein-4b`), `width`, `height`, `outputFormat` (`jpeg` oder `png`), `seed`, `pollIntervalMs`, `maxPollAttempts`
   - Response: `imageUrl`, `requestId`, aufgeloeste Parameter und optionale `cost`
 
 ## Conversation-End Webhook
@@ -124,6 +128,8 @@ npm run character-images:generate -- --character ./content/characters/nola.yaml 
 ```
 
 - API-Key nur ueber `BFL_API_KEY`
+- Fuer API-basierte Gemini-Bildgenerierung zusaetzlich `GOOGLE_GEMINI_API_KEY`
+- Fuer OpenAI-Bildgenerierung zusaetzlich `OPENAI_API_KEY`
 - Outputs landen unter `public/content/characters/<id>/`
 - Stil- und Prompting-Regeln stehen in `docs/visual-style-guide.md`, `AGENTS.md` und `content/prompts/README.md`
 

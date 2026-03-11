@@ -1,4 +1,6 @@
-import type { Character, LearningGoal, Place } from './types'
+import type { Artifact, Character, LearningGoal, Place } from './types'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
@@ -120,11 +122,16 @@ const asOptionalRecord = (
 
 export const validateCharacter = (
   value: unknown,
-  id: string,
+  slug: string,
   filePath: string,
 ): Character => {
   if (!isRecord(value)) {
     throw new Error(`Invalid character shape in ${filePath}`)
+  }
+
+  const yamlId = asString(value.id, 'id', filePath)
+  if (!UUID_RE.test(yamlId)) {
+    throw new Error(`Invalid UUID id "${yamlId}" in ${filePath}`)
   }
 
   const basis = asRecord(value.basis, 'basis', filePath)
@@ -142,15 +149,12 @@ export const validateCharacter = (
   const portrait = asRecord(images.portrait, 'bilder.portrait', filePath)
   const profileImage = asRecord(images.profilbild, 'bilder.profilbild', filePath)
   const metadata = asRecord(value.metadata, 'metadata', filePath)
-  const yamlId = asOptionalString(value.id, 'id', filePath)
-
-  if (yamlId && yamlId !== id) {
-    throw new Error(`Character id mismatch in ${filePath}: expected "${id}" but found "${yamlId}"`)
-  }
 
   return {
-    id: yamlId ?? id,
+    id: yamlId,
     name: asString(value.name, 'name', filePath),
+    type: 'character',
+    slug,
     shortDescription: asString(value.kurzbeschreibung, 'kurzbeschreibung', filePath),
     basis: {
       ageHint: asOptionalString(basis.age_hint, 'basis.age_hint', filePath),
@@ -339,35 +343,74 @@ export const validateCharacter = (
   }
 }
 
-export const validatePlace = (value: unknown, id: string, filePath: string): Place => {
+export const validatePlace = (value: unknown, slug: string, filePath: string): Place => {
   if (!isRecord(value)) {
     throw new Error(`Invalid place shape in ${filePath}`)
   }
 
+  const yamlId = asString(value.id, 'id', filePath)
+  if (!UUID_RE.test(yamlId)) {
+    throw new Error(`Invalid UUID id "${yamlId}" in ${filePath}`)
+  }
+
   return {
-    id,
+    id: yamlId,
     name: asString(value.name, 'name', filePath),
+    type: 'place',
+    slug,
     description: asString(value.description, 'description', filePath),
   }
 }
 
 export const validateLearningGoal = (
   value: unknown,
-  id: string,
+  slug: string,
   filePath: string,
 ): LearningGoal => {
   if (!isRecord(value)) {
     throw new Error(`Invalid learning goal shape in ${filePath}`)
   }
 
+  const yamlId = asString(value.id, 'id', filePath)
+  if (!UUID_RE.test(yamlId)) {
+    throw new Error(`Invalid UUID id "${yamlId}" in ${filePath}`)
+  }
+
   return {
-    id,
+    id: yamlId,
     name: asString(value.name, 'name', filePath),
+    type: 'learning-goals',
+    slug,
     topic: asString(value.topic, 'topic', filePath),
     description: asString(value.description, 'description', filePath),
     ageRange: asOptionalStringList(value.age_range, 'age_range', filePath),
     exampleQuestions: asStringList(value.example_questions, 'example_questions', filePath),
     practiceIdeas: asOptionalStringList(value.practice_ideas, 'practice_ideas', filePath),
     domainTags: asOptionalStringList(value.domain_tags, 'domain_tags', filePath),
+  }
+}
+
+export const validateArtifact = (
+  value: unknown,
+  slug: string,
+  filePath: string,
+): Artifact => {
+  if (!isRecord(value)) {
+    throw new Error(`Invalid artifact shape in ${filePath}`)
+  }
+
+  const yamlId = asString(value.id, 'id', filePath)
+  if (!UUID_RE.test(yamlId)) {
+    throw new Error(`Invalid UUID id "${yamlId}" in ${filePath}`)
+  }
+
+  return {
+    id: yamlId,
+    name: asString(value.name, 'name', filePath),
+    type: 'artifact',
+    slug,
+    artifactType: asString(value.artifact_type, 'artifact_type', filePath),
+    description: asString(value.description, 'description', filePath),
+    contentFolder: asString(value.content_folder, 'content_folder', filePath),
   }
 }

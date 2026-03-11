@@ -2,6 +2,7 @@ import { execFile } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { CHARACTER_AGENT_TOOLS } from '../../characterAgentDefinitions.ts'
+import { get as getGameObject } from '../../gameObjectService.ts'
 import { trackTraceActivitySafely } from '../../traceActivity.ts'
 import type { RuntimeToolHandler } from './runtimeToolTypes.ts'
 import { trackRuntimeToolActivitySafely } from './runtimeToolActivityLogger.ts'
@@ -103,12 +104,16 @@ const readOptionalIntegerArg = (
   return integer
 }
 
-const buildCharacterImageScriptArgs = (
+const buildCharacterImageScriptArgs = async (
   args: Record<string, unknown>,
   context: CommandResolutionContext,
-): string[] => {
+): Promise<string[]> => {
   const commandArgs: string[] = []
-  const derivedCharacterPath = `content/characters/${context.characterId}/character.yaml`
+  const characterObject = await getGameObject(context.characterId)
+  const derivedCharacterPath =
+    characterObject?.type === 'character'
+      ? `content/characters/${characterObject.slug}/character.yaml`
+      : `content/characters/${context.characterId}/character.yaml`
   const characterPath = readOptionalPathArg(args, 'characterPath') ?? derivedCharacterPath
   if (!characterPath) {
     throw new CliTaskValidationError('Missing required path argument: characterPath')
@@ -125,15 +130,25 @@ const buildCharacterImageScriptArgs = (
     commandArgs.push('--output-root', outputRoot)
   }
 
-  const model = readOptionalTextArg(args, 'model', ['flux-2-pro-preview', 'flux-2-max', 'flux-2-flex'])
+  const model = readOptionalTextArg(args, 'model', [
+    'flux-2-pro-preview',
+    'flux-2-pro',
+    'flux-2-max',
+    'flux-2-flex',
+    'flux-2-klein-9b',
+    'flux-2-klein-4b',
+  ])
   if (model) {
     commandArgs.push('--model', model)
   }
 
   const heroModel = readOptionalTextArg(args, 'heroModel', [
     'flux-2-pro-preview',
+    'flux-2-pro',
     'flux-2-max',
     'flux-2-flex',
+    'flux-2-klein-9b',
+    'flux-2-klein-4b',
   ])
   if (heroModel) {
     commandArgs.push('--hero-model', heroModel)
@@ -162,14 +177,14 @@ const buildCharacterImageScriptArgs = (
   return commandArgs
 }
 
-const resolveTaskCommand = (
+const resolveTaskCommand = async (
   input: RunCliTaskToolInput,
   context: CommandResolutionContext,
-): ResolvedCommand => {
+): Promise<ResolvedCommand> => {
   const args = input.args ?? {}
 
   if (input.taskId === CLI_TASK_IDS.characterImagesDryRun) {
-    const scriptArgs = buildCharacterImageScriptArgs(args, context)
+    const scriptArgs = await buildCharacterImageScriptArgs(args, context)
     const commandArgs = ['run', 'character-images:dry-run', '--', ...scriptArgs]
     return {
       command: npmCommand,
@@ -180,7 +195,7 @@ const resolveTaskCommand = (
   }
 
   if (input.taskId === CLI_TASK_IDS.characterImagesGenerate) {
-    const scriptArgs = buildCharacterImageScriptArgs(args, context)
+    const scriptArgs = await buildCharacterImageScriptArgs(args, context)
     const commandArgs = ['run', 'character-images:generate', '--', ...scriptArgs]
     return {
       command: npmCommand,
@@ -277,7 +292,7 @@ export const runCliTaskTool: RuntimeToolHandler<RunCliTaskToolInput, RunCliTaskT
 
     let command: ResolvedCommand
     try {
-      command = resolveTaskCommand(resolvedInput, {
+      command = await resolveTaskCommand(resolvedInput, {
         characterId: context.characterId,
       })
     } catch (error) {

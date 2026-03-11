@@ -99,9 +99,13 @@ export type CharacterMetadata = {
   version: number
 }
 
+export type GameObjectType = 'character' | 'place' | 'learning-goals' | 'artifact'
+
 export type Character = {
   id: string
   name: string
+  type: 'character'
+  slug: string
   shortDescription: string
   basis: CharacterBasis
   appearance: CharacterAppearance
@@ -118,18 +122,39 @@ export type Character = {
 export type Place = {
   id: string
   name: string
+  type: 'place'
+  slug: string
   description: string
 }
 
 export type LearningGoal = {
   id: string
   name: string
+  type: 'learning-goals'
+  slug: string
   topic: string
   description: string
   ageRange: string[]
   exampleQuestions: string[]
   practiceIdeas: string[]
   domainTags: string[]
+}
+
+export type Artifact = {
+  id: string
+  name: string
+  type: 'artifact'
+  slug: string
+  artifactType: string
+  description: string
+  contentFolder: string
+}
+
+export type GameObject = Character | Place | LearningGoal | Artifact
+
+export type GameObjectRef = {
+  type: GameObjectType
+  id: string
 }
 
 export type StoryRequest = {
@@ -143,6 +168,7 @@ export type StoryContent = {
   characters: Character[]
   places: Place[]
   learningGoals: LearningGoal[]
+  artifacts: Artifact[]
   source: 'runtime' | 'fallback'
   warnings: string[]
 }
@@ -151,4 +177,5 @@ export type ContentManifest = {
   characters: string[]
   places: string[]
   learningGoals: string[]
+  artifacts: string[]
 }

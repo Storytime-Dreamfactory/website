@@ -4,6 +4,7 @@ import type { ExecFileOptionsWithStringEncoding } from 'node:child_process'
 const mocks = vi.hoisted(() => ({
   createActivityMock: vi.fn(),
   execFileMock: vi.fn(),
+  getGameObjectMock: vi.fn(),
 }))
 
 vi.mock('../../activityStore.ts', () => ({
@@ -14,6 +15,10 @@ vi.mock('node:child_process', () => ({
   execFile: mocks.execFileMock,
 }))
 
+vi.mock('../../gameObjectService.ts', () => ({
+  get: mocks.getGameObjectMock,
+}))
+
 import { CLI_TASK_IDS, runCliTaskTool } from './runCliTaskTool.ts'
 
 describe('runCliTaskTool', () => {
@@ -22,6 +27,7 @@ describe('runCliTaskTool', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mocks.createActivityMock.mockResolvedValue(undefined)
+    mocks.getGameObjectMock.mockResolvedValue(null)
     mocks.execFileMock.mockImplementation(
       (
         _command: string,
@@ -38,7 +44,7 @@ describe('runCliTaskTool', () => {
     const result = await runCliTaskTool.execute(
       {
         conversationId: 'conv-1',
-        characterId: 'yoko',
+        characterId: '00000000-0000-4000-8000-000000000001',
         characterName: 'Yoko',
       },
       {
@@ -59,7 +65,7 @@ describe('runCliTaskTool', () => {
     const result = await runCliTaskTool.execute(
       {
         conversationId: 'conv-1',
-        characterId: 'yoko',
+        characterId: '00000000-0000-4000-8000-000000000001',
         characterName: 'Yoko',
       },
       {
@@ -90,7 +96,7 @@ describe('runCliTaskTool', () => {
     const result = await runCliTaskTool.execute(
       {
         conversationId: 'conv-2',
-        characterId: 'nola',
+        characterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
         characterName: 'Nola',
       },
       {
@@ -109,10 +115,17 @@ describe('runCliTaskTool', () => {
   })
 
   it('nutzt characterId aus Context wenn characterPath fehlt', async () => {
+    mocks.getGameObjectMock.mockResolvedValue({
+      id: '00000000-0000-4000-8000-000000000001',
+      type: 'character',
+      slug: 'yoko',
+      name: 'Yoko',
+    })
+
     const result = await runCliTaskTool.execute(
       {
         conversationId: 'conv-3',
-        characterId: 'yoko',
+        characterId: '00000000-0000-4000-8000-000000000001',
         characterName: 'Yoko',
       },
       {

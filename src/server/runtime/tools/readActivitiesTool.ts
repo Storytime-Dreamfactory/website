@@ -1,6 +1,7 @@
 import { listActivities } from '../../activityStore.ts'
 import { CHARACTER_AGENT_TOOLS } from '../../characterAgentDefinitions.ts'
 import { trackTraceActivitySafely } from '../../traceActivity.ts'
+import { readCanonicalStoryText } from '../../../storyText.ts'
 import type { RuntimeToolHandler } from './runtimeToolTypes.ts'
 import { trackRuntimeToolActivitySafely } from './runtimeToolActivityLogger.ts'
 
@@ -9,6 +10,7 @@ type ReadActivitiesToolInput = {
   offset?: number
   scope?: 'external' | 'all'
   conversationId?: string
+  fetchAll?: boolean
 }
 
 type ReadActivitiesToolOutput = {
@@ -32,6 +34,7 @@ type ReadActivitiesToolOutput = {
       imageAssetPath?: string
       originalImageUrl?: string
     }
+    storySummary?: string
     summary?: string
     metadata: Record<string, unknown>
   }>
@@ -52,6 +55,8 @@ const clampOffset = (value: unknown): number => {
   if (typeof value !== 'number' || !Number.isFinite(value)) return 0
   return Math.max(0, Math.floor(value))
 }
+
+const shouldFetchAll = (value: unknown): boolean => value === true
 
 const readText = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -104,13 +109,35 @@ export const readActivitiesTool: RuntimeToolHandler<
     const limit = clampLimit(input.limit)
     const offset = clampOffset(input.offset)
     const conversationId = readText(input.conversationId)
+    const fetchAll = shouldFetchAll(input.fetchAll)
 
-    const activities = await listActivities({
-      conversationId: conversationId ?? context.conversationId,
+    const queryBase = {
+      characterId: context.characterId,
+      conversationId,
       isPublic: scope === 'external' ? true : undefined,
-      limit,
-      offset,
-    })
+    }
+
+    const activities = fetchAll
+      ? await (async () => {
+          const allItems: Awaited<ReturnType<typeof listActivities>> = []
+          let pageOffset = offset
+          while (true) {
+            const page = await listActivities({
+              ...queryBase,
+              limit,
+              offset: pageOffset,
+            })
+            allItems.push(...page)
+            if (page.length < limit) break
+            pageOffset += page.length
+          }
+          return allItems
+        })()
+      : await listActivities({
+          ...queryBase,
+          limit,
+          offset,
+        })
     const scopedActivities =
       scope === 'external'
         ? activities.filter((activity) => !isTechnicalActivity(activity.activityType))
@@ -118,6 +145,11 @@ export const readActivitiesTool: RuntimeToolHandler<
     const items = scopedActivities.map((activity) => {
       const metadata = (activity.metadata ?? {}) as Record<string, unknown>
       const object = (activity.object ?? {}) as Record<string, unknown>
+      const canonicalSummary = readCanonicalStoryText({
+        activityType: activity.activityType,
+        storySummary: activity.storySummary,
+        metadata,
+      })
       const heroImageUrl = readText(metadata.heroImageUrl)
       const imageUrl = readText(metadata.imageUrl)
       const imageLinkUrl = readText(metadata.imageLinkUrl)
@@ -146,13 +178,14 @@ export const readActivitiesTool: RuntimeToolHandler<
           imageAssetPath,
           originalImageUrl,
         },
-        summary: readText(metadata.summary),
+        storySummary: canonicalSummary,
+        summary: canonicalSummary,
         metadata,
       }
     })
     const activityCount = items.length
     const nextOffset = offset + items.length
-    const hasMore = activities.length >= limit
+    const hasMore = fetchAll ? false : activities.length >= limit
 
     await trackRuntimeToolActivitySafely({
       activityType: 'tool.activities.read',
@@ -173,6 +206,7 @@ export const readActivitiesTool: RuntimeToolHandler<
         offset,
         nextOffset,
         hasMore,
+        fetchAll,
         stage: 'runtime-router',
       },
     })
@@ -187,7 +221,7 @@ export const readActivitiesTool: RuntimeToolHandler<
       traceStage: 'tool',
       traceKind: 'response',
       traceSource: 'runtime',
-      output: { activityCount, scope, limit, offset, nextOffset, hasMore },
+      output: { activityCount, scope, limit, offset, nextOffset, hasMore, fetchAll },
       ok: true,
     })
 

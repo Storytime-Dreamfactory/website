@@ -1,7 +1,7 @@
 import { Pool } from 'pg'
 import { randomUUID } from 'node:crypto'
+import { getStorytimeDbPool } from './dbPool.ts'
 
-const POSTGRES_DEFAULT_URL = 'postgres://storytime:storytime@localhost:5433/storytime'
 const ALLOWED_MESSAGE_ROLES = new Set(['user', 'assistant', 'system'])
 
 export type ConversationMetadata = Record<string, unknown>
@@ -12,7 +12,9 @@ export type ConversationImageMetadata = {
   imageLinkUrl?: string
   originalImageUrl?: string
   imageAssetPath?: string
+  imagePrompt?: string
   scenePrompt?: string
+  sceneSummary?: string
   interactionTargets?: Array<{
     type: string
     id: string
@@ -73,8 +75,7 @@ let schemaEnsurePromise: Promise<void> | null = null
 const getPool = (): Pool => {
   if (pool) return pool
 
-  const connectionString = process.env.DATABASE_URL?.trim() || POSTGRES_DEFAULT_URL
-  pool = new Pool({ connectionString })
+  pool = getStorytimeDbPool()
   return pool
 }
 
@@ -210,12 +211,32 @@ export const endConversation = async (
   }
 
   const metadata = normalizeMetadata(options.metadata)
+  return mergeConversationMetadata({
+    conversationId: normalizedConversationId,
+    metadata,
+    markEnded: true,
+  })
+}
+
+export const mergeConversationMetadata = async (input: {
+  conversationId: string
+  metadata?: ConversationMetadata
+  markEnded?: boolean
+}): Promise<ConversationRecord> => {
+  await ensureSchemaReady()
+
+  const normalizedConversationId = input.conversationId.trim()
+  if (!normalizedConversationId) {
+    throw new Error('conversationId ist erforderlich.')
+  }
+
+  const metadata = normalizeMetadata(input.metadata)
   const db = getPool()
   const result = await db.query<ConversationRow>(
     `
     UPDATE conversations
     SET
-      ended_at = COALESCE(ended_at, NOW()),
+      ended_at = CASE WHEN $3::boolean THEN COALESCE(ended_at, NOW()) ELSE ended_at END,
       metadata = conversations.metadata || $2::jsonb
     WHERE conversation_id = $1
     RETURNING
@@ -226,7 +247,7 @@ export const endConversation = async (
       ended_at::text,
       metadata
     `,
-    [normalizedConversationId, JSON.stringify(metadata)],
+    [normalizedConversationId, JSON.stringify(metadata), input.markEnded === true],
   )
 
   if (result.rowCount === 0) {
@@ -354,5 +375,57 @@ export const ensureConversationTables = async (): Promise<{
   return {
     conversationsTableCreated: !existedBefore.conversations_exists,
     messagesTableCreated: !existedBefore.messages_exists,
+  }
+}
+
+export const getLatestConversationForCharacter = async (
+  characterId: string,
+): Promise<ConversationDetailsRecord | null> => {
+  await ensureSchemaReady()
+
+  const normalizedCharacterId = characterId.trim()
+  if (!normalizedCharacterId) return null
+
+  const db = getPool()
+  const conversationResult = await db.query<ConversationRow>(
+    `
+    SELECT
+      conversation_id,
+      user_id,
+      character_id,
+      started_at::text,
+      ended_at::text,
+      metadata
+    FROM conversations
+    WHERE character_id = $1
+    ORDER BY started_at DESC
+    LIMIT 1
+    `,
+    [normalizedCharacterId],
+  )
+
+  if (conversationResult.rowCount === 0) return null
+
+  const conversation = toConversationRecord(conversationResult.rows[0])
+  const messageResult = await db.query<ConversationMessageRow>(
+    `
+    SELECT
+      message_id,
+      conversation_id,
+      role,
+      content,
+      event_type,
+      created_at::text,
+      metadata
+    FROM conversation_messages
+    WHERE conversation_id = $1
+    ORDER BY created_at ASC, message_id ASC
+    `,
+    [conversation.conversationId],
+  )
+
+  return {
+    conversation,
+    messages: messageResult.rows.map((row) => toConversationMessageRecord(row)),
   }
 }

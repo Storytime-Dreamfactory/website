@@ -1,0 +1,223 @@
+{
+  "generatedAt": "2026-03-10T12:01:24.903Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/agatha-knusperhexe/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/7d688ec8-6d27-43d1-9803-6b0d4448f10a",
+  "styleReferencePaths": [],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-klein-4b",
+    "heroModel": "flux-2-klein-4b"
+  },
+  "character": {
+    "id": "7d688ec8-6d27-43d1-9803-6b0d4448f10a",
+    "name": "Agatha Knusperhexe",
+    "type": "character",
+    "slug": "agatha-knusperhexe",
+    "shortDescription": "Eine alte, krumme Hexe mit spitzer Nase, die in einem Lebkuchenhaus mitten im dunklen Tann lebt. Sie lockt Kinder mit suessen Koestlichkeiten und hat einen listigen Blick.",
+    "basis": {
+      "ageHint": "erwachsen",
+      "species": "Hexe (maerchenhaft)",
+      "genderExpression": "feminin",
+      "roleArchetype": "challenger"
+    },
+    "appearance": {
+      "bodyShape": "duenn, krummrückig, mit langen Fingern und hakenfoermiger Nase",
+      "colors": [
+        "schwarz",
+        "violett",
+        "grau"
+      ],
+      "hairOrFur": {
+        "color": "silbergrau",
+        "texture": "struppig",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "gelblich",
+        "expression": "listig und funkelnd"
+      },
+      "distinctiveFeatures": [
+        "spitze, warzige Nase",
+        "buckliger Ruecken",
+        "langer, zerlumpter Mantel"
+      ],
+      "clothingStyle": "alter, zerlumpter Hexenrock mit Flicken und spitzem Hut"
+    },
+    "personality": {
+      "coreTraits": [
+        "listig",
+        "verfuehrerisch",
+        "misstrauisch"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "unabhaengig",
+      "strengths": [
+        "kann geschickt Fallen stellen",
+        "kennt viele Zaubersprueche"
+      ],
+      "weaknesses": [
+        "wird schnell gierig",
+        "ueberschaetzt ihre Schlauheit"
+      ],
+      "quirks": [
+        "klappert beim Gehen mit ihren langen Fingern",
+        "spricht oft in Reimen, wenn sie zaubert"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Kinder ins Haus locken und festhalten",
+      "deeperNeed": "endlich Gesellschaft finden, ohne verletzt zu werden",
+      "fear": "von den Kindern hereingelegt und vertrieben zu werden",
+      "insecurity": "Bin ich vielleicht doch zu einsam fuers Glueck?",
+      "stressResponse": "fight",
+      "growthDirection": "Kann lernen, Vertrauen und echte Freundlichkeit zu zeigen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "challenger",
+        "comic_relief"
+      ],
+      "suitableLearningGoals": [
+        "selbstregulation",
+        "ehrlichkeit"
+      ],
+      "explanationStyle": "playful"
+    },
+    "origin": {
+      "birthPlace": "Knusperwald am Dunkeltann",
+      "upbringingPlaces": [
+        "Knusperwald am Dunkeltann"
+      ],
+      "culturalContext": [
+        "magische Waldeinsamkeit",
+        "Maerchenhafte Hexentradition"
+      ],
+      "religionOrBelief": "glaubt an alte Zaubersprueche und das Recht der Listigen",
+      "historicalContext": [
+        "Geschichten ueber verlorene Kinder und Hexen im Wald"
+      ],
+      "notes": "Prototypische Maerchenhexe, deutlich maerchenhaft und nicht realweltlich boese"
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/agatha-knusperhexe/standard-figur.png",
+        "description": "Alte, hagere Hexe mit buckligem Ruecken, spitzem schwarzen Hut und violettem, geflicktem Mantel; lange, knochige Finger und eine warzige Nase; steht vor ihrem suessen Lebkuchenhaus."
+      },
+      "heroImage": {
+        "file": "/content/characters/agatha-knusperhexe/hero-image.jpg",
+        "description": "Szenische Maerchenwald-Atmosphaere: Agatha steht vor dem Lebkuchenhaus, der Wald ist dunkel, das Haus leuchtet warm, sie haelt ein suesses Bonbon in der Hand und schaut listig."
+      },
+      "portrait": {
+        "file": "/content/characters/agatha-knusperhexe/portrait.png",
+        "description": "Halbnah: Agatha mit spitzem Hut, verschmitztem Laecheln und funkelnden Augen, mit einem Lebkuchen in der Hand."
+      },
+      "profileImage": {
+        "file": "/content/characters/agatha-knusperhexe/profilbild.png",
+        "description": "Frontalaufnahme von Agathas Gesicht: spitze Nase, struppiges silbernes Haar, listiger Blick, violetter Hut."
+      },
+      "additionalImages": []
+    },
+    "tags": [
+      "selbstregulation",
+      "ehrlichkeit",
+      "challenger",
+      "hexenhaus",
+      "maerchenwald",
+      "einsamkeit",
+      "verlockung",
+      "trickster",
+      "arc-learn-trust",
+      "world-dunkeltann"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "7d688ec8-6d27-43d1-9803-6b0d4448f10a:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "skipped",
+      "mode": "text-to-image",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Agatha Knusperhexe. Short description: Eine alte, krumme Hexe mit spitzer Nase, die in einem Lebkuchenhaus mitten im dunklen Tann lebt. Sie lockt Kinder mit suessen Koestlichkeiten und hat einen listigen Blick. Species: Hexe (maerchenhaft). The character must read unmistakably as a Hexe (maerchenhaft) at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: challenger. Body shape: duenn, krummrückig, mit langen Fingern und hakenfoermiger Nase. Dominant colors: schwarz, violett, grau. Hair or fur: silbergrau struppig lang. Eyes: gelblich, listig und funkelnd. Distinctive features: spitze, warzige Nase, buckliger Ruecken, langer, zerlumpter Mantel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: alter, zerlumpter Hexenrock mit Flicken und spitzem Hut. Core traits: listig, verfuehrerisch, misstrauisch. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kann geschickt Fallen stellen, kennt viele Zaubersprueche. Weaknesses: wird schnell gierig, ueberschaetzt ihre Schlauheit. Quirks: klappert beim Gehen mit ihren langen Fingern, spricht oft in Reimen, wenn sie zaubert. Visible goal: Kinder ins Haus locken und festhalten. Deeper need: endlich Gesellschaft finden, ohne verletzt zu werden. Fear: von den Kindern hereingelegt und vertrieben zu werden. Insecurity: Bin ich vielleicht doch zu einsam fuers Glueck. Stress response: fight. Growth direction: Kann lernen, Vertrauen und echte Freundlichkeit zu zeigen. Teaching roles: challenger, comic_relief. Explanation style: playful. Create a full-body standard character asset of Agatha Knusperhexe on a solid pure white background. Show enough of the body to keep the Hexe (maerchenhaft) identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Alte, hagere Hexe mit buckligem Ruecken, spitzem schwarzen Hut und violettem, geflicktem Mantel; lange, knochige Finger und eine warzige Nase; steht vor ihrem suessen Lebkuchenhaus. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Alte, hagere Hexe mit buckligem Ruecken, spitzem schwarzen Hut und violettem, geflicktem Mantel; lange, knochige Finger und eine warzige Nase; steht vor ihrem suessen Lebkuchenhaus.",
+      "publicFilePath": "/content/characters/agatha-knusperhexe/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/agatha-knusperhexe/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "91efdf3d-8d57-4f90-9fba-0321a55b5b91",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/10/3cbd372cab934b7280bcbf96e6c324e1_sample.png?se=2026-03-10T12%3A09%3A57Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=pe808IB9GPufKgOfA%2BuXrrIReJd0c9A71RqK0yJwBU4%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "7d688ec8-6d27-43d1-9803-6b0d4448f10a:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Agatha Knusperhexe. Short description: Eine alte, krumme Hexe mit spitzer Nase, die in einem Lebkuchenhaus mitten im dunklen Tann lebt. Sie lockt Kinder mit suessen Koestlichkeiten und hat einen listigen Blick. Species: Hexe (maerchenhaft). The character must read unmistakably as a Hexe (maerchenhaft) at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: challenger. Body shape: duenn, krummrückig, mit langen Fingern und hakenfoermiger Nase. Dominant colors: schwarz, violett, grau. Hair or fur: silbergrau struppig lang. Eyes: gelblich, listig und funkelnd. Distinctive features: spitze, warzige Nase, buckliger Ruecken, langer, zerlumpter Mantel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: alter, zerlumpter Hexenrock mit Flicken und spitzem Hut. Core traits: listig, verfuehrerisch, misstrauisch. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kann geschickt Fallen stellen, kennt viele Zaubersprueche. Weaknesses: wird schnell gierig, ueberschaetzt ihre Schlauheit. Quirks: klappert beim Gehen mit ihren langen Fingern, spricht oft in Reimen, wenn sie zaubert. Visible goal: Kinder ins Haus locken und festhalten. Deeper need: endlich Gesellschaft finden, ohne verletzt zu werden. Fear: von den Kindern hereingelegt und vertrieben zu werden. Insecurity: Bin ich vielleicht doch zu einsam fuers Glueck. Stress response: fight. Growth direction: Kann lernen, Vertrauen und echte Freundlichkeit zu zeigen. Teaching roles: challenger, comic_relief. Explanation style: playful. Birth place: Knusperwald am Dunkeltann. Raised in: Knusperwald am Dunkeltann. Cultural context: magische Waldeinsamkeit, Maerchenhafte Hexentradition. Belief or worldview: glaubt an alte Zaubersprueche und das Recht der Listigen. Historical context: Geschichten ueber verlorene Kinder und Hexen im Wald. Origin notes: Prototypische Maerchenhexe, deutlich maerchenhaft und nicht realweltlich boese. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Agatha Knusperhexe in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Szenische Maerchenwald-Atmosphaere: Agatha steht vor dem Lebkuchenhaus, der Wald ist dunkel, das Haus leuchtet warm, sie haelt ein suesses Bonbon in der Hand und schaut listig. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Szenische Maerchenwald-Atmosphaere: Agatha steht vor dem Lebkuchenhaus, der Wald ist dunkel, das Haus leuchtet warm, sie haelt ein suesses Bonbon in der Hand und schaut listig.",
+      "publicFilePath": "/content/characters/agatha-knusperhexe/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/agatha-knusperhexe/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "98280ae6-1e85-46cb-94dd-e8a57974675b",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/10/45540073358442baaf48e2c6334769ce_sample.jpeg?se=2026-03-10T12%3A10%3A18Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=LnLKsrEh9JEAEU8axGrdL%2BCoebJlQM6sUbnMyiVLhx0%3D",
+      "cost": 1.7000000000000002,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "7d688ec8-6d27-43d1-9803-6b0d4448f10a:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Agatha Knusperhexe. Short description: Eine alte, krumme Hexe mit spitzer Nase, die in einem Lebkuchenhaus mitten im dunklen Tann lebt. Sie lockt Kinder mit suessen Koestlichkeiten und hat einen listigen Blick. Species: Hexe (maerchenhaft). The character must read unmistakably as a Hexe (maerchenhaft) at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: challenger. Body shape: duenn, krummrückig, mit langen Fingern und hakenfoermiger Nase. Dominant colors: schwarz, violett, grau. Hair or fur: silbergrau struppig lang. Eyes: gelblich, listig und funkelnd. Distinctive features: spitze, warzige Nase, buckliger Ruecken, langer, zerlumpter Mantel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: alter, zerlumpter Hexenrock mit Flicken und spitzem Hut. Core traits: listig, verfuehrerisch, misstrauisch. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kann geschickt Fallen stellen, kennt viele Zaubersprueche. Weaknesses: wird schnell gierig, ueberschaetzt ihre Schlauheit. Quirks: klappert beim Gehen mit ihren langen Fingern, spricht oft in Reimen, wenn sie zaubert. Visible goal: Kinder ins Haus locken und festhalten. Deeper need: endlich Gesellschaft finden, ohne verletzt zu werden. Fear: von den Kindern hereingelegt und vertrieben zu werden. Insecurity: Bin ich vielleicht doch zu einsam fuers Glueck. Stress response: fight. Growth direction: Kann lernen, Vertrauen und echte Freundlichkeit zu zeigen. Teaching roles: challenger, comic_relief. Explanation style: playful. Birth place: Knusperwald am Dunkeltann. Raised in: Knusperwald am Dunkeltann. Cultural context: magische Waldeinsamkeit, Maerchenhafte Hexentradition. Belief or worldview: glaubt an alte Zaubersprueche und das Recht der Listigen. Historical context: Geschichten ueber verlorene Kinder und Hexen im Wald. Origin notes: Prototypische Maerchenhexe, deutlich maerchenhaft und nicht realweltlich boese. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Agatha Knusperhexe. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnah: Agatha mit spitzem Hut, verschmitztem Laecheln und funkelnden Augen, mit einem Lebkuchen in der Hand. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnah: Agatha mit spitzem Hut, verschmitztem Laecheln und funkelnden Augen, mit einem Lebkuchen in der Hand.",
+      "publicFilePath": "/content/characters/agatha-knusperhexe/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/agatha-knusperhexe/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "ccb3e228-acd3-46bb-ac39-ea55ed7111ba",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/10/34b6ad3048f2415ca361343e1ff5696d_sample.png?se=2026-03-10T12%3A11%3A04Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=pkaiePAzj6KasVM%2Bi8BokYps6U41Fej3XWgEJH9LqM4%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "7d688ec8-6d27-43d1-9803-6b0d4448f10a:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Agatha Knusperhexe. Short description: Eine alte, krumme Hexe mit spitzer Nase, die in einem Lebkuchenhaus mitten im dunklen Tann lebt. Sie lockt Kinder mit suessen Koestlichkeiten und hat einen listigen Blick. Species: Hexe (maerchenhaft). The character must read unmistakably as a Hexe (maerchenhaft) at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: challenger. Body shape: duenn, krummrückig, mit langen Fingern und hakenfoermiger Nase. Dominant colors: schwarz, violett, grau. Hair or fur: silbergrau struppig lang. Eyes: gelblich, listig und funkelnd. Distinctive features: spitze, warzige Nase, buckliger Ruecken, langer, zerlumpter Mantel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: alter, zerlumpter Hexenrock mit Flicken und spitzem Hut. Core traits: listig, verfuehrerisch, misstrauisch. Temperament: nachdenklich. Social style: unabhaengig. Strengths: kann geschickt Fallen stellen, kennt viele Zaubersprueche. Weaknesses: wird schnell gierig, ueberschaetzt ihre Schlauheit. Quirks: klappert beim Gehen mit ihren langen Fingern, spricht oft in Reimen, wenn sie zaubert. Visible goal: Kinder ins Haus locken und festhalten. Deeper need: endlich Gesellschaft finden, ohne verletzt zu werden. Fear: von den Kindern hereingelegt und vertrieben zu werden. Insecurity: Bin ich vielleicht doch zu einsam fuers Glueck. Stress response: fight. Growth direction: Kann lernen, Vertrauen und echte Freundlichkeit zu zeigen. Teaching roles: challenger, comic_relief. Explanation style: playful. Birth place: Knusperwald am Dunkeltann. Raised in: Knusperwald am Dunkeltann. Cultural context: magische Waldeinsamkeit, Maerchenhafte Hexentradition. Belief or worldview: glaubt an alte Zaubersprueche und das Recht der Listigen. Historical context: Geschichten ueber verlorene Kinder und Hexen im Wald. Origin notes: Prototypische Maerchenhexe, deutlich maerchenhaft und nicht realweltlich boese. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Agatha Knusperhexe. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Frontalaufnahme von Agathas Gesicht: spitze Nase, struppiges silbernes Haar, listiger Blick, violetter Hut. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Frontalaufnahme von Agathas Gesicht: spitze Nase, struppiges silbernes Haar, listiger Blick, violetter Hut.",
+      "publicFilePath": "/content/characters/agatha-knusperhexe/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/agatha-knusperhexe/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "d776cdc6-baf9-4edc-a046-8ca2bbf2ed84",
+      "sampleUrl": "https://bfldeliverysc.blob.core.windows.net/results/2026/03/10/de1d31bef6f24a2091dc4ed6c34e2019_sample.png?se=2026-03-10T12%3A11%3A23Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=EkUPnL1gXE5hWIoezuiDK5bGbZTTm7KcjrJL1RIROX8%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    }
+  ]
+}

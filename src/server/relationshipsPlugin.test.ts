@@ -87,35 +87,35 @@ describe('relationshipsPlugin /by-object', () => {
     mocks.listRelationshipsByOtherRelatedObjectMock.mockResolvedValue([
       {
         relationship: {
-          relationshipId: 'nola#romi#freundin',
-          sourceCharacterId: 'nola',
-          targetCharacterId: 'romi',
+          relationshipId: '8eb40291-65ee-49b6-b826-d7c7e97404c0#e3bf634f-af12-4d51-aeb1-d1464bea2d13#freundin',
+          sourceCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+          targetCharacterId: 'e3bf634f-af12-4d51-aeb1-d1464bea2d13',
           relationshipType: 'freundin',
           relationshipTypeReadable: 'Freundin',
           relationship: 'Freundin',
           description: undefined,
           metadata: {},
-          otherRelatedObjects: [{ type: 'place', id: 'crystal-lake' }],
+          otherRelatedObjects: [{ type: 'place', id: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a' }],
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
         },
-        matchedObject: { type: 'place', id: 'crystal-lake' },
+        matchedObject: { type: 'place', id: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a' },
       },
     ])
 
     const { response, store } = createResponse()
     await handler(
-      { method: 'GET', url: '/by-object?type=place&id=crystal-lake' } as IncomingMessage,
+      { method: 'GET', url: '/by-object?type=place&id=cb8ce8f2-1b10-48b9-8afc-905a7a8d060a' } as IncomingMessage,
       response,
       () => undefined,
     )
 
     expect((response as any).statusCode).toBe(200)
     expect(store.body).toContain('"type":"place"')
-    expect(store.body).toContain('"id":"crystal-lake"')
+    expect(store.body).toContain('"id":"cb8ce8f2-1b10-48b9-8afc-905a7a8d060a"')
     expect(mocks.listRelationshipsByOtherRelatedObjectMock).toHaveBeenCalledWith(
       'place',
-      'crystal-lake',
+      'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a',
     )
   })
 })

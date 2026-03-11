@@ -1,0 +1,285 @@
+{
+  "generatedAt": "2026-03-10T09:54:10.153Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/flora-blumenfreude/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/78a52cad-30b5-468f-9687-c50c30a4bd39",
+  "styleReferencePaths": [],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-klein-4b",
+    "heroModel": "flux-2-klein-4b"
+  },
+  "character": {
+    "id": "78a52cad-30b5-468f-9687-c50c30a4bd39",
+    "name": "Flora Blumenfreude",
+    "type": "character",
+    "slug": "flora-blumenfreude",
+    "shortDescription": "Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "feminin",
+      "roleArchetype": "helper"
+    },
+    "appearance": {
+      "bodyShape": "schlank und lebendig, mit weichen Bewegungen",
+      "colors": [
+        "hellblond",
+        "weiss",
+        "bunt"
+      ],
+      "hairOrFur": {
+        "color": "blond",
+        "texture": "glatt mit leichtem Glanz",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "leuchtend blau",
+        "expression": "offen und herzlich"
+      },
+      "distinctiveFeatures": [
+        "goldene kleine Ohrringe",
+        "weisse Bluse mit buntem Blumenmuster",
+        "strahlendes, einladendes Laecheln"
+      ],
+      "clothingStyle": "freundlich-verspielte Alltagskleidung mit floralen Mustern"
+    },
+    "personality": {
+      "coreTraits": [
+        "hilfsbereit",
+        "optimistisch",
+        "aufmerksam"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "offen",
+      "strengths": [
+        "bringt andere zum Laecheln",
+        "bemerkt schnell, wenn jemand Hilfe braucht"
+      ],
+      "weaknesses": [
+        "vergisst manchmal eigene Beduerfnisse",
+        "nimmt sich Sorgen anderer zu sehr zu Herzen"
+      ],
+      "quirks": [
+        "steckt gern kleine Blueten in ihr Haar",
+        "sammelt bunte Steine und legt sie in Taschen"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Anderen helfen und Freude verbreiten",
+      "deeperNeed": "Selbst auch Geborgenheit und echte Freundschaft spueren",
+      "fear": "Allein gelassen zu werden, wenn sie selbst Hilfe braucht",
+      "insecurity": "Bin ich wirklich wichtig, wenn ich mal nichts helfen kann?",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "helper",
+        "peer"
+      ],
+      "suitableLearningGoals": [
+        "freundlichkeit",
+        "selbstfuersorge"
+      ],
+      "explanationStyle": "playful"
+    },
+    "origin": {
+      "birthPlace": "Sonnenblumenhain",
+      "upbringingPlaces": [
+        "Sonnenblumenhain",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "Blumenfest-Traditionen",
+        "Wert auf Gemeinschaft und gegenseitige Hilfe"
+      ],
+      "religionOrBelief": "Naturverbunden, glaubt an die Kraft von kleinen Gesten",
+      "historicalContext": [
+        "Jedes Jahr das grosse Fruehlingsfest im Dorf"
+      ],
+      "notes": "Starke Verbindung zu Wiesen, Feldern und Dorfgemeinschaft; passt gut in offene, lebendige Naturumgebung"
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "whispering-meadow",
+          "type": "Kindheitsort",
+          "description": "Spielte oft auf dieser bunten Wiese und lernte dort, Freude zu teilen"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/flora-blumenfreude/standard-figur.png",
+        "description": "Flora steht freundlich laechelnd, mit goldenen Ohrringen, blonder mittellanger Frisur und weisser Bluse mit buntem Blumenmuster; ihre lockere, offene Haltung und ein Bluetenstraeusschen in der Hand machen sie sofort erkennbar."
+      },
+      "heroImage": {
+        "file": "/content/characters/flora-blumenfreude/hero-image.jpg",
+        "description": "Flora sitzt mit ausgebreiteten Armen auf einer Blumenwiese, lacht herzlich und schaut in die Sonne; im Hintergrund bunte Blueten und ein sanfter Wind, der ihr Haar bewegt."
+      },
+      "portrait": {
+        "file": "/content/characters/flora-blumenfreude/portrait.png",
+        "description": "Halbnahes Portrait von Flora mit strahlend blauen Augen, warmem Laecheln, goldenen Ohrringen und der bunten Blumenbluse; freundlich und offen."
+      },
+      "profileImage": {
+        "file": "/content/characters/flora-blumenfreude/profilbild.png",
+        "description": "Quadratisches Bild mit Fokus auf Floras Gesicht, ihre blauen Augen, blondes Haar, das Laecheln und die goldenen Ohrringe; dezenter Blumenmuster-Hintergrund."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/flora-blumenfreude/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Flora Blumenfreude mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/flora-blumenfreude/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Flora Blumenfreude mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "freundlichkeit",
+      "hilfsbereitschaft",
+      "helper",
+      "selbstfuersorge",
+      "peer",
+      "blumen",
+      "sonnenblumenhain",
+      "wiese",
+      "lebensfreude",
+      "naturverbunden"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-09",
+      "updatedAt": "2026-03-09",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "78a52cad-30b5-468f-9687-c50c30a4bd39:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "skipped",
+      "mode": "text-to-image",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Flora Blumenfreude. Short description: Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: helper. Body shape: schlank und lebendig, mit weichen Bewegungen. Dominant colors: hellblond, weiss, bunt. Hair or fur: blond glatt mit leichtem Glanz mittellang. Eyes: leuchtend blau, offen und herzlich. Distinctive features: goldene kleine Ohrringe, weisse Bluse mit buntem Blumenmuster, strahlendes, einladendes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: freundlich-verspielte Alltagskleidung mit floralen Mustern. Core traits: hilfsbereit, optimistisch, aufmerksam. Temperament: lebhaft. Social style: offen. Strengths: bringt andere zum Laecheln, bemerkt schnell, wenn jemand Hilfe braucht. Weaknesses: vergisst manchmal eigene Beduerfnisse, nimmt sich Sorgen anderer zu sehr zu Herzen. Quirks: steckt gern kleine Blueten in ihr Haar, sammelt bunte Steine und legt sie in Taschen. Visible goal: Anderen helfen und Freude verbreiten. Deeper need: Selbst auch Geborgenheit und echte Freundschaft spueren. Fear: Allein gelassen zu werden, wenn sie selbst Hilfe braucht. Insecurity: Bin ich wirklich wichtig, wenn ich mal nichts helfen kann. Stress response: hesitate_then_try. Growth direction: lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten. Teaching roles: helper, peer. Explanation style: playful. Create a full-body standard character asset of Flora Blumenfreude on a solid pure white background. Show enough of the body to keep the Mensch identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Flora steht freundlich laechelnd, mit goldenen Ohrringen, blonder mittellanger Frisur und weisser Bluse mit buntem Blumenmuster; ihre lockere, offene Haltung und ein Bluetenstraeusschen in der Hand machen sie sofort erkennbar. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Flora steht freundlich laechelnd, mit goldenen Ohrringen, blonder mittellanger Frisur und weisser Bluse mit buntem Blumenmuster; ihre lockere, offene Haltung und ein Bluetenstraeusschen in der Hand machen sie sofort erkennbar.",
+      "publicFilePath": "/content/characters/flora-blumenfreude/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/flora-blumenfreude/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "b68e4386-09f8-452e-b083-febf794e9dc9",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/10/459fd82803d841b78ec5a062a5b7c011_sample.png?se=2026-03-10T10%3A03%3A36Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=DXSP1QLaSL4zPBopbIMszddvzw88jAzDTyCQG/rLDzY%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "78a52cad-30b5-468f-9687-c50c30a4bd39:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Flora Blumenfreude. Short description: Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: helper. Body shape: schlank und lebendig, mit weichen Bewegungen. Dominant colors: hellblond, weiss, bunt. Hair or fur: blond glatt mit leichtem Glanz mittellang. Eyes: leuchtend blau, offen und herzlich. Distinctive features: goldene kleine Ohrringe, weisse Bluse mit buntem Blumenmuster, strahlendes, einladendes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: freundlich-verspielte Alltagskleidung mit floralen Mustern. Core traits: hilfsbereit, optimistisch, aufmerksam. Temperament: lebhaft. Social style: offen. Strengths: bringt andere zum Laecheln, bemerkt schnell, wenn jemand Hilfe braucht. Weaknesses: vergisst manchmal eigene Beduerfnisse, nimmt sich Sorgen anderer zu sehr zu Herzen. Quirks: steckt gern kleine Blueten in ihr Haar, sammelt bunte Steine und legt sie in Taschen. Visible goal: Anderen helfen und Freude verbreiten. Deeper need: Selbst auch Geborgenheit und echte Freundschaft spueren. Fear: Allein gelassen zu werden, wenn sie selbst Hilfe braucht. Insecurity: Bin ich wirklich wichtig, wenn ich mal nichts helfen kann. Stress response: hesitate_then_try. Growth direction: lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten. Teaching roles: helper, peer. Explanation style: playful. Birth place: Sonnenblumenhain. Raised in: Sonnenblumenhain, Whispering Meadow. Cultural context: Blumenfest-Traditionen, Wert auf Gemeinschaft und gegenseitige Hilfe. Belief or worldview: Naturverbunden, glaubt an die Kraft von kleinen Gesten. Historical context: Jedes Jahr das grosse Fruehlingsfest im Dorf. Origin notes: Starke Verbindung zu Wiesen, Feldern und Dorfgemeinschaft; passt gut in offene, lebendige Naturumgebung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Flora Blumenfreude in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Flora sitzt mit ausgebreiteten Armen auf einer Blumenwiese, lacht herzlich und schaut in die Sonne; im Hintergrund bunte Blueten und ein sanfter Wind, der ihr Haar bewegt. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Flora sitzt mit ausgebreiteten Armen auf einer Blumenwiese, lacht herzlich und schaut in die Sonne; im Hintergrund bunte Blueten und ein sanfter Wind, der ihr Haar bewegt.",
+      "publicFilePath": "/content/characters/flora-blumenfreude/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/flora-blumenfreude/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "9cacc62e-a1ae-4a8d-b1b2-ea1c1bf44a11",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/10/b417836d37824ebd8cd14ae41435902f_sample.jpeg?se=2026-03-10T10%3A03%3A43Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=j4ksS4N4udx0pDxkz0rwjUsuwtwaQNRsEybpxpWH%2Baw%3D",
+      "cost": 1.7000000000000002,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "78a52cad-30b5-468f-9687-c50c30a4bd39:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Flora Blumenfreude. Short description: Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: helper. Body shape: schlank und lebendig, mit weichen Bewegungen. Dominant colors: hellblond, weiss, bunt. Hair or fur: blond glatt mit leichtem Glanz mittellang. Eyes: leuchtend blau, offen und herzlich. Distinctive features: goldene kleine Ohrringe, weisse Bluse mit buntem Blumenmuster, strahlendes, einladendes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: freundlich-verspielte Alltagskleidung mit floralen Mustern. Core traits: hilfsbereit, optimistisch, aufmerksam. Temperament: lebhaft. Social style: offen. Strengths: bringt andere zum Laecheln, bemerkt schnell, wenn jemand Hilfe braucht. Weaknesses: vergisst manchmal eigene Beduerfnisse, nimmt sich Sorgen anderer zu sehr zu Herzen. Quirks: steckt gern kleine Blueten in ihr Haar, sammelt bunte Steine und legt sie in Taschen. Visible goal: Anderen helfen und Freude verbreiten. Deeper need: Selbst auch Geborgenheit und echte Freundschaft spueren. Fear: Allein gelassen zu werden, wenn sie selbst Hilfe braucht. Insecurity: Bin ich wirklich wichtig, wenn ich mal nichts helfen kann. Stress response: hesitate_then_try. Growth direction: lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten. Teaching roles: helper, peer. Explanation style: playful. Birth place: Sonnenblumenhain. Raised in: Sonnenblumenhain, Whispering Meadow. Cultural context: Blumenfest-Traditionen, Wert auf Gemeinschaft und gegenseitige Hilfe. Belief or worldview: Naturverbunden, glaubt an die Kraft von kleinen Gesten. Historical context: Jedes Jahr das grosse Fruehlingsfest im Dorf. Origin notes: Starke Verbindung zu Wiesen, Feldern und Dorfgemeinschaft; passt gut in offene, lebendige Naturumgebung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Flora Blumenfreude. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Portrait von Flora mit strahlend blauen Augen, warmem Laecheln, goldenen Ohrringen und der bunten Blumenbluse; freundlich und offen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Portrait von Flora mit strahlend blauen Augen, warmem Laecheln, goldenen Ohrringen und der bunten Blumenbluse; freundlich und offen.",
+      "publicFilePath": "/content/characters/flora-blumenfreude/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/flora-blumenfreude/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "918334ef-b261-4e0d-88a0-646047910fd4",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/10/ecbd479ddd054205acf7f21bae1209cd_sample.png?se=2026-03-10T10%3A03%3A50Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Kyjn93ocQfnOnc7N1RaGDGDyHZdaAluEH/rmFhB9Sf4%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "78a52cad-30b5-468f-9687-c50c30a4bd39:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Flora Blumenfreude. Short description: Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: helper. Body shape: schlank und lebendig, mit weichen Bewegungen. Dominant colors: hellblond, weiss, bunt. Hair or fur: blond glatt mit leichtem Glanz mittellang. Eyes: leuchtend blau, offen und herzlich. Distinctive features: goldene kleine Ohrringe, weisse Bluse mit buntem Blumenmuster, strahlendes, einladendes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: freundlich-verspielte Alltagskleidung mit floralen Mustern. Core traits: hilfsbereit, optimistisch, aufmerksam. Temperament: lebhaft. Social style: offen. Strengths: bringt andere zum Laecheln, bemerkt schnell, wenn jemand Hilfe braucht. Weaknesses: vergisst manchmal eigene Beduerfnisse, nimmt sich Sorgen anderer zu sehr zu Herzen. Quirks: steckt gern kleine Blueten in ihr Haar, sammelt bunte Steine und legt sie in Taschen. Visible goal: Anderen helfen und Freude verbreiten. Deeper need: Selbst auch Geborgenheit und echte Freundschaft spueren. Fear: Allein gelassen zu werden, wenn sie selbst Hilfe braucht. Insecurity: Bin ich wirklich wichtig, wenn ich mal nichts helfen kann. Stress response: hesitate_then_try. Growth direction: lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten. Teaching roles: helper, peer. Explanation style: playful. Birth place: Sonnenblumenhain. Raised in: Sonnenblumenhain, Whispering Meadow. Cultural context: Blumenfest-Traditionen, Wert auf Gemeinschaft und gegenseitige Hilfe. Belief or worldview: Naturverbunden, glaubt an die Kraft von kleinen Gesten. Historical context: Jedes Jahr das grosse Fruehlingsfest im Dorf. Origin notes: Starke Verbindung zu Wiesen, Feldern und Dorfgemeinschaft; passt gut in offene, lebendige Naturumgebung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Flora Blumenfreude. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Bild mit Fokus auf Floras Gesicht, ihre blauen Augen, blondes Haar, das Laecheln und die goldenen Ohrringe; dezenter Blumenmuster-Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Bild mit Fokus auf Floras Gesicht, ihre blauen Augen, blondes Haar, das Laecheln und die goldenen Ohrringe; dezenter Blumenmuster-Hintergrund.",
+      "publicFilePath": "/content/characters/flora-blumenfreude/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/flora-blumenfreude/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "5b3a3d08-51d3-48d9-b45f-c57a1a0c0abe",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/10/1837cbe2f66b4f828e4561d6ce76def8_sample.png?se=2026-03-10T10%3A03%3A56Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=07HozhnrA584lGmHE5u4pvzc5OSVmzp6pHdoiPHl0/4%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "78a52cad-30b5-468f-9687-c50c30a4bd39:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Flora Blumenfreude. Short description: Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: helper. Body shape: schlank und lebendig, mit weichen Bewegungen. Dominant colors: hellblond, weiss, bunt. Hair or fur: blond glatt mit leichtem Glanz mittellang. Eyes: leuchtend blau, offen und herzlich. Distinctive features: goldene kleine Ohrringe, weisse Bluse mit buntem Blumenmuster, strahlendes, einladendes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: freundlich-verspielte Alltagskleidung mit floralen Mustern. Core traits: hilfsbereit, optimistisch, aufmerksam. Temperament: lebhaft. Social style: offen. Strengths: bringt andere zum Laecheln, bemerkt schnell, wenn jemand Hilfe braucht. Weaknesses: vergisst manchmal eigene Beduerfnisse, nimmt sich Sorgen anderer zu sehr zu Herzen. Quirks: steckt gern kleine Blueten in ihr Haar, sammelt bunte Steine und legt sie in Taschen. Visible goal: Anderen helfen und Freude verbreiten. Deeper need: Selbst auch Geborgenheit und echte Freundschaft spueren. Fear: Allein gelassen zu werden, wenn sie selbst Hilfe braucht. Insecurity: Bin ich wirklich wichtig, wenn ich mal nichts helfen kann. Stress response: hesitate_then_try. Growth direction: lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten. Teaching roles: helper, peer. Explanation style: playful. Keep the same exact character identity as the character reference and show Flora Blumenfreude expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Flora Blumenfreude mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Flora Blumenfreude mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/flora-blumenfreude/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/flora-blumenfreude/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "dd50a042-15bb-4a77-956c-c9bfa5d79bec",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/10/b06d350c2bb14260b13b158c3ead6f8e_sample.png?se=2026-03-10T10%3A04%3A02Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=0qc7Euz/jhY/zfd3tFHInGuq7Ieo2XaV4%2BxiyNtnaM4%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "78a52cad-30b5-468f-9687-c50c30a4bd39:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Flora Blumenfreude. Short description: Flora ist eine froehliche junge Frau mit blonden Haaren, leuchtend blauen Augen und einem einladenden Laecheln. Sie traegt eine weisse Bluse mit bunten Blumenmustern und goldene Ohrringe. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: helper. Body shape: schlank und lebendig, mit weichen Bewegungen. Dominant colors: hellblond, weiss, bunt. Hair or fur: blond glatt mit leichtem Glanz mittellang. Eyes: leuchtend blau, offen und herzlich. Distinctive features: goldene kleine Ohrringe, weisse Bluse mit buntem Blumenmuster, strahlendes, einladendes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: freundlich-verspielte Alltagskleidung mit floralen Mustern. Core traits: hilfsbereit, optimistisch, aufmerksam. Temperament: lebhaft. Social style: offen. Strengths: bringt andere zum Laecheln, bemerkt schnell, wenn jemand Hilfe braucht. Weaknesses: vergisst manchmal eigene Beduerfnisse, nimmt sich Sorgen anderer zu sehr zu Herzen. Quirks: steckt gern kleine Blueten in ihr Haar, sammelt bunte Steine und legt sie in Taschen. Visible goal: Anderen helfen und Freude verbreiten. Deeper need: Selbst auch Geborgenheit und echte Freundschaft spueren. Fear: Allein gelassen zu werden, wenn sie selbst Hilfe braucht. Insecurity: Bin ich wirklich wichtig, wenn ich mal nichts helfen kann. Stress response: hesitate_then_try. Growth direction: lernt, auch eigene Grenzen zu achten und um Hilfe zu bitten. Teaching roles: helper, peer. Explanation style: playful. Keep the same exact character identity as the character reference and show Flora Blumenfreude expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Flora Blumenfreude mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Flora Blumenfreude mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/flora-blumenfreude/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/flora-blumenfreude/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "c14c547e-192f-4966-91c4-b4aa779cce6f",
+      "sampleUrl": "https://bfldeliverysc.blob.core.windows.net/results/2026/03/10/e687ad4ad64441eaa5e263b9ea4cd7cc_sample.png?se=2026-03-10T10%3A04%3A09Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=jJxJRupTMbkx7rWPJnScvueH/Pg4TwfjxsjFFrMRbYc%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    }
+  ]
+}

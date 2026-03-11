@@ -48,7 +48,7 @@ describe('recallConversationImage', () => {
       format: 'jpeg',
     })
     mocks.loadCharacterRuntimeProfileMock.mockResolvedValue({
-      id: 'yoko',
+      id: '00000000-0000-4000-8000-000000000001',
       name: 'Yoko',
       species: 'Mensch',
       shortDescription: '',
@@ -61,8 +61,8 @@ describe('recallConversationImage', () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
         conversationId: 'conv-1',
-        characterId: 'yoko',
-        metadata: { learningGoalIds: ['kindness'] },
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: { learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'] },
       },
       messages: [
         {
@@ -71,7 +71,7 @@ describe('recallConversationImage', () => {
           content: 'Yoko zeigt ein neues Bild: Waldszene',
           metadata: {
             imageUrl: 'https://example.com/forest.jpg',
-            scenePrompt: 'Wald mit kleinem See',
+            sceneSummary: 'Wald mit kleinem See',
           },
         },
         {
@@ -80,7 +80,7 @@ describe('recallConversationImage', () => {
           content: 'Yoko zeigt ein neues Bild: Strand',
           metadata: {
             imageUrl: 'https://example.com/beach.jpg',
-            scenePrompt: 'Strand bei Sonnenuntergang',
+            sceneSummary: 'Strand bei Sonnenuntergang',
           },
         },
       ],
@@ -109,14 +109,14 @@ describe('recallConversationImage', () => {
 
     expect(result).toEqual({
       imageUrl: '/content/conversations/conv-1/recalled-1.jpg',
-      scenePrompt: 'Strand bei Sonnenuntergang',
+      sceneSummary: 'Strand bei Sonnenuntergang',
       reason: 'query_match',
     })
     expect(mocks.appendConversationMessageMock).toHaveBeenCalledWith(
       expect.objectContaining({
         conversationId: 'conv-1',
         eventType: 'tool.image.recalled',
-        content: expect.stringContaining('Darauf zu sehen: Yoko steht am Strand'),
+        content: 'Yoko zeigte noch einmal ein Bild: Yoko steht am Strand und die Sonne geht warm unter.',
         metadata: expect.objectContaining({
           heroImageUrl: '/content/conversations/conv-1/recalled-1.jpg',
           imageVisualSummary: 'Yoko steht am Strand und die Sonne geht warm unter.',
@@ -167,8 +167,8 @@ describe('recallConversationImage', () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
         conversationId: 'conv-1',
-        characterId: 'yoko',
-        metadata: { learningGoalIds: ['kindness'] },
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: { learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'] },
       },
       messages: [
         {
@@ -178,7 +178,7 @@ describe('recallConversationImage', () => {
           content: 'Yoko zeigt ein neues Bild mit Fluss',
           metadata: {
             imageUrl: 'https://example.com/river.jpg',
-            scenePrompt: 'Ruhiger Fluss mit Boot',
+            sceneSummary: 'Ruhiger Fluss mit Boot',
           },
         },
       ],
@@ -188,7 +188,7 @@ describe('recallConversationImage', () => {
         {
           activityId: 'a-generated-1',
           activityType: 'conversation.image.generated',
-          characterId: 'yoko',
+          characterId: '00000000-0000-4000-8000-000000000001',
           conversationId: 'conv-old-juna',
           isPublic: true,
           learningGoalIds: [],
@@ -196,7 +196,7 @@ describe('recallConversationImage', () => {
           object: { url: 'https://example.com/juna.jpg' },
           metadata: {
             summary: 'Yoko und Juna spielen am Wasser',
-            scenePrompt: 'Yoko mit Juna am Fluss',
+            sceneSummary: 'Yoko mit Juna am Fluss',
             relatedCharacterNames: ['Juna'],
           },
           occurredAt: '2026-03-01T10:00:00.000Z',
@@ -219,7 +219,7 @@ describe('recallConversationImage', () => {
     expect(mocks.listActivitiesMock).toHaveBeenNthCalledWith(
       1,
       expect.objectContaining({
-        characterId: 'yoko',
+        characterId: '00000000-0000-4000-8000-000000000001',
         activityType: 'conversation.image.generated',
         limit: 300,
       }),
@@ -258,8 +258,8 @@ describe('recallConversationImage', () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
         conversationId: 'conv-1',
-        characterId: 'yoko',
-        metadata: { learningGoalIds: ['kindness'] },
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: { learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'] },
       },
       messages: [],
     })

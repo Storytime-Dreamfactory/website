@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
-import { FluxClient } from '../../tools/character-image-service/src/fluxClient.ts'
-import type { FluxModel } from '../../tools/character-image-service/src/types.ts'
+import { generateImageWithModel } from './imageGenerationService.ts'
+import { DEFAULT_IMAGE_MODEL, SUPPORTED_IMAGE_MODELS, type SupportedImageModel } from './imageModelSupport.ts'
 
 type MiddlewareStack = {
   use: (
@@ -14,16 +14,6 @@ type MiddlewareStack = {
   ) => void
 }
 
-const SUPPORTED_MODELS: FluxModel[] = [
-  'flux-2-flex',
-  'flux-2-pro-preview',
-  'flux-2-pro',
-  'flux-2-max',
-  'flux-2-klein-4b',
-  'flux-2-klein-9b',
-]
-
-const DEFAULT_MODEL: FluxModel = 'flux-2-flex'
 const DEFAULT_WIDTH = 1024
 const DEFAULT_HEIGHT = 1024
 const DEFAULT_OUTPUT_FORMAT = 'jpeg'
@@ -61,11 +51,31 @@ const clampInteger = (value: unknown, fallback: number, min: number, max: number
   return Math.max(min, Math.min(max, rounded))
 }
 
-const parseModel = (value: unknown): FluxModel => {
-  if (typeof value === 'string' && SUPPORTED_MODELS.includes(value as FluxModel)) {
-    return value as FluxModel
+const supportedModelsHint = SUPPORTED_IMAGE_MODELS.join(', ')
+
+const describeMissingApiKey = (model: SupportedImageModel): string =>
+  model.startsWith('flux-')
+    ? 'BFL_API_KEY fehlt. Bitte setze den FLUX API Key in der Umgebung.'
+    : model.startsWith('gemini-')
+      ? 'GOOGLE_GEMINI_API_KEY fehlt. Bitte setze den Google Gemini API Key in der Umgebung.'
+      : 'OPENAI_API_KEY fehlt. Bitte setze den OpenAI API Key in der Umgebung.'
+
+const isMissingKeyError = (message: string): boolean =>
+  message.includes('BFL_API_KEY fehlt') ||
+  message.includes('GOOGLE_GEMINI_API_KEY fehlt') ||
+  message.includes('OPENAI_API_KEY fehlt')
+
+const isUnsupportedModelError = (message: string): boolean => message.includes('Unsupported image model')
+
+const normalizeModel = (value: unknown): SupportedImageModel => {
+  if (typeof value === 'string' && value.trim().length > 0) {
+    const normalized = value.trim()
+    if (SUPPORTED_IMAGE_MODELS.includes(normalized as SupportedImageModel)) {
+      return normalized as SupportedImageModel
+    }
   }
-  return DEFAULT_MODEL
+
+  return DEFAULT_IMAGE_MODEL
 }
 
 const parseOutputFormat = (value: unknown): 'png' | 'jpeg' =>
@@ -80,18 +90,11 @@ const parseSeed = (value: unknown): number => {
 
 const registerImageGenerationApi = (middlewares: MiddlewareStack): void => {
   middlewares.use('/api/images', async (request, response, next) => {
+    let requestedModel: SupportedImageModel = DEFAULT_IMAGE_MODEL
     try {
       const requestUrl = new URL(request.url ?? '', 'http://localhost')
       if (request.method !== 'POST' || requestUrl.pathname !== '/generate') {
         next()
-        return
-      }
-
-      const apiKey = process.env.BFL_API_KEY?.trim()
-      if (!apiKey) {
-        json(response, 400, {
-          error: 'BFL_API_KEY fehlt. Bitte setze den FLUX API Key in der Umgebung.',
-        })
         return
       }
 
@@ -102,7 +105,8 @@ const registerImageGenerationApi = (middlewares: MiddlewareStack): void => {
         return
       }
 
-      const model = parseModel(body.model)
+      const model = normalizeModel(body.model)
+      requestedModel = model
       const width = clampDimension(body.width, DEFAULT_WIDTH)
       const height = clampDimension(body.height, DEFAULT_HEIGHT)
       const outputFormat = parseOutputFormat(body.outputFormat)
@@ -110,44 +114,40 @@ const registerImageGenerationApi = (middlewares: MiddlewareStack): void => {
       const pollIntervalMs = clampInteger(body.pollIntervalMs, DEFAULT_POLL_INTERVAL_MS, 200, 10_000)
       const maxPollAttempts = clampInteger(body.maxPollAttempts, DEFAULT_MAX_POLL_ATTEMPTS, 10, 600)
 
-      const client = new FluxClient(apiKey)
-      const requestResult = await client.generateTextToImage({
+      const result = await generateImageWithModel({
         model,
         prompt,
         width,
         height,
         outputFormat,
         seed,
-      })
-
-      const pollResult = await client.pollResult({
-        pollingUrl: requestResult.polling_url,
         pollIntervalMs,
-        maxAttempts: maxPollAttempts,
+        maxPollAttempts,
       })
-
-      if (pollResult.status !== 'Ready') {
-        const errorMessage = 'error' in pollResult ? pollResult.error : undefined
-        json(response, 502, {
-          error: errorMessage ?? 'FLUX konnte kein Bild erzeugen.',
-          status: pollResult.status,
-        })
-        return
-      }
 
       json(response, 200, {
-        requestId: requestResult.id,
-        imageUrl: pollResult.result.sample,
+        requestId: result.requestId,
+        imageUrl: result.imageUrl,
         model,
         prompt,
         width,
         height,
-        outputFormat,
+        outputFormat: result.outputFormat,
         seed,
-        cost: requestResult.cost,
+        cost: result.cost,
       })
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
+      if (isMissingKeyError(message)) {
+        json(response, 400, { error: describeMissingApiKey(requestedModel) })
+        return
+      }
+      if (isUnsupportedModelError(message)) {
+        json(response, 400, {
+          error: `Nicht unterstuetztes Bildmodell. Erlaubt: ${supportedModelsHint}`,
+        })
+        return
+      }
       json(response, 500, { error: message })
     }
   })

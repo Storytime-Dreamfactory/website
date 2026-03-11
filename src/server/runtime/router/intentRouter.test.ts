@@ -1,98 +1,52 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   detectRuntimeIntent,
   detectRuntimeIntentContextFlags,
+  detectRuntimeIntentModelDecision,
   detectRuntimeToolExecutionIntent,
-  isMemoryImageRequest,
 } from './intentRouter.ts'
 
-describe('detectRuntimeToolExecutionIntent', () => {
-  it('mapped Character-Image Requests standardmaessig auf dry-run', () => {
-    const intent = detectRuntimeToolExecutionIntent(
-      'Kannst du per CLI Character Images vorbereiten?',
-    )
-    expect(intent).toEqual(
-      expect.objectContaining({
-        taskId: 'character_images_dry_run',
-        dryRun: true,
-      }),
-    )
-  })
-
-  it('mapped explizite Execute Requests auf generate', () => {
-    const intent = detectRuntimeToolExecutionIntent(
-      'Bitte starte per CLI jetzt das Character-Images Generate.',
-    )
-    expect(intent).toEqual(
-      expect.objectContaining({
-        taskId: 'character_images_generate',
-        dryRun: false,
-      }),
-    )
-  })
-
-  it('mapped Runtime-Smoke Requests inklusive Mode', () => {
-    const intent = detectRuntimeToolExecutionIntent('Kannst du den runtime smoke test mode quiz ausfuehren?')
-    expect(intent).toEqual(
-      expect.objectContaining({
-        taskId: 'runtime_smoke',
-        dryRun: false,
-        args: expect.objectContaining({
-          mode: 'quiz',
-        }),
-      }),
-    )
-  })
+afterEach(() => {
+  vi.unstubAllGlobals()
 })
 
-describe('isMemoryImageRequest', () => {
-  it('erkennt klassische Erinnerungsfragen mit Bildbezug', () => {
-    expect(
-      isMemoryImageRequest('Kannst du dich erinnern und das Bild von damals nochmal zeigen?'),
-    ).toBe(true)
-  })
-
-  it('erkennt Personenbezug wie "hast du was mit Juna"', () => {
-    expect(isMemoryImageRequest('Hast du etwas mit Juna erlebt?')).toBe(true)
-  })
-
-  it('erkennt Erinnerungsfragen zu anderen Personen', () => {
-    expect(isMemoryImageRequest('Erinnerst du dich an andere Personen, die dabei waren?')).toBe(true)
-  })
-
-  it('erkennt Bildfragen mit Personenbezug auch ohne explizites "erinnern"', () => {
-    expect(isMemoryImageRequest('Kannst du mir das Bild mit Juna zeigen?')).toBe(true)
-  })
-
-  it('interpretiert generische Formulierungen nicht als Personen-Erinnerung', () => {
-    expect(isMemoryImageRequest('Kannst du mir ein Bild mit einem Drachen zeigen?')).toBe(false)
+describe('detectRuntimeToolExecutionIntent', () => {
+  it('liest Tool-Intent nur aus strukturierter JSON-Entscheidung', () => {
+    const intent = detectRuntimeToolExecutionIntent(
+      JSON.stringify({
+        toolExecutionIntent: {
+          taskId: 'runtime_smoke',
+          dryRun: false,
+          reason: 'smoke-mode-quiz',
+          args: { mode: 'quiz' },
+        },
+      }),
+    )
+    expect(intent).toEqual({
+      taskId: 'runtime_smoke',
+      dryRun: false,
+      reason: 'smoke-mode-quiz',
+      args: { mode: 'quiz' },
+    })
   })
 })
 
 describe('detectRuntimeIntentContextFlags', () => {
-  it('liest Relationship-Flag aus expliziter Modell-Ausgabe', () => {
-    expect(detectRuntimeIntentContextFlags('Relationship requested: true.')).toEqual(
-      expect.objectContaining({
-        relationshipsRequested: true,
-      }),
-    )
-  })
-
-  it('liest Activity-Flag aus JSON-aehnlicher Modell-Ausgabe', () => {
+  it('liest Flags aus strukturierter Modell-Ausgabe', () => {
     expect(
-      detectRuntimeIntentContextFlags('{ "activitiesRequested": true, "relationshipsRequested": false }'),
+      detectRuntimeIntentContextFlags(
+        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": null, "reason": "context-only", "toolExecutionIntent": null }',
+      ),
     ).toEqual(
-      expect.objectContaining({
+      {
         activitiesRequested: true,
         relationshipsRequested: false,
-      }),
+      },
     )
   })
 
-  it('interpretiert freie User-Formulierung ohne Modell-Flag nicht als Tool-Request', () => {
-    expect(
-      detectRuntimeIntentContextFlags('Kannst du mir etwas ueber deine Beziehungen sagen?'),
-    ).toEqual({
+  it('faellt ohne strukturierte Ausgabe auf false/false zurueck', () => {
+    expect(detectRuntimeIntentContextFlags('freie Sprache')).toEqual({
       relationshipsRequested: false,
       activitiesRequested: false,
     })
@@ -100,35 +54,140 @@ describe('detectRuntimeIntentContextFlags', () => {
 })
 
 describe('detectRuntimeIntent', () => {
-  it('liest Skill-Entscheidung aus explizitem skillId-Flag', () => {
-    expect(detectRuntimeIntent('{ "skillId": "run-quiz", "reason": "quiz-request" }', '')).toEqual({
-      skillId: 'do-something',
+  it('liest Skill-Entscheidung aus strukturierter Ausgabe', () => {
+    expect(
+      detectRuntimeIntent(
+        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": "remember-something", "reason": "memory-image", "toolExecutionIntent": null }',
+        '',
+      ),
+    ).toEqual({
+      skillId: 'remember-something',
+      reason: 'memory-image',
+    })
+  })
+
+  it('mappt legacy Skill-Aliase auf neue Skill-IDs', () => {
+    expect(
+      detectRuntimeIntent(
+        '{ "activitiesRequested": false, "relationshipsRequested": false, "skillId": "run-quiz", "reason": "quiz-request", "toolExecutionIntent": null }',
+        '',
+      ),
+    ).toEqual({
+      skillId: 'create_scene',
       reason: 'quiz-request',
     })
   })
+})
 
-  it('routet Memory-Fragen auf remember-something', () => {
-    expect(detectRuntimeIntent('Kannst du dich erinnern und das Bild nochmal zeigen?', '')).toEqual({
-      skillId: 'remember-something',
-      reason: 'memory-image-request',
-    })
+describe('detectRuntimeIntentModelDecision', () => {
+  it('faellt ohne API-Key kontrolliert auf neutralen Fallback zurueck', async () => {
+    const previousKey = process.env.OPENAI_API_KEY
+    delete process.env.OPENAI_API_KEY
+    try {
+      const decision = await detectRuntimeIntentModelDecision('freie Sprache', 'freie Sprache')
+      expect(decision.source).toBe('fallback')
+      expect(decision.decision).toBeNull()
+      expect(decision.flags).toEqual({
+        relationshipsRequested: false,
+        activitiesRequested: false,
+      })
+      expect(decision.toolExecutionIntent).toBeNull()
+      expect(decision.secondaryUsed).toBe(true)
+      expect(decision.primaryFailureReason).toBe('test-mode-disabled')
+      expect(decision.secondaryFailureReason).toBe('test-mode-disabled')
+    } finally {
+      if (previousKey) process.env.OPENAI_API_KEY = previousKey
+    }
   })
 
-  it('routet aeltere/veraenderte Bildwuensche stabil auf remember-something', () => {
-    expect(detectRuntimeIntent('Zeig mir eine Aenderung, am besten eine aeltere.', '')).toEqual({
-      skillId: 'remember-something',
-      reason: 'older-change-memory-request',
-    })
-  })
-
-  it('routet Glitzerstein-Anfragen stabil auf remember-something', () => {
-    expect(detectRuntimeIntent('Finde mir einen Stein mit Glitzer in der Naehe.', '')).toEqual({
-      skillId: 'remember-something',
-      reason: 'glitter-stone-memory-request',
-    })
-  })
-
-  it('liefert ohne explizite Modell-Entscheidung keinen Skill', () => {
-    expect(detectRuntimeIntent('Kannst du mir was ueber deine Freunde sagen?', 'Klar!')).toBeNull()
+  it('nutzt Secondary Forced-Choice, wenn Primary skillId=null liefert', async () => {
+    const previousKey = process.env.OPENAI_API_KEY
+    const previousAllowNetwork = process.env.RUNTIME_INTENT_ALLOW_TEST_NETWORK
+    process.env.OPENAI_API_KEY = 'test-key'
+    process.env.RUNTIME_INTENT_ALLOW_TEST_NETWORK = 'true'
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          choices: [
+            {
+              message: {
+                content: JSON.stringify({
+                  activitiesRequested: true,
+                  relationshipsRequested: false,
+                  skillId: null,
+                  reason: 'unsicher',
+                  toolExecutionIntent: null,
+                }),
+              },
+            },
+          ],
+        }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          choices: [
+            {
+              message: {
+                content: JSON.stringify({
+                  activitiesRequested: true,
+                  relationshipsRequested: false,
+                  skillId: 'create_scene',
+                  reason: 'forced-action-choice',
+                  toolExecutionIntent: null,
+                }),
+              },
+            },
+          ],
+        }),
+      })
+    vi.stubGlobal('fetch', fetchMock)
+    try {
+      const publicConversationHistory = [
+        {
+          role: 'user' as const,
+          content: 'Kannst du eine Blume fuer mich machen?',
+          createdAt: '2026-03-09T14:00:00.000Z',
+        },
+        {
+          role: 'assistant' as const,
+          content: 'Ja, ich mache dir eine bunte Blume.',
+          eventType: 'response.audio_transcript.done',
+          createdAt: '2026-03-09T14:00:02.000Z',
+        },
+      ]
+      const decision = await detectRuntimeIntentModelDecision(
+        'mach etwas',
+        'assistant',
+        publicConversationHistory,
+      )
+      expect(decision.source).toBe('llm-secondary')
+      expect(decision.pass).toBe('secondary')
+      expect(decision.secondaryUsed).toBe(true)
+      expect(decision.primaryDecision).toBeNull()
+      expect(decision.secondaryDecision).toEqual({
+        skillId: 'create_scene',
+        reason: 'forced-action-choice',
+      })
+      expect(decision.decision).toEqual({
+        skillId: 'create_scene',
+        reason: 'forced-action-choice',
+      })
+      const firstRequest = fetchMock.mock.calls[0]?.[1]
+      const parsedBody = JSON.parse(String(firstRequest?.body)) as {
+        messages: Array<{ role: string; content: string }>
+      }
+      const routerPayload = JSON.parse(parsedBody.messages[1]?.content ?? '{}') as {
+        publicConversationHistory?: unknown
+      }
+      expect(routerPayload.publicConversationHistory).toEqual(publicConversationHistory)
+    } finally {
+      if (previousKey) process.env.OPENAI_API_KEY = previousKey
+      else delete process.env.OPENAI_API_KEY
+      if (previousAllowNetwork) process.env.RUNTIME_INTENT_ALLOW_TEST_NETWORK = previousAllowNetwork
+      else delete process.env.RUNTIME_INTENT_ALLOW_TEST_NETWORK
+    }
   })
 })

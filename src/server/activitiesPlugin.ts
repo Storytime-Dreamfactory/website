@@ -21,6 +21,7 @@ type MiddlewareStack = {
 }
 
 const json = (response: ServerResponse, statusCode: number, data: unknown): void => {
+  if (response.headersSent) return
   response.statusCode = statusCode
   response.setHeader('Content-Type', 'application/json')
   response.end(JSON.stringify(data))
@@ -70,6 +71,7 @@ const matchesFilter = (
     learningGoalId?: string
     conversationId?: string
     activityType?: string
+    summaryOnly?: boolean
   },
 ): boolean => {
   if (typeof filter.isPublic === 'boolean' && activity.isPublic !== filter.isPublic) return false
@@ -78,6 +80,7 @@ const matchesFilter = (
   if (filter.conversationId && activity.conversationId !== filter.conversationId) return false
   if (filter.activityType && activity.activityType !== filter.activityType) return false
   if (filter.learningGoalId && !activity.learningGoalIds.includes(filter.learningGoalId)) return false
+  if (filter.summaryOnly && !(activity.storySummary && activity.storySummary.trim().length > 0)) return false
   return true
 }
 
@@ -93,6 +96,7 @@ const registerActivitiesApi = (middlewares: MiddlewareStack): void => {
           requestUrl.searchParams.get('learningGoalId') ??
           requestUrl.searchParams.get('learning_goal_id') ??
           requestUrl.searchParams.get('skillId')
+        const summaryOnly = toBoolean(requestUrl.searchParams.get('summaryOnly')) === true
         const activities = await listActivities({
           isPublic: includeNonPublic ? undefined : true,
           characterId: requestUrl.searchParams.get('characterId') ?? undefined,
@@ -103,7 +107,10 @@ const registerActivitiesApi = (middlewares: MiddlewareStack): void => {
           limit: toNumber(requestUrl.searchParams.get('limit')),
           offset: toNumber(requestUrl.searchParams.get('offset')),
         })
-        json(response, 200, { activities })
+        const filteredActivities = summaryOnly
+          ? activities.filter((activity) => matchesFilter(activity, { summaryOnly: true }))
+          : activities
+        json(response, 200, { activities: filteredActivities })
         return
       }
 
@@ -113,6 +120,7 @@ const registerActivitiesApi = (middlewares: MiddlewareStack): void => {
           requestUrl.searchParams.get('learningGoalId') ??
           requestUrl.searchParams.get('learning_goal_id') ??
           requestUrl.searchParams.get('skillId')
+        const summaryOnly = toBoolean(requestUrl.searchParams.get('summaryOnly')) === true
         const filter = {
           isPublic: includeNonPublic ? undefined : true,
           characterId: requestUrl.searchParams.get('characterId') ?? undefined,
@@ -120,6 +128,7 @@ const registerActivitiesApi = (middlewares: MiddlewareStack): void => {
           learningGoalId: learningGoalId ?? undefined,
           conversationId: requestUrl.searchParams.get('conversationId') ?? undefined,
           activityType: requestUrl.searchParams.get('activityType') ?? undefined,
+          summaryOnly,
         }
 
         response.statusCode = 200
@@ -189,6 +198,15 @@ const registerActivitiesApi = (middlewares: MiddlewareStack): void => {
       next()
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
+      if (response.headersSent) {
+        console.warn(`activities api failed after headers sent: ${message}`)
+        try {
+          response.end()
+        } catch {
+          // no-op
+        }
+        return
+      }
       const statusCode = message.includes('erforderlich') || message.includes('gueltiges') ? 400 : 500
       json(response, statusCode, { error: message })
     }
