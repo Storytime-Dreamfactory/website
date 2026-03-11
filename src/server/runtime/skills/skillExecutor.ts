@@ -6,11 +6,9 @@ import { appendConversationMessage } from '../../conversationStore.ts'
 import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE } from '../../openAiConfig.ts'
 import { resolveCharacterImageRefs } from '../context/contextCollationService.ts'
 import { generateConversationHeroToolApi } from '../tools/toolApiService.ts'
-import type { RuntimeToolExecutionIntent } from '../router/intentRouter.ts'
 import {
   readActivitiesRuntimeTool,
   readConversationHistoryRuntimeTool,
-  runCliTaskRuntimeTool,
   showImageRuntimeTool,
 } from '../tools/runtimeToolRegistry.ts'
 import {
@@ -177,7 +175,6 @@ export const executeRoutedSkill = async (input: {
   characterName: string
   characterContext?: SceneCharacterContext
   learningGoalIds?: string[]
-  toolExecutionIntent?: RuntimeToolExecutionIntent | null
   relationshipContext?: SceneRelationshipContext | null
 }): Promise<void> => {
   await trackTraceActivitySafely({
@@ -436,22 +433,6 @@ export const executeRoutedSkill = async (input: {
       executedTools.push('run_quiz')
     }
 
-    if (input.toolExecutionIntent) {
-      await runCliTaskRuntimeTool().execute(
-        {
-          characterId: input.characterId,
-          characterName: input.characterName,
-          conversationId: input.conversationId,
-          learningGoalIds: input.learningGoalIds,
-        },
-        {
-          taskId: input.toolExecutionIntent.taskId,
-          args: input.toolExecutionIntent.args,
-          dryRun: input.toolExecutionIntent.dryRun,
-        },
-      )
-      executedTools.push('run_cli_task')
-    }
   } catch (error) {
     toolExecutionError = error instanceof Error ? error.message : String(error)
     await appendConversationMessage({
@@ -480,8 +461,6 @@ export const executeRoutedSkill = async (input: {
     output: {
       skillId: input.decision.skillId,
       reason: input.decision.reason,
-      hasToolExecutionIntent: Boolean(input.toolExecutionIntent),
-      toolExecutionTaskId: input.toolExecutionIntent?.taskId,
       executedTools,
       sourceEventType: input.eventType,
     },

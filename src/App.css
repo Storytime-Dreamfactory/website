@@ -1703,18 +1703,6 @@
   color: #fff;
 }
 
-/* ── Footer ── */
-
-.app-footer {
-  position: relative;
-  z-index: 1;
-  background: transparent;
-  text-align: left;
-  color: rgba(255, 255, 255, 0.76);
-  border-top: none;
-  width: 100%;
-  padding: 8px 24px 24px;
-}
 
 @media (max-width: 900px) {
   .source-tag {
@@ -1811,9 +1799,6 @@
   backdrop-filter: none;
 }
 
-.landing-layout-character-story .app-footer {
-  display: none;
-}
 
 .landing-layout-character-story .page-content {
   max-width: none;

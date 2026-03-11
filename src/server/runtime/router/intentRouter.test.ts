@@ -3,39 +3,17 @@ import {
   detectRuntimeIntent,
   detectRuntimeIntentContextFlags,
   detectRuntimeIntentModelDecision,
-  detectRuntimeToolExecutionIntent,
 } from './intentRouter.ts'
 
 afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('detectRuntimeToolExecutionIntent', () => {
-  it('liest Tool-Intent nur aus strukturierter JSON-Entscheidung', () => {
-    const intent = detectRuntimeToolExecutionIntent(
-      JSON.stringify({
-        toolExecutionIntent: {
-          taskId: 'runtime_smoke',
-          dryRun: false,
-          reason: 'smoke-mode-quiz',
-          args: { mode: 'quiz' },
-        },
-      }),
-    )
-    expect(intent).toEqual({
-      taskId: 'runtime_smoke',
-      dryRun: false,
-      reason: 'smoke-mode-quiz',
-      args: { mode: 'quiz' },
-    })
-  })
-})
-
 describe('detectRuntimeIntentContextFlags', () => {
   it('liest Flags aus strukturierter Modell-Ausgabe', () => {
     expect(
       detectRuntimeIntentContextFlags(
-        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": null, "reason": "context-only", "toolExecutionIntent": null }',
+        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": null, "reason": "context-only" }',
       ),
     ).toEqual(
       {
@@ -57,7 +35,7 @@ describe('detectRuntimeIntent', () => {
   it('liest Skill-Entscheidung aus strukturierter Ausgabe', () => {
     expect(
       detectRuntimeIntent(
-        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": "remember-something", "reason": "memory-image", "toolExecutionIntent": null }',
+        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": "remember-something", "reason": "memory-image" }',
         '',
       ),
     ).toEqual({
@@ -69,7 +47,7 @@ describe('detectRuntimeIntent', () => {
   it('mappt legacy Skill-Aliase auf neue Skill-IDs', () => {
     expect(
       detectRuntimeIntent(
-        '{ "activitiesRequested": false, "relationshipsRequested": false, "skillId": "run-quiz", "reason": "quiz-request", "toolExecutionIntent": null }',
+        '{ "activitiesRequested": false, "relationshipsRequested": false, "skillId": "run-quiz", "reason": "quiz-request" }',
         '',
       ),
     ).toEqual({
@@ -91,7 +69,6 @@ describe('detectRuntimeIntentModelDecision', () => {
         relationshipsRequested: false,
         activitiesRequested: false,
       })
-      expect(decision.toolExecutionIntent).toBeNull()
       expect(decision.secondaryUsed).toBe(true)
       expect(decision.primaryFailureReason).toBe('test-mode-disabled')
       expect(decision.secondaryFailureReason).toBe('test-mode-disabled')
@@ -118,7 +95,6 @@ describe('detectRuntimeIntentModelDecision', () => {
                   relationshipsRequested: false,
                   skillId: null,
                   reason: 'unsicher',
-                  toolExecutionIntent: null,
                 }),
               },
             },
@@ -136,7 +112,6 @@ describe('detectRuntimeIntentModelDecision', () => {
                   relationshipsRequested: false,
                   skillId: 'create_scene',
                   reason: 'forced-action-choice',
-                  toolExecutionIntent: null,
                 }),
               },
             },

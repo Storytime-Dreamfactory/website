@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-11T15:19:48.710Z",
+  "generatedAt": "2026-03-11T15:29:31.450Z",
   "generatorVersion": 1,
   "styleProfileId": "storytime-adventure-3d-v1",
   "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/juna-lia/character.yaml",
@@ -155,8 +155,8 @@
       "height": 1536,
       "outputFormat": "png",
       "seed": 4242,
-      "requestId": "21962228-33b0-4624-93b3-c37e4835c6e3",
-      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/5dc5035764214279b96e3a25f6926b8c_sample.png?se=2026-03-11T15%3A29%3A31Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=NS83WTIbx0zjLA//HRddft21N6D8zsP0iTbZfG/kEUM%3D",
+      "requestId": "f60b1617-baf2-4a4f-95d3-f8acfc81357c",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/a7e9be0c4a844f6aab47396a24772c7e_sample.png?se=2026-03-11T15%3A39%3A06Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Ix9z6VaZ0V%2BtGN4B4HCrxMiXtm0pMoXoxTyeNSJxvsU%3D",
       "cost": 1.5,
       "reason": "File already exists and overwrite=false"
     },
@@ -175,8 +175,8 @@
       "height": 1088,
       "outputFormat": "jpeg",
       "seed": 4243,
-      "requestId": "4d4c7b5f-fca7-485a-b82c-a16c8c41426a",
-      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/c914cc9e57c24783ab2722d405c2c732_sample.jpeg?se=2026-03-11T15%3A29%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=t0sKwNF1dMH6xo87PEj4YKnxLkfw23IoE/5n26A1SU8%3D",
+      "requestId": "775523ee-33ef-4855-b701-d548b6b4208a",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/c7700fea48fc4a29b8cf90c85a06912b_sample.jpeg?se=2026-03-11T15%3A39%3A13Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=%2BpA/xYihVFYLdoqv1kg30TYzbK5D5CxBGJWefCu8%2Bv4%3D",
       "cost": 1.7000000000000002,
       "reason": "File already exists and overwrite=false"
     },
@@ -195,8 +195,8 @@
       "height": 1200,
       "outputFormat": "png",
       "seed": 4244,
-      "requestId": "467ccb66-3d12-49d9-a5a6-db05486fd0f2",
-      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/89a5eea028314fddadb803a014e7d270_sample.png?se=2026-03-11T15%3A29%3A42Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=eua%2B5hIuG%2B/Dn4MwJRX9SJkVMqmUbT%2BkVZ320w0GzFo%3D",
+      "requestId": "ed8dd163-ec5e-462c-8707-75282ba52606",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/a885d43ca3a549369db0bf44c15a2288_sample.png?se=2026-03-11T15%3A39%3A18Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Ak0VJ806KhircLUDrITm9SzYxGwzT3JPMm/6Zw3MrTE%3D",
       "cost": 1.6,
       "reason": "File already exists and overwrite=false"
     },
@@ -215,8 +215,8 @@
       "height": 512,
       "outputFormat": "png",
       "seed": 4245,
-      "requestId": "f30b15d8-20a2-40e3-a892-4c4572eed863",
-      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/8ef12fb63e4944aeb26be93815c7455f_sample.png?se=2026-03-11T15%3A29%3A47Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=MpcgckP/7ALer1/vcSfrlEIh3btvW5YxFpCj1HQKWlo%3D",
+      "requestId": "7c3195e9-4254-4484-b4a8-14dde6f2891d",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/e9153c9a348443538d50f7052c1104fa_sample.png?se=2026-03-11T15%3A39%3A30Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=VvIQkU8FtCkEE6LLSVfAtYPm9QfaOfvlYCHcT7lYDgM%3D",
       "cost": 1.5,
       "reason": "File already exists and overwrite=false"
     }

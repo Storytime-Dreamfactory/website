@@ -5,7 +5,6 @@ const appendConversationMessageMock = vi.hoisted(() => vi.fn())
 const recallMock = vi.hoisted(() => vi.fn())
 const generateHeroMock = vi.hoisted(() => vi.fn())
 const runQuizMock = vi.hoisted(() => vi.fn())
-const runCliExecuteMock = vi.hoisted(() => vi.fn())
 const readActivitiesExecuteMock = vi.hoisted(() => vi.fn())
 const readConversationHistoryExecuteMock = vi.hoisted(() => vi.fn())
 const readRelationshipsExecuteMock = vi.hoisted(() => vi.fn())
@@ -60,9 +59,6 @@ vi.mock('../tools/runtimeToolRegistry.ts', () => ({
   }),
   showImageRuntimeTool: () => ({
     execute: showImageExecuteMock,
-  }),
-  runCliTaskRuntimeTool: () => ({
-    execute: runCliExecuteMock,
   }),
 }))
 
@@ -187,14 +183,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
         },
       ],
     })
-    runCliExecuteMock.mockResolvedValue({
-      ok: true,
-      exitCode: 0,
-      stdout: '',
-      stderr: '',
-      durationMs: 5,
-      commandPreview: 'npm run runtime:smoke',
-    })
   })
 
   it('fuehrt bei remember-something das show_image Tool aus', async () => {
@@ -205,7 +193,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       lastUserText: 'Zeig mir ein Bild aus unserer Erinnerung.',
       characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
-      toolExecutionIntent: null,
     })
 
     expect(readActivitiesExecuteMock).toHaveBeenCalledWith(
@@ -232,7 +219,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
         activityType: 'trace.skill.execution.response',
         output: expect.objectContaining({
           skillId: 'remember-something',
-          hasToolExecutionIntent: false,
           executedTools: expect.arrayContaining([
             'read_activities',
             'read_conversation_history',
@@ -243,19 +229,14 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     )
   })
 
-  it('fuehrt visuelle Generierung, Quiz und CLI-Task bei create_scene aus', async () => {
+  it('fuehrt visuelle Generierung und Quiz bei create_scene aus', async () => {
     await executeRoutedSkill({
       conversationId: 'conv-1',
       decision: { skillId: 'create_scene', reason: 'quiz-request' },
       assistantText: 'Ich zeige dir jetzt eine Szene. Und hier ist eine kleine Frage.',
-      lastUserText: 'Bitte Quiz starten und Runtime Smoke ausfuehren.',
+      lastUserText: 'Bitte Quiz starten.',
       characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
-      toolExecutionIntent: {
-        taskId: 'runtime_smoke',
-        dryRun: false,
-        reason: 'runtime-smoke-request',
-      },
     })
 
     expect(readActivitiesExecuteMock).toHaveBeenCalledWith(
@@ -277,23 +258,19 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     )
     expect(runQuizMock).toHaveBeenCalledWith({
       conversationId: 'conv-1',
-      userText: 'Bitte Quiz starten und Runtime Smoke ausfuehren.',
+      userText: 'Bitte Quiz starten.',
       assistantText: 'Ich zeige dir jetzt eine Szene. Und hier ist eine kleine Frage.',
       source: 'runtime',
     })
-    expect(runCliExecuteMock).toHaveBeenCalled()
     expect(traceMock).toHaveBeenNthCalledWith(
       2,
       expect.objectContaining({
         output: expect.objectContaining({
-          hasToolExecutionIntent: true,
-          toolExecutionTaskId: 'runtime_smoke',
           executedTools: expect.arrayContaining([
             'read_activities',
             'generate_image',
             'record_scene_activity',
             'run_quiz',
-            'run_cli_task',
           ]),
         }),
       }),
@@ -308,7 +285,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       lastUserText: 'Und beschuetzen.',
       characterId: '00000000-0000-4000-8000-000000000007',
       characterName: 'Malvarion der Graue',
-      toolExecutionIntent: null,
     })
 
     expect(generateHeroMock).toHaveBeenCalledWith(
@@ -379,7 +355,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       lastUserText: 'Zeig mir, wie der Charakter, der Angst vor dir hat, vor deinem Haus steht.',
       characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
-      toolExecutionIntent: null,
       relationshipContext,
     })
 
@@ -481,7 +456,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       lastUserText: 'Findest du ein Bild mit dem glitzernden Stein?',
       characterId: '00000000-0000-4000-8000-000000000002',
       characterName: 'Juna Lia',
-      toolExecutionIntent: null,
     })
 
     expect(showImageExecuteMock).toHaveBeenCalledWith(
@@ -502,7 +476,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       lastUserText: 'Gehe zum kristallsee und schau was dort ist.',
       characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
-      toolExecutionIntent: null,
     })
 
     expect(readRelationshipsExecuteMock).not.toHaveBeenCalled()
@@ -587,7 +560,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       lastUserText: 'Zeig mir, wie es in der Kissenburg weitergeht.',
       characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
-      toolExecutionIntent: null,
     })
 
     expect(generateHeroMock).toHaveBeenCalledWith(
@@ -618,7 +590,6 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
         lastUserText: 'Kannst du da hinten den Baum hochklettern?',
         characterId: '00000000-0000-4000-8000-000000000001',
         characterName: 'Yoko',
-        toolExecutionIntent: null,
       })
     } finally {
       if (originalApiKey == null) {

@@ -27,7 +27,7 @@ import { loadStoryContent } from './content/loaders'
 import type { StoryContent } from './content/types'
 import './App.css'
 
-const { Header, Content, Footer } = Layout
+const { Header, Content } = Layout
 const { Title, Text } = Typography
 
 const PAGE_BACKGROUND_ASSETS = {
@@ -461,7 +461,6 @@ function App() {
           Layout: {
             bodyBg: 'transparent',
             headerBg: 'transparent',
-            footerBg: 'transparent',
           },
         },
       }}
@@ -552,8 +551,6 @@ function App() {
             </>
           )}
         </Content>
-
-        <Footer className="app-footer">Storytime 2026 - YAML Content Foundation</Footer>
       </Layout>
     </ConfigProvider>
   )

@@ -1,7 +1,6 @@
 export const CHARACTER_AGENT_TOOLS = {
   showImage: 'show_image',
   generateImage: 'generate_image',
-  runCliTask: 'run_cli_task',
   readActivities: 'read_activities',
   readConversationHistory: 'read_conversation_history',
   readRelationships: 'read_relationships',
@@ -52,7 +51,6 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
       CHARACTER_AGENT_TOOLS.readActivities,
       CHARACTER_AGENT_TOOLS.showImage,
       CHARACTER_AGENT_TOOLS.generateImage,
-      CHARACTER_AGENT_TOOLS.runCliTask,
       CHARACTER_AGENT_TOOLS.readRelatedObjects,
       CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
     ],

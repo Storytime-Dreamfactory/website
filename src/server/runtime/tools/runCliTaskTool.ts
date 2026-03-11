@@ -1,7 +1,6 @@
 import { execFile } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { CHARACTER_AGENT_TOOLS } from '../../characterAgentDefinitions.ts'
 import { get as getGameObject } from '../../gameObjectService.ts'
 import { trackTraceActivitySafely } from '../../traceActivity.ts'
 import type { RuntimeToolHandler } from './runtimeToolTypes.ts'
@@ -270,7 +269,7 @@ const executeCommand = async (command: ResolvedCommand): Promise<RunCliTaskToolO
 }
 
 export const runCliTaskTool: RuntimeToolHandler<RunCliTaskToolInput, RunCliTaskToolOutput> = {
-  id: CHARACTER_AGENT_TOOLS.runCliTask,
+  id: 'run_cli_task' as any,
   execute: async (context, input) => {
     await trackTraceActivitySafely({
       activityType: 'trace.tool.run_cli_task.request',
@@ -313,11 +312,11 @@ export const runCliTaskTool: RuntimeToolHandler<RunCliTaskToolInput, RunCliTaskT
         learningGoalIds: context.learningGoalIds,
         object: {
           type: 'tool',
-          id: CHARACTER_AGENT_TOOLS.runCliTask,
+          id: 'run_cli_task',
         },
         metadata: {
           summary: `${context.characterName} konnte den CLI-Task nicht validieren`,
-          toolId: CHARACTER_AGENT_TOOLS.runCliTask,
+          toolId: 'run_cli_task',
           taskId: resolvedInput.taskId,
           reason: message,
         },
@@ -347,13 +346,13 @@ export const runCliTaskTool: RuntimeToolHandler<RunCliTaskToolInput, RunCliTaskT
       learningGoalIds: context.learningGoalIds,
       object: {
         type: 'tool',
-        id: CHARACTER_AGENT_TOOLS.runCliTask,
+        id: 'run_cli_task',
       },
       metadata: {
         summary: resolvedInput.dryRun
           ? `${context.characterName} plant einen CLI-Task`
           : `${context.characterName} startet einen CLI-Task`,
-        toolId: CHARACTER_AGENT_TOOLS.runCliTask,
+        toolId: 'run_cli_task',
         taskId: resolvedInput.taskId,
         commandPreview: command.commandPreview,
         dryRun: resolvedInput.dryRun,
@@ -380,13 +379,13 @@ export const runCliTaskTool: RuntimeToolHandler<RunCliTaskToolInput, RunCliTaskT
       learningGoalIds: context.learningGoalIds,
       object: {
         type: 'tool',
-        id: CHARACTER_AGENT_TOOLS.runCliTask,
+        id: 'run_cli_task',
       },
       metadata: {
         summary: result.ok
           ? `${context.characterName} hat einen CLI-Task abgeschlossen`
           : `${context.characterName} konnte den CLI-Task nicht abschliessen`,
-        toolId: CHARACTER_AGENT_TOOLS.runCliTask,
+        toolId: 'run_cli_task',
         taskId: resolvedInput.taskId,
         commandPreview: command.commandPreview,
         exitCode: result.exitCode,

@@ -1,0 +1,36 @@
+---
+description: Ant Design dark theme conflict prevention
+globs: src/**/*.{css,tsx}
+alwaysApply: false
+---
+
+# Ant Design Dark Theme
+
+Storytime nutzt ein durchgehendes Dark Theme mit Basisfarbe `#03091c`.
+
+## Problem
+
+Ant Design v6 nutzt CSS-in-JS (`@ant-design/cssinjs`), das `<style>`-Tags dynamisch in den DOM injiziert — NACH statischen Stylesheets. Dadurch ueberschreiben antd-Styles statisches CSS bei gleicher Spezifitaet. Besonders das `Layout`-Component setzt `background: bodyBg` via CSS-in-JS.
+
+## Pflicht-Overrides
+
+1. `html, body { background: #03091c !important; }` in `src/index.css` — `!important` ist noetig, damit kein CSS-in-JS oder HMR-Cycle den Body-Background zuruecksetzen kann.
+
+2. ConfigProvider braucht sowohl `token.colorBgLayout` als auch explizite **Component-Tokens** fuer Layout:
+
+```tsx
+<ConfigProvider theme={{
+  token: { colorBgLayout: 'transparent' },
+  components: {
+    Layout: {
+      bodyBg: 'transparent',
+      headerBg: 'transparent',
+      footerBg: 'transparent',
+    },
+  },
+}} />
+```
+
+Component-Tokens ueberschreiben die CSS-in-JS Werte direkt (`bodyBg`, `headerBg`, `footerBg` in `antd/lib/layout/style/index.js`), ohne den Umweg ueber `colorBgLayout`-Ableitung.
+
+3. Kein Ant-Layout-Background darf heller als `rgba(9, 18, 42, ...)` sein.

@@ -6,7 +6,6 @@ import { readConversationHistoryTool } from './readConversationHistoryTool.ts'
 import { readRelationshipsTool } from './readRelationshipsTool.ts'
 import { readRelatedObjectsTool } from './readRelatedObjectsTool.ts'
 import { readRelatedObjectContextsTool } from './readRelatedObjectContextsTool.ts'
-import { type CliTaskId, runCliTaskTool } from './runCliTaskTool.ts'
 import { showImageTool } from './showExistingImageTool.ts'
 
 const runtimeToolsById = new Map<CharacterAgentToolId, RuntimeToolHandler<any, any>>([
@@ -16,7 +15,6 @@ const runtimeToolsById = new Map<CharacterAgentToolId, RuntimeToolHandler<any, a
   [readRelatedObjectsTool.id, readRelatedObjectsTool],
   [readRelatedObjectContextsTool.id, readRelatedObjectContextsTool],
   [showImageTool.id, showImageTool],
-  [runCliTaskTool.id, runCliTaskTool],
 ])
 
 export const getRuntimeToolHandler = <TInput, TOutput>(
@@ -226,19 +224,6 @@ export const readRelatedObjectContextsRuntimeTool = () =>
       }>
     }
   >(CHARACTER_AGENT_TOOLS.readRelatedObjectContexts)
-
-export const runCliTaskRuntimeTool = () =>
-  getRuntimeToolHandler<
-    { taskId: CliTaskId; args?: Record<string, unknown>; dryRun?: boolean },
-    {
-      ok: boolean
-      exitCode: number
-      stdout: string
-      stderr: string
-      durationMs: number
-      commandPreview: string
-    }
-  >(CHARACTER_AGENT_TOOLS.runCliTask)
 
 export const showImageRuntimeTool = () =>
   getRuntimeToolHandler<

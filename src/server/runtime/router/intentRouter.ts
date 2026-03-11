@@ -24,13 +24,6 @@ export type RuntimeIntentContextFlags = {
   activitiesRequested: boolean
 }
 
-export type RuntimeToolExecutionIntent = {
-  taskId: 'character_images_dry_run' | 'character_images_generate' | 'runtime_smoke'
-  dryRun: boolean
-  reason: string
-  args?: Record<string, unknown>
-}
-
 export type RuntimeIntentPublicMessage = {
   role: 'user' | 'assistant'
   content: string
@@ -41,7 +34,6 @@ export type RuntimeIntentPublicMessage = {
 export type RuntimeIntentModelDecision = {
   decision: RoutedSkillDecision | null
   flags: RuntimeIntentContextFlags
-  toolExecutionIntent: RuntimeToolExecutionIntent | null
   source: 'llm-primary' | 'llm-secondary' | 'fallback'
   pass: 'primary' | 'secondary' | 'fallback'
   secondaryUsed: boolean
@@ -81,31 +73,6 @@ const toNormalizedSkillId = (value: unknown): CharacterAgentSkillPlaybookId | nu
   if (normalized === 'run-quiz') return 'create_scene'
   if (normalized === 'micro-reflection') return 'request-context'
   return null
-}
-
-const toToolExecutionIntent = (value: unknown): RuntimeToolExecutionIntent | null => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return null
-  const data = value as Record<string, unknown>
-  const taskId = typeof data.taskId === 'string' ? data.taskId.trim() : ''
-  if (
-    taskId !== 'character_images_dry_run' &&
-    taskId !== 'character_images_generate' &&
-    taskId !== 'runtime_smoke'
-  ) {
-    return null
-  }
-  const dryRun = data.dryRun === true
-  const reason = typeof data.reason === 'string' && data.reason.trim() ? data.reason.trim() : 'llm-tool-intent'
-  const args =
-    data.args && typeof data.args === 'object' && !Array.isArray(data.args)
-      ? (data.args as Record<string, unknown>)
-      : undefined
-  return {
-    taskId,
-    dryRun,
-    reason,
-    args,
-  }
 }
 
 const parseJsonObject = (raw: string): Record<string, unknown> | null => {
@@ -149,7 +116,6 @@ const parseDecisionFromJsonObject = (
       activitiesRequested: parsed.activitiesRequested === true,
       relationshipsRequested: parsed.relationshipsRequested === true,
     },
-    toolExecutionIntent: toToolExecutionIntent(parsed.toolExecutionIntent),
     source: options.source,
     pass: options.pass,
     secondaryUsed: options.secondaryUsed,
@@ -181,26 +147,8 @@ const responseSchema = (forceSkillChoice: boolean): Record<string, unknown> => (
           ],
         },
     reason: { type: 'string' },
-    toolExecutionIntent: {
-      anyOf: [
-        { type: 'null' },
-        {
-          type: 'object',
-          additionalProperties: false,
-          properties: {
-            taskId: {
-              type: 'string',
-              enum: ['character_images_dry_run', 'character_images_generate', 'runtime_smoke'],
-            },
-            dryRun: { type: 'boolean' },
-            reason: { type: 'string' },
-          },
-          required: ['taskId', 'dryRun', 'reason'],
-        },
-      ],
-    },
   },
-  required: ['activitiesRequested', 'relationshipsRequested', 'skillId', 'reason', 'toolExecutionIntent'],
+  required: ['activitiesRequested', 'relationshipsRequested', 'skillId', 'reason'],
 })
 
 const requestRuntimeIntentFromLlm = async (
@@ -263,8 +211,6 @@ const requestRuntimeIntentFromLlm = async (
                   relationshipsRequested: 'boolean',
                   skillIdOrNull: options.forceSkillChoice ? 'string' : 'string|null',
                   reason: 'string',
-                  toolExecutionIntentOrNull:
-                    '{ taskId: "character_images_dry_run"|"character_images_generate"|"runtime_smoke", dryRun: boolean, reason: string } | null',
                 },
               }),
             },
@@ -479,7 +425,6 @@ export const detectRuntimeIntentModelDecision = async (
       relationshipsRequested: false,
       activitiesRequested: false,
     },
-    toolExecutionIntent: fallbackFromJson?.toolExecutionIntent ?? null,
     source: 'fallback',
     pass: 'fallback',
     secondaryUsed: true,
@@ -490,16 +435,3 @@ export const detectRuntimeIntentModelDecision = async (
   }
 }
 
-export const detectRuntimeToolExecutionIntent = (
-  lastUserText: string,
-): RuntimeToolExecutionIntent | null =>
-  parseDecisionFromJsonObject(parseJsonObject(lastUserText), {
-    forceSkillChoice: false,
-    source: 'fallback',
-    pass: 'fallback',
-    secondaryUsed: false,
-    primaryDecision: null,
-    secondaryDecision: null,
-    primaryFailureReason: null,
-    secondaryFailureReason: null,
-  })?.toolExecutionIntent ?? null

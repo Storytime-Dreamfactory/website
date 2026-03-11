@@ -233,7 +233,6 @@ export const orchestrateCharacterRuntimeTurn = async (
   }
 
   const decision = runtimeIntentDecision.decision
-  const toolExecutionIntent = runtimeIntentDecision.toolExecutionIntent
   const decisionFailureReason =
     runtimeIntentDecision.secondaryFailureReason ??
     runtimeIntentDecision.primaryFailureReason ??
@@ -257,7 +256,6 @@ export const orchestrateCharacterRuntimeTurn = async (
     output: {
       skillId: decision?.skillId ?? null,
       reason: decision?.reason ?? null,
-      toolExecutionTaskId: toolExecutionIntent?.taskId,
       relationshipsRequested,
       activitiesRequested,
       routingDecisionSource: runtimeIntentDecision.source,
@@ -329,9 +327,6 @@ export const orchestrateCharacterRuntimeTurn = async (
       availableSkillIds: CHARACTER_AGENT_SKILL_PLAYBOOKS.map((item) => item.id),
       relationshipCount,
       recentActivityCount,
-      toolExecutionTaskId: toolExecutionIntent?.taskId,
-      toolExecutionDryRun: toolExecutionIntent?.dryRun,
-      toolExecutionReason: toolExecutionIntent?.reason,
       sourceEventType: input.eventType,
     },
   })
@@ -346,7 +341,6 @@ export const orchestrateCharacterRuntimeTurn = async (
     characterName,
     characterContext,
     learningGoalIds: runtimeContext.learningGoalIds,
-    toolExecutionIntent,
     relationshipContext,
   })
   await trackTraceActivitySafely({

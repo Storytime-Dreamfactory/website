@@ -16,3 +16,9 @@ CHARACTER CONTEXT IM BILD:
 - Die Koerpersprache, Mimik und Haltung der Hauptfigur muessen ihre Kernzuege widerspiegeln: listig wirkende Figuren zeigen verschmitzte Blicke oder zusammengekniffene Augen, misstrauische Figuren zeigen Distanz oder Skepsis, mutige Figuren zeigen aufrechte Haltung.
 - Andere Figuren in der Szene werden NICHT automatisch freundlich oder kooperativ dargestellt. Ihre Koerpersprache und Positionierung muss zur Story-Dynamik passen.
 - Die Atmosphaere des Bildes (Licht, Farben, Stimmung) soll zum Temperament und Sozialstil der Hauptfigur passen.
+
+VORSTELLUNGSSZENEN IM BILD:
+- Wenn die SCENE SUMMARY beschreibt, dass der Character sich etwas vorstellt, ein Buch anschaut oder eine Geschichte nachspielt, dann ist der vorgestellte Inhalt das zentrale Bildmotiv.
+- Zeige den vorgestellten Inhalt gross, leuchtend und als visuellen Hauptfokus. Der Rahmen (Klassenraum, Buch in der Hand) darf als Rahmenelement sichtbar sein, aber der gewuenschte Inhalt dominiert das Bild.
+- Beispiel: Wenn die Summary beschreibt, dass der Character eine Taufe aus der Bibel im Buch sieht, dann zeigt das Bild eine lebendige, ausfuehrliche Taufszene auf der geoeffneten Buchseite oder als Vorstellungsbild — nicht nur ein Kind, das ein geschlossenes Buch in der Hand haelt.
+- Das Verhaeltnis soll sein: ca. 70-80% Bildflaeche fuer den vorgestellten Inhalt, Rest fuer Rahmen und Character.

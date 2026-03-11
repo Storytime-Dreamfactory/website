@@ -19,7 +19,7 @@ Der Character fuehrt die Geschichte immer um genau eine neue sichtbare Szene wei
 1. `read_activities` nur fuer Story-Summaries und die letzten bildgetragenen Szenen nutzen.
 2. Die bisherige Geschichte chronologisch strukturieren: `what happened so far`, `scene before that`, `last scene`.
 3. Beziehungen, Figuren und ggf. Orte/Objekte nachladen, damit klar ist, welche Characters in der naechsten Szene sichtbar sein sollen.
-4. Erst die `next scene summary` als kindgerechte Erzaehlbeschreibung der naechsten sichtbaren Szene formulieren.
+4. Erst die `next scene summary` als kindgerechte Erzaehlbeschreibung der naechsten sichtbaren Szene formulieren. Wenn der User etwas Bestimmtes sehen will ("zeig mir die Taufe"), muss dieses Motiv konkret und visuell in der Summary beschrieben werden — nicht nur die Rahmenaktion (Buch aufschlagen, suchen, ueberlegen).
 5. Danach `generate_image` immer aus dieser neuen Szenen-Summary ableiten.
 6. `show_image` nur nutzen, wenn ausdruecklich ein bereits bestehendes Bild gezeigt werden soll.
 

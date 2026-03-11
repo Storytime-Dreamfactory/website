@@ -420,7 +420,6 @@ describe('orchestrateCharacterRuntimeTurn', () => {
                       reason: 'visual-request',
                       activitiesRequested: false,
                       relationshipsRequested: true,
-                      toolExecutionIntent: null,
                     }),
                   },
                 },
@@ -530,7 +529,6 @@ describe('orchestrateCharacterRuntimeTurn', () => {
       reason: 'memory-image-request',
       activitiesRequested: true,
       relationshipsRequested: false,
-      toolExecutionIntent: null,
     })
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {
@@ -569,7 +567,6 @@ describe('orchestrateCharacterRuntimeTurn', () => {
       reason: 'memory-image-request',
       activitiesRequested: true,
       relationshipsRequested: false,
-      toolExecutionIntent: null,
     })
     await orchestrateCharacterRuntimeTurn({
       conversationId: 'conv-1',
@@ -592,7 +589,6 @@ describe('orchestrateCharacterRuntimeTurn', () => {
       reason: 'memory-image-request',
       activitiesRequested: true,
       relationshipsRequested: false,
-      toolExecutionIntent: null,
     })
     await orchestrateCharacterRuntimeTurn({
       conversationId: 'conv-1',
@@ -674,7 +670,6 @@ describe('orchestrateCharacterRuntimeTurn', () => {
             reason: 'action-request',
             activitiesRequested: true,
             relationshipsRequested: false,
-            toolExecutionIntent: null,
           }),
         },
       ],
