@@ -12,6 +12,7 @@ import { getConversationDetails, type ConversationDetailsRecord } from './conver
 import { resolveCounterpartName, toPublicConversationHistory } from './conversationActivityHelpers.ts'
 import { getOpenAiApiKey } from './openAiConfig.ts'
 import * as gameObjectService from './gameObjectService.ts'
+import { readThumbnailAsBase64 } from './conversationImageAssetStore.ts'
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../', import.meta.url)))
 const MAX_REALTIME_CONTEXT_MESSAGES = 12
@@ -375,6 +376,56 @@ const buildConversationContextBlock = (input: {
   ].join('\n')
 }
 
+type LastSceneImage = {
+  base64: string
+  mimeType: string
+  sceneSummary: string
+}
+
+const findLastSceneImageUrl = (details: ConversationDetailsRecord): {
+  imageUrl: string
+  sceneSummary: string
+} | null => {
+  for (let i = details.messages.length - 1; i >= 0; i--) {
+    const message = details.messages[i]
+    if (message.role !== 'system') continue
+    const metadata = (message.metadata ?? {}) as Record<string, unknown>
+    const heroImageUrl = typeof metadata.heroImageUrl === 'string' ? metadata.heroImageUrl.trim() : ''
+    const imageUrl = typeof metadata.imageUrl === 'string' ? metadata.imageUrl.trim() : ''
+    const candidate = heroImageUrl || imageUrl
+    if (!candidate) continue
+    const sceneSummary = typeof metadata.sceneSummary === 'string' ? metadata.sceneSummary.trim() : ''
+    return { imageUrl: candidate, sceneSummary }
+  }
+  return null
+}
+
+const resolveLastSceneImage = async (
+  details: ConversationDetailsRecord | null,
+): Promise<LastSceneImage | null> => {
+  if (!details) return null
+  const sceneRef = findLastSceneImageUrl(details)
+  if (!sceneRef) return null
+  const thumbnail = await readThumbnailAsBase64(sceneRef.imageUrl)
+  if (!thumbnail) return null
+  return {
+    base64: thumbnail.base64,
+    mimeType: thumbnail.mimeType,
+    sceneSummary: sceneRef.sceneSummary,
+  }
+}
+
+const buildSceneImageContextBlock = (sceneSummary: string): string => {
+  const lines = [
+    '## Aktuelles Szenenbild',
+    'Dir wird gleich das aktuelle Szenenbild gezeigt. Beziehe dich darauf, wenn es zum Gespraech passt.',
+  ]
+  if (sceneSummary) {
+    lines.push(`Die Szenenbeschreibung: ${sceneSummary}`)
+  }
+  return lines.join('\n')
+}
+
 const createEphemeralToken = async (
   instructions: string,
   voice: string,
@@ -501,12 +552,25 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
             characterName,
           })
         : ''
-      const fullInstructions = conversationContextBlock
-        ? `${instructions}\n\n${conversationContextBlock}`
-        : instructions
+
+      const lastSceneImage = await resolveLastSceneImage(conversationDetails)
+
+      const instructionParts = [instructions]
+      if (conversationContextBlock) instructionParts.push(conversationContextBlock)
+      if (lastSceneImage) instructionParts.push(buildSceneImageContextBlock(lastSceneImage.sceneSummary))
+      const fullInstructions = instructionParts.join('\n\n')
+
       const { token, expiresAt } = await createEphemeralToken(fullInstructions, voice)
 
-      json(response, 200, { token, expiresAt })
+      const sessionPayload: Record<string, unknown> = { token, expiresAt }
+      if (lastSceneImage) {
+        sessionPayload.lastSceneImage = {
+          base64: lastSceneImage.base64,
+          mimeType: lastSceneImage.mimeType,
+          summary: lastSceneImage.sceneSummary,
+        }
+      }
+      json(response, 200, sessionPayload)
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
       const status = message.includes('ENOENT') ? 404 : 500

@@ -16,11 +16,12 @@ import {
   Tag,
   Typography,
 } from 'antd'
-import { HeartOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons'
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import storytimeLogo from './assets/storytime-logo.png'
 import userProfileAvatar from './assets/user-profile-avatar.png'
 import CharacterDetailPage from './CharacterDetailPage'
+import CharacterStoryPage from './CharacterStoryPage'
 import CharacterCreationChatOverlay from './CharacterCreationChatOverlay'
 import { loadStoryContent } from './content/loaders'
 import type { StoryContent } from './content/types'
@@ -45,43 +46,46 @@ const menuItems = [
   { key: '/design-system', label: 'Design System' },
 ]
 
-function AppHeader({ source }: { source: StoryContent['source'] | undefined }) {
-  const location = useLocation()
-  const navigate = useNavigate()
+type AppHeaderProps = {
+  source: StoryContent['source'] | undefined
+  mode: 'home' | 'subpage'
+  pageTitle?: string
+  backUrl?: string
+}
 
-  const selectedKey = useMemo(() => {
-    if (location.pathname === '/') return '/'
-    if (location.pathname.startsWith('/design-system')) return '/design-system'
-    if (location.pathname.startsWith('/places')) return '/places'
-    if (
-      location.pathname.startsWith('/learning-goals') ||
-      location.pathname.startsWith('/skills')
-    ) {
-      return '/learning-goals'
-    }
-    if (location.pathname.startsWith('/characters')) return '/characters'
-    return '/'
-  }, [location.pathname])
+function AppHeader({ source, mode, pageTitle, backUrl }: AppHeaderProps) {
+  const navigate = useNavigate()
 
   return (
     <Header className="app-header">
       <div className="header-inner">
-        <div className="brand-area">
-          <Link to="/" aria-label="Zur Startseite">
-            <img src={storytimeLogo} alt="Storytime Logo" className="brand-logo-image" />
-          </Link>
-          <Tag color="blue" className="source-tag">
-            {source === 'runtime' ? 'Runtime API' : 'Fallback YAML'}
-          </Tag>
-        </div>
+        {mode === 'home' ? (
+          <>
+            <div className="brand-area">
+              <Link to="/" aria-label="Zur Startseite">
+                <img src={storytimeLogo} alt="Storytime Logo" className="brand-logo-image" />
+              </Link>
+              <Tag color="blue" className="source-tag">
+                {source === 'runtime' ? 'Runtime API' : 'Fallback YAML'}
+              </Tag>
+            </div>
 
-        <Menu
-          mode="horizontal"
-          selectedKeys={[selectedKey]}
-          items={menuItems}
-          className="top-nav"
-          onClick={({ key }) => navigate(key)}
-        />
+            <Menu
+              mode="horizontal"
+              selectedKeys={['/']}
+              items={menuItems}
+              className="top-nav"
+              onClick={({ key }) => navigate(key)}
+            />
+          </>
+        ) : (
+          <div className="brand-area">
+            <Link to={backUrl ?? '/'} className="app-header-back-link" aria-label="Zurueck">
+              <ArrowLeftOutlined />
+              <span className="app-header-page-title">{pageTitle}</span>
+            </Link>
+          </div>
+        )}
 
         <div className="header-user">
           <Text className="header-user-name">Yoko</Text>
@@ -126,9 +130,36 @@ function resolveCarouselItems(
   return pool.map((goal) => ({ id: goal.id, name: goal.name }))
 }
 
+function useCharactersWithConversations(): Set<string> {
+  const [characterIds, setCharacterIds] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    let cancelled = false
+
+    const load = async () => {
+      try {
+        const response = await fetch('/api/conversations/characters-with-conversations')
+        if (!response.ok) return
+        const payload = (await response.json()) as { characterIds?: string[] }
+        if (!cancelled && Array.isArray(payload.characterIds)) {
+          setCharacterIds(new Set(payload.characterIds))
+        }
+      } catch {
+        // silent fallback to empty set
+      }
+    }
+
+    void load()
+    return () => { cancelled = true }
+  }, [])
+
+  return characterIds
+}
+
 function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
   const items = useMemo(() => resolveCarouselItems(content, type, ids), [content, type, ids])
   const fallbackImage = PAGE_BACKGROUND_ASSETS[type]
+  const charactersWithConversations = useCharactersWithConversations()
 
   return (
     <section className="content-section">
@@ -151,8 +182,11 @@ function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
           )
 
           if (type === 'characters') {
+            const target = charactersWithConversations.has(item.id)
+              ? `/characters/${item.id}/story`
+              : `/characters/${item.id}`
             return (
-              <Link key={item.id} to={`/characters/${item.id}`} className="content-card-link">
+              <Link key={item.id} to={target} className="content-card-link">
                 {cardContent}
               </Link>
             )
@@ -393,6 +427,26 @@ function App() {
     updateParallaxVariables(element, 0, 0, 50, 44)
   }, [updateParallaxVariables])
 
+  const headerProps = useMemo((): Omit<AppHeaderProps, 'source'> => {
+    const path = location.pathname
+    if (path === '/') return { mode: 'home' }
+
+    const charMatch = path.match(/^\/characters\/([^/]+)/)
+    if (charMatch) {
+      const charId = charMatch[1]
+      const charName = content?.characters.find((c) => c.id === charId)?.name
+      if (path.match(/^\/characters\/[^/]+\/story$/)) {
+        return { mode: 'subpage', pageTitle: charName ?? 'Story', backUrl: `/characters/${charId}` }
+      }
+      return { mode: 'subpage', pageTitle: charName ?? 'Character', backUrl: '/characters' }
+    }
+    if (path.startsWith('/characters')) return { mode: 'subpage', pageTitle: 'Characters', backUrl: '/' }
+    if (path.startsWith('/places')) return { mode: 'subpage', pageTitle: 'Places', backUrl: '/' }
+    if (path.startsWith('/learning-goals') || path.startsWith('/skills')) return { mode: 'subpage', pageTitle: 'Lernziele', backUrl: '/' }
+    if (path.startsWith('/design-system')) return { mode: 'subpage', pageTitle: 'Design System', backUrl: '/' }
+    return { mode: 'subpage', pageTitle: '', backUrl: '/' }
+  }, [location.pathname, content?.characters])
+
   return (
     <ConfigProvider
       theme={{
@@ -401,6 +455,14 @@ function App() {
           borderRadius: 18,
           fontFamily:
             "'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          colorBgLayout: 'transparent',
+        },
+        components: {
+          Layout: {
+            bodyBg: 'transparent',
+            headerBg: 'transparent',
+            footerBg: 'transparent',
+          },
         },
       }}
     >
@@ -408,15 +470,17 @@ function App() {
         className={`landing-layout ${
           location.pathname === '/'
             ? `landing-layout-home ${isHomeParallaxEnabled ? 'landing-layout-home-parallax' : ''}`
-            : location.pathname.startsWith('/characters/')
-              ? 'landing-layout-character-detail'
-              : 'landing-layout-inner'
+            : location.pathname.match(/^\/characters\/[^/]+\/story$/)
+              ? 'landing-layout-character-story'
+              : location.pathname.startsWith('/characters/')
+                ? 'landing-layout-character-detail'
+                : 'landing-layout-inner'
         }`}
         style={layoutBackground}
         onMouseMove={handleLayoutMouseMove}
         onMouseLeave={resetLayoutParallax}
       >
-        <AppHeader source={content?.source} />
+        <AppHeader source={content?.source} {...headerProps} />
 
         <Content className="page-content">
           {loading && (
@@ -459,6 +523,10 @@ function App() {
                 <Route
                   path="/characters/:id"
                   element={<CharacterDetailPage content={content} />}
+                />
+                <Route
+                  path="/characters/:id/story"
+                  element={<CharacterStoryPage content={content} />}
                 />
                 <Route
                   path="/places"

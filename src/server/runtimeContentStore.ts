@@ -10,6 +10,15 @@ type CharacterYaml = {
   }
   persoenlichkeit?: {
     core_traits?: string[]
+    temperament?: string
+    social_style?: string
+    quirks?: string[]
+    strengths?: string[]
+    weaknesses?: string[]
+  }
+  story_psychology?: {
+    visible_goal?: string
+    fear?: string
   }
   learning_function?: {
     suitable_learning_goals?: string[]
@@ -32,6 +41,13 @@ export type CharacterRuntimeProfile = {
   species: string
   shortDescription: string
   coreTraits: string[]
+  temperament: string
+  socialStyle: string
+  quirks: string[]
+  strengths: string[]
+  weaknesses: string[]
+  visibleGoal: string
+  fear: string
   suitableLearningGoalIds: string[]
 }
 
@@ -48,6 +64,16 @@ export type LearningGoalRuntimeProfile = {
 
 const characterProfileCache = new Map<string, Promise<CharacterRuntimeProfile | null>>()
 const learningGoalCache = new Map<string, Promise<LearningGoalRuntimeProfile | null>>()
+
+const characterNameSyncCache = new Map<string, string>()
+
+/**
+ * Returns the cached character display name synchronously, or undefined
+ * if the character has not been loaded yet.
+ */
+export const getCharacterNameSync = (characterId: string): string | undefined => {
+  return characterNameSyncCache.get(characterId.trim()) ?? undefined
+}
 
 const readText = (value: unknown): string => (typeof value === 'string' ? value.trim() : '')
 
@@ -74,12 +100,21 @@ export const loadCharacterRuntimeProfile = async (
       if (!yamlPath) return null
       const raw = await readFile(yamlPath, 'utf8')
       const parsed = parseYaml(raw) as CharacterYaml
+      const name = readText(parsed.name) || normalizedId
+      characterNameSyncCache.set(normalizedId, name)
       return {
         id: normalizedId,
-        name: readText(parsed.name) || normalizedId,
+        name,
         species: readText(parsed.basis?.species),
         shortDescription: readText(parsed.kurzbeschreibung),
         coreTraits: readTextArray(parsed.persoenlichkeit?.core_traits),
+        temperament: readText(parsed.persoenlichkeit?.temperament),
+        socialStyle: readText(parsed.persoenlichkeit?.social_style),
+        quirks: readTextArray(parsed.persoenlichkeit?.quirks),
+        strengths: readTextArray(parsed.persoenlichkeit?.strengths),
+        weaknesses: readTextArray(parsed.persoenlichkeit?.weaknesses),
+        visibleGoal: readText(parsed.story_psychology?.visible_goal),
+        fear: readText(parsed.story_psychology?.fear),
         suitableLearningGoalIds: readTextArray(
           parsed.learning_function?.suitable_learning_goals,
         ),

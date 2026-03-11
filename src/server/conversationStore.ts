@@ -429,3 +429,19 @@ export const getLatestConversationForCharacter = async (
     messages: messageResult.rows.map((row) => toConversationMessageRecord(row)),
   }
 }
+
+export const getCharacterIdsWithConversations = async (): Promise<Set<string>> => {
+  await ensureSchemaReady()
+
+  const db = getPool()
+  const result = await db.query<{ character_id: string }>(
+    `
+    SELECT DISTINCT c.character_id
+    FROM conversations c
+    INNER JOIN conversation_messages m ON m.conversation_id = c.conversation_id
+    WHERE m.role IN ('user', 'assistant')
+    `,
+  )
+
+  return new Set(result.rows.map((row) => row.character_id))
+}

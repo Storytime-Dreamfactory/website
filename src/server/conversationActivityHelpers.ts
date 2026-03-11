@@ -1,4 +1,5 @@
 import type { ConversationMessageRecord, ConversationMetadata } from './conversationStore.ts'
+import { getCharacterNameSync } from './runtimeContentStore.ts'
 
 const DEFAULT_COUNTERPART_PERSON = 'Yoko'
 const TECHNICAL_EVENT_PREFIXES = ['trace.', 'tool.', 'runtime.', 'skill.']
@@ -16,7 +17,7 @@ const capitalizeWord = (value: string): string => {
   return `${trimmed.charAt(0).toUpperCase()}${trimmed.slice(1)}`
 }
 
-export const formatCharacterDisplayName = (value: string): string => {
+const formatSlugAsDisplayName = (value: string): string => {
   const normalized = value
     .trim()
     .split(/[-_]/)
@@ -24,6 +25,12 @@ export const formatCharacterDisplayName = (value: string): string => {
     .filter((part) => part.length > 0)
     .join(' ')
   return normalized || value
+}
+
+export const formatCharacterDisplayName = (value: string): string => {
+  const cachedName = getCharacterNameSync(value)
+  if (cachedName) return cachedName
+  return formatSlugAsDisplayName(value)
 }
 
 export const resolveCounterpartName = (metadata: ConversationMetadata | undefined): string => {

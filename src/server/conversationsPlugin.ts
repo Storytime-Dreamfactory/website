@@ -4,6 +4,7 @@ import {
   appendConversationMessage,
   endConversation,
   getConversationDetails,
+  getCharacterIdsWithConversations,
   startConversation,
   type ConversationMetadata,
 } from './conversationStore.ts'
@@ -89,6 +90,12 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
         const conversationId = requestUrl.searchParams.get('conversationId')?.trim() || ''
         const details = await getConversationDetails(conversationId)
         json(response, 200, details)
+        return
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/characters-with-conversations') {
+        const characterIds = await getCharacterIdsWithConversations()
+        json(response, 200, { characterIds: Array.from(characterIds) })
         return
       }
 

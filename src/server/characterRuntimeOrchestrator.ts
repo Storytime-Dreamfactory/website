@@ -26,7 +26,7 @@ import {
   scheduleMemoryImageRecallFromUserTurn,
 } from './runtime/skills/skillExecutor.ts'
 import { trackTraceActivitySafely } from './traceActivity.ts'
-import type { SceneRelationshipContext } from './runtime/skills/createSceneBuilder.ts'
+import type { SceneCharacterContext, SceneRelationshipContext } from './runtime/skills/createSceneBuilder.ts'
 import type {
   RuntimeIntentModelDecision,
   RuntimeIntentPublicMessage,
@@ -83,6 +83,19 @@ export const orchestrateCharacterRuntimeTurn = async (
   try {
     const details = await getConversationDetails(conversationId)
     publicConversationHistory = toPublicConversationHistory(details.messages)
+
+    if (input.role === 'assistant') {
+      const precedingMessage = details.messages
+        .filter((m) => m.content?.trim() !== content)
+        .at(-1)
+      const isResponseToGeneratedImage =
+        precedingMessage?.role === 'system' &&
+        (precedingMessage?.eventType === 'tool.image.generated' ||
+          precedingMessage?.eventType === 'tool.image.recalled')
+      if (isResponseToGeneratedImage) {
+        return
+      }
+    }
   } catch {
     publicConversationHistory = []
   }
@@ -160,6 +173,21 @@ export const orchestrateCharacterRuntimeTurn = async (
   const characterId = details.conversation.characterId
   const characterProfile = await loadCharacterRuntimeProfile(characterId)
   const characterName = characterProfile?.name ?? characterId
+  const characterContext: SceneCharacterContext | undefined = characterProfile
+    ? {
+        name: characterProfile.name,
+        species: characterProfile.species,
+        shortDescription: characterProfile.shortDescription,
+        coreTraits: characterProfile.coreTraits,
+        temperament: characterProfile.temperament,
+        socialStyle: characterProfile.socialStyle,
+        quirks: characterProfile.quirks,
+        strengths: characterProfile.strengths,
+        weaknesses: characterProfile.weaknesses,
+        visibleGoal: characterProfile.visibleGoal,
+        fear: characterProfile.fear,
+      }
+    : undefined
   const lastUserText =
     [...details.messages].reverse().find((item) => item.role === 'user')?.content?.trim() ?? ''
   publicConversationHistory = toPublicConversationHistory(details.messages)
@@ -316,6 +344,7 @@ export const orchestrateCharacterRuntimeTurn = async (
     eventType: input.eventType,
     characterId,
     characterName,
+    characterContext,
     learningGoalIds: runtimeContext.learningGoalIds,
     toolExecutionIntent,
     relationshipContext,

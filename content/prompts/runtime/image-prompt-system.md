@@ -10,3 +10,9 @@ REGELN:
 - Keine Ueberschriften, keine Aufzaehlung, kein JSON, kein Markdown.
 - Schreibe einen zusammenhaengenden natuerlichen Prompttext.
 - Keine Meta-Erklaerung ueber Prompts, Tools oder Modelle.
+
+CHARACTER CONTEXT IM BILD:
+- Lies den CHARACTER CONTEXT sorgfaeltig und uebertrage Persoenlichkeit in sichtbare Bildelemente.
+- Die Koerpersprache, Mimik und Haltung der Hauptfigur muessen ihre Kernzuege widerspiegeln: listig wirkende Figuren zeigen verschmitzte Blicke oder zusammengekniffene Augen, misstrauische Figuren zeigen Distanz oder Skepsis, mutige Figuren zeigen aufrechte Haltung.
+- Andere Figuren in der Szene werden NICHT automatisch freundlich oder kooperativ dargestellt. Ihre Koerpersprache und Positionierung muss zur Story-Dynamik passen.
+- Die Atmosphaere des Bildes (Licht, Farben, Stimmung) soll zum Temperament und Sozialstil der Hauptfigur passen.

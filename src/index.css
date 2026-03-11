@@ -15,10 +15,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html,
 body {
   margin: 0;
   min-width: 320px;
-  background: #f6f8fb;
+  background: #03091c !important;
   font-family:
     'Nunito',
     -apple-system,
@@ -50,4 +51,7 @@ h6,
 
 #root {
   min-height: 100vh;
+  max-width: calc(100vh * 4 / 3);
+  margin-left: auto;
+  margin-right: auto;
 }

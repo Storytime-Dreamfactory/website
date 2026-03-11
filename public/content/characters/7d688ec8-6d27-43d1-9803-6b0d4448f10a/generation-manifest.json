@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-10T12:01:24.903Z",
+  "generatedAt": "2026-03-11T13:06:57.601Z",
   "generatorVersion": 1,
   "styleProfileId": "storytime-adventure-3d-v1",
   "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/agatha-knusperhexe/character.yaml",
@@ -154,8 +154,8 @@
       "height": 1536,
       "outputFormat": "png",
       "seed": 4242,
-      "requestId": "91efdf3d-8d57-4f90-9fba-0321a55b5b91",
-      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/10/3cbd372cab934b7280bcbf96e6c324e1_sample.png?se=2026-03-10T12%3A09%3A57Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=pe808IB9GPufKgOfA%2BuXrrIReJd0c9A71RqK0yJwBU4%3D",
+      "requestId": "fed2e494-a441-4792-b035-e97cdbf94cb4",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/5c973d4b5ae8498fa34089dc6d7f627b_sample.png?se=2026-03-11T13%3A16%3A36Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=lQlgLprKHDvnQVHU4RrexeB1DgQm8lz1fP7pXJI/uIg%3D",
       "cost": 1.5,
       "reason": "File already exists and overwrite=false"
     },
@@ -174,8 +174,8 @@
       "height": 1088,
       "outputFormat": "jpeg",
       "seed": 4243,
-      "requestId": "98280ae6-1e85-46cb-94dd-e8a57974675b",
-      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/10/45540073358442baaf48e2c6334769ce_sample.jpeg?se=2026-03-10T12%3A10%3A18Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=LnLKsrEh9JEAEU8axGrdL%2BCoebJlQM6sUbnMyiVLhx0%3D",
+      "requestId": "064c1657-8ee0-476b-bced-7f55b3c42d23",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/986241811eae47b7b9e94261faec79be_sample.jpeg?se=2026-03-11T13%3A16%3A44Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=TsS9N/pSGxwPWZ5xhlzL0T1GYuE/eO0QfuYrZLWzqck%3D",
       "cost": 1.7000000000000002,
       "reason": "File already exists and overwrite=false"
     },
@@ -194,8 +194,8 @@
       "height": 1200,
       "outputFormat": "png",
       "seed": 4244,
-      "requestId": "ccb3e228-acd3-46bb-ac39-ea55ed7111ba",
-      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/10/34b6ad3048f2415ca361343e1ff5696d_sample.png?se=2026-03-10T12%3A11%3A04Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=pkaiePAzj6KasVM%2Bi8BokYps6U41Fej3XWgEJH9LqM4%3D",
+      "requestId": "dbfd2570-4da2-4388-84ab-9943bd82157b",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/df458c64bb9646fc9c6fea4407a3e251_sample.png?se=2026-03-11T13%3A16%3A50Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=9805U3EUV34Sf4fzvMDhojs3lDurZk1HELPjmArskUU%3D",
       "cost": 1.6,
       "reason": "File already exists and overwrite=false"
     },
@@ -214,8 +214,8 @@
       "height": 512,
       "outputFormat": "png",
       "seed": 4245,
-      "requestId": "d776cdc6-baf9-4edc-a046-8ca2bbf2ed84",
-      "sampleUrl": "https://bfldeliverysc.blob.core.windows.net/results/2026/03/10/de1d31bef6f24a2091dc4ed6c34e2019_sample.png?se=2026-03-10T12%3A11%3A23Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=EkUPnL1gXE5hWIoezuiDK5bGbZTTm7KcjrJL1RIROX8%3D",
+      "requestId": "da2e6929-9f31-4581-9263-cf0f9fe03d15",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/3562fe4a0e624298b6bf76cb0dde4b3c_sample.png?se=2026-03-11T13%3A16%3A55Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=knG99z4bU4CT/rkPWxXRVNRSgh/vIqFYl/ISg%2BnPDqE%3D",
       "cost": 1.5,
       "reason": "File already exists and overwrite=false"
     }

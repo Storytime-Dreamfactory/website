@@ -159,6 +159,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
   const conversationOwnedRef = useRef(false)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
   const recoverySentForCurrentTurnRef = useRef(false)
+  const activityStreamRef = useRef<EventSource | null>(null)
 
   const startConversationSession = useCallback(async (): Promise<{
     conversationId: string | null
@@ -237,8 +238,14 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     }).catch(() => undefined)
   }, [])
 
+  const stopActivityStream = useCallback(() => {
+    activityStreamRef.current?.close()
+    activityStreamRef.current = null
+  }, [])
+
   const cleanup = useCallback(() => {
     closeConversationSession('cleanup')
+    stopActivityStream()
     cancelAnimationFrame(rafRef.current)
     setIsMicMutedByAssistant(false)
     dataChannelRef.current?.close()
@@ -252,7 +259,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     if (audioRef.current) {
       audioRef.current.srcObject = null
     }
-  }, [closeConversationSession])
+  }, [closeConversationSession, stopActivityStream])
 
   const monitorAudio = useCallback(() => {
     const analyser = analyserRef.current
@@ -326,6 +333,100 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     dc.send(JSON.stringify({ type: 'response.create' }))
   }, [])
 
+  const sendSceneImageReadySignal = useCallback(async (sceneSummary?: string, imageUrl?: string) => {
+    const dc = dataChannelRef.current
+    if (!dc || dc.readyState !== 'open') return
+    const hint = sceneSummary
+      ? `Die Szenenbeschreibung: ${sceneSummary}`
+      : ''
+
+    if (imageUrl) {
+      const thumbUrl = imageUrl.replace(/(\.[^.]+)$/, '.thumb.jpg')
+      try {
+        const response = await fetch(thumbUrl)
+        if (response.ok) {
+          const blob = await response.blob()
+          const buffer = await blob.arrayBuffer()
+          const base64 = btoa(
+            new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''),
+          )
+          dc.send(
+            JSON.stringify({
+              type: 'conversation.item.create',
+              item: {
+                type: 'message',
+                role: 'user',
+                content: [
+                  {
+                    type: 'input_image',
+                    image_url: `data:image/jpeg;base64,${base64}`,
+                  },
+                  {
+                    type: 'input_text',
+                    text: `[SCENE_IMAGE_READY] Das neue Szenenbild ist jetzt fuer das Kind sichtbar. ${hint} Beschreibe kurz und begeistert, was jetzt zu sehen ist, und stelle deine Anschlussfrage.`,
+                  },
+                ],
+              },
+            }),
+          )
+          dc.send(JSON.stringify({ type: 'response.create' }))
+          return
+        }
+      } catch {
+        // thumbnail fetch failed, fall through to text-only signal
+      }
+    }
+
+    dc.send(
+      JSON.stringify({
+        type: 'conversation.item.create',
+        item: {
+          type: 'message',
+          role: 'user',
+          content: [
+            {
+              type: 'input_text',
+              text: `[SCENE_IMAGE_READY] Das neue Szenenbild ist jetzt fuer das Kind sichtbar. ${hint} Beschreibe kurz und begeistert, was jetzt zu sehen ist, und stelle deine Anschlussfrage.`,
+            },
+          ],
+        },
+      }),
+    )
+    dc.send(JSON.stringify({ type: 'response.create' }))
+  }, [])
+
+  const startActivityStream = useCallback(() => {
+    activityStreamRef.current?.close()
+    const characterId = character.id
+    const streamUrl = `/api/activities/stream?characterId=${encodeURIComponent(characterId)}&includeNonPublic=true`
+    const eventSource = new EventSource(streamUrl)
+    activityStreamRef.current = eventSource
+
+    eventSource.addEventListener('activity.created', ((event: MessageEvent<string>) => {
+      try {
+        const activity = JSON.parse(event.data) as {
+          activityType?: string
+          conversationId?: string
+          metadata?: { sceneSummary?: string; summary?: string; heroImageUrl?: string; imageUrl?: string }
+        }
+        const isImageEvent =
+          activity.activityType === 'conversation.image.generated' ||
+          activity.activityType === 'conversation.image.recalled'
+        if (!isImageEvent) return
+        if (activity.conversationId !== conversationIdRef.current) return
+        const sceneSummary =
+          (typeof activity.metadata?.sceneSummary === 'string' ? activity.metadata.sceneSummary : '') ||
+          (typeof activity.metadata?.summary === 'string' ? activity.metadata.summary : '')
+        const imageUrl =
+          (typeof activity.metadata?.heroImageUrl === 'string' ? activity.metadata.heroImageUrl : '') ||
+          (typeof activity.metadata?.imageUrl === 'string' ? activity.metadata.imageUrl : '')
+        void sendSceneImageReadySignal(sceneSummary, imageUrl || undefined)
+      } catch {
+        // ignore malformed payloads
+      }
+    }) as EventListener)
+  }, [character.id, sendSceneImageReadySignal])
+
   const connect = useCallback(async () => {
     // #region agent log
     sendDebugLog('H6', 'VoiceChatButton.tsx:connect', 'Connect started', {
@@ -358,7 +459,11 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
         throw new Error((body as { error?: string }).error ?? `HTTP ${tokenRes.status}`)
       }
 
-      const { token } = (await tokenRes.json()) as { token: string }
+      const sessionData = (await tokenRes.json()) as {
+        token: string
+        lastSceneImage?: { base64: string; mimeType: string; summary: string }
+      }
+      const { token, lastSceneImage } = sessionData
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       localStreamRef.current = stream
@@ -392,6 +497,25 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
 
       const dc = pc.createDataChannel('oai-events')
       dataChannelRef.current = dc
+      dc.onopen = () => {
+        if (lastSceneImage?.base64) {
+          dc.send(
+            JSON.stringify({
+              type: 'conversation.item.create',
+              item: {
+                type: 'message',
+                role: 'user',
+                content: [
+                  {
+                    type: 'input_image',
+                    image_url: `data:${lastSceneImage.mimeType};base64,${lastSceneImage.base64}`,
+                  },
+                ],
+              },
+            }),
+          )
+        }
+      }
       dc.onmessage = (event) => {
         if (typeof event.data !== 'string') return
 
@@ -551,6 +675,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
         }
       }
       setState('connected')
+      startActivityStream()
       monitorAudio()
     } catch {
       // #region agent log
@@ -571,6 +696,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     startConversationSession,
     setLocalMicEnabled,
     sendRealtimeToolOutput,
+    startActivityStream,
   ])
 
   useEffect(() => {
@@ -636,7 +762,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
           {state === 'idle' && (
             <>
               <AudioOutlined className="vcb-mic-icon" />
-              <span className="vcb-label">Sprich mit {character.name}</span>
+              <span className="vcb-label">Setze die Geschichte fort</span>
             </>
           )}
           {state === 'connecting' && <LoadingOutlined className="vcb-spinner" />}

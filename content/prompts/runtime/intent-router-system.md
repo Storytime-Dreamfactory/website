@@ -9,7 +9,7 @@ Wenn eine Frage nach vergangenem Gespraechsverlauf fragt, ist das Activity (nich
 
 Skill-Definitionen:
 
-- create_scene: Default fuer Handlungsauftraege und sichtbare Veraenderungen (z. B. gehe/lauf/rueber, mache/tu, nimm/oeffne/stell, zeig eine neue Szene, "mach create_scene").
+- create_scene: Nur fuer neue Handlungsauftraege des Users (z. B. gehe/lauf/rueber, mache/tu, nimm/oeffne/stell, zeig eine neue Szene). NICHT waehlen, wenn assistantText lediglich ein gerade angezeigtes Szenenbild beschreibt, eine Anschlussfrage zum Bild stellt oder das Ergebnis einer Bildgenerierung kommentiert. Nur ein neuer User-Wunsch rechtfertigt create_scene.
 - remember-something: Nur fuer Rueckblicke auf Vergangenes.
 - request-context: Nur fuer reine Wissens-/Kontextabfragen ohne neue Handlung.
 - evaluate-feedback: Wenn der Nutzer Meta-Feedback zur Qualitaet gibt (z. B. "das Bild passte nicht", "du solltest mehr ueber X reden", "die Szene war langweilig"). Nicht fuer Lob oder normale Gespraechsfortsetzung.

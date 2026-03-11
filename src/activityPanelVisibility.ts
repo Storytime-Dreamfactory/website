@@ -36,7 +36,6 @@ export const isPanelConversationSummaryActivity = (
 export const shouldShowActivityInPanel = (activity: ActivityLike): boolean => {
   return (
     isPanelImageActivity(activity) ||
-    isPanelConversationMessageActivity(activity) ||
     isPanelConversationSummaryActivity(activity)
   )
 }

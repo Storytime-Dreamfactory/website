@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { useState, useRef, useEffect, useCallback, type ReactNode, type RefObject } from 'react'
 import { Link } from 'react-router-dom'
 
 export type CharacterActivityItem = {
@@ -26,6 +26,8 @@ type Props = {
   isLive?: boolean
   onOpenConversation?: (conversationId: string) => void
   onSelectImage?: (imageUrl: string, item: CharacterActivityItem) => void
+  scrollContainerRef?: RefObject<HTMLElement | null>
+  onScrollImageChange?: (imageUrl: string, item: CharacterActivityItem) => void
 }
 
 const SUMMARY_PREVIEW_LENGTH = 220
@@ -144,9 +146,91 @@ export default function CharacterActivityStream({
   isLive = false,
   onOpenConversation,
   onSelectImage,
+  scrollContainerRef,
+  onScrollImageChange,
 }: Props) {
   const [brokenImages, setBrokenImages] = useState<Record<string, boolean>>({})
   const [expandedSummaries, setExpandedSummaries] = useState<Record<string, boolean>>({})
+  const listRef = useRef<HTMLOListElement>(null)
+  const lastScrollImageIdRef = useRef<string | null>(null)
+  const scrollRafRef = useRef<number | null>(null)
+  const imageItemsMapRef = useRef(new Map<string, { imageUrl: string; item: CharacterActivityItem }>())
+
+  useEffect(() => {
+    const map = new Map<string, { imageUrl: string; item: CharacterActivityItem }>()
+    for (const item of items) {
+      const candidates =
+        item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls : item.imageUrl ? [item.imageUrl] : []
+      const localUrls = candidates.filter(isLocalImageUrl)
+      if (localUrls.length > 0) {
+        map.set(item.id, { imageUrl: localUrls[0], item })
+      }
+    }
+    imageItemsMapRef.current = map
+  }, [items])
+
+  const evaluateScrollPosition = useCallback(() => {
+    const container = scrollContainerRef?.current
+    if (!container || !listRef.current || !onScrollImageChange) return
+
+    const containerRect = container.getBoundingClientRect()
+    const midlineY = containerRect.top + containerRect.height * 0.5
+
+    const imageElements = listRef.current.querySelectorAll<HTMLElement>('[data-scroll-image-id]')
+
+    let activeId: string | null = null
+    for (const el of imageElements) {
+      const elRect = el.getBoundingClientRect()
+      if (elRect.top <= midlineY) {
+        activeId = el.dataset.scrollImageId ?? null
+      } else {
+        break
+      }
+    }
+
+    if (!activeId && imageElements.length > 0) {
+      activeId = imageElements[0].dataset.scrollImageId ?? null
+    }
+
+    if (activeId && activeId !== lastScrollImageIdRef.current) {
+      lastScrollImageIdRef.current = activeId
+      const entry = imageItemsMapRef.current.get(activeId)
+      if (entry) {
+        onScrollImageChange(entry.imageUrl, entry.item)
+      }
+    }
+  }, [scrollContainerRef, onScrollImageChange])
+
+  const handleScroll = useCallback(() => {
+    if (scrollRafRef.current != null) {
+      cancelAnimationFrame(scrollRafRef.current)
+    }
+    scrollRafRef.current = requestAnimationFrame(() => {
+      scrollRafRef.current = null
+      evaluateScrollPosition()
+    })
+  }, [evaluateScrollPosition])
+
+  useEffect(() => {
+    const container = scrollContainerRef?.current
+    if (!container || !onScrollImageChange) return
+
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    evaluateScrollPosition()
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll)
+      if (scrollRafRef.current != null) {
+        cancelAnimationFrame(scrollRafRef.current)
+        scrollRafRef.current = null
+      }
+    }
+  }, [scrollContainerRef, onScrollImageChange, handleScroll, evaluateScrollPosition])
+
+  useEffect(() => {
+    evaluateScrollPosition()
+  }, [items, evaluateScrollPosition])
+
   const latestConversationItem = items.find(
     (item) => Boolean(item.conversationUrl) || (Boolean(item.conversationId) && Boolean(onOpenConversation)),
   )
@@ -174,7 +258,7 @@ export default function CharacterActivityStream({
           </button>
         ) : null}
       </div>
-      <ol className="character-activity-list">
+      <ol ref={listRef} className="character-activity-list">
         {items.map((item) => {
           const imageCandidates =
             item.imageUrls && item.imageUrls.length > 0 ? item.imageUrls : item.imageUrl ? [item.imageUrl] : []
@@ -184,7 +268,7 @@ export default function CharacterActivityStream({
           const summaryPreview = getSummaryPreview(fullSummary)
           const visibleSummary = isSummaryExpanded || !summaryPreview.isTruncated ? fullSummary : summaryPreview.text
           return (
-            <li key={item.id} className="character-activity-item">
+            <li key={item.id} className="character-activity-item" {...(imageUrls.length > 0 ? { 'data-scroll-image-id': item.id } : undefined)}>
               <div className="character-activity-marker" aria-hidden="true">
                 <span className="character-activity-dot" />
               </div>

@@ -1,0 +1,249 @@
+{
+  "generatedAt": "2026-03-11T12:51:06.482Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/wilma/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/3d832246-c0ba-45b1-a6c4-69df50bd85f6",
+  "styleReferencePaths": [],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-klein-4b",
+    "heroModel": "flux-2-klein-4b"
+  },
+  "character": {
+    "id": "3d832246-c0ba-45b1-a6c4-69df50bd85f6",
+    "name": "Wilma",
+    "type": "character",
+    "slug": "wilma",
+    "shortDescription": "Wilma ist Lenis apricotfarbene Huendin mit lockigem Fell, grossen dunklen Knopfaugen und freundlicher, verspielter Ausstrahlung. Sie schenkt Leni Sicherheit, bringt Bewegung in jede Szene und reagiert fein auf Stimmungen.",
+    "basis": {
+      "ageHint": "jung",
+      "species": "Hund",
+      "genderExpression": "feminin",
+      "roleArchetype": "loyal_companion"
+    },
+    "appearance": {
+      "bodyShape": "mittelgross, schlank und flauschig",
+      "colors": [
+        "apricot",
+        "karamell",
+        "warmes beige"
+      ],
+      "hairOrFur": {
+        "color": "apricot-kupfer",
+        "texture": "lockig und weich",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "dunkelbraun bis fast schwarz",
+        "expression": "treu, neugierig und sanft"
+      },
+      "distinctiveFeatures": [
+        "lockiger Pony ueber der Stirn",
+        "lange, weiche Hangohr-Fransen",
+        "markante runde schwarze Nase mit wuscheligem Schnauzbart"
+      ],
+      "clothingStyle": "natuerlich ohne Kleidung, mit gepflegtem Familienhund-Look"
+    },
+    "personality": {
+      "coreTraits": [
+        "verspielt",
+        "treu",
+        "sensibel"
+      ],
+      "temperament": "lebendig und freundlich, mit ruhigen Kuschelmomenten",
+      "socialStyle": "sucht Naehe zu vertrauten Kindern, begruesst neue Menschen vorsichtig freundlich",
+      "strengths": [
+        "baut schnell emotionales Vertrauen auf",
+        "motiviert Kinder zu Bewegung und gemeinsamem Spiel",
+        "reagiert fein auf Unsicherheit und spendet Ruhe"
+      ],
+      "weaknesses": [
+        "wird bei Trubel schnell aufgeregt",
+        "wartet ungern lange still",
+        "kann bei neuen Geraeuschen kurz unsicher werden"
+      ],
+      "quirks": [
+        "legt den Kopf leicht schraeg, wenn sie angesprochen wird",
+        "wartet aufmerksam auf ein freundliches Handzeichen zum Loslaufen"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "nah bei Leni bleiben und mit ihr spielen",
+      "deeperNeed": "sichere Bindung und gemeinsame Rituale",
+      "fear": "ploetzlich von ihrer Bezugsperson getrennt zu sein",
+      "insecurity": "Vielleicht werde ich uebersehen, wenn es laut und hektisch wird.",
+      "stressResponse": "seek_proximity_then_observe",
+      "growthDirection": "lernt, auch in neuen Situationen ruhig zu bleiben und auf bekannte Signale zu vertrauen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "emotional_anchor",
+        "playful_motivator"
+      ],
+      "suitableLearningGoals": [
+        "empathie",
+        "verantwortung",
+        "selbstregulation"
+      ],
+      "explanationStyle": "koerpersprachlich, freundlich und spielerisch"
+    },
+    "origin": {
+      "birthPlace": "Lindenhain",
+      "upbringingPlaces": [
+        "Lindenhain"
+      ],
+      "culturalContext": [
+        "alltagsnahes Familienleben mit festen Spazier- und Spielzeiten",
+        "fruehes Gewoehnen an Kindergruppen und sanfte Ansprache"
+      ],
+      "religionOrBelief": "erlebt Sicherheit durch Bindung, Wiederholung und liebevolle Naehe",
+      "historicalContext": [
+        "wurde als Welpe eng an Leni und ihren Familienalltag gebunden",
+        "lernte ueber positive Routinen Ruhe und Vertrauen in neue Situationen"
+      ],
+      "notes": "Herkunft und Alltag zeigen eine respektvolle Mensch-Tier-Bindung ohne Vermenschlichung."
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/wilma/standard-figur.png",
+        "description": "Ganzkoerperdarstellung von Wilma als apricotfarbene lockige Huendin mit weichen Hangohr-Fransen, dunklen Knopfaugen und freundlicher, klar lesbarer Silhouette, ohne Menschen, ohne Kinder und ohne Accessoires."
+      },
+      "heroImage": {
+        "file": "/content/characters/wilma/hero-image.jpg",
+        "description": "Warmes Storytime-Heldenmotiv von Wilma auf einer Garten- oder Wiesen-Szene im goldenen Nachmittagslicht, verspielt und nahbar inszeniert, ohne Kind, ohne Menschen und ohne Teddibaer oder anderes Spielzeug."
+      },
+      "portrait": {
+        "file": "/content/characters/wilma/portrait.png",
+        "description": "Halbnahes Portrait von Wilma mit lockigem Stirnfell, dunklen treuen Augen und freundlicher Schnauze, klar und emotional lesbar, ohne Menschen im Hintergrund und ohne Spielzeug."
+      },
+      "profileImage": {
+        "file": "/content/characters/wilma/profilbild.png",
+        "description": "Quadratisches Profilbild von Wilma mit direktem Blick, gut sichtbarer Nase und weicher Fellstruktur, auch in kleiner Darstellung eindeutig erkennbar, ohne Menschen und ohne Requisiten."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_spielfreudig",
+          "file": "/content/characters/wilma/emotion-spielfreudig.png",
+          "description": "Wilma schaut aufmerksam nach vorn, wirkt froehlich und bereit fuer ein gemeinsames Spiel, ohne Menschen im Bild und ohne Spielzeug."
+        }
+      ]
+    },
+    "tags": [
+      "hund",
+      "freundschaft",
+      "loyalitaet",
+      "empathie",
+      "bewegung",
+      "leni"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-08",
+      "updatedAt": "2026-03-08",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "3d832246-c0ba-45b1-a6c4-69df50bd85f6:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "skipped",
+      "mode": "text-to-image",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Wilma. Short description: Wilma ist Lenis apricotfarbene Huendin mit lockigem Fell, grossen dunklen Knopfaugen und freundlicher, verspielter Ausstrahlung. Sie schenkt Leni Sicherheit, bringt Bewegung in jede Szene und reagiert fein auf Stimmungen. Species: Hund. The character must read unmistakably as a Hund at first glance and must never be mistaken for another species. Age feel: jung. Archetype: loyal_companion. Body shape: mittelgross, schlank und flauschig. Dominant colors: apricot, karamell, warmes beige. Hair or fur: apricot-kupfer lockig und weich mittellang. Eyes: dunkelbraun bis fast schwarz, treu, neugierig und sanft. Distinctive features: lockiger Pony ueber der Stirn, lange, weiche Hangohr-Fransen, markante runde schwarze Nase mit wuscheligem Schnauzbart. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: natuerlich ohne Kleidung, mit gepflegtem Familienhund-Look. Core traits: verspielt, treu, sensibel. Temperament: lebendig und freundlich, mit ruhigen Kuschelmomenten. Social style: sucht Naehe zu vertrauten Kindern, begruesst neue Menschen vorsichtig freundlich. Strengths: baut schnell emotionales Vertrauen auf, motiviert Kinder zu Bewegung und gemeinsamem Spiel, reagiert fein auf Unsicherheit und spendet Ruhe. Weaknesses: wird bei Trubel schnell aufgeregt, wartet ungern lange still, kann bei neuen Geraeuschen kurz unsicher werden. Quirks: legt den Kopf leicht schraeg, wenn sie angesprochen wird, wartet aufmerksam auf ein freundliches Handzeichen zum Loslaufen. Visible goal: nah bei Leni bleiben und mit ihr spielen. Deeper need: sichere Bindung und gemeinsame Rituale. Fear: ploetzlich von ihrer Bezugsperson getrennt zu sein. Insecurity: Vielleicht werde ich uebersehen, wenn es laut und hektisch wird. Stress response: seek_proximity_then_observe. Growth direction: lernt, auch in neuen Situationen ruhig zu bleiben und auf bekannte Signale zu vertrauen. Teaching roles: emotional_anchor, playful_motivator. Explanation style: koerpersprachlich, freundlich und spielerisch. Create a full-body standard character asset of Wilma on a solid pure white background. Show enough of the body to keep the Hund identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Ganzkoerperdarstellung von Wilma als apricotfarbene lockige Huendin mit weichen Hangohr-Fransen, dunklen Knopfaugen und freundlicher, klar lesbarer Silhouette, ohne Menschen, ohne Kinder und ohne Accessoires. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Ganzkoerperdarstellung von Wilma als apricotfarbene lockige Huendin mit weichen Hangohr-Fransen, dunklen Knopfaugen und freundlicher, klar lesbarer Silhouette, ohne Menschen, ohne Kinder und ohne Accessoires.",
+      "publicFilePath": "/content/characters/wilma/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/wilma/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "41a6c4e8-9779-47b8-833f-2501ea05bfa9",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/250b56e9763148f4962de312d353e15a_sample.png?se=2026-03-11T13%3A00%3A40Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=98aJ119I6SB%2B2OrN6U8G39MGDqFsKKqzP%2BtsSe9UPYc%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "3d832246-c0ba-45b1-a6c4-69df50bd85f6:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Wilma. Short description: Wilma ist Lenis apricotfarbene Huendin mit lockigem Fell, grossen dunklen Knopfaugen und freundlicher, verspielter Ausstrahlung. Sie schenkt Leni Sicherheit, bringt Bewegung in jede Szene und reagiert fein auf Stimmungen. Species: Hund. The character must read unmistakably as a Hund at first glance and must never be mistaken for another species. Age feel: jung. Archetype: loyal_companion. Body shape: mittelgross, schlank und flauschig. Dominant colors: apricot, karamell, warmes beige. Hair or fur: apricot-kupfer lockig und weich mittellang. Eyes: dunkelbraun bis fast schwarz, treu, neugierig und sanft. Distinctive features: lockiger Pony ueber der Stirn, lange, weiche Hangohr-Fransen, markante runde schwarze Nase mit wuscheligem Schnauzbart. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: natuerlich ohne Kleidung, mit gepflegtem Familienhund-Look. Core traits: verspielt, treu, sensibel. Temperament: lebendig und freundlich, mit ruhigen Kuschelmomenten. Social style: sucht Naehe zu vertrauten Kindern, begruesst neue Menschen vorsichtig freundlich. Strengths: baut schnell emotionales Vertrauen auf, motiviert Kinder zu Bewegung und gemeinsamem Spiel, reagiert fein auf Unsicherheit und spendet Ruhe. Weaknesses: wird bei Trubel schnell aufgeregt, wartet ungern lange still, kann bei neuen Geraeuschen kurz unsicher werden. Quirks: legt den Kopf leicht schraeg, wenn sie angesprochen wird, wartet aufmerksam auf ein freundliches Handzeichen zum Loslaufen. Visible goal: nah bei Leni bleiben und mit ihr spielen. Deeper need: sichere Bindung und gemeinsame Rituale. Fear: ploetzlich von ihrer Bezugsperson getrennt zu sein. Insecurity: Vielleicht werde ich uebersehen, wenn es laut und hektisch wird. Stress response: seek_proximity_then_observe. Growth direction: lernt, auch in neuen Situationen ruhig zu bleiben und auf bekannte Signale zu vertrauen. Teaching roles: emotional_anchor, playful_motivator. Explanation style: koerpersprachlich, freundlich und spielerisch. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: alltagsnahes Familienleben mit festen Spazier- und Spielzeiten, fruehes Gewoehnen an Kindergruppen und sanfte Ansprache. Belief or worldview: erlebt Sicherheit durch Bindung, Wiederholung und liebevolle Naehe. Historical context: wurde als Welpe eng an Leni und ihren Familienalltag gebunden, lernte ueber positive Routinen Ruhe und Vertrauen in neue Situationen. Origin notes: Herkunft und Alltag zeigen eine respektvolle Mensch-Tier-Bindung ohne Vermenschlichung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Wilma in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Warmes Storytime-Heldenmotiv von Wilma auf einer Garten- oder Wiesen-Szene im goldenen Nachmittagslicht, verspielt und nahbar inszeniert, ohne Kind, ohne Menschen und ohne Teddibaer oder anderes Spielzeug. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Warmes Storytime-Heldenmotiv von Wilma auf einer Garten- oder Wiesen-Szene im goldenen Nachmittagslicht, verspielt und nahbar inszeniert, ohne Kind, ohne Menschen und ohne Teddibaer oder anderes Spielzeug.",
+      "publicFilePath": "/content/characters/wilma/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/wilma/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "430b5212-beec-4d1e-8175-aa5e42171656",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/d189ba1dfaef415a986b3fb3e06d891b_sample.jpeg?se=2026-03-11T13%3A00%3A46Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=pRj2GXx/OO8Oz7JhxiaqUZp2zZMDotXoHG328kS/ZXg%3D",
+      "cost": 1.7000000000000002,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "3d832246-c0ba-45b1-a6c4-69df50bd85f6:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Wilma. Short description: Wilma ist Lenis apricotfarbene Huendin mit lockigem Fell, grossen dunklen Knopfaugen und freundlicher, verspielter Ausstrahlung. Sie schenkt Leni Sicherheit, bringt Bewegung in jede Szene und reagiert fein auf Stimmungen. Species: Hund. The character must read unmistakably as a Hund at first glance and must never be mistaken for another species. Age feel: jung. Archetype: loyal_companion. Body shape: mittelgross, schlank und flauschig. Dominant colors: apricot, karamell, warmes beige. Hair or fur: apricot-kupfer lockig und weich mittellang. Eyes: dunkelbraun bis fast schwarz, treu, neugierig und sanft. Distinctive features: lockiger Pony ueber der Stirn, lange, weiche Hangohr-Fransen, markante runde schwarze Nase mit wuscheligem Schnauzbart. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: natuerlich ohne Kleidung, mit gepflegtem Familienhund-Look. Core traits: verspielt, treu, sensibel. Temperament: lebendig und freundlich, mit ruhigen Kuschelmomenten. Social style: sucht Naehe zu vertrauten Kindern, begruesst neue Menschen vorsichtig freundlich. Strengths: baut schnell emotionales Vertrauen auf, motiviert Kinder zu Bewegung und gemeinsamem Spiel, reagiert fein auf Unsicherheit und spendet Ruhe. Weaknesses: wird bei Trubel schnell aufgeregt, wartet ungern lange still, kann bei neuen Geraeuschen kurz unsicher werden. Quirks: legt den Kopf leicht schraeg, wenn sie angesprochen wird, wartet aufmerksam auf ein freundliches Handzeichen zum Loslaufen. Visible goal: nah bei Leni bleiben und mit ihr spielen. Deeper need: sichere Bindung und gemeinsame Rituale. Fear: ploetzlich von ihrer Bezugsperson getrennt zu sein. Insecurity: Vielleicht werde ich uebersehen, wenn es laut und hektisch wird. Stress response: seek_proximity_then_observe. Growth direction: lernt, auch in neuen Situationen ruhig zu bleiben und auf bekannte Signale zu vertrauen. Teaching roles: emotional_anchor, playful_motivator. Explanation style: koerpersprachlich, freundlich und spielerisch. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: alltagsnahes Familienleben mit festen Spazier- und Spielzeiten, fruehes Gewoehnen an Kindergruppen und sanfte Ansprache. Belief or worldview: erlebt Sicherheit durch Bindung, Wiederholung und liebevolle Naehe. Historical context: wurde als Welpe eng an Leni und ihren Familienalltag gebunden, lernte ueber positive Routinen Ruhe und Vertrauen in neue Situationen. Origin notes: Herkunft und Alltag zeigen eine respektvolle Mensch-Tier-Bindung ohne Vermenschlichung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Wilma. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Portrait von Wilma mit lockigem Stirnfell, dunklen treuen Augen und freundlicher Schnauze, klar und emotional lesbar, ohne Menschen im Hintergrund und ohne Spielzeug. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Portrait von Wilma mit lockigem Stirnfell, dunklen treuen Augen und freundlicher Schnauze, klar und emotional lesbar, ohne Menschen im Hintergrund und ohne Spielzeug.",
+      "publicFilePath": "/content/characters/wilma/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/wilma/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "14783fac-1159-4e4a-aa15-09ec2a4a5c22",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/11/b12559b9c2124ac787df4e7620398e11_sample.png?se=2026-03-11T13%3A00%3A53Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=0nsrEHzqCSkvPgBswa5FNSELDlR/x%2BxD3kOUr3%2BjLDY%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "3d832246-c0ba-45b1-a6c4-69df50bd85f6:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Wilma. Short description: Wilma ist Lenis apricotfarbene Huendin mit lockigem Fell, grossen dunklen Knopfaugen und freundlicher, verspielter Ausstrahlung. Sie schenkt Leni Sicherheit, bringt Bewegung in jede Szene und reagiert fein auf Stimmungen. Species: Hund. The character must read unmistakably as a Hund at first glance and must never be mistaken for another species. Age feel: jung. Archetype: loyal_companion. Body shape: mittelgross, schlank und flauschig. Dominant colors: apricot, karamell, warmes beige. Hair or fur: apricot-kupfer lockig und weich mittellang. Eyes: dunkelbraun bis fast schwarz, treu, neugierig und sanft. Distinctive features: lockiger Pony ueber der Stirn, lange, weiche Hangohr-Fransen, markante runde schwarze Nase mit wuscheligem Schnauzbart. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: natuerlich ohne Kleidung, mit gepflegtem Familienhund-Look. Core traits: verspielt, treu, sensibel. Temperament: lebendig und freundlich, mit ruhigen Kuschelmomenten. Social style: sucht Naehe zu vertrauten Kindern, begruesst neue Menschen vorsichtig freundlich. Strengths: baut schnell emotionales Vertrauen auf, motiviert Kinder zu Bewegung und gemeinsamem Spiel, reagiert fein auf Unsicherheit und spendet Ruhe. Weaknesses: wird bei Trubel schnell aufgeregt, wartet ungern lange still, kann bei neuen Geraeuschen kurz unsicher werden. Quirks: legt den Kopf leicht schraeg, wenn sie angesprochen wird, wartet aufmerksam auf ein freundliches Handzeichen zum Loslaufen. Visible goal: nah bei Leni bleiben und mit ihr spielen. Deeper need: sichere Bindung und gemeinsame Rituale. Fear: ploetzlich von ihrer Bezugsperson getrennt zu sein. Insecurity: Vielleicht werde ich uebersehen, wenn es laut und hektisch wird. Stress response: seek_proximity_then_observe. Growth direction: lernt, auch in neuen Situationen ruhig zu bleiben und auf bekannte Signale zu vertrauen. Teaching roles: emotional_anchor, playful_motivator. Explanation style: koerpersprachlich, freundlich und spielerisch. Birth place: Lindenhain. Raised in: Lindenhain. Cultural context: alltagsnahes Familienleben mit festen Spazier- und Spielzeiten, fruehes Gewoehnen an Kindergruppen und sanfte Ansprache. Belief or worldview: erlebt Sicherheit durch Bindung, Wiederholung und liebevolle Naehe. Historical context: wurde als Welpe eng an Leni und ihren Familienalltag gebunden, lernte ueber positive Routinen Ruhe und Vertrauen in neue Situationen. Origin notes: Herkunft und Alltag zeigen eine respektvolle Mensch-Tier-Bindung ohne Vermenschlichung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Wilma. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild von Wilma mit direktem Blick, gut sichtbarer Nase und weicher Fellstruktur, auch in kleiner Darstellung eindeutig erkennbar, ohne Menschen und ohne Requisiten. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild von Wilma mit direktem Blick, gut sichtbarer Nase und weicher Fellstruktur, auch in kleiner Darstellung eindeutig erkennbar, ohne Menschen und ohne Requisiten.",
+      "publicFilePath": "/content/characters/wilma/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/wilma/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "2c97154e-e0f5-4edb-a9c8-15d21c36728b",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/2c8a230e7a524744bf942790893762e9_sample.png?se=2026-03-11T13%3A00%3A58Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=zJq6SpHCLKjbN71dE2uuDAXiQ0w4P6X3A83GkbCg5LY%3D",
+      "cost": 1.5,
+      "reason": "File already exists and overwrite=false"
+    },
+    {
+      "id": "3d832246-c0ba-45b1-a6c4-69df50bd85f6:emotion_spielfreudig",
+      "type": "emotion_spielfreudig",
+      "kind": "additional",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-klein-4b",
+      "prompt": "Character name: Wilma. Short description: Wilma ist Lenis apricotfarbene Huendin mit lockigem Fell, grossen dunklen Knopfaugen und freundlicher, verspielter Ausstrahlung. Sie schenkt Leni Sicherheit, bringt Bewegung in jede Szene und reagiert fein auf Stimmungen. Species: Hund. The character must read unmistakably as a Hund at first glance and must never be mistaken for another species. Age feel: jung. Archetype: loyal_companion. Body shape: mittelgross, schlank und flauschig. Dominant colors: apricot, karamell, warmes beige. Hair or fur: apricot-kupfer lockig und weich mittellang. Eyes: dunkelbraun bis fast schwarz, treu, neugierig und sanft. Distinctive features: lockiger Pony ueber der Stirn, lange, weiche Hangohr-Fransen, markante runde schwarze Nase mit wuscheligem Schnauzbart. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: natuerlich ohne Kleidung, mit gepflegtem Familienhund-Look. Core traits: verspielt, treu, sensibel. Temperament: lebendig und freundlich, mit ruhigen Kuschelmomenten. Social style: sucht Naehe zu vertrauten Kindern, begruesst neue Menschen vorsichtig freundlich. Strengths: baut schnell emotionales Vertrauen auf, motiviert Kinder zu Bewegung und gemeinsamem Spiel, reagiert fein auf Unsicherheit und spendet Ruhe. Weaknesses: wird bei Trubel schnell aufgeregt, wartet ungern lange still, kann bei neuen Geraeuschen kurz unsicher werden. Quirks: legt den Kopf leicht schraeg, wenn sie angesprochen wird, wartet aufmerksam auf ein freundliches Handzeichen zum Loslaufen. Visible goal: nah bei Leni bleiben und mit ihr spielen. Deeper need: sichere Bindung und gemeinsame Rituale. Fear: ploetzlich von ihrer Bezugsperson getrennt zu sein. Insecurity: Vielleicht werde ich uebersehen, wenn es laut und hektisch wird. Stress response: seek_proximity_then_observe. Growth direction: lernt, auch in neuen Situationen ruhig zu bleiben und auf bekannte Signale zu vertrauen. Teaching roles: emotional_anchor, playful_motivator. Explanation style: koerpersprachlich, freundlich und spielerisch. Keep the same exact character identity as the character reference and show Wilma expressing spielfreudig. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Use a clearly readable emotional pose that differs strongly from the other emotion assets. Even in the emotion pose, the Hund identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Wilma schaut aufmerksam nach vorn, wirkt froehlich und bereit fuer ein gemeinsames Spiel, ohne Menschen im Bild und ohne Spielzeug. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Wilma schaut aufmerksam nach vorn, wirkt froehlich und bereit fuer ein gemeinsames Spiel, ohne Menschen im Bild und ohne Spielzeug.",
+      "publicFilePath": "/content/characters/wilma/emotion-spielfreudig.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/wilma/emotion-spielfreudig.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "4bab4290-053e-4171-bb79-f24ea6708555",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/11/b22a1afe85604f11b6017d96e4074d3b_sample.png?se=2026-03-11T13%3A01%3A05Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=%2B0geVo3RjEOEKnHNXrNlmzM3lhTJbwbewToz3wVdWX0%3D",
+      "cost": 1.6,
+      "reason": "File already exists and overwrite=false"
+    }
+  ]
+}

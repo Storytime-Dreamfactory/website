@@ -19,6 +19,7 @@ import {
   generateImagePromptFromSceneSummary,
   generateNextSceneSummary,
   selectGroundedSceneCharacters,
+  type SceneCharacterContext,
   type SceneRelationshipContext,
 } from './createSceneBuilder.ts'
 
@@ -174,6 +175,7 @@ export const executeRoutedSkill = async (input: {
   eventType?: string
   characterId: string
   characterName: string
+  characterContext?: SceneCharacterContext
   learningGoalIds?: string[]
   toolExecutionIntent?: RuntimeToolExecutionIntent | null
   relationshipContext?: SceneRelationshipContext | null
@@ -285,6 +287,7 @@ export const executeRoutedSkill = async (input: {
       })
       const nextSceneSummary = await generateNextSceneSummary({
         characterName: input.characterName,
+        characterContext: input.characterContext,
         userRequest: input.lastUserText,
         assistantText: input.assistantText,
         history: storyHistory,
@@ -323,6 +326,7 @@ export const executeRoutedSkill = async (input: {
       ]
       const imagePrompt = await generateImagePromptFromSceneSummary({
         characterName: input.characterName,
+        characterContext: input.characterContext,
         userRequest: input.lastUserText,
         sceneSummary: nextSceneSummary,
         history: storyHistory,

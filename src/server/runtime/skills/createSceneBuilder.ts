@@ -272,6 +272,36 @@ const formatSceneSnapshot = (label: string, snapshot: StorySceneSnapshot | null)
   ]
 }
 
+export type SceneCharacterContext = {
+  name: string
+  species: string
+  shortDescription: string
+  coreTraits: string[]
+  temperament: string
+  socialStyle: string
+  quirks: string[]
+  strengths: string[]
+  weaknesses: string[]
+  visibleGoal: string
+  fear: string
+}
+
+const formatCharacterContextText = (context: SceneCharacterContext | undefined): string => {
+  if (!context) return ''
+  const lines = [`CHARACTER CONTEXT (${context.name}):`]
+  if (context.species) lines.push(`- Spezies: ${context.species}`)
+  if (context.shortDescription) lines.push(`- Beschreibung: ${context.shortDescription}`)
+  if (context.coreTraits.length > 0) lines.push(`- Kernzuege: ${context.coreTraits.join(', ')}`)
+  if (context.temperament) lines.push(`- Temperament: ${context.temperament}`)
+  if (context.socialStyle) lines.push(`- Sozialstil: ${context.socialStyle}`)
+  if (context.strengths.length > 0) lines.push(`- Staerken: ${context.strengths.join(', ')}`)
+  if (context.weaknesses.length > 0) lines.push(`- Schwaechen: ${context.weaknesses.join(', ')}`)
+  if (context.quirks.length > 0) lines.push(`- Eigenheiten: ${context.quirks.join(', ')}`)
+  if (context.visibleGoal) lines.push(`- Sichtbares Ziel: ${context.visibleGoal}`)
+  if (context.fear) lines.push(`- Angst: ${context.fear}`)
+  return lines.join('\n')
+}
+
 const formatGroundedSceneCharactersText = (characters: GroundedSceneCharacter[] | undefined): string =>
   characters && characters.length > 0
     ? [
@@ -395,6 +425,7 @@ const fallbackImagePromptForTests = (input: {
 
 export const generateNextSceneSummary = async (input: {
   characterName: string
+  characterContext?: SceneCharacterContext
   userRequest: string
   assistantText?: string
   history: StoryHistoryContext
@@ -416,8 +447,11 @@ export const generateNextSceneSummary = async (input: {
 
   try {
     const sceneSummaryInstructions = await loadSceneSummaryPrompt()
+    const characterContextText = formatCharacterContextText(input.characterContext)
     const summaryText = [
       `HAUPTFIGUR: ${input.characterName}`,
+      '',
+      characterContextText,
       '',
       sceneSummaryInstructions,
       '',
@@ -502,6 +536,7 @@ export const generateNextSceneSummary = async (input: {
 
 export const generateImagePromptFromSceneSummary = async (input: {
   characterName: string
+  characterContext?: SceneCharacterContext
   userRequest: string
   sceneSummary: string
   history: StoryHistoryContext
@@ -524,8 +559,11 @@ export const generateImagePromptFromSceneSummary = async (input: {
   ).filter((item): item is { label: string; contentItem: { type: 'input_image'; image_url: string } } => item !== null)
 
   const imagePromptInstructions = await loadImagePromptPrompt()
+  const characterContextText = formatCharacterContextText(input.characterContext)
   const promptText = [
     `HAUPTFIGUR: ${input.characterName}`,
+    '',
+    characterContextText,
     '',
     imagePromptInstructions,
     '',

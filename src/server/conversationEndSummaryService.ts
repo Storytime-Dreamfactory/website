@@ -202,6 +202,11 @@ const generateConversationEndSummary = async (input: {
               '- Betone Inhalte und Entwicklung, nicht das technische Medium.',
               '- Erzeuge KEIN Bild und erwaehne keine Tools, Prompts, Modelle oder Generierung.',
               '- Klinge wie ein Kinderbuch und bette den Abschnitt nahtlos in die laufende Gesamtgeschichte ein.',
+              '',
+              'Erzaehlfluss:',
+              '- Beginne den Abschnitt so, dass er nahtlos an den vorherigen Story-Kontext anschliesst. Kein harter Reset, sondern ein weiches Weiterfuehren.',
+              `- Erwaehne ${input.counterpartName} als aktive Teilnehmerin der Geschichte, nicht nur als Zuhoererin.`,
+              '- Schliesse mit einem Satz, der leise Neugier auf das naechste Kapitel weckt -- eine offene Frage, ein Ausblick oder ein kleines Geheimnis.',
             ].join('\n'),
           },
           {
