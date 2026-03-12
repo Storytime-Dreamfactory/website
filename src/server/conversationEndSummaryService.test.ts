@@ -179,7 +179,7 @@ describe('createConversationEndSummary', () => {
           metadata: expect.objectContaining({
             summary: 'Flora und Yoko liessen gemeinsam eine Zauberblume entstehen.',
             summarySource: 'conversation-end-service',
-            conversationLinkLabel: 'Conversation ansehen',
+            conversationLinkLabel: 'View Full Conversation',
             publicMessageCount: 2,
             publicActivityCount: 1,
           }),
@@ -189,6 +189,12 @@ describe('createConversationEndSummary', () => {
       const parsedBody = JSON.parse(String(firstRequest?.body)) as {
         messages: Array<{ role: string; content: string }>
       }
+      expect(parsedBody.messages[0]?.content).toContain(
+        'Folge einem klaren Mini-Arc: Wunsch/Anliegen -> sichtbare Aktion -> Ergebnis.',
+      )
+      expect(parsedBody.messages[0]?.content).toContain(
+        'Vermeide Aggregationsphrasen wie "So waren ... geblieben", "insgesamt", "dann wurde".',
+      )
       const payload = JSON.parse(parsedBody.messages[1]?.content ?? '{}') as {
         recentCharacterStorySoFar?: string[]
         publicConversationTimeline?: Array<Record<string, unknown>>

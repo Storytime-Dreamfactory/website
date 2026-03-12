@@ -17,6 +17,8 @@ const loadRouterSystemPrompt = async (): Promise<string> => {
 export type RoutedSkillDecision = {
   skillId: CharacterAgentSkillPlaybookId
   reason: string
+  selectedLearningGoalId?: string
+  openTopicHint?: string
 }
 
 export type RuntimeIntentContextFlags = {
@@ -110,8 +112,23 @@ const parseDecisionFromJsonObject = (
   if (options.forceSkillChoice && !skillId) return null
   const reason =
     typeof parsed.reason === 'string' && parsed.reason.trim() ? parsed.reason.trim() : 'model'
+  const selectedLearningGoalId =
+    typeof parsed.selectedLearningGoalId === 'string' && parsed.selectedLearningGoalId.trim()
+      ? parsed.selectedLearningGoalId.trim()
+      : undefined
+  const openTopicHint =
+    typeof parsed.openTopicHint === 'string' && parsed.openTopicHint.trim()
+      ? parsed.openTopicHint.trim()
+      : undefined
   return {
-    decision: skillId ? { skillId, reason } : null,
+    decision: skillId
+      ? {
+          skillId,
+          reason,
+          ...(selectedLearningGoalId ? { selectedLearningGoalId } : {}),
+          ...(openTopicHint ? { openTopicHint } : {}),
+        }
+      : null,
     flags: {
       activitiesRequested: parsed.activitiesRequested === true,
       relationshipsRequested: parsed.relationshipsRequested === true,
@@ -147,8 +164,21 @@ const responseSchema = (forceSkillChoice: boolean): Record<string, unknown> => (
           ],
         },
     reason: { type: 'string' },
+    selectedLearningGoalId: {
+      anyOf: [{ type: 'string' }, { type: 'null' }],
+    },
+    openTopicHint: {
+      anyOf: [{ type: 'string' }, { type: 'null' }],
+    },
   },
-  required: ['activitiesRequested', 'relationshipsRequested', 'skillId', 'reason'],
+  required: [
+    'activitiesRequested',
+    'relationshipsRequested',
+    'skillId',
+    'reason',
+    'selectedLearningGoalId',
+    'openTopicHint',
+  ],
 })
 
 const requestRuntimeIntentFromLlm = async (
@@ -211,6 +241,8 @@ const requestRuntimeIntentFromLlm = async (
                   relationshipsRequested: 'boolean',
                   skillIdOrNull: options.forceSkillChoice ? 'string' : 'string|null',
                   reason: 'string',
+                  selectedLearningGoalId: 'string (optional)',
+                  openTopicHint: 'string (optional)',
                 },
               }),
             },

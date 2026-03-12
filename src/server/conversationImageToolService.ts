@@ -109,6 +109,10 @@ const buildImageGeneratedSummary = (
   return `${actorLine} zeigte eine neue Szene.`
 }
 
+const buildInternalImageGeneratedSummary = (characterName: string): string => {
+  return `${characterName} hat die Bildgenerierung abgeschlossen.`
+}
+
 const clampDimension = (value: unknown, fallback: number): number => {
   if (typeof value !== 'number' || !Number.isFinite(value)) return fallback
   return Math.max(768, Math.min(2048, Math.floor(value)))
@@ -481,11 +485,12 @@ export const generateConversationHeroToolApi = async (
       imageVisualSummary,
       relatedCharacterNames,
     )
+    const internalSummary = buildInternalImageGeneratedSummary(characterName)
 
     await appendConversationMessage({
       conversationId,
       role: 'system',
-      content: summary,
+      content: internalSummary,
       eventType: 'tool.image.generated',
       metadata: {
         imageUrl,
@@ -495,7 +500,8 @@ export const generateConversationHeroToolApi = async (
         imageAssetPath: storedImage?.localFilePath,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        summary,
+        summary: internalSummary,
+        publicStorySummary: summary,
         prompt,
         imagePrompt,
         sceneSummary: sceneSummary || undefined,
@@ -520,7 +526,8 @@ export const generateConversationHeroToolApi = async (
       conversationId,
       imageUrl,
       metadata: {
-        summary: `${characterName} hat ein Bild fertiggestellt`,
+        summary: internalSummary,
+        publicStorySummary: summary,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolId: CHARACTER_AGENT_TOOLS.showImage,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
@@ -566,7 +573,7 @@ export const generateConversationHeroToolApi = async (
         imageVisualSummary: imageVisualSummary || undefined,
         skillId: VISUAL_EXPRESSION_SKILL?.id,
         toolIds: VISUAL_EXPRESSION_SKILL?.toolIds ?? [],
-        conversationLinkLabel: 'Conversation ansehen',
+        conversationLinkLabel: 'View Full Conversation',
         heroImageUrl: imageUrl,
         imageUrl,
         originalImageUrl: remoteImageUrl,

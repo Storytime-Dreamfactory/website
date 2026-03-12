@@ -55,6 +55,32 @@ describe('detectRuntimeIntent', () => {
       reason: 'quiz-request',
     })
   })
+
+  it('uebernimmt simple-image-request als create_scene Grund unveraendert', () => {
+    expect(
+      detectRuntimeIntent(
+        '{ "activitiesRequested": false, "relationshipsRequested": false, "skillId": "create_scene", "reason": "simple-image-request" }',
+        '',
+      ),
+    ).toEqual({
+      skillId: 'create_scene',
+      reason: 'simple-image-request',
+    })
+  })
+
+  it('liest optional selectedLearningGoalId und openTopicHint aus strukturierter Ausgabe', () => {
+    expect(
+      detectRuntimeIntent(
+        '{ "activitiesRequested": false, "relationshipsRequested": false, "skillId": "request-context", "reason": "guided-topic", "selectedLearningGoalId": "313ab6c5-0d07-48d6-aae6-458a0218c020", "openTopicHint": "erst Fahrrad, dann Sterne" }',
+        '',
+      ),
+    ).toEqual({
+      skillId: 'request-context',
+      reason: 'guided-topic',
+      selectedLearningGoalId: '313ab6c5-0d07-48d6-aae6-458a0218c020',
+      openTopicHint: 'erst Fahrrad, dann Sterne',
+    })
+  })
 })
 
 describe('detectRuntimeIntentModelDecision', () => {
@@ -153,11 +179,36 @@ describe('detectRuntimeIntentModelDecision', () => {
       const firstRequest = fetchMock.mock.calls[0]?.[1]
       const parsedBody = JSON.parse(String(firstRequest?.body)) as {
         messages: Array<{ role: string; content: string }>
+        response_format?: {
+          json_schema?: {
+            schema?: {
+              required?: string[]
+              properties?: Record<string, unknown>
+            }
+          }
+        }
       }
       const routerPayload = JSON.parse(parsedBody.messages[1]?.content ?? '{}') as {
         publicConversationHistory?: unknown
       }
       expect(routerPayload.publicConversationHistory).toEqual(publicConversationHistory)
+      expect(parsedBody.response_format?.json_schema?.schema?.required).toEqual(
+        expect.arrayContaining([
+          'activitiesRequested',
+          'relationshipsRequested',
+          'skillId',
+          'reason',
+          'selectedLearningGoalId',
+          'openTopicHint',
+        ]),
+      )
+      const properties = parsedBody.response_format?.json_schema?.schema?.properties ?? {}
+      expect(properties.selectedLearningGoalId).toEqual({
+        anyOf: [{ type: 'string' }, { type: 'null' }],
+      })
+      expect(properties.openTopicHint).toEqual({
+        anyOf: [{ type: 'string' }, { type: 'null' }],
+      })
     } finally {
       if (previousKey) process.env.OPENAI_API_KEY = previousKey
       else delete process.env.OPENAI_API_KEY

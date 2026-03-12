@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  isPanelConversationBoundaryActivity,
   isPanelConversationMessageActivity,
   isPanelConversationSummaryActivity,
   isPanelImageActivity,
@@ -41,6 +42,23 @@ describe('activityPanelVisibility', () => {
         isPublic: true,
       }),
     ).toBe(true)
+  })
+
+  it('zeigt oeffentliche Conversation-End-Marker im Panel', () => {
+    expect(
+      isPanelConversationBoundaryActivity({
+        activityType: 'character.chat.completed',
+        isPublic: true,
+      }),
+    ).toBe(true)
+    expect(
+      shouldShowActivityInPanel({
+        activityType: 'character.chat.completed',
+        isPublic: true,
+        object: {},
+        metadata: {},
+      }),
+    ).toBe(false)
   })
 
   it('blendet andere Activity-Typen aus dem Panel aus', () => {

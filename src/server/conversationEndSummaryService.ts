@@ -17,7 +17,9 @@ const OPENAI_CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
 const CONVERSATION_END_SUMMARY_MODEL = readServerEnv('CONVERSATION_END_SUMMARY_MODEL', 'gpt-5.4')
 const ACTIVITY_PAGE_SIZE = 200
 const MAX_ACTIVITY_PAGES = 20
-const CONVERSATION_LINK_LABEL = 'Conversation ansehen'
+const CONVERSATION_LINK_LABEL = 'View Full Conversation'
+const buildConversationUrl = (characterId: string, conversationId: string): string =>
+  `/characters/${encodeURIComponent(characterId)}/story?conversationId=${encodeURIComponent(conversationId)}`
 
 type PublicActivitySummary = {
   activityType: string
@@ -199,14 +201,18 @@ const generateConversationEndSummary = async (input: {
               '- Schreibe genau 2-3 kurze Saetze auf Deutsch in Vergangenheitsform.',
               '- Fasse high level zusammen, was wirklich passiert ist.',
               '- Verbinde Dialog, Erinnerungen, neue Szenen und Handlungen zu einem runden Geschichtsabschnitt.',
+              '- Folge einem klaren Mini-Arc: Wunsch/Anliegen -> sichtbare Aktion -> Ergebnis.',
               '- Betone Inhalte und Entwicklung, nicht das technische Medium.',
               '- Erzeuge KEIN Bild und erwaehne keine Tools, Prompts, Modelle oder Generierung.',
               '- Klinge wie ein Kinderbuch und bette den Abschnitt nahtlos in die laufende Gesamtgeschichte ein.',
+              '- Nutze konkrete natuerliche Verben (z. B. fragte, zeigte, entdeckte, half) statt abstrakter Sammelformulierungen.',
+              '- Vermeide Aggregationsphrasen wie "So waren ... geblieben", "insgesamt", "dann wurde".',
               '',
               'Erzaehlfluss:',
               '- Beginne den Abschnitt so, dass er nahtlos an den vorherigen Story-Kontext anschliesst. Kein harter Reset, sondern ein weiches Weiterfuehren.',
               `- Erwaehne ${input.counterpartName} als aktive Teilnehmerin der Geschichte, nicht nur als Zuhoererin.`,
-              '- Schliesse mit einem Satz, der leise Neugier auf das naechste Kapitel weckt -- eine offene Frage, ein Ausblick oder ein kleines Geheimnis.',
+              '- Schliesse nur dann mit Neugier oder Ausblick, wenn der Verlauf tatsaechlich neue Handlung aufmacht.',
+              '- Bei einfachen Einzelwuenschen (z. B. nur ein Bildmotiv) beende ruhig und klar ohne erzwungenen Cliffhanger.',
             ].join('\n'),
           },
           {
@@ -297,6 +303,7 @@ export const createConversationEndSummary = async (
       ...(mergedConversation.metadata ?? {}),
       summary,
       storySummary: summary,
+      conversationUrl: buildConversationUrl(mergedConversation.characterId, mergedConversation.conversationId),
       conversationLinkLabel: CONVERSATION_LINK_LABEL,
       summarySource: 'conversation-end-service',
       publicMessageCount: publicHistory.length,

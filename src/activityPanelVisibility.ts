@@ -10,6 +10,7 @@ const PANEL_IMAGE_ACTIVITY_TYPES = new Set([
   'conversation.image.recalled',
 ])
 const PANEL_SUMMARY_ACTIVITY_TYPES = new Set(['conversation.story.summarized'])
+const PANEL_CONVERSATION_BOUNDARY_ACTIVITY_TYPES = new Set(['character.chat.completed'])
 
 const readTextValue = (value: unknown): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -31,6 +32,12 @@ export const isPanelConversationSummaryActivity = (
   activity: Pick<ActivityLike, 'activityType' | 'isPublic'>,
 ): boolean => {
   return activity.isPublic === true && PANEL_SUMMARY_ACTIVITY_TYPES.has(activity.activityType)
+}
+
+export const isPanelConversationBoundaryActivity = (
+  activity: Pick<ActivityLike, 'activityType' | 'isPublic'>,
+): boolean => {
+  return activity.isPublic === true && PANEL_CONVERSATION_BOUNDARY_ACTIVITY_TYPES.has(activity.activityType)
 }
 
 export const shouldShowActivityInPanel = (activity: ActivityLike): boolean => {
