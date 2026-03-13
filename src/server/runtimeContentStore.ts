@@ -27,12 +27,61 @@ type CharacterYaml = {
 
 type LearningGoalYaml = {
   name?: string
+  subject?: string
+  topic_group?: string
   topic?: string
+  subtopic?: string
   description?: string
   age_range?: string[]
   example_questions?: string[]
   practice_ideas?: string[]
   domain_tags?: string[]
+  session?: {
+    duration_minutes?: number
+    format?: string
+    session_goal?: string
+    end_state?: string
+  }
+  curriculum?: {
+    domain?: string
+    tags?: string[]
+    prior_knowledge?: string[]
+  }
+  teaching_content?: {
+    core_ideas?: string[]
+    key_vocabulary?: string[]
+    examples?: string[]
+    misconceptions?: string[]
+  }
+  didactics?: {
+    pedagogy?: string[]
+    character_role?: string
+    teaching_steps?: string[]
+    interaction_rules?: string[]
+  }
+  learning_objectives?: Array<{
+    id?: string
+    can_do?: string
+    evidence?: string[]
+  }>
+  quiz?: {
+    goal?: string
+    assessment_targets?: string[]
+    allowed_question_types?: string[]
+    example_questions?: string[]
+    example_tasks?: string[]
+    answer_expectations?: {
+      strong_signals?: string[]
+      acceptable_signals?: string[]
+      weak_signals?: string[]
+      misconception_signals?: string[]
+    }
+    feedback_strategy?: {
+      encouragement_style?: string
+      hint_sequence?: string[]
+      follow_up_prompts?: string[]
+    }
+  }
 }
 
 export type CharacterRuntimeProfile = {
@@ -54,12 +103,20 @@ export type CharacterRuntimeProfile = {
 export type LearningGoalRuntimeProfile = {
   id: string
   name: string
+  subject: string
+  topicGroup: string
   topic: string
+  subtopic: string
   description: string
   ageRange: string[]
   exampleQuestions: string[]
   practiceIdeas: string[]
   domainTags: string[]
+  sessionGoal: string
+  endState: string
+  coreIdeas: string[]
+  assessmentTargets: string[]
+  hintSequence: string[]
 }
 
 const characterProfileCache = new Map<string, Promise<CharacterRuntimeProfile | null>>()
@@ -143,15 +200,31 @@ export const loadLearningGoalRuntimeProfile = async (
       if (!yamlPath) return null
       const raw = await readFile(yamlPath, 'utf8')
       const parsed = parseYaml(raw) as LearningGoalYaml
+      const quizExampleQuestions =
+        readTextArray(parsed.quiz?.example_questions).length > 0
+          ? readTextArray(parsed.quiz?.example_questions)
+          : readTextArray(parsed.example_questions)
+      const domainTags =
+        readTextArray(parsed.domain_tags).length > 0
+          ? readTextArray(parsed.domain_tags)
+          : readTextArray(parsed.curriculum?.tags)
       return {
         id: normalizedId,
         name: readText(parsed.name) || normalizedId,
+        subject: readText(parsed.subject),
+        topicGroup: readText(parsed.topic_group),
         topic: readText(parsed.topic),
+        subtopic: readText(parsed.subtopic),
         description: readText(parsed.description),
         ageRange: readTextArray(parsed.age_range),
-        exampleQuestions: readTextArray(parsed.example_questions),
+        exampleQuestions: quizExampleQuestions,
         practiceIdeas: readTextArray(parsed.practice_ideas),
-        domainTags: readTextArray(parsed.domain_tags),
+        domainTags,
+        sessionGoal: readText(parsed.session?.session_goal),
+        endState: readText(parsed.session?.end_state),
+        coreIdeas: readTextArray(parsed.teaching_content?.core_ideas),
+        assessmentTargets: readTextArray(parsed.quiz?.assessment_targets),
+        hintSequence: readTextArray(parsed.quiz?.feedback_strategy?.hint_sequence),
       }
     } catch {
       return null

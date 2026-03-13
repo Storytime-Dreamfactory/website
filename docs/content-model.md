@@ -39,6 +39,18 @@ basis:
   age_hint: kindlich
   species: Flussotter
   role_archetype: explorer
+voice: shimmer
+voice_profile:
+  identity: >
+    Du bist Nola, ein neugieriger kleiner Flussotter mit grossem Herzen und
+    spielerischer Energie.
+  demeanor: freundlich, geduldig, ermutigend
+  tone: warm, bildhaft, kindgerecht
+  enthusiasm_level: hoch
+  formality_level: locker
+  emotion_level: ausdrucksstark
+  filler_words: occasionally
+  pacing: lebendig mit kurzen Pausen vor wichtigen Fragen
 erscheinung:
   body_shape: klein und flink
   colors:
@@ -142,6 +154,15 @@ Pflichtfelder:
 - `type: 'character'`
 - `kurzbeschreibung: string`
 - `basis.species: string`
+- `voice: 'alloy' | 'ash' | 'ballad' | 'coral' | 'echo' | 'sage' | 'shimmer' | 'verse' | 'marin' | 'cedar'`
+- `voice_profile.identity: string`
+- `voice_profile.demeanor: string`
+- `voice_profile.tone: string`
+- `voice_profile.enthusiasm_level: string`
+- `voice_profile.formality_level: string`
+- `voice_profile.emotion_level: string`
+- `voice_profile.filler_words: 'none' | 'occasionally' | 'often' | 'very_often'`
+- `voice_profile.pacing: string`
 - `erscheinung.body_shape: string`
 - `erscheinung.colors: string[]`
 - `erscheinung.eyes.color: string`
@@ -196,6 +217,8 @@ Hinweise:
 - `herkunft` dient als nuancierte Praegung fuer Sprache, Werte, Kultur, Religion, Historie und Blick auf die Welt. Diese Hinweise sollen respektvoll genutzt werden und nicht in Karikaturen oder flache Klischees kippen.
 - Character-Relationships werden ausschliesslich in der Relationship-DB gepflegt (API/Store), nicht in Character-YAML.
 - Bei neuen Character-Entwuerfen soll vorhandener Content mitgedacht werden, damit Spezies, Rollen, Farben und kulturelle Hintergruende nicht unnötig wiederholt werden.
+- `voice` ist die feste Realtime-Stimme des Characters und wird serverseitig fuer neue Voice-Sessions verwendet.
+- `voice_profile` ist verpflichtend und wird immer in die Voice-Agent-Instructions injiziert.
 
 ## Place
 
@@ -222,32 +245,109 @@ Pfad: `content/learning-goals/<slug>.yaml`
 id: 313ab6c5-0d07-48d6-aae6-458a0218c020
 name: Kindness
 type: learning-goals
+subject: sozialkompetenz
+topic_group: Soziales Lernen
 topic: Freundlichkeit im Alltag
+subtopic: Kleine freundliche Handlungen
 description: Helping children understand...
 age_range:
-  - 3-5
-  - 6-8
-example_questions:
-  - Question 1?
-  - Question 2?
+  - 4-6
+  - 7-9
 practice_ideas:
   - Idee 1
 domain_tags:
   - sozial
+session:
+  duration_minutes: 30
+  format: one-at-a-time
+  session_goal: Kinder erkennen kleine freundliche Handlungen und koennen sie benennen.
+  end_state: Das Kind kann eine freundliche Handlung in einer Alltagsszene vorschlagen.
+curriculum:
+  domain: Sozial-emotionales Lernen
+  tags:
+    - sozial
+    - empathie
+  prior_knowledge:
+    - Das Kind kennt Freundschafts- und Familiensituationen.
+teaching_content:
+  core_ideas:
+    - Freundlichkeit zeigt sich in kleinen Handlungen.
+  key_vocabulary:
+    - helfen
+    - teilen
+  examples:
+    - Ein Kind troestet ein anderes.
+  misconceptions:
+    - freundlich sein bedeutet, immer alles abzugeben
+didactics:
+  pedagogy:
+    - spielerisches Lernen
+    - scaffolding
+  character_role: Der Character fuehrt durch alltagsnahe Situationen und bestaerkt gute Ideen.
+  teaching_steps:
+    - Einstieg ueber eine kleine Szene
+  interaction_rules:
+    - eine Frage nach der anderen
+learning_objectives:
+  - id: identify-kind-action
+    can_do: Das Kind kann eine freundliche Handlung in einer Situation erkennen.
+    evidence:
+      - benennt Hilfe oder Ruecksicht
+quiz:
+  goal: Das Quiz prueft Verstehen, Anwenden und kleinen Transfer.
+  assessment_targets:
+    - Alltagssituationen verstehen
+  allowed_question_types:
+    - situational_open
+  example_questions:
+    - What is one kind thing you can do for a friend?
+  example_tasks:
+    - Nenne eine freundliche Idee fuer die Szene.
+  answer_expectations:
+    strong_signals:
+      - benennt eine konkrete freundliche Handlung
+    acceptable_signals:
+      - erkennt, dass jemand Hilfe braucht
+    weak_signals:
+      - bleibt sehr vage
+    misconception_signals:
+      - Freundlichkeit wird mit Gehorsam verwechselt
+  feedback_strategy:
+    encouragement_style: warm und bestaerkend
+    hint_sequence:
+      - Was braucht die andere Person gerade?
+    follow_up_prompts:
+      - Faellt dir noch eine zweite freundliche Idee ein?
 ```
 
 Pflichtfelder:
 - `id: UUID`
 - `name: string`
 - `type: 'learning-goals'`
+- `subject: string`
+- `topic_group: string`
 - `topic: string`
 - `description: string`
-- `example_questions: string[]`
+- `quiz.example_questions: string[]`
 
 Optionale Felder:
+- `subtopic: string`
 - `age_range: string[]`
 - `practice_ideas: string[]`
 - `domain_tags: string[]`
+- `session.*`
+- `curriculum.*`
+- `teaching_content.*`
+- `didactics.*`
+- `learning_objectives[]`
+- `quiz.*`
+
+Hinweise:
+- Ein `Learning Goal` beschreibt eine einzelne, in etwa 30 Minuten vermittel- und quizbare Lerneinheit.
+- `topic_group` ist die grobe Themenklammer wie `Demokratie`, `Englisch`, `Geschichte` oder `Soziales Lernen`.
+- `topic` beschreibt die konkrete Session, nicht das ganze Fachgebiet.
+- Das Quiz bleibt LLM-gestuetzt und offen formuliert; `quiz.example_questions` sind Beispiele, keine starre Fragensammlung.
+- Wichtig fuer die spaetere Auswertung sind vor allem `learning_objectives`, `quiz.assessment_targets` und `quiz.answer_expectations`.
 
 ## Artifact
 

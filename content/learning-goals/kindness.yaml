@@ -1,17 +1,16 @@
 id: 313ab6c5-0d07-48d6-aae6-458a0218c020
 name: Kindness
 type: learning-goals
+subject: sozialkompetenz
+topic_group: Soziales Lernen
 topic: Freundlichkeit im Alltag
+subtopic: Kleine freundliche Handlungen in alltaeglichen Situationen
 description: >
-  Helping children understand how small actions, like helping, sharing, or
-  encouraging others, can make people feel happy and supported.
+  Helping children notice small moments where kindness can help another
+  person feel seen, supported, and safe in everyday life.
 age_range:
-  - 3-5
+  - 4-6
   - 6-8
-example_questions:
-  - What is one kind thing you can do for a friend?
-  - How do people feel when someone is kind to them?
-  - Can you remember a time someone was kind to you?
 practice_ideas:
   - Notice one moment in the day when someone needs help.
   - Think of one friendly sentence you can say to cheer someone up.
@@ -20,3 +19,125 @@ domain_tags:
   - sozial
   - emotional
   - alltag
+session:
+  duration_minutes: 30
+  format: one-at-a-time
+  session_goal: >
+    The child understands that kindness often appears in small, concrete
+    actions such as helping, sharing, comforting, or encouraging.
+  end_state: >
+    The child can recognize an everyday situation, suggest one kind action,
+    and explain in simple words how it helps another person.
+curriculum:
+  domain: Sozial-emotionales Lernen
+  tags:
+    - sozial
+    - emotional
+    - alltag
+    - empathie
+  prior_knowledge:
+    - Children know common situations with friends, siblings, or classmates.
+    - Children can talk about simple feelings like happy, sad, or lonely.
+teaching_content:
+  core_ideas:
+    - Kindness is often shown through small actions, not only big gestures.
+    - A kind action considers what another person needs in the moment.
+    - Words can also be kind when they comfort, encourage, or include someone.
+    - Kindness can make relationships feel safer and warmer.
+  key_vocabulary:
+    - kind
+    - help
+    - share
+    - comfort
+    - encourage
+    - include
+  examples:
+    - A child helps someone pick up dropped pencils.
+    - A friend says something encouraging when another child feels unsure.
+    - Two children share turns with a toy so both can play.
+  misconceptions:
+    - being kind means giving away everything
+    - being kind means never saying what you need
+    - kindness only counts if it is a very big action
+didactics:
+  pedagogy:
+    - spielerisches Lernen
+    - dialogisches Lernen
+    - Modelllernen
+    - scaffolding
+  character_role: >
+    The character models kind actions in short scenes, asks guiding
+    questions, and warmly reinforces thoughtful answers instead of lecturing.
+  teaching_steps:
+    - Start with one familiar everyday situation.
+    - Notice how one person in the scene might feel.
+    - Explore one or two kind responses.
+    - Transfer the idea to a new small situation.
+  interaction_rules:
+    - one question at a time
+    - concrete scenes before abstract explanations
+    - short child-friendly language
+    - give a hint before simplifying the question
+learning_objectives:
+  - id: identify-kindness-moment
+    can_do: The child can notice when someone in a scene may need kindness.
+    evidence:
+      - identifies a feeling or need
+      - notices a moment where help, sharing, or encouragement would fit
+  - id: suggest-kind-action
+    can_do: The child can suggest one fitting kind action for the scene.
+    evidence:
+      - names a concrete action
+      - links the action to the situation
+  - id: explain-why-kindness-helps
+    can_do: The child can explain in simple words how the action helps.
+    evidence:
+      - mentions feelings, support, safety, or inclusion
+quiz:
+  goal: >
+    The quiz checks whether the child can recognize kindness in everyday
+    situations, suggest a kind response, and explain why it helps.
+  assessment_targets:
+    - understand everyday situations
+    - choose a fitting kind action
+    - explain the effect on another person
+    - transfer the idea to a new scene
+  allowed_question_types:
+    - situational_open
+    - choose_and_explain
+    - reflection
+    - transfer_prompt
+  example_questions:
+    - What is one kind thing you can do for a friend?
+    - How do people feel when someone is kind to them?
+    - Can you remember a time someone was kind to you?
+    - If someone is sitting alone, what could you do to be kind?
+  example_tasks:
+    - Name one kind action for the situation.
+    - Explain why your idea could help the other person.
+    - Think of another small kind action that would also work.
+  answer_expectations:
+    strong_signals:
+      - names a concrete kind action
+      - connects the action to the other person's need or feeling
+      - explains a positive effect like comfort, help, inclusion, or joy
+    acceptable_signals:
+      - notices that kindness is needed
+      - suggests a broadly fitting helpful action
+    weak_signals:
+      - stays very vague
+      - gives an action without linking it to the scene
+    misconception_signals:
+      - treats kindness as obedience only
+      - suggests giving up all own needs in every case
+      - ignores the other person's feeling completely
+  feedback_strategy:
+    encouragement_style: warm, playful, and specific
+    hint_sequence:
+      - What might the other child need right now?
+      - What small action could help in this moment?
+      - How might the other child feel after that?
+    follow_up_prompts:
+      - Can you think of a second kind idea?
+      - Which idea would feel best for the other child?
+      - How would you show kindness with words instead of actions?

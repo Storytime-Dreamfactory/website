@@ -5,6 +5,41 @@ export type CharacterBasis = {
   roleArchetype?: string
 }
 
+export const CHARACTER_VOICES = [
+  'alloy',
+  'ash',
+  'ballad',
+  'coral',
+  'echo',
+  'sage',
+  'shimmer',
+  'verse',
+  'marin',
+  'cedar',
+] as const
+
+export type CharacterVoice = (typeof CHARACTER_VOICES)[number]
+
+export const VOICE_PROFILE_FILLER_WORD_OPTIONS = [
+  'none',
+  'occasionally',
+  'often',
+  'very_often',
+] as const
+
+export type VoiceProfileFillerWords = (typeof VOICE_PROFILE_FILLER_WORD_OPTIONS)[number]
+
+export type CharacterVoiceProfile = {
+  identity: string
+  demeanor: string
+  tone: string
+  enthusiasmLevel: string
+  formalityLevel: string
+  emotionLevel: string
+  fillerWords: VoiceProfileFillerWords
+  pacing: string
+}
+
 export type CharacterHairOrFur = {
   color?: string
   texture?: string
@@ -108,6 +143,8 @@ export type Character = {
   slug: string
   shortDescription: string
   basis: CharacterBasis
+  voice: CharacterVoice
+  voiceProfile: CharacterVoiceProfile
   appearance: CharacterAppearance
   personality: CharacterPersonality
   storyPsychology: CharacterStoryPsychology
@@ -127,17 +164,82 @@ export type Place = {
   description: string
 }
 
+export type LearningGoalSession = {
+  durationMinutes: number
+  format: string
+  sessionGoal: string
+  endState: string
+}
+
+export type LearningGoalCurriculum = {
+  domain: string
+  tags: string[]
+  priorKnowledge: string[]
+}
+
+export type LearningGoalTeachingContent = {
+  coreIdeas: string[]
+  keyVocabulary: string[]
+  examples: string[]
+  misconceptions: string[]
+}
+
+export type LearningGoalDidactics = {
+  pedagogy: string[]
+  characterRole: string
+  teachingSteps: string[]
+  interactionRules: string[]
+}
+
+export type LearningGoalObjective = {
+  id: string
+  canDo: string
+  evidence: string[]
+}
+
+export type LearningGoalQuizAnswerExpectations = {
+  strongSignals: string[]
+  acceptableSignals: string[]
+  weakSignals: string[]
+  misconceptionSignals: string[]
+}
+
+export type LearningGoalQuizFeedbackStrategy = {
+  encouragementStyle: string
+  hintSequence: string[]
+  followUpPrompts: string[]
+}
+
+export type LearningGoalQuiz = {
+  goal: string
+  assessmentTargets: string[]
+  allowedQuestionTypes: string[]
+  exampleQuestions: string[]
+  exampleTasks: string[]
+  answerExpectations: LearningGoalQuizAnswerExpectations
+  feedbackStrategy: LearningGoalQuizFeedbackStrategy
+}
+
 export type LearningGoal = {
   id: string
   name: string
   type: 'learning-goals'
   slug: string
+  subject: string
+  topicGroup: string
   topic: string
+  subtopic: string
   description: string
   ageRange: string[]
   exampleQuestions: string[]
   practiceIdeas: string[]
   domainTags: string[]
+  session?: LearningGoalSession
+  curriculum?: LearningGoalCurriculum
+  teachingContent?: LearningGoalTeachingContent
+  didactics?: LearningGoalDidactics
+  learningObjectives: LearningGoalObjective[]
+  quiz?: LearningGoalQuiz
 }
 
 export type Artifact = {

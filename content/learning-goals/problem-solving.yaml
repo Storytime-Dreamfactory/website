@@ -1,17 +1,16 @@
 id: 126aa8c8-a7f5-46e0-928b-ee3cc53e564e
 name: Problem Solving
 type: learning-goals
+subject: sachkunde
+topic_group: Denken und Lernen
 topic: Probleme Schritt fuer Schritt loesen
+subtopic: Einfache Strategien fuer alltaegliche Herausforderungen
 description: >
-  Teaching children how to think through challenges step by step and try
-  different ideas until something works.
+  Teaching children how to slow down, understand a challenge, and try simple
+  strategies step by step until they find a workable idea.
 age_range:
   - 4-6
   - 6-8
-example_questions:
-  - What is the first thing you can do when a problem feels hard?
-  - Can you think of two different ways to solve a problem?
-  - Why is it okay if the first solution does not work?
 practice_ideas:
   - Pause and name the problem before trying to fix it.
   - Think of two possible ideas instead of only one.
@@ -20,3 +19,126 @@ domain_tags:
   - denken
   - alltag
   - resilienz
+session:
+  duration_minutes: 30
+  format: one-at-a-time
+  session_goal: >
+    The child learns that problems can be approached step by step by naming
+    the challenge, thinking of more than one idea, and trying again if needed.
+  end_state: >
+    The child can describe a simple problem, suggest at least one possible
+    next step, and understand that a second attempt can still be useful.
+curriculum:
+  domain: Denken und Handeln im Alltag
+  tags:
+    - denken
+    - alltag
+    - resilienz
+    - problemlosen
+  prior_knowledge:
+    - Children know everyday situations where something feels difficult.
+    - Children can describe simple actions like trying, waiting, asking, or changing a plan.
+teaching_content:
+  core_ideas:
+    - A hard problem feels smaller when we first name what is happening.
+    - There is often more than one possible idea to try.
+    - Trying, checking, and adjusting is part of solving problems.
+    - A first idea does not need to work perfectly to be useful.
+  key_vocabulary:
+    - problem
+    - idea
+    - try
+    - plan
+    - step
+    - next
+  examples:
+    - A tower keeps falling over while building.
+    - A child cannot reach something on a shelf.
+    - Two friends want to solve the same puzzle in different ways.
+  misconceptions:
+    - if the first idea fails, I cannot solve it
+    - good problem solving means guessing one perfect answer immediately
+    - asking for help means I failed
+didactics:
+  pedagogy:
+    - spielerisches Lernen
+    - dialogisches Entdecken
+    - situatives Lernen
+    - scaffolding
+  character_role: >
+    The character stays calm, breaks the challenge into small steps, and helps
+    the child think of options instead of rushing to one correct answer.
+  teaching_steps:
+    - Introduce one simple challenge from everyday life.
+    - Name the problem clearly.
+    - Think of one or two possible next steps.
+    - Reflect on what to do if the first try does not work.
+  interaction_rules:
+    - keep questions concrete and short
+    - praise trying and thinking, not only success
+    - use one small step at a time
+    - offer hints before giving examples
+learning_objectives:
+  - id: name-the-problem
+    can_do: The child can name what the problem is in a simple situation.
+    evidence:
+      - describes the challenge in their own words
+      - distinguishes the problem from the emotion around it
+  - id: generate-next-step
+    can_do: The child can suggest at least one possible next step.
+    evidence:
+      - offers a concrete action
+      - keeps the suggestion connected to the problem
+  - id: accept-retrying
+    can_do: The child understands that another try or a different plan can still help.
+    evidence:
+      - accepts changing strategy
+      - does not stop after one failed attempt
+quiz:
+  goal: >
+    The quiz checks whether the child can recognize a simple problem, think of
+    possible steps, and understand that trying again is part of problem solving.
+  assessment_targets:
+    - identify the problem
+    - suggest possible actions
+    - compare more than one idea
+    - understand retrying and adapting
+  allowed_question_types:
+    - situational_open
+    - choose_and_explain
+    - compare_options
+    - reflection
+  example_questions:
+    - What is the first thing you can do when a problem feels hard?
+    - Can you think of two different ways to solve a problem?
+    - Why is it okay if the first solution does not work?
+    - If your first idea does not help, what could you do next?
+  example_tasks:
+    - Name the problem in the scene.
+    - Suggest one or two possible next steps.
+    - Explain why trying again can still be a good idea.
+  answer_expectations:
+    strong_signals:
+      - names the problem clearly
+      - suggests one or more fitting next steps
+      - accepts trying again or changing the plan
+    acceptable_signals:
+      - recognizes that a problem exists
+      - gives one reasonable action idea
+    weak_signals:
+      - jumps to random actions without naming the problem
+      - gives up immediately
+    misconception_signals:
+      - assumes only one perfect answer exists
+      - treats retrying as failure
+      - sees asking for help as always wrong
+  feedback_strategy:
+    encouragement_style: calm, encouraging, and confidence-building
+    hint_sequence:
+      - What exactly is the problem here?
+      - What is one small thing you could try first?
+      - If that does not work, what could be your next plan?
+    follow_up_prompts:
+      - Can you think of another idea too?
+      - Which step would you try first, and why?
+      - What could change if the first idea does not work?

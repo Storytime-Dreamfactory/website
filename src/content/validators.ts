@@ -1,4 +1,11 @@
-import type { Artifact, Character, LearningGoal, Place } from './types'
+import {
+  CHARACTER_VOICES,
+  VOICE_PROFILE_FILLER_WORD_OPTIONS,
+  type Artifact,
+  type Character,
+  type LearningGoal,
+  type Place,
+} from './types'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
@@ -120,6 +127,19 @@ const asOptionalRecord = (
   return value
 }
 
+const asLiteral = <T extends string>(
+  value: unknown,
+  field: string,
+  filePath: string,
+  allowedValues: readonly T[],
+): T => {
+  const parsed = asString(value, field, filePath)
+  if (!allowedValues.includes(parsed as T)) {
+    throw new Error(`Invalid "${field}" in ${filePath}`)
+  }
+  return parsed as T
+}
+
 export const validateCharacter = (
   value: unknown,
   slug: string,
@@ -135,6 +155,7 @@ export const validateCharacter = (
   }
 
   const basis = asRecord(value.basis, 'basis', filePath)
+  const voiceProfile = asRecord(value.voice_profile, 'voice_profile', filePath)
   const appearance = asRecord(value.erscheinung, 'erscheinung', filePath)
   const hairOrFur = asRecord(appearance.hair_or_fur, 'erscheinung.hair_or_fur', filePath)
   const eyes = asRecord(appearance.eyes, 'erscheinung.eyes', filePath)
@@ -165,6 +186,30 @@ export const validateCharacter = (
         filePath,
       ),
       roleArchetype: asOptionalString(basis.role_archetype, 'basis.role_archetype', filePath),
+    },
+    voice: asLiteral(value.voice, 'voice', filePath, CHARACTER_VOICES),
+    voiceProfile: {
+      identity: asString(voiceProfile.identity, 'voice_profile.identity', filePath),
+      demeanor: asString(voiceProfile.demeanor, 'voice_profile.demeanor', filePath),
+      tone: asString(voiceProfile.tone, 'voice_profile.tone', filePath),
+      enthusiasmLevel: asString(
+        voiceProfile.enthusiasm_level,
+        'voice_profile.enthusiasm_level',
+        filePath,
+      ),
+      formalityLevel: asString(
+        voiceProfile.formality_level,
+        'voice_profile.formality_level',
+        filePath,
+      ),
+      emotionLevel: asString(voiceProfile.emotion_level, 'voice_profile.emotion_level', filePath),
+      fillerWords: asLiteral(
+        voiceProfile.filler_words,
+        'voice_profile.filler_words',
+        filePath,
+        VOICE_PROFILE_FILLER_WORD_OPTIONS,
+      ),
+      pacing: asString(voiceProfile.pacing, 'voice_profile.pacing', filePath),
     },
     appearance: {
       bodyShape: asString(appearance.body_shape, 'erscheinung.body_shape', filePath),
@@ -376,17 +421,161 @@ export const validateLearningGoal = (
     throw new Error(`Invalid UUID id "${yamlId}" in ${filePath}`)
   }
 
+  const session = asOptionalRecord(value.session, 'session', filePath)
+  const curriculum = asOptionalRecord(value.curriculum, 'curriculum', filePath)
+  const teachingContent = asOptionalRecord(value.teaching_content, 'teaching_content', filePath)
+  const didactics = asOptionalRecord(value.didactics, 'didactics', filePath)
+  const quiz = asOptionalRecord(value.quiz, 'quiz', filePath)
+  const answerExpectations = quiz
+    ? asOptionalRecord(quiz.answer_expectations, 'quiz.answer_expectations', filePath)
+    : undefined
+  const feedbackStrategy = quiz
+    ? asOptionalRecord(quiz.feedback_strategy, 'quiz.feedback_strategy', filePath)
+    : undefined
+  const learningObjectives = asOptionalRecordList(
+    value.learning_objectives,
+    'learning_objectives',
+    filePath,
+  )
+  const exampleQuestions =
+    value.example_questions ?? quiz?.example_questions ?? value.exampleQuestions ?? undefined
+  const practiceIdeas = value.practice_ideas ?? undefined
+  const domainTags = value.domain_tags ?? curriculum?.tags ?? undefined
+
   return {
     id: yamlId,
     name: asString(value.name, 'name', filePath),
     type: 'learning-goals',
     slug,
+    subject: asString(value.subject, 'subject', filePath),
+    topicGroup: asString(value.topic_group, 'topic_group', filePath),
     topic: asString(value.topic, 'topic', filePath),
+    subtopic: asOptionalString(value.subtopic, 'subtopic', filePath) ?? '',
     description: asString(value.description, 'description', filePath),
     ageRange: asOptionalStringList(value.age_range, 'age_range', filePath),
-    exampleQuestions: asStringList(value.example_questions, 'example_questions', filePath),
-    practiceIdeas: asOptionalStringList(value.practice_ideas, 'practice_ideas', filePath),
-    domainTags: asOptionalStringList(value.domain_tags, 'domain_tags', filePath),
+    exampleQuestions: asStringList(exampleQuestions, 'example_questions', filePath),
+    practiceIdeas: asOptionalStringList(practiceIdeas, 'practice_ideas', filePath),
+    domainTags: asOptionalStringList(domainTags, 'domain_tags', filePath),
+    session: session
+      ? {
+          durationMinutes: asNumber(session.duration_minutes, 'session.duration_minutes', filePath),
+          format: asString(session.format, 'session.format', filePath),
+          sessionGoal: asString(session.session_goal, 'session.session_goal', filePath),
+          endState: asString(session.end_state, 'session.end_state', filePath),
+        }
+      : undefined,
+    curriculum: curriculum
+      ? {
+          domain: asString(curriculum.domain, 'curriculum.domain', filePath),
+          tags: asOptionalStringList(curriculum.tags, 'curriculum.tags', filePath),
+          priorKnowledge: asOptionalStringList(
+            curriculum.prior_knowledge,
+            'curriculum.prior_knowledge',
+            filePath,
+          ),
+        }
+      : undefined,
+    teachingContent: teachingContent
+      ? {
+          coreIdeas: asOptionalStringList(
+            teachingContent.core_ideas,
+            'teaching_content.core_ideas',
+            filePath,
+          ),
+          keyVocabulary: asOptionalStringList(
+            teachingContent.key_vocabulary,
+            'teaching_content.key_vocabulary',
+            filePath,
+          ),
+          examples: asOptionalStringList(teachingContent.examples, 'teaching_content.examples', filePath),
+          misconceptions: asOptionalStringList(
+            teachingContent.misconceptions,
+            'teaching_content.misconceptions',
+            filePath,
+          ),
+        }
+      : undefined,
+    didactics: didactics
+      ? {
+          pedagogy: asOptionalStringList(didactics.pedagogy, 'didactics.pedagogy', filePath),
+          characterRole: asString(didactics.character_role, 'didactics.character_role', filePath),
+          teachingSteps: asOptionalStringList(
+            didactics.teaching_steps,
+            'didactics.teaching_steps',
+            filePath,
+          ),
+          interactionRules: asOptionalStringList(
+            didactics.interaction_rules,
+            'didactics.interaction_rules',
+            filePath,
+          ),
+        }
+      : undefined,
+    learningObjectives: learningObjectives.map((objective) => ({
+      id: asString(objective.id, 'learning_objectives[].id', filePath),
+      canDo: asString(objective.can_do, 'learning_objectives[].can_do', filePath),
+      evidence: asOptionalStringList(objective.evidence, 'learning_objectives[].evidence', filePath),
+    })),
+    quiz: quiz
+      ? {
+          goal: asString(quiz.goal, 'quiz.goal', filePath),
+          assessmentTargets: asOptionalStringList(
+            quiz.assessment_targets,
+            'quiz.assessment_targets',
+            filePath,
+          ),
+          allowedQuestionTypes: asOptionalStringList(
+            quiz.allowed_question_types,
+            'quiz.allowed_question_types',
+            filePath,
+          ),
+          exampleQuestions: asStringList(
+            quiz.example_questions,
+            'quiz.example_questions',
+            filePath,
+          ),
+          exampleTasks: asOptionalStringList(quiz.example_tasks, 'quiz.example_tasks', filePath),
+          answerExpectations: {
+            strongSignals: asOptionalStringList(
+              answerExpectations?.strong_signals,
+              'quiz.answer_expectations.strong_signals',
+              filePath,
+            ),
+            acceptableSignals: asOptionalStringList(
+              answerExpectations?.acceptable_signals,
+              'quiz.answer_expectations.acceptable_signals',
+              filePath,
+            ),
+            weakSignals: asOptionalStringList(
+              answerExpectations?.weak_signals,
+              'quiz.answer_expectations.weak_signals',
+              filePath,
+            ),
+            misconceptionSignals: asOptionalStringList(
+              answerExpectations?.misconception_signals,
+              'quiz.answer_expectations.misconception_signals',
+              filePath,
+            ),
+          },
+          feedbackStrategy: {
+            encouragementStyle: asString(
+              feedbackStrategy?.encouragement_style,
+              'quiz.feedback_strategy.encouragement_style',
+              filePath,
+            ),
+            hintSequence: asOptionalStringList(
+              feedbackStrategy?.hint_sequence,
+              'quiz.feedback_strategy.hint_sequence',
+              filePath,
+            ),
+            followUpPrompts: asOptionalStringList(
+              feedbackStrategy?.follow_up_prompts,
+              'quiz.feedback_strategy.follow_up_prompts',
+              filePath,
+            ),
+          },
+        }
+      : undefined,
   }
 }
 
