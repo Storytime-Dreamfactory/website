@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://da64uvv5aj.execute-api.eu-central-1.amazonaws.com/api/$1"
+    },
+    {
+      "source": "/health",
+      "destination": "https://da64uvv5aj.execute-api.eu-central-1.amazonaws.com/health"
+    },
+    {
+      "source": "/ready",
+      "destination": "https://da64uvv5aj.execute-api.eu-central-1.amazonaws.com/ready"
+    },
+    {
+      "source": "/content/(.*)",
+      "destination": "https://d3fanezyptletr.cloudfront.net/content/$1"
+    },
+    {
+      "source": "/content-manifest.json",
+      "destination": "https://d3fanezyptletr.cloudfront.net/content-manifest.json"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

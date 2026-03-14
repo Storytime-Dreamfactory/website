@@ -1,0 +1,41 @@
+# Endpoint Matrix (Current -> AWS Infra)
+
+Alle bestehenden Pfade sind im HTTP API vorprovisioniert. Stand jetzt:
+- Read-Only-Domaenen (`game-objects`, `relationships`, `GET /api/activities`) laufen produktiv.
+- Realtime Schritt 1 laeuft event-driven ueber EventBridge (ohne Conversations im kritischen Pfad).
+
+- `GET /api/activities` -> aktiv (RDS Read-Path)
+- `POST /api/activities` -> Stub (`501`)
+- `GET /api/activities/stream` -> degradiert (`501`, Polling-Fallback)
+- `GET /api/conversations` -> provisioniert
+- `GET /api/conversations/characters-with-conversations` -> provisioniert
+- `GET /api/conversations/latest` -> provisioniert
+- `POST /api/conversations/start` -> provisioniert
+- `POST /api/conversations/metadata` -> provisioniert
+- `POST /api/conversations/message` -> provisioniert
+- `POST /api/conversations/end` -> provisioniert
+- `GET /api/conversations/latest-inspect` -> provisioniert
+- `GET /api/conversations/inspect` -> provisioniert
+- `GET /api/relationships` -> aktiv (RDS)
+- `GET /api/relationships/all` -> aktiv (RDS)
+- `GET /api/relationships/by-object` -> aktiv (RDS)
+- `GET /api/relationships/knowledge` -> aktiv (RDS + Content Join)
+- `POST /api/relationships` -> aktiv (RDS Upsert)
+- `GET /api/game-objects` -> aktiv (S3/Manifest)
+- `GET /api/game-objects/{id}` -> aktiv (S3/Manifest)
+- `GET /api/game-objects/{id}/relationships` -> aktiv (S3 + RDS)
+- `GET /api/game-objects/{id}/images` -> aktiv (S3/Manifest)
+- `GET /api/gameobjects` -> aktiv (Legacy-Alias)
+- `GET /api/gameobjects/{id}` -> aktiv (Legacy-Alias)
+- `GET /api/gameobjects/{id}/relationships` -> aktiv (Legacy-Alias)
+- `GET /api/gameobjects/{id}/images` -> aktiv (Legacy-Alias)
+- `POST /api/tools/generate-conversation-hero` -> Stub (`501`)
+- `POST /api/tools/run-learning-goal-quiz` -> Stub (`501`)
+- `POST /api/tools/show-image` -> Stub (`501`)
+- `POST /api/tools/display-existing-image` -> Stub (`501`, Legacy-Alias)
+- `POST /api/images/generate` -> Stub (`501`)
+- `POST /api/realtime/session` -> aktiv (OpenAI Realtime Session + EventBridge `voice.session.requested`)
+- `POST /api/realtime/instructions` -> aktiv (Instruction Build + EventBridge `voice.instructions.updated`)
+- `POST /api/realtime/events` -> aktiv (EventBridge Ingress fuer Transcript/Session-Events)
+- `GET /health` -> aktiv (`200`)
+- `GET /ready` -> aktiv (`200`)

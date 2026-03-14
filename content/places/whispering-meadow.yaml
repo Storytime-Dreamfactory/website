@@ -5,3 +5,6 @@ description: >
   A wide grassy meadow filled with wildflowers that sway gently in the wind.
   When the breeze moves through the grass, it sounds like quiet whispers sharing
   old stories.
+mapPosition:
+  x: 500
+  y: 500

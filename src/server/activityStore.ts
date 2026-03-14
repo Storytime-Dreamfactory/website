@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import { Pool } from 'pg'
 import { getStorytimeDbPool } from './dbPool.ts'
 import { getOpenAiApiKey, readServerEnv } from './openAiConfig.ts'
+import { publishActivityChange } from './activityEventBus.ts'
 import {
   readCanonicalStoryText,
   readImageVisualSummaryValue,
@@ -550,6 +551,10 @@ export const createActivity = async (input: CreateActivityInput): Promise<Activi
       record = await updateActivityStorySummary(record.activityId, storySummary)
     }
   }
+  await publishActivityChange({
+    change: 'created',
+    activity: record,
+  })
   return record
 }
 

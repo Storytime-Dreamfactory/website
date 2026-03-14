@@ -13,6 +13,17 @@ const sampleCharacter: Character = {
     ageHint: 'kindlich',
     roleArchetype: 'helper',
   },
+  voice: 'alloy',
+  voiceProfile: {
+    identity: 'Freundliche Testfigur',
+    demeanor: 'spielerisch',
+    tone: 'ermutigend',
+    enthusiasmLevel: 'mittel',
+    formalityLevel: 'niedrig',
+    emotionLevel: 'warm',
+    fillerWords: 'occasionally',
+    pacing: 'ausgewogen',
+  },
   appearance: {
     bodyShape: 'klein und rundlich',
     colors: ['grau', 'creme', 'rot'],

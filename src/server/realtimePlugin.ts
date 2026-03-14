@@ -1,4 +1,5 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import { randomUUID } from 'node:crypto'
 import type { Plugin } from 'vite'
 import { getConversationDetails, type ConversationDetailsRecord } from './conversationStore.ts'
 import { getOpenAiApiKey } from './openAiConfig.ts'
@@ -8,6 +9,12 @@ import {
   buildVoiceProfileInstructionsBlock,
   resolveRealtimeVoiceFromCharacterYaml,
 } from './characterVoiceResponseService.ts'
+import { publishRealtimeEvent } from './realtimeEventBus.ts'
+import {
+  buildRealtimeEventEnvelope,
+  parseRealtimeEventType,
+  type RealtimeEventType,
+} from './realtimeEventContract.ts'
 
 const REALTIME_VAD_SILENCE_DURATION_MS = 900
 
@@ -38,6 +45,49 @@ const readJsonBody = async (request: IncomingMessage): Promise<Record<string, un
 }
 
 export { resolveRealtimeVoiceFromCharacterYaml, buildVoiceProfileInstructionsBlock }
+
+const readOptionalString = (value: unknown): string | undefined => {
+  if (typeof value !== 'string') return undefined
+  const trimmed = value.trim()
+  return trimmed || undefined
+}
+
+const parsePayload = (value: unknown): Record<string, unknown> => {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return {}
+  return value as Record<string, unknown>
+}
+
+const statusFromError = (message: string): number => {
+  const lower = message.toLowerCase()
+  if (lower.includes('ist erforderlich') || lower.includes('ungueltig')) return 400
+  if (lower.includes('nicht gefunden') || lower.includes('enoent')) return 404
+  if (lower.includes('fehlt')) return 503
+  if (lower.includes('timeout')) return 504
+  if (lower.includes('failed (4')) return 502
+  return 500
+}
+
+const publishEnvelopeSafely = async (input: {
+  eventType: RealtimeEventType
+  characterId: string
+  correlationId: string
+  conversationKey?: string
+  payload?: Record<string, unknown>
+  occurredAt?: string
+}): Promise<string> => {
+  const eventId = randomUUID()
+  const envelope = buildRealtimeEventEnvelope({
+    eventId,
+    correlationId: input.correlationId,
+    conversationKey: input.conversationKey,
+    characterId: input.characterId,
+    eventType: input.eventType,
+    payload: input.payload,
+    occurredAt: input.occurredAt,
+  })
+  await publishRealtimeEvent(envelope)
+  return eventId
+}
 
 const createEphemeralToken = async (
   instructions: string,
@@ -97,10 +147,42 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
       const requestUrl = new URL(request.url ?? '', 'http://localhost')
 
       if (request.method !== 'POST' || requestUrl.pathname !== '/session') {
+        if (request.method === 'POST' && requestUrl.pathname === '/events') {
+          const body = await readJsonBody(request)
+          const characterId = typeof body.characterId === 'string' ? body.characterId.trim() : ''
+          const correlationId = readOptionalString(body.correlationId) ?? randomUUID()
+          const conversationKey = readOptionalString(body.conversationKey)
+          const eventType = parseRealtimeEventType(body.eventType)
+          const payload = parsePayload(body.payload)
+          const occurredAt = readOptionalString(body.occurredAt)
+
+          if (!characterId) {
+            json(response, 400, { error: 'characterId ist erforderlich.' })
+            return
+          }
+
+          const eventId = await publishEnvelopeSafely({
+            eventType,
+            characterId,
+            correlationId,
+            conversationKey,
+            payload,
+            occurredAt,
+          })
+          json(response, 202, {
+            accepted: true,
+            eventId,
+            correlationId,
+          })
+          return
+        }
+
         if (request.method === 'POST' && requestUrl.pathname === '/instructions') {
           const body = await readJsonBody(request)
           const characterId = typeof body.characterId === 'string' ? body.characterId.trim() : ''
           const conversationId = typeof body.conversationId === 'string' ? body.conversationId.trim() : ''
+          const correlationId = readOptionalString(body.correlationId) ?? randomUUID()
+          const conversationKey = readOptionalString(body.conversationKey)
 
           if (!characterId) {
             json(response, 400, { error: 'characterId ist erforderlich.' })
@@ -116,9 +198,21 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
             characterId,
             conversationDetails,
           })
+          const eventId = await publishEnvelopeSafely({
+            eventType: 'voice.instructions.updated',
+            characterId,
+            correlationId,
+            conversationKey,
+            payload: {
+              conversationId: conversationId || null,
+              instructionLength: voiceContext.fullInstructions.length,
+            },
+          })
           json(response, 200, {
             instructions: voiceContext.fullInstructions,
             voice: voiceContext.voice,
+            eventId,
+            correlationId,
           })
           return
         }
@@ -137,6 +231,8 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
       const body = await readJsonBody(request)
       const characterId = typeof body.characterId === 'string' ? body.characterId.trim() : ''
       const conversationId = typeof body.conversationId === 'string' ? body.conversationId.trim() : ''
+      const correlationId = readOptionalString(body.correlationId) ?? randomUUID()
+      const conversationKey = readOptionalString(body.conversationKey)
 
       if (!characterId) {
         json(response, 400, { error: 'characterId ist erforderlich.' })
@@ -164,12 +260,28 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
         characterId: characterObject.id,
         conversationDetails,
       })
+      const requestedEventId = await publishEnvelopeSafely({
+        eventType: 'voice.session.requested',
+        characterId: characterObject.id,
+        correlationId,
+        conversationKey,
+        payload: {
+          conversationId: conversationId || null,
+          voice: voiceContext.voice,
+          instructionLength: voiceContext.fullInstructions.length,
+        },
+      })
       const { token, expiresAt } = await createEphemeralToken(
         voiceContext.fullInstructions,
         voiceContext.voice,
       )
 
-      const sessionPayload: Record<string, unknown> = { token, expiresAt }
+      const sessionPayload: Record<string, unknown> = {
+        token,
+        expiresAt,
+        correlationId,
+        requestedEventId,
+      }
       if (voiceContext.lastSceneImage) {
         sessionPayload.lastSceneImage = {
           base64: voiceContext.lastSceneImage.base64,
@@ -180,7 +292,7 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
       json(response, 200, sessionPayload)
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
-      const status = message.includes('ENOENT') ? 404 : 500
+      const status = statusFromError(message)
       json(response, status, { error: message })
     }
   })

@@ -84,7 +84,6 @@ const sendDebugLog = (
 
 export default function VoiceChatButton({
   character,
-  conversationId,
   selectedLearningGoalId,
   enableTextChat = false,
 }: Props) {
@@ -94,7 +93,6 @@ export default function VoiceChatButton({
   const [isTextChatOpen, setIsTextChatOpen] = useState(false)
   const [textInputValue, setTextInputValue] = useState('')
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
-  const [activeConversationId, setActiveConversationId] = useState<string | null>(conversationId ?? null)
   const selectedVoice = useMemo(() => character.voice, [character.voice])
   const activeLearningGoalId = useMemo(() => {
     const trimmed = selectedLearningGoalId?.trim() ?? ''
@@ -119,11 +117,9 @@ export default function VoiceChatButton({
   const speechCandidateStartedAtRef = useRef<number | null>(null)
   const silenceCandidateStartedAtRef = useRef<number | null>(null)
   const lastRemoteSpeechAtRef = useRef<number>(0)
-  const conversationIdRef = useRef<string | null>(null)
-  const conversationOwnedRef = useRef(false)
+  const sessionCorrelationIdRef = useRef<string | null>(null)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
   const recoverySentForCurrentTurnRef = useRef(false)
-  const activityStreamRef = useRef<EventSource | null>(null)
   const queuedTextMessagesRef = useRef<string[]>([])
   const nextChatMessageIdRef = useRef(0)
   const makeChatMessageId = useCallback(() => {
@@ -135,29 +131,6 @@ export default function VoiceChatButton({
     if (!trimmed) return
     setChatMessages((prev) => [...prev, { id: makeChatMessageId(), role, text: trimmed }])
   }, [makeChatMessageId])
-  const buildStartConversationMetadata = useCallback(() => {
-    if (!activeLearningGoalId) return undefined
-    return {
-      learningGoalIds: [activeLearningGoalId],
-      learningGoalId: activeLearningGoalId,
-    }
-  }, [activeLearningGoalId])
-  const buildConversationLearningGoalMetadata = useCallback(() => {
-    if (activeLearningGoalId) {
-      return {
-        learningGoalIds: [activeLearningGoalId],
-        learningGoalId: activeLearningGoalId,
-        skillIds: [activeLearningGoalId],
-        skillId: activeLearningGoalId,
-      }
-    }
-    return {
-      learningGoalIds: [],
-      learningGoalId: '',
-      skillIds: [],
-      skillId: '',
-    }
-  }, [activeLearningGoalId])
   const emitSpeakerState = useCallback((speaker: 'yoko' | 'character', isSpeaking: boolean) => {
     if (typeof window === 'undefined') return
     window.dispatchEvent(
@@ -171,92 +144,30 @@ export default function VoiceChatButton({
     )
   }, [character.id])
 
-  const startConversationSession = useCallback(async (): Promise<{
-    conversationId: string | null
-    owned: boolean
-  }> => {
-    const existingConversationId = conversationId?.trim() ?? ''
-    if (existingConversationId) {
-      return {
-        conversationId: existingConversationId,
-        owned: false,
-      }
-    }
-    try {
-      const response = await fetch('/api/conversations/start', {
+  const publishRealtimeEvent = useCallback(
+    async (
+      eventType:
+        | 'voice.session.ended'
+        | 'voice.session.failed'
+        | 'voice.user.transcript.received'
+        | 'voice.assistant.transcript.received',
+      payload: Record<string, unknown>,
+    ) => {
+      const correlationId = sessionCorrelationIdRef.current
+      if (!correlationId) return
+      await fetch('/api/realtime/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          metadata: {
-            channel: 'realtime-voice',
-            voice: selectedVoice,
-            ...buildStartConversationMetadata(),
-          },
-        }),
-      })
-      if (!response.ok) {
-        return {
-          conversationId: null,
-          owned: false,
-        }
-      }
-      const payload = (await response.json()) as { conversation?: { conversationId?: string } }
-      return {
-        conversationId: payload.conversation?.conversationId ?? null,
-        owned: true,
-      }
-    } catch {
-      return {
-        conversationId: null,
-        owned: false,
-      }
-    }
-  }, [character.id, conversationId, selectedVoice, buildStartConversationMetadata])
-
-  const appendMessage = useCallback(
-    async (role: 'user' | 'assistant' | 'system', content: string, eventType: string) => {
-      const conversationId = conversationIdRef.current
-      const trimmed = content.trim()
-      if (!conversationId || !trimmed) return
-
-      await fetch('/api/conversations/message', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          conversationId,
-          role,
-          content: trimmed,
+          correlationId,
           eventType,
+          payload,
         }),
       }).catch(() => undefined)
     },
-    [],
+    [character.id],
   )
-
-  const closeConversationSession = useCallback((reason: string) => {
-    const conversationId = conversationIdRef.current
-    const shouldEndConversation = conversationOwnedRef.current
-    conversationIdRef.current = null
-    conversationOwnedRef.current = false
-    setActiveConversationId(null)
-    knownEventIdsRef.current.clear()
-    if (!conversationId || !shouldEndConversation) return
-
-    void fetch('/api/conversations/end', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        conversationId,
-        metadata: { endReason: reason },
-      }),
-    }).catch(() => undefined)
-  }, [])
-
-  const stopActivityStream = useCallback(() => {
-    activityStreamRef.current?.close()
-    activityStreamRef.current = null
-  }, [])
 
   const setCharacterSpeaking = useCallback((isSpeaking: boolean) => {
     if (characterSpeakingRef.current === isSpeaking) return
@@ -265,8 +176,9 @@ export default function VoiceChatButton({
   }, [emitSpeakerState])
 
   const cleanup = useCallback(() => {
-    closeConversationSession('cleanup')
-    stopActivityStream()
+    void publishRealtimeEvent('voice.session.ended', { reason: 'cleanup' })
+    sessionCorrelationIdRef.current = null
+    knownEventIdsRef.current.clear()
     if (connectionResetTimerRef.current != null) {
       window.clearTimeout(connectionResetTimerRef.current)
       connectionResetTimerRef.current = null
@@ -307,7 +219,7 @@ export default function VoiceChatButton({
       audioRef.current.onpause = null
       audioRef.current.onended = null
     }
-  }, [closeConversationSession, stopActivityStream, emitSpeakerState, setCharacterSpeaking])
+  }, [publishRealtimeEvent, emitSpeakerState, setCharacterSpeaking])
 
   const monitorAudio = useCallback(() => {
     const analyser = analyserRef.current
@@ -438,9 +350,12 @@ export default function VoiceChatButton({
         },
       }),
     )
-    void appendMessage('user', trimmed, 'conversation.item.input_text')
+    void publishRealtimeEvent('voice.user.transcript.received', {
+      transcript: trimmed,
+      eventType: 'conversation.item.input_text',
+    })
     return true
-  }, [appendMessage])
+  }, [publishRealtimeEvent])
 
   const flushQueuedTextMessages = useCallback(() => {
     const queuedMessages = queuedTextMessagesRef.current
@@ -450,100 +365,6 @@ export default function VoiceChatButton({
       sendTextMessageToRealtime(message)
     })
   }, [sendTextMessageToRealtime])
-
-  const sendSceneImageReadySignal = useCallback(async (sceneSummary?: string, imageUrl?: string) => {
-    const dc = dataChannelRef.current
-    if (!dc || dc.readyState !== 'open') return
-    const hint = sceneSummary
-      ? `Die Szenenbeschreibung: ${sceneSummary}`
-      : ''
-
-    if (imageUrl) {
-      const thumbUrl = imageUrl.replace(/(\.[^.]+)$/, '.thumb.jpg')
-      try {
-        const response = await fetch(thumbUrl)
-        if (response.ok) {
-          const blob = await response.blob()
-          const buffer = await blob.arrayBuffer()
-          const base64 = btoa(
-            new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), ''),
-          )
-          dc.send(
-            JSON.stringify({
-              type: 'conversation.item.create',
-              item: {
-                type: 'message',
-                role: 'user',
-                content: [
-                  {
-                    type: 'input_image',
-                    image_url: `data:image/jpeg;base64,${base64}`,
-                  },
-                  {
-                    type: 'input_text',
-                    text: `[SCENE_IMAGE_READY] Das neue Szenenbild ist jetzt fuer das Kind sichtbar. ${hint} Beschreibe kurz und begeistert, was jetzt zu sehen ist, und stelle deine Anschlussfrage.`,
-                  },
-                ],
-              },
-            }),
-          )
-          dc.send(JSON.stringify({ type: 'response.create' }))
-          return
-        }
-      } catch {
-        // thumbnail fetch failed, fall through to text-only signal
-      }
-    }
-
-    dc.send(
-      JSON.stringify({
-        type: 'conversation.item.create',
-        item: {
-          type: 'message',
-          role: 'user',
-          content: [
-            {
-              type: 'input_text',
-              text: `[SCENE_IMAGE_READY] Das neue Szenenbild ist jetzt fuer das Kind sichtbar. ${hint} Beschreibe kurz und begeistert, was jetzt zu sehen ist, und stelle deine Anschlussfrage.`,
-            },
-          ],
-        },
-      }),
-    )
-    dc.send(JSON.stringify({ type: 'response.create' }))
-  }, [])
-
-  const startActivityStream = useCallback(() => {
-    activityStreamRef.current?.close()
-    const characterId = character.id
-    const streamUrl = `/api/activities/stream?characterId=${encodeURIComponent(characterId)}&includeNonPublic=true`
-    const eventSource = new EventSource(streamUrl)
-    activityStreamRef.current = eventSource
-
-    eventSource.addEventListener('activity.created', ((event: MessageEvent<string>) => {
-      try {
-        const activity = JSON.parse(event.data) as {
-          activityType?: string
-          conversationId?: string
-          metadata?: { sceneSummary?: string; summary?: string; heroImageUrl?: string; imageUrl?: string }
-        }
-        const isImageEvent =
-          activity.activityType === 'conversation.image.generated' ||
-          activity.activityType === 'conversation.image.recalled'
-        if (!isImageEvent) return
-        if (activity.conversationId !== conversationIdRef.current) return
-        const sceneSummary =
-          (typeof activity.metadata?.sceneSummary === 'string' ? activity.metadata.sceneSummary : '') ||
-          (typeof activity.metadata?.summary === 'string' ? activity.metadata.summary : '')
-        const imageUrl =
-          (typeof activity.metadata?.heroImageUrl === 'string' ? activity.metadata.heroImageUrl : '') ||
-          (typeof activity.metadata?.imageUrl === 'string' ? activity.metadata.imageUrl : '')
-        void sendSceneImageReadySignal(sceneSummary, imageUrl || undefined)
-      } catch {
-        // ignore malformed payloads
-      }
-    }) as EventListener)
-  }, [character.id, sendSceneImageReadySignal])
 
   const connect = useCallback(async () => {
     // #region agent log
@@ -555,20 +376,15 @@ export default function VoiceChatButton({
     setState('connecting')
 
     try {
-      const conversationSession = await startConversationSession()
-      if (!conversationSession.conversationId) {
-        throw new Error('Conversation konnte nicht gestartet werden.')
-      }
-      conversationIdRef.current = conversationSession.conversationId
-      conversationOwnedRef.current = conversationSession.owned
-      setActiveConversationId(conversationSession.conversationId)
+      const fallbackCorrelationId = crypto.randomUUID()
+      sessionCorrelationIdRef.current = fallbackCorrelationId
 
       const tokenRes = await fetch('/api/realtime/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          conversationId: conversationSession.conversationId,
+          correlationId: fallbackCorrelationId,
         }),
       })
 
@@ -579,9 +395,13 @@ export default function VoiceChatButton({
 
       const sessionData = (await tokenRes.json()) as {
         token: string
+        correlationId?: string
         lastSceneImage?: { base64: string; mimeType: string; summary: string }
       }
       const { token, lastSceneImage } = sessionData
+      if (typeof sessionData.correlationId === 'string' && sessionData.correlationId.trim()) {
+        sessionCorrelationIdRef.current = sessionData.correlationId.trim()
+      }
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       localStreamRef.current = stream
@@ -745,7 +565,10 @@ export default function VoiceChatButton({
           if (eventType === 'conversation.item.input_audio_transcription.completed') {
             const transcript = typeof payload.transcript === 'string' ? payload.transcript : ''
             if (transcript) {
-              void appendMessage('user', transcript, eventType)
+              void publishRealtimeEvent('voice.user.transcript.received', {
+                transcript,
+                eventType,
+              })
             }
             return
           }
@@ -805,7 +628,10 @@ export default function VoiceChatButton({
             })
             // #endregion
             if (transcript) {
-              void appendMessage('assistant', transcript, eventType)
+              void publishRealtimeEvent('voice.assistant.transcript.received', {
+                transcript,
+                eventType,
+              })
               addChatMessage('assistant', transcript)
             }
           }
@@ -840,7 +666,9 @@ export default function VoiceChatButton({
         if (pc.connectionState === 'connected') {
           setState('connected')
         } else if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') {
-          closeConversationSession(pc.connectionState)
+          void publishRealtimeEvent('voice.session.failed', {
+            reason: pc.connectionState,
+          })
           setState('error')
           connectionResetTimerRef.current = window.setTimeout(() => {
             cleanup()
@@ -849,13 +677,12 @@ export default function VoiceChatButton({
         }
       }
       setState('connected')
-      startActivityStream()
       monitorAudio()
     } catch {
       // #region agent log
       sendDebugLog('H6', 'VoiceChatButton.tsx:connect', 'Connect failed and cleanup triggered', {})
       // #endregion
-      closeConversationSession('error')
+      void publishRealtimeEvent('voice.session.failed', { reason: 'connect-error' })
       setState('error')
       cleanup()
       fallbackResetTimerRef.current = window.setTimeout(() => setState('idle'), 2000)
@@ -865,16 +692,13 @@ export default function VoiceChatButton({
     cleanup,
     monitorAudio,
     selectedVoice,
-    appendMessage,
     addChatMessage,
-    closeConversationSession,
-    startConversationSession,
     setLocalMicEnabled,
-    startActivityStream,
     emitSpeakerState,
     setCharacterSpeaking,
     monitorRemoteAudio,
     flushQueuedTextMessages,
+    publishRealtimeEvent,
   ])
 
   useEffect(() => {
@@ -882,30 +706,22 @@ export default function VoiceChatButton({
   }, [cleanup])
 
   useEffect(() => {
-    if (!activeConversationId) return
     if (state !== 'connecting' && state !== 'connected') return
 
     let cancelled = false
 
-    const syncLearningGoalSelection = async () => {
-      await fetch('/api/conversations/metadata', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          conversationId: activeConversationId,
-          metadata: buildConversationLearningGoalMetadata(),
-        }),
-      }).catch(() => undefined)
-
+    const syncInstructions = async () => {
       const dc = dataChannelRef.current
-      if (cancelled || !dc || dc.readyState !== 'open') return
+      const correlationId = sessionCorrelationIdRef.current
+      if (cancelled || !dc || dc.readyState !== 'open' || !correlationId) return
 
       const response = await fetch('/api/realtime/instructions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          conversationId: activeConversationId,
+          correlationId,
+          payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
         }),
       }).catch(() => null)
       if (cancelled || !response?.ok) return
@@ -924,17 +740,12 @@ export default function VoiceChatButton({
       )
     }
 
-    void syncLearningGoalSelection()
+    void syncInstructions()
 
     return () => {
       cancelled = true
     }
-  }, [
-    activeConversationId,
-    state,
-    character.id,
-    buildConversationLearningGoalMetadata,
-  ])
+  }, [state, character.id, activeLearningGoalId])
 
   const handleClick = useCallback(() => {
     if (state === 'connected' && isMicMutedByAssistant) {
@@ -959,7 +770,7 @@ export default function VoiceChatButton({
   const handleClose = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation()
-      closeConversationSession('manual-close')
+      void publishRealtimeEvent('voice.session.ended', { reason: 'manual-close' })
       cleanup()
       emitSpeakerState('yoko', false)
       setCharacterSpeaking(false)
@@ -967,7 +778,7 @@ export default function VoiceChatButton({
       setAudioLevel(0)
       setState('idle')
     },
-    [cleanup, closeConversationSession, emitSpeakerState, setCharacterSpeaking],
+    [cleanup, emitSpeakerState, setCharacterSpeaking, publishRealtimeEvent],
   )
 
   const isActive = state === 'connecting' || state === 'connected'

@@ -19,9 +19,13 @@ export type CharacterRelationshipRecord = {
   sourceCharacterId: string
   targetCharacterId: string
   relationshipType: string
+  fromTitle: string
+  toTitle: string
   relationshipTypeReadable: string
   relationship: string
   description?: string
+  properties?: CharacterRelationshipMetadata
+  /** @deprecated Use properties instead. Kept for backward compatibility. */
   metadata?: CharacterRelationshipMetadata
   otherRelatedObjects: CharacterRelatedObject[]
   createdAt: string
@@ -32,9 +36,13 @@ export type UpsertCharacterRelationshipInput = {
   sourceCharacterId: string
   targetCharacterId: string
   relationshipType: string
+  fromTitle?: string
+  toTitle?: string
   relationshipTypeReadable?: string
   relationship: string
   description?: string
+  properties?: CharacterRelationshipMetadata
+  /** @deprecated Use properties instead. Kept for backward compatibility. */
   metadata?: CharacterRelationshipMetadata
   otherRelatedObjects?: CharacterRelatedObject[]
 }
@@ -51,6 +59,8 @@ type CharacterRelationshipRow = {
   source_character_id: string
   target_character_id: string
   relationship_type: string
+  from_title: string | null
+  to_title: string | null
   relationship_type_readable: string | null
   relationship: string
   description: string | null
@@ -95,19 +105,34 @@ const toRelationshipId = (
 
 const mapRowToRelationshipRecord = (
   row: CharacterRelationshipRow | CharacterRelationshipWithDirectionRow,
-): CharacterRelationshipRecord => ({
-  relationshipId: row.relationship_id,
-  sourceCharacterId: row.source_character_id,
-  targetCharacterId: row.target_character_id,
-  relationshipType: row.relationship_type,
-  relationshipTypeReadable: toStandardRelationshipLabel(row.relationship_type),
-  relationship: toStandardRelationshipLabel(row.relationship_type),
-  description: row.description ?? undefined,
-  metadata: row.metadata ?? undefined,
-  otherRelatedObjects: Array.isArray(row.other_related_objects) ? row.other_related_objects : [],
-  createdAt: new Date(row.created_at).toISOString(),
-  updatedAt: new Date(row.updated_at).toISOString(),
-})
+): CharacterRelationshipRecord => {
+  const titlePair = resolveTitlePair(row.relationship_type)
+  const fallbackTitle = row.relationship_type_readable?.trim() || row.relationship?.trim() || ''
+  const fromTitle = row.from_title?.trim() || titlePair.fromTitle || fallbackTitle
+  const toTitle = row.to_title?.trim() || titlePair.toTitle || fromTitle
+  const resolvedLabel =
+    'direction' in row && row.direction === 'incoming'
+      ? toTitle || fromTitle
+      : fromTitle || toTitle
+  const properties = row.metadata ?? undefined
+
+  return {
+    relationshipId: row.relationship_id,
+    sourceCharacterId: row.source_character_id,
+    targetCharacterId: row.target_character_id,
+    relationshipType: row.relationship_type,
+    fromTitle,
+    toTitle,
+    relationshipTypeReadable: resolvedLabel,
+    relationship: resolvedLabel,
+    description: row.description ?? undefined,
+    properties,
+    metadata: properties,
+    otherRelatedObjects: Array.isArray(row.other_related_objects) ? row.other_related_objects : [],
+    createdAt: new Date(row.created_at).toISOString(),
+    updatedAt: new Date(row.updated_at).toISOString(),
+  }
+}
 
 const normalizeOtherRelatedObjects = (items: CharacterRelatedObject[] | undefined): CharacterRelatedObject[] => {
   if (!Array.isArray(items)) return []
@@ -144,84 +169,112 @@ const slugifyRelationshipType = (value: string): string =>
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '')
 
-const humanizeRelationshipType = (value: string): string =>
-  value
-    .split('_')
-    .filter(Boolean)
-    .join(' ')
-    .trim()
-
-const STANDARD_RELATIONSHIP_LABELS: Record<string, string> = {
-  beste_freundin: 'Beste Freundin',
-  gute_freundin: 'Gute Freundin',
-  schwester: 'Schwester',
-  bruder: 'Bruder',
-  geschwister: 'Geschwister',
-  bezugsmensch: 'Bezugsmensch',
-  spielgefaehrtin: 'Spielgefaehrtin',
-  huendin: 'Huendin',
-  vorbild: 'Vorbild',
-  feind: 'Feind',
-  fuerchtet_sich_vor: 'Hat Angst vor',
+type RelationshipTypeDefinition = {
+  type: string
+  fromTitle: string
+  toTitle: string
 }
 
-const toStandardRelationshipLabel = (relationshipType: string): string => {
-  const normalizedType = relationshipType.trim().toLowerCase()
-  const explicitLabel = STANDARD_RELATIONSHIP_LABELS[normalizedType]
-  if (explicitLabel) return explicitLabel
+const RELATIONSHIP_TYPE_DEFINITIONS: RelationshipTypeDefinition[] = [
+  { type: 'mother_of', fromTitle: 'Mutter', toTitle: 'Kind' },
+  { type: 'father_of', fromTitle: 'Vater', toTitle: 'Kind' },
+  { type: 'parent_of', fromTitle: 'Elternteil', toTitle: 'Kind' },
+  { type: 'child_of', fromTitle: 'Kind', toTitle: 'Elternteil' },
+  { type: 'sibling_of', fromTitle: 'Geschwister', toTitle: 'Geschwister' },
+  { type: 'cousin_of', fromTitle: 'Cousine/Cousin', toTitle: 'Cousine/Cousin' },
+  { type: 'grandparent_of', fromTitle: 'Grosselternteil', toTitle: 'Enkelkind' },
+  { type: 'grandchild_of', fromTitle: 'Enkelkind', toTitle: 'Grosselternteil' },
+  { type: 'guardian_of', fromTitle: 'Bezugsperson', toTitle: 'Schuetzling' },
+  { type: 'ward_of', fromTitle: 'Schuetzling', toTitle: 'Bezugsperson' },
+  { type: 'friend_of', fromTitle: 'Freundschaft', toTitle: 'Freundschaft' },
+  { type: 'best_friend_of', fromTitle: 'Beste Freundschaft', toTitle: 'Beste Freundschaft' },
+  { type: 'ally_of', fromTitle: 'Verbuendet', toTitle: 'Verbuendet' },
+  { type: 'mentor_of', fromTitle: 'Mentor', toTitle: 'Schueler' },
+  { type: 'student_of', fromTitle: 'Schueler', toTitle: 'Mentor' },
+  { type: 'rival_of', fromTitle: 'Rivale', toTitle: 'Rivale' },
+  { type: 'enemy_of', fromTitle: 'Feind', toTitle: 'Feind' },
+  { type: 'fears', fromTitle: 'Fuerchtet', toTitle: 'Wird gefuerchtet von' },
+  { type: 'protects', fromTitle: 'Beschuetzt', toTitle: 'Wird beschuetzt von' },
+  { type: 'is_from', fromTitle: 'Ist aus', toTitle: 'Herkunftsort von' },
+  { type: 'lives_in', fromTitle: 'Lebt in', toTitle: 'Wohnort von' },
+  { type: 'currently_at', fromTitle: 'Ist aktuell bei', toTitle: 'Aktueller Aufenthaltsort von' },
+  { type: 'frequently_visits', fromTitle: 'Besucht oft', toTitle: 'Wird oft besucht von' },
+  { type: 'belongs_to_place', fromTitle: 'Gehoert zu', toTitle: 'Zugehoerig fuer' },
+]
 
-  const humanized = humanizeRelationshipType(normalizedType)
-  if (!humanized) return ''
-  return humanized
-    .split(' ')
-    .filter(Boolean)
-    .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
-    .join(' ')
+const RELATIONSHIP_TYPE_ALIASES: Record<string, string> = {
+  mother: 'mother_of',
+  mutter: 'mother_of',
+  father: 'father_of',
+  vater: 'father_of',
+  parent: 'parent_of',
+  elternteil: 'parent_of',
+  child: 'child_of',
+  kind: 'child_of',
+  sibling: 'sibling_of',
+  geschwister: 'sibling_of',
+  cousin: 'cousin_of',
+  cousine: 'cousin_of',
+  grandparent: 'grandparent_of',
+  grosselternteil: 'grandparent_of',
+  grandchild: 'grandchild_of',
+  enkelkind: 'grandchild_of',
+  guardian: 'guardian_of',
+  bezugsperson: 'guardian_of',
+  ward: 'ward_of',
+  schutzling: 'ward_of',
+  friend: 'friend_of',
+  freund: 'friend_of',
+  freundin: 'friend_of',
+  freundschaft: 'friend_of',
+  best_friend: 'best_friend_of',
+  beste_freundin: 'best_friend_of',
+  ally: 'ally_of',
+  verbuendet: 'ally_of',
+  mentor: 'mentor_of',
+  schueler: 'student_of',
+  student: 'student_of',
+  rival: 'rival_of',
+  feind: 'enemy_of',
+  enemy: 'enemy_of',
+  fears: 'fears',
+  fuerchtet_sich_vor: 'fears',
+  hat_angst_vor: 'fears',
+  protects: 'protects',
+  is_from: 'is_from',
+  lives_in: 'lives_in',
+  currently_at: 'currently_at',
+  frequently_visits: 'frequently_visits',
+  belongs_to_place: 'belongs_to_place',
+}
+
+const RELATIONSHIP_TYPE_MAP = new Map<string, RelationshipTypeDefinition>(
+  RELATIONSHIP_TYPE_DEFINITIONS.map((entry) => [entry.type, entry]),
+)
+export const RELATIONSHIP_TYPES = RELATIONSHIP_TYPE_DEFINITIONS.map((entry) => ({
+  type: entry.type,
+  fromTitle: entry.fromTitle,
+  toTitle: entry.toTitle,
+}))
+const ALLOWED_RELATIONSHIP_TYPES = RELATIONSHIP_TYPE_DEFINITIONS.map((entry) => entry.type) as readonly string[]
+const ALLOWED_RELATIONSHIP_TYPE_SET = new Set<string>(ALLOWED_RELATIONSHIP_TYPES)
+
+const resolveTitlePair = (relationshipType: string): { fromTitle: string; toTitle: string } => {
+  const normalizedType = relationshipType.trim().toLowerCase()
+  const definition = RELATIONSHIP_TYPE_MAP.get(normalizedType)
+  if (!definition) return { fromTitle: '', toTitle: '' }
+  return { fromTitle: definition.fromTitle, toTitle: definition.toTitle }
 }
 
 const deriveSemanticRelationshipType = (rawValues: string[]): string => {
-  const normalizedValues = rawValues
-    .map((value) => value.trim().toLowerCase())
-    .filter((value) => value.length > 0)
-
-  if (
-    normalizedValues.some((value) => value.includes('beste') && value.includes('freund'))
-  ) {
-    return 'beste_freundin'
+  for (const value of rawValues) {
+    const slug = slugifyRelationshipType(value)
+    if (!slug) continue
+    if (ALLOWED_RELATIONSHIP_TYPE_SET.has(slug)) return slug
+    const aliased = RELATIONSHIP_TYPE_ALIASES[slug]
+    if (aliased && ALLOWED_RELATIONSHIP_TYPE_SET.has(aliased)) return aliased
+    return slug
   }
-  if (
-    normalizedValues.some((value) => value.includes('gute') && value.includes('freund'))
-  ) {
-    return 'gute_freundin'
-  }
-  if (normalizedValues.some((value) => value.includes('schwester'))) {
-    return 'schwester'
-  }
-  if (normalizedValues.some((value) => value.includes('bruder'))) {
-    return 'bruder'
-  }
-  if (normalizedValues.some((value) => value.includes('geschwister'))) {
-    return 'geschwister'
-  }
-  if (
-    normalizedValues.some(
-      (value) =>
-        value.includes('furcht') ||
-        value.includes('fuercht') ||
-        (value.includes('angst') && value.includes('vor')),
-    )
-  ) {
-    return 'fuerchtet_sich_vor'
-  }
-
-  const explicitType = slugifyRelationshipType(rawValues[0] ?? '')
-  if (explicitType) return explicitType
-
-  for (const value of rawValues.slice(1)) {
-    const fallbackType = slugifyRelationshipType(value)
-    if (fallbackType) return fallbackType
-  }
-
   return ''
 }
 
@@ -236,18 +289,23 @@ const normalizeInput = (input: UpsertCharacterRelationshipInput): UpsertCharacte
     rawRelationshipTypeReadable,
     rawRelationship,
   ])
-  const standardizedLabel = toStandardRelationshipLabel(relationshipType)
-  const relationship = standardizedLabel || rawRelationship || rawRelationshipTypeReadable
-  const relationshipTypeReadable = standardizedLabel || rawRelationshipTypeReadable || relationship
+  const titlePair = resolveTitlePair(relationshipType)
+  const fromTitle = input.fromTitle?.trim() || titlePair.fromTitle
+  const toTitle = input.toTitle?.trim() || titlePair.toTitle
+  const relationship = fromTitle || rawRelationship || rawRelationshipTypeReadable
+  const relationshipTypeReadable = relationship
 
   return {
     sourceCharacterId,
     targetCharacterId,
     relationshipType,
+    fromTitle,
+    toTitle,
     relationshipTypeReadable,
     relationship,
     description: input.description?.trim(),
-    metadata: input.metadata,
+    properties: input.properties ?? input.metadata,
+    metadata: input.properties ?? input.metadata,
     otherRelatedObjects: normalizeOtherRelatedObjects(input.otherRelatedObjects),
   }
 }
@@ -260,10 +318,20 @@ const validateInput = (input: UpsertCharacterRelationshipInput): void => {
     throw new Error('targetCharacterId ist erforderlich.')
   }
   if (!input.relationshipType) {
-    throw new Error('relationshipType, relationshipTypeReadable oder relationship ist erforderlich.')
+    throw new Error(
+      `relationshipType ist erforderlich. Erlaubte Typen: ${ALLOWED_RELATIONSHIP_TYPES.join(', ')}`,
+    )
+  }
+  if (!ALLOWED_RELATIONSHIP_TYPE_SET.has(input.relationshipType)) {
+    throw new Error(
+      `Unbekannter relationshipType "${input.relationshipType}". Erlaubte Typen: ${ALLOWED_RELATIONSHIP_TYPES.join(', ')}`,
+    )
   }
   if (!input.relationship) {
     throw new Error('relationshipTypeReadable oder relationship ist erforderlich.')
+  }
+  if (input.properties != null && (typeof input.properties !== 'object' || Array.isArray(input.properties))) {
+    throw new Error('properties muss ein Objekt sein.')
   }
 }
 
@@ -314,6 +382,8 @@ export const upsertCharacterRelationship = async (
     input.relationshipTypeReadable && input.relationshipTypeReadable.length > 0
       ? input.relationshipTypeReadable
       : input.relationship
+  const fromTitle = input.fromTitle?.trim() || relationshipTypeReadable
+  const toTitle = input.toTitle?.trim() || relationshipTypeReadable
 
   const db = getPool()
   const result = await db.query<CharacterRelationshipRow>(
@@ -323,18 +393,22 @@ export const upsertCharacterRelationship = async (
       source_character_id,
       target_character_id,
       relationship_type,
+      from_title,
+      to_title,
       relationship_type_readable,
       relationship,
       description,
       metadata,
       other_related_objects
     )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8::jsonb, $9::jsonb)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10::jsonb, $11::jsonb)
     ON CONFLICT (relationship_id)
     DO UPDATE SET
       source_character_id = EXCLUDED.source_character_id,
       target_character_id = EXCLUDED.target_character_id,
       relationship_type = EXCLUDED.relationship_type,
+      from_title = EXCLUDED.from_title,
+      to_title = EXCLUDED.to_title,
       relationship_type_readable = EXCLUDED.relationship_type_readable,
       relationship = EXCLUDED.relationship,
       description = EXCLUDED.description,
@@ -346,6 +420,8 @@ export const upsertCharacterRelationship = async (
       source_character_id,
       target_character_id,
       relationship_type,
+      from_title,
+      to_title,
       relationship_type_readable,
       relationship,
       description,
@@ -359,10 +435,12 @@ export const upsertCharacterRelationship = async (
       input.sourceCharacterId,
       input.targetCharacterId,
       input.relationshipType,
+      fromTitle,
+      toTitle,
       relationshipTypeReadable,
       input.relationship,
       input.description ?? null,
-      JSON.stringify(input.metadata ?? {}),
+      JSON.stringify(input.properties ?? input.metadata ?? {}),
       JSON.stringify(input.otherRelatedObjects ?? []),
     ],
   )
@@ -388,6 +466,8 @@ export const listRelationshipsForCharacter = async (
       source_character_id,
       target_character_id,
       relationship_type,
+      from_title,
+      to_title,
       relationship_type_readable,
       relationship,
       description,
@@ -406,6 +486,8 @@ export const listRelationshipsForCharacter = async (
       source_character_id,
       target_character_id,
       relationship_type,
+      from_title,
+      to_title,
       relationship_type_readable,
       relationship,
       description,
@@ -461,6 +543,8 @@ export const listAllRelationships = async (): Promise<CharacterRelationshipRecor
       source_character_id,
       target_character_id,
       relationship_type,
+      from_title,
+      to_title,
       relationship_type_readable,
       relationship,
       description,
@@ -504,6 +588,8 @@ export const listRelationshipsByOtherRelatedObject = async (
       source_character_id,
       target_character_id,
       relationship_type,
+      from_title,
+      to_title,
       relationship_type_readable,
       relationship,
       description,
@@ -543,8 +629,9 @@ export const listRelationshipsByOtherRelatedObject = async (
 }
 
 export const ensureCharacterRelationshipTable = async (
-  _options: Record<string, never> = {},
+  options: Record<string, never> = {},
 ): Promise<{ tableName: string; created: boolean }> => {
+  void options
   const db = getPool()
   const existsResult = await db.query<{ exists: boolean }>(
     `
@@ -564,6 +651,8 @@ export const ensureCharacterRelationshipTable = async (
       source_character_id TEXT NOT NULL,
       target_character_id TEXT NOT NULL,
       relationship_type TEXT NOT NULL,
+      from_title TEXT,
+      to_title TEXT,
       relationship_type_readable TEXT,
       relationship TEXT NOT NULL,
       description TEXT,
@@ -583,6 +672,12 @@ export const ensureCharacterRelationshipTable = async (
       ON character_relationships (relationship_type);
 
     ALTER TABLE character_relationships
+      ADD COLUMN IF NOT EXISTS from_title TEXT;
+
+    ALTER TABLE character_relationships
+      ADD COLUMN IF NOT EXISTS to_title TEXT;
+
+    ALTER TABLE character_relationships
       ADD COLUMN IF NOT EXISTS relationship_type_readable TEXT;
 
     ALTER TABLE character_relationships
@@ -591,6 +686,14 @@ export const ensureCharacterRelationshipTable = async (
     UPDATE character_relationships
     SET relationship_type_readable = relationship
     WHERE relationship_type_readable IS NULL OR relationship_type_readable = '';
+
+    UPDATE character_relationships
+    SET from_title = relationship_type_readable
+    WHERE from_title IS NULL OR from_title = '';
+
+    UPDATE character_relationships
+    SET to_title = from_title
+    WHERE to_title IS NULL OR to_title = '';
 
     UPDATE character_relationships
     SET other_related_objects = '[]'::jsonb
@@ -617,9 +720,14 @@ export type ObjectRelationshipContext = {
   source: { id: string; name: string; type: GameObjectType; slug: string }
   target: { id: string; name: string; type: GameObjectType; slug: string }
   relationshipType: string
+  fromTitle: string
+  toTitle: string
   relationshipTypeReadable: string
   relationship: string
   description?: string
+  properties?: CharacterRelationshipMetadata
+  /** @deprecated Use properties instead. Kept for backward compatibility. */
+  metadata?: CharacterRelationshipMetadata
   otherRelatedObjects: CharacterRelatedObject[]
   direction: CharacterRelationshipDirection
 }
@@ -649,9 +757,13 @@ export const listRelationshipsForObject = async (
     source: fallbackContext(record.sourceCharacterId),
     target: fallbackContext(record.targetCharacterId),
     relationshipType: record.relationshipType,
+    fromTitle: record.fromTitle,
+    toTitle: record.toTitle,
     relationshipTypeReadable: record.relationshipTypeReadable,
     relationship: record.relationship,
     description: record.description,
+    properties: record.properties,
+    metadata: record.metadata,
     otherRelatedObjects: record.otherRelatedObjects,
     direction: record.direction,
   }))

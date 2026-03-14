@@ -16,6 +16,17 @@ const sampleCharacter: Character = {
     ageHint: 'kindlich',
     roleArchetype: 'helper',
   },
+  voice: 'alloy',
+  voiceProfile: {
+    identity: 'Freundlicher Waschbaer',
+    demeanor: 'ruhig und nahbar',
+    tone: 'ermutigend',
+    enthusiasmLevel: 'mittel',
+    formalityLevel: 'niedrig',
+    emotionLevel: 'warm',
+    fillerWords: 'occasionally',
+    pacing: 'ausgewogen',
+  },
   appearance: {
     bodyShape: 'klein und rundlich',
     colors: ['grau', 'creme', 'rot'],

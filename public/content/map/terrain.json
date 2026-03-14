@@ -1,0 +1,7573 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Permiutsoq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 84,
+        "width": 0.08,
+        "length": 45.57,
+        "riverId": 1
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            419.75,
+            474.5
+          ],
+          [
+            419.32,
+            479.16
+          ],
+          [
+            420.62,
+            491.66
+          ],
+          [
+            432.6,
+            501.2
+          ],
+          [
+            443.74,
+            504.01
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Blomssetsiaq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 99,
+        "width": 0.08,
+        "length": 39.31,
+        "riverId": 2
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            431.34,
+            445.78
+          ],
+          [
+            436.72,
+            457.93
+          ],
+          [
+            440.14,
+            460.55
+          ],
+          [
+            452.7,
+            460
+          ],
+          [
+            458.1,
+            465.52
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Corano",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 177,
+        "width": 0.14,
+        "length": 120.25,
+        "riverId": 3
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            410.84,
+            250.07
+          ],
+          [
+            409.52,
+            239.25
+          ],
+          [
+            411.98,
+            223.87
+          ],
+          [
+            405.89,
+            213.65
+          ],
+          [
+            404.41,
+            203.74
+          ],
+          [
+            403.79,
+            183.51
+          ],
+          [
+            398.24,
+            177.01
+          ],
+          [
+            380.4,
+            159.82
+          ],
+          [
+            376,
+            144.96
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dialentum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 136,
+        "width": 0.09,
+        "length": 38.52,
+        "riverId": 4
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            295.73,
+            192.15
+          ],
+          [
+            303.39,
+            182.85
+          ],
+          [
+            313.2,
+            175.2
+          ],
+          [
+            319.05,
+            163.77
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coinville",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 41,
+        "width": 0.03,
+        "length": 27.96,
+        "riverId": 5
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            642.32,
+            352.59
+          ],
+          [
+            643.27,
+            368.35
+          ],
+          [
+            635.23,
+            376.45
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Torvari",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 87,
+        "width": 0.09,
+        "length": 61.03,
+        "riverId": 6
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1135.89,
+            548.19
+          ],
+          [
+            1155.01,
+            551.5
+          ],
+          [
+            1165.68,
+            534.84
+          ],
+          [
+            1172.4,
+            529.9
+          ],
+          [
+            1170.07,
+            518.09
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mygmiut",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 111,
+        "width": 0.1,
+        "length": 77.88,
+        "riverId": 7
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            473.34,
+            647.77
+          ],
+          [
+            483.27,
+            640.57
+          ],
+          [
+            501.47,
+            640.64
+          ],
+          [
+            507.55,
+            627.69
+          ],
+          [
+            519.76,
+            638.35
+          ],
+          [
+            532.74,
+            646.43
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Annikajakalik",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 330,
+        "width": 0.18,
+        "length": 139.85,
+        "riverId": 8
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            417.02,
+            667
+          ],
+          [
+            415.56,
+            671.66
+          ],
+          [
+            424.55,
+            690.64
+          ],
+          [
+            406.08,
+            702.84
+          ],
+          [
+            395.21,
+            697.93
+          ],
+          [
+            379.75,
+            719.17
+          ],
+          [
+            370.37,
+            714.45
+          ],
+          [
+            358.6,
+            720.63
+          ],
+          [
+            346.91,
+            725.91
+          ],
+          [
+            333.7,
+            719.5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chaus",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 105,
+        "width": 0.08,
+        "length": 38.16,
+        "riverId": 9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            543.17,
+            404.54
+          ],
+          [
+            544.91,
+            416.31
+          ],
+          [
+            543.9,
+            429.4
+          ],
+          [
+            534.1,
+            436.2
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bollete",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 70,
+        "width": 0.04,
+        "length": 31.98,
+        "riverId": 10
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1383.41,
+            518.24
+          ],
+          [
+            1362.9,
+            508.7
+          ],
+          [
+            1358.1,
+            501.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kocaraybur",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 48,
+        "width": 0.06,
+        "length": 51.79,
+        "riverId": 11
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            494.94,
+            258.76
+          ],
+          [
+            495.82,
+            246.95
+          ],
+          [
+            494.31,
+            237.89
+          ],
+          [
+            499.23,
+            230.16
+          ],
+          [
+            491.39,
+            211.87
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Imeq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 193,
+        "width": 0.12,
+        "length": 70.84,
+        "riverId": 12
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            390.42,
+            663.97
+          ],
+          [
+            391,
+            673.72
+          ],
+          [
+            385.09,
+            680.57
+          ],
+          [
+            365.07,
+            686.55
+          ],
+          [
+            355.66,
+            694.48
+          ],
+          [
+            347.9,
+            695
+          ],
+          [
+            340,
+            698.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pannesmontslo",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 97,
+        "width": 0.05,
+        "length": 32.94,
+        "riverId": 13
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            584.89,
+            388.58
+          ],
+          [
+            604.2,
+            396.5
+          ],
+          [
+            614.17,
+            402.01
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Diagus",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 721,
+        "width": 0.29,
+        "length": 218.2,
+        "riverId": 15
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            691.79,
+            257.11
+          ],
+          [
+            702.37,
+            247.8
+          ],
+          [
+            703.77,
+            233.39
+          ],
+          [
+            717.43,
+            228.71
+          ],
+          [
+            728.69,
+            226.08
+          ],
+          [
+            746.01,
+            226
+          ],
+          [
+            756.22,
+            225.86
+          ],
+          [
+            765.26,
+            220.24
+          ],
+          [
+            765.9,
+            207.68
+          ],
+          [
+            777.66,
+            205.32
+          ],
+          [
+            792.6,
+            189.21
+          ],
+          [
+            800.1,
+            178.8
+          ],
+          [
+            803.73,
+            170.18
+          ],
+          [
+            803.73,
+            170.18
+          ],
+          [
+            819.3,
+            167.5
+          ],
+          [
+            829.6,
+            160.5
+          ],
+          [
+            841.1,
+            155.9
+          ],
+          [
+            853.2,
+            155.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coragus",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 58,
+        "width": 0.08,
+        "length": 57.13,
+        "riverId": 16
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            365.95,
+            215.93
+          ],
+          [
+            373.25,
+            198.91
+          ],
+          [
+            371.44,
+            183.17
+          ],
+          [
+            363.65,
+            168.69
+          ],
+          [
+            360.37,
+            164.79
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Diaquindita",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 110,
+        "width": 0.08,
+        "length": 100.07,
+        "riverId": 17
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            787.98,
+            288.19
+          ],
+          [
+            788.64,
+            278.46
+          ],
+          [
+            788.35,
+            259.8
+          ],
+          [
+            797.37,
+            248.73
+          ],
+          [
+            801.36,
+            237.75
+          ],
+          [
+            785.06,
+            227.59
+          ],
+          [
+            779.24,
+            218.21
+          ],
+          [
+            777.66,
+            205.32
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Paamit",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 262,
+        "width": 0.12,
+        "length": 54.26,
+        "riverId": 18
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            364.38,
+            568.78
+          ],
+          [
+            349.75,
+            568.74
+          ],
+          [
+            342.88,
+            571.09
+          ],
+          [
+            332.6,
+            580.3
+          ],
+          [
+            326.7,
+            579
+          ],
+          [
+            317.28,
+            584.42
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dilovallum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 263,
+        "width": 0.18,
+        "length": 180.06,
+        "riverId": 19
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            439.34,
+            273.67
+          ],
+          [
+            454.4,
+            261.66
+          ],
+          [
+            466.5,
+            264.49
+          ],
+          [
+            475.62,
+            251.33
+          ],
+          [
+            486.24,
+            241.87
+          ],
+          [
+            479.46,
+            220.97
+          ],
+          [
+            491.39,
+            211.87
+          ],
+          [
+            492.83,
+            196.8
+          ],
+          [
+            484.51,
+            189.15
+          ],
+          [
+            483.15,
+            177.28
+          ],
+          [
+            472.11,
+            158.96
+          ],
+          [
+            470.18,
+            149.12
+          ],
+          [
+            472.3,
+            141.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Contum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 156,
+        "width": 0.13,
+        "length": 56.01,
+        "riverId": 21
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            336.91,
+            208.7
+          ],
+          [
+            343.92,
+            204.35
+          ],
+          [
+            344.95,
+            182.66
+          ],
+          [
+            333.85,
+            172.34
+          ],
+          [
+            326.97,
+            166.16
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fonile",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 86,
+        "width": 0.06,
+        "length": 57.22,
+        "riverId": 22
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1176.4,
+            286.34
+          ],
+          [
+            1170.82,
+            282.62
+          ],
+          [
+            1178.39,
+            261.9
+          ],
+          [
+            1177.25,
+            250.91
+          ],
+          [
+            1189.49,
+            240.34
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Treilles",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 54,
+        "width": 0.07,
+        "length": 42.6,
+        "riverId": 23
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            671.79,
+            367.39
+          ],
+          [
+            675.16,
+            385.59
+          ],
+          [
+            681.07,
+            393.24
+          ],
+          [
+            692,
+            400.78
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tusco",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 223,
+        "width": 0.17,
+        "length": 168.77,
+        "riverId": 25
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1162.24,
+            334.45
+          ],
+          [
+            1151.25,
+            328.21
+          ],
+          [
+            1151.13,
+            313.03
+          ],
+          [
+            1139.58,
+            313.54
+          ],
+          [
+            1127.45,
+            317.39
+          ],
+          [
+            1115.68,
+            303.81
+          ],
+          [
+            1104.52,
+            292.62
+          ],
+          [
+            1087.19,
+            291.12
+          ],
+          [
+            1075.12,
+            302.1
+          ],
+          [
+            1060.01,
+            302.78
+          ],
+          [
+            1043.27,
+            295.51
+          ],
+          [
+            1043.11,
+            308.2
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kangpanamiut",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 189,
+        "width": 0.16,
+        "length": 145.89,
+        "riverId": 26
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            434.37,
+            690.19
+          ],
+          [
+            431.71,
+            697.79
+          ],
+          [
+            428.49,
+            718.28
+          ],
+          [
+            437.45,
+            726.63
+          ],
+          [
+            431.71,
+            742.14
+          ],
+          [
+            437.05,
+            756.69
+          ],
+          [
+            436.55,
+            763.33
+          ],
+          [
+            428.82,
+            779.81
+          ],
+          [
+            434.5,
+            789.41
+          ],
+          [
+            419.28,
+            807.86
+          ],
+          [
+            420.56,
+            817.43
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Arsuaq",
+        "kind": "river",
+        "riverType": "Fork",
+        "discharge": 42,
+        "width": 0.03,
+        "length": 31.36,
+        "riverId": 27
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            478.41,
+            621.53
+          ],
+          [
+            495.3,
+            621.32
+          ],
+          [
+            507.55,
+            627.69
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Seicheremaux",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 105,
+        "width": 0.06,
+        "length": 25.45,
+        "riverId": 28
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            628.33,
+            370.59
+          ],
+          [
+            635.23,
+            376.45
+          ],
+          [
+            639.83,
+            391.28
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Katameq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 56,
+        "width": 0.04,
+        "length": 24.19,
+        "riverId": 29
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            411.4,
+            616.99
+          ],
+          [
+            410.7,
+            609.3
+          ],
+          [
+            395.19,
+            609.47
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Riediovium",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 67,
+        "width": 0.07,
+        "length": 36.64,
+        "riverId": 32
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            254.32,
+            191.15
+          ],
+          [
+            247.9,
+            177
+          ],
+          [
+            245.3,
+            173.7
+          ],
+          [
+            233.2,
+            163.5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Vrigneres",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 64,
+        "width": 0.04,
+        "length": 22.47,
+        "riverId": 33
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            523.84,
+            405.53
+          ],
+          [
+            527.12,
+            415.8
+          ],
+          [
+            528.2,
+            426.51
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Livinaga",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 64,
+        "width": 0.04,
+        "length": 23.27,
+        "riverId": 34
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1222.73,
+            347.6
+          ],
+          [
+            1228.58,
+            344.23
+          ],
+          [
+            1243.94,
+            346.14
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pontanorocch",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 73,
+        "width": 0.05,
+        "length": 25.03,
+        "riverId": 35
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1093.18,
+            572.95
+          ],
+          [
+            1093.2,
+            580.2
+          ],
+          [
+            1080.92,
+            591.67
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Capranorio",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 66,
+        "width": 0.07,
+        "length": 36.8,
+        "riverId": 36
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1231.38,
+            364.18
+          ],
+          [
+            1242.72,
+            374.95
+          ],
+          [
+            1248.7,
+            369.7
+          ],
+          [
+            1256.58,
+            378.58
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fiulianellu",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 287,
+        "width": 0.16,
+        "length": 107.86,
+        "riverId": 40
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1053.91,
+            745.98
+          ],
+          [
+            1038.04,
+            746.24
+          ],
+          [
+            1027.33,
+            741.13
+          ],
+          [
+            1007.27,
+            744.35
+          ],
+          [
+            1000.39,
+            755.91
+          ],
+          [
+            989.55,
+            759.54
+          ],
+          [
+            986.12,
+            768.08
+          ],
+          [
+            972.38,
+            771.97
+          ],
+          [
+            964.4,
+            774.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Thatcham",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 339,
+        "width": 0.15,
+        "length": 91.59,
+        "riverId": 41
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1102.67,
+            814.21
+          ],
+          [
+            1099.8,
+            830.66
+          ],
+          [
+            1095.11,
+            847.53
+          ],
+          [
+            1081.16,
+            852.22
+          ],
+          [
+            1080.58,
+            870.21
+          ],
+          [
+            1073.19,
+            883.5
+          ],
+          [
+            1074.51,
+            891.16
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mariccia",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 57,
+        "width": 0.05,
+        "length": 28,
+        "riverId": 42
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1182.16,
+            404.32
+          ],
+          [
+            1175.7,
+            422.4
+          ],
+          [
+            1179.83,
+            429.17
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ceccostanolo",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 117,
+        "width": 0.08,
+        "length": 67.63,
+        "riverId": 44
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1049.05,
+            767.52
+          ],
+          [
+            1036.07,
+            762.5
+          ],
+          [
+            1023.05,
+            763.87
+          ],
+          [
+            1009.41,
+            764.92
+          ],
+          [
+            1003.91,
+            769.97
+          ],
+          [
+            986.12,
+            768.08
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Buon Ninh",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 133,
+        "width": 0.13,
+        "length": 81.13,
+        "riverId": 45
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            624.59,
+            212.4
+          ],
+          [
+            616.78,
+            195.97
+          ],
+          [
+            607.39,
+            182.84
+          ],
+          [
+            611.74,
+            166.74
+          ],
+          [
+            605,
+            152.4
+          ],
+          [
+            600.41,
+            140.51
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Getiminium",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 94,
+        "width": 0.1,
+        "length": 71.99,
+        "riverId": 46
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            599.34,
+            198.43
+          ],
+          [
+            591.55,
+            188.16
+          ],
+          [
+            585.51,
+            178.14
+          ],
+          [
+            592.13,
+            158.12
+          ],
+          [
+            588.9,
+            147.6
+          ],
+          [
+            600.41,
+            140.51
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Monteparmia",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 83,
+        "width": 0.07,
+        "length": 71.83,
+        "riverId": 47
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1137.31,
+            279.29
+          ],
+          [
+            1137.76,
+            261.66
+          ],
+          [
+            1145.67,
+            248.06
+          ],
+          [
+            1144,
+            238.42
+          ],
+          [
+            1152.38,
+            226.8
+          ],
+          [
+            1163.7,
+            221.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ischia",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 48,
+        "width": 0.07,
+        "length": 32.2,
+        "riverId": 48
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1126.01,
+            494.87
+          ],
+          [
+            1123.35,
+            488.06
+          ],
+          [
+            1126.2,
+            478.2
+          ],
+          [
+            1113.43,
+            475.21
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rebleux",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 41,
+        "width": 0.04,
+        "length": 22.69,
+        "riverId": 49
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            730.57,
+            346.16
+          ],
+          [
+            737.86,
+            344.57
+          ],
+          [
+            752.06,
+            343.89
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chate",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 51,
+        "width": 0.04,
+        "length": 26.43,
+        "riverId": 50
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            600.31,
+            419.45
+          ],
+          [
+            614,
+            420.56
+          ],
+          [
+            625.4,
+            424
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Anit",
+        "kind": "river",
+        "riverType": "Brook",
+        "discharge": 109,
+        "width": 0.06,
+        "length": 20.8,
+        "riverId": 51
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            369.36,
+            655.6
+          ],
+          [
+            365.7,
+            667.8
+          ],
+          [
+            358.92,
+            666.14
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bingham",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 462,
+        "width": 0.18,
+        "length": 85.64,
+        "riverId": 53
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1159.7,
+            849.05
+          ],
+          [
+            1166.91,
+            863.54
+          ],
+          [
+            1157.5,
+            872.42
+          ],
+          [
+            1158.71,
+            886.78
+          ],
+          [
+            1152.64,
+            898.59
+          ],
+          [
+            1146.3,
+            912.3
+          ],
+          [
+            1144.94,
+            923.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Penkneth",
+        "kind": "river",
+        "riverType": "Fork",
+        "discharge": 55,
+        "width": 0.05,
+        "length": 44.57,
+        "riverId": 54
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1084.41,
+            811.26
+          ],
+          [
+            1082.56,
+            819.36
+          ],
+          [
+            1076.25,
+            830.63
+          ],
+          [
+            1081.16,
+            852.22
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bosfield",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 173,
+        "width": 0.08,
+        "length": 69.19,
+        "riverId": 55
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1127.67,
+            867.47
+          ],
+          [
+            1131.09,
+            879.77
+          ],
+          [
+            1126.02,
+            896.25
+          ],
+          [
+            1144.76,
+            895.19
+          ],
+          [
+            1141.99,
+            906.23
+          ],
+          [
+            1146.3,
+            912.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Duripontium",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 48,
+        "width": 0.04,
+        "length": 29,
+        "riverId": 56
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            262.13,
+            176.98
+          ],
+          [
+            256.19,
+            165.22
+          ],
+          [
+            253.3,
+            150.39
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ba Cham Hai",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 137,
+        "width": 0.12,
+        "length": 94.89,
+        "riverId": 58
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            680.66,
+            171.23
+          ],
+          [
+            682.53,
+            162.82
+          ],
+          [
+            672.66,
+            149.91
+          ],
+          [
+            678.34,
+            139.71
+          ],
+          [
+            660.6,
+            134.25
+          ],
+          [
+            660.68,
+            119.36
+          ],
+          [
+            655.34,
+            110.45
+          ],
+          [
+            643.49,
+            109.34
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Onalis",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 210,
+        "width": 0.14,
+        "length": 91.57,
+        "riverId": 59
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            522.51,
+            207.72
+          ],
+          [
+            506.03,
+            200.3
+          ],
+          [
+            512.39,
+            182.1
+          ],
+          [
+            527.19,
+            170.38
+          ],
+          [
+            526.77,
+            160.87
+          ],
+          [
+            517.7,
+            152.9
+          ],
+          [
+            506.72,
+            148.78
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Angermoissat",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 184,
+        "width": 0.13,
+        "length": 118.7,
+        "riverId": 60
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            499.68,
+            719.35
+          ],
+          [
+            485.26,
+            733.36
+          ],
+          [
+            482.82,
+            749.42
+          ],
+          [
+            483.3,
+            769.16
+          ],
+          [
+            493.23,
+            775.03
+          ],
+          [
+            488.5,
+            798.85
+          ],
+          [
+            486.7,
+            812.01
+          ],
+          [
+            486.93,
+            823.42
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Barmouthin",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 205,
+        "width": 0.15,
+        "length": 132.9,
+        "riverId": 62
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1215.27,
+            845.06
+          ],
+          [
+            1214.53,
+            859.31
+          ],
+          [
+            1230.7,
+            876.28
+          ],
+          [
+            1234.35,
+            879.74
+          ],
+          [
+            1242.52,
+            900.27
+          ],
+          [
+            1258.67,
+            901.39
+          ],
+          [
+            1274.66,
+            906.47
+          ],
+          [
+            1271.32,
+            917.94
+          ],
+          [
+            1282.02,
+            923.43
+          ],
+          [
+            1284.69,
+            931.28
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Uvnedanagussaus",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 209,
+        "width": 0.12,
+        "length": 90.42,
+        "riverId": 64
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            410.41,
+            737.34
+          ],
+          [
+            402.6,
+            751.71
+          ],
+          [
+            406.1,
+            765.27
+          ],
+          [
+            415.97,
+            785.37
+          ],
+          [
+            413.47,
+            788.31
+          ],
+          [
+            411.8,
+            806.9
+          ],
+          [
+            420.56,
+            817.43
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Asbekibey",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 52,
+        "width": 0.06,
+        "length": 51.17,
+        "riverId": 65
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            562.96,
+            197.88
+          ],
+          [
+            549.95,
+            190.94
+          ],
+          [
+            545.43,
+            176.91
+          ],
+          [
+            531.65,
+            175.09
+          ],
+          [
+            527.19,
+            170.38
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Montere",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 65,
+        "width": 0.07,
+        "length": 82.9,
+        "riverId": 67
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1399.4,
+            665.95
+          ],
+          [
+            1381.87,
+            675.13
+          ],
+          [
+            1383.12,
+            694.13
+          ],
+          [
+            1371.64,
+            698.72
+          ],
+          [
+            1363.66,
+            717.91
+          ],
+          [
+            1357.07,
+            724.49
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Telahlerot",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 134,
+        "width": 0.09,
+        "length": 46.4,
+        "riverId": 68
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1254.37,
+            286.57
+          ],
+          [
+            1266.71,
+            298.55
+          ],
+          [
+            1277.7,
+            309
+          ],
+          [
+            1283.02,
+            320.91
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Yavne",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 178,
+        "width": 0.09,
+        "length": 49.47,
+        "riverId": 69
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1248.54,
+            298.37
+          ],
+          [
+            1246.45,
+            316.72
+          ],
+          [
+            1260.6,
+            327.9
+          ],
+          [
+            1256.96,
+            339.35
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Casttupo",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 45,
+        "width": 0.07,
+        "length": 38.9,
+        "riverId": 71
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1009.17,
+            424.97
+          ],
+          [
+            1009.45,
+            437.36
+          ],
+          [
+            1001.8,
+            440.2
+          ],
+          [
+            1007.85,
+            456.16
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mer Naremun",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 123,
+        "width": 0.09,
+        "length": 47.11,
+        "riverId": 72
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1436.07,
+            512.51
+          ],
+          [
+            1441.53,
+            498.2
+          ],
+          [
+            1454,
+            489.8
+          ],
+          [
+            1468.08,
+            482.66
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Veseriano",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 233,
+        "width": 0.1,
+        "length": 86.15,
+        "riverId": 74
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1025.96,
+            726.07
+          ],
+          [
+            1017.81,
+            726.02
+          ],
+          [
+            999.96,
+            726.13
+          ],
+          [
+            989.72,
+            721.71
+          ],
+          [
+            977.42,
+            707.96
+          ],
+          [
+            956.13,
+            713.06
+          ],
+          [
+            949.53,
+            713.75
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sani",
+        "kind": "river",
+        "riverType": "Fork",
+        "discharge": 63,
+        "width": 0.04,
+        "length": 41.38,
+        "riverId": 75
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1016.15,
+            702.63
+          ],
+          [
+            994.61,
+            711.55
+          ],
+          [
+            977.42,
+            707.96
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Narmivaq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 53,
+        "width": 0.03,
+        "length": 33.5,
+        "riverId": 76
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            396.56,
+            737.34
+          ],
+          [
+            394.34,
+            753.27
+          ],
+          [
+            406.1,
+            765.27
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Berton",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 47,
+        "width": 0.03,
+        "length": 26.84,
+        "riverId": 77
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1175.99,
+            872.52
+          ],
+          [
+            1165.24,
+            888.37
+          ],
+          [
+            1158.71,
+            886.78
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Monti",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 566,
+        "width": 0.19,
+        "length": 107.98,
+        "riverId": 78
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1001.69,
+            673.38
+          ],
+          [
+            992.04,
+            667.81
+          ],
+          [
+            981.06,
+            673.63
+          ],
+          [
+            977.05,
+            692.4
+          ],
+          [
+            960.69,
+            703.48
+          ],
+          [
+            953.4,
+            706.3
+          ],
+          [
+            949.53,
+            713.75
+          ],
+          [
+            934.77,
+            711.73
+          ],
+          [
+            923.78,
+            715.62
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tuttoq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 127,
+        "width": 0.09,
+        "length": 51.29,
+        "riverId": 79
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            375.26,
+            747.13
+          ],
+          [
+            366.94,
+            744.9
+          ],
+          [
+            349.37,
+            758.11
+          ],
+          [
+            343.16,
+            756.71
+          ],
+          [
+            332.1,
+            763.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Pisova",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 68,
+        "width": 0.05,
+        "length": 25.39,
+        "riverId": 82
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            236.15,
+            201.09
+          ],
+          [
+            223.98,
+            194.63
+          ],
+          [
+            218.21,
+            185.52
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bekalalicus",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 80,
+        "width": 0.08,
+        "length": 46.72,
+        "riverId": 83
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1428.53,
+            489
+          ],
+          [
+            1441.14,
+            470.27
+          ],
+          [
+            1448.2,
+            474
+          ],
+          [
+            1462.62,
+            469.86
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Yuran",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 38,
+        "width": 0.03,
+        "length": 33.59,
+        "riverId": 86
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            537.02,
+            194.77
+          ],
+          [
+            522.45,
+            185.16
+          ],
+          [
+            527.19,
+            170.38
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Matregiorum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 116,
+        "width": 0.09,
+        "length": 69.65,
+        "riverId": 87
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            447.2,
+            189.67
+          ],
+          [
+            441.83,
+            172.26
+          ],
+          [
+            444.34,
+            157.08
+          ],
+          [
+            461.21,
+            153.55
+          ],
+          [
+            462.31,
+            139.64
+          ],
+          [
+            465.94,
+            139.47
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Marshamney",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 171,
+        "width": 0.11,
+        "length": 68.01,
+        "riverId": 88
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1043.5,
+            804.6
+          ],
+          [
+            1024.51,
+            811.19
+          ],
+          [
+            1012.76,
+            817.2
+          ],
+          [
+            994.9,
+            824.5
+          ],
+          [
+            988.77,
+            837.32
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Varovianora",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 48,
+        "width": 0.06,
+        "length": 58.2,
+        "riverId": 89
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1401.88,
+            702.17
+          ],
+          [
+            1395.7,
+            711.89
+          ],
+          [
+            1391.1,
+            719.05
+          ],
+          [
+            1381.13,
+            723.86
+          ],
+          [
+            1371.96,
+            727.22
+          ],
+          [
+            1357.07,
+            724.49
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Leruntio",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 52,
+        "width": 0.04,
+        "length": 21.47,
+        "riverId": 92
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            815.71,
+            299.03
+          ],
+          [
+            824.9,
+            298.6
+          ],
+          [
+            833.6,
+            305.8
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rodulavorum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 45,
+        "width": 0.04,
+        "length": 28.36,
+        "riverId": 93
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            355.52,
+            191.7
+          ],
+          [
+            357,
+            174
+          ],
+          [
+            360.37,
+            164.79
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Draxted",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 54,
+        "width": 0.04,
+        "length": 34.67,
+        "riverId": 95
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1118.5,
+            909.61
+          ],
+          [
+            1134.27,
+            926.4
+          ],
+          [
+            1144.94,
+            923.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Holseaveroe",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 112,
+        "width": 0.05,
+        "length": 30.39,
+        "riverId": 96
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1104.66,
+            918.3
+          ],
+          [
+            1089.38,
+            924.9
+          ],
+          [
+            1079.3,
+            916.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nordfik",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 114,
+        "width": 0.13,
+        "length": 114.93,
+        "riverId": 104
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            273.25,
+            364.02
+          ],
+          [
+            282.09,
+            375.91
+          ],
+          [
+            283.02,
+            390.74
+          ],
+          [
+            271.77,
+            401.69
+          ],
+          [
+            269.08,
+            417.49
+          ],
+          [
+            260.98,
+            428.14
+          ],
+          [
+            251.52,
+            445.84
+          ],
+          [
+            245.1,
+            455.4
+          ],
+          [
+            243.28,
+            461.24
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gyt Pisha",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 211,
+        "width": 0.13,
+        "length": 124.67,
+        "riverId": 105
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1305.66,
+            203.46
+          ],
+          [
+            1314.04,
+            207.3
+          ],
+          [
+            1332.21,
+            208.7
+          ],
+          [
+            1345.32,
+            201.27
+          ],
+          [
+            1365.54,
+            187.79
+          ],
+          [
+            1378.54,
+            170.89
+          ],
+          [
+            1387.8,
+            156.6
+          ],
+          [
+            1404.13,
+            150.41
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Qalumat",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 192,
+        "width": 0.1,
+        "length": 68.56,
+        "riverId": 106
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            321.72,
+            511.13
+          ],
+          [
+            310.25,
+            516.66
+          ],
+          [
+            311.6,
+            540
+          ],
+          [
+            294.96,
+            547.69
+          ],
+          [
+            288.37,
+            558.76
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sai",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 65,
+        "width": 0.08,
+        "length": 49.58,
+        "riverId": 107
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            624.03,
+            172.12
+          ],
+          [
+            620.74,
+            158.97
+          ],
+          [
+            624.72,
+            148.52
+          ],
+          [
+            620.54,
+            139.02
+          ],
+          [
+            616.97,
+            126.7
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Roccoscagos",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 106,
+        "width": 0.1,
+        "length": 90.2,
+        "riverId": 108
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1028.15,
+            238.28
+          ],
+          [
+            1023.74,
+            223.04
+          ],
+          [
+            1010.82,
+            217.68
+          ],
+          [
+            1011.89,
+            204.74
+          ],
+          [
+            999.53,
+            192.59
+          ],
+          [
+            983.7,
+            182
+          ],
+          [
+            975.11,
+            179.46
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Anito",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 117,
+        "width": 0.07,
+        "length": 60.83,
+        "riverId": 109
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            961.84,
+            663.42
+          ],
+          [
+            962.41,
+            672.25
+          ],
+          [
+            946.15,
+            680.77
+          ],
+          [
+            940.06,
+            688.31
+          ],
+          [
+            953.4,
+            706.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Qajik",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 52,
+        "width": 0.07,
+        "length": 50.44,
+        "riverId": 111
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            178.49,
+            428.05
+          ],
+          [
+            187.47,
+            444.24
+          ],
+          [
+            195.4,
+            453
+          ],
+          [
+            189.1,
+            471.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mignes",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 139,
+        "width": 0.09,
+        "length": 49.32,
+        "riverId": 112
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            922.47,
+            643.44
+          ],
+          [
+            919.74,
+            654.79
+          ],
+          [
+            918.17,
+            662.01
+          ],
+          [
+            913.52,
+            671.72
+          ],
+          [
+            895.62,
+            669
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kangtoq",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 47,
+        "width": 0.04,
+        "length": 21.59,
+        "riverId": 113
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            465.77,
+            549.55
+          ],
+          [
+            468.6,
+            540.2
+          ],
+          [
+            462.23,
+            531.41
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lubro",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 53,
+        "width": 0.04,
+        "length": 22.29,
+        "riverId": 114
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1242.6,
+            384.9
+          ],
+          [
+            1252.09,
+            388.75
+          ],
+          [
+            1256.58,
+            378.58
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Berliston",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 102,
+        "width": 0.05,
+        "length": 23.09,
+        "riverId": 115
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1103.13,
+            908.26
+          ],
+          [
+            1096.2,
+            902.7
+          ],
+          [
+            1084.44,
+            908.85
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Calgar",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 118,
+        "width": 0.1,
+        "length": 68.07,
+        "riverId": 124
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1085.17,
+            175.59
+          ],
+          [
+            1072.7,
+            171.01
+          ],
+          [
+            1064.56,
+            157.54
+          ],
+          [
+            1062.6,
+            144.72
+          ],
+          [
+            1051.98,
+            130.66
+          ],
+          [
+            1050.47,
+            123.95
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kartsakadra",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 249,
+        "width": 0.12,
+        "length": 76.9,
+        "riverId": 125
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1313.38,
+            169.67
+          ],
+          [
+            1320.2,
+            159.05
+          ],
+          [
+            1339.9,
+            156.85
+          ],
+          [
+            1351.32,
+            145.48
+          ],
+          [
+            1367.1,
+            139.3
+          ],
+          [
+            1374.37,
+            132.86
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Holtondo",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 177,
+        "width": 0.11,
+        "length": 67.8,
+        "riverId": 126
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1068.13,
+            820.95
+          ],
+          [
+            1068.17,
+            829.36
+          ],
+          [
+            1063.9,
+            844.35
+          ],
+          [
+            1054.42,
+            854.15
+          ],
+          [
+            1047.27,
+            867.2
+          ],
+          [
+            1037.19,
+            876
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tan Hoa",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 114,
+        "width": 0.1,
+        "length": 60.29,
+        "riverId": 127
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            703.87,
+            144.16
+          ],
+          [
+            697.28,
+            132.67
+          ],
+          [
+            699.9,
+            114.03
+          ],
+          [
+            707.64,
+            95.11
+          ],
+          [
+            710.53,
+            89.15
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bowentading",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 126,
+        "width": 0.09,
+        "length": 58.05,
+        "riverId": 128
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1022.3,
+            777.42
+          ],
+          [
+            1023.47,
+            797.31
+          ],
+          [
+            1012.82,
+            803.56
+          ],
+          [
+            995.88,
+            802.93
+          ],
+          [
+            988.4,
+            801.32
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cerwadradir",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 126,
+        "width": 0.09,
+        "length": 38.37,
+        "riverId": 129
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1275.6,
+            263.24
+          ],
+          [
+            1292.22,
+            264.65
+          ],
+          [
+            1301.8,
+            267.2
+          ],
+          [
+            1309.64,
+            274.22
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Naajajaat",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 146,
+        "width": 0.1,
+        "length": 58.27,
+        "riverId": 130
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            377.98,
+            771.03
+          ],
+          [
+            365.4,
+            777.48
+          ],
+          [
+            349.5,
+            781.45
+          ],
+          [
+            340.86,
+            790.6
+          ],
+          [
+            327.2,
+            788.8
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Etialercu",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 72,
+        "width": 0.04,
+        "length": 32.06,
+        "riverId": 131
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            391.04,
+            188.5
+          ],
+          [
+            383.48,
+            178.1
+          ],
+          [
+            380.4,
+            159.82
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Mitrinch",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 84,
+        "width": 0.05,
+        "length": 24.21,
+        "riverId": 132
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1131.27,
+            905.1
+          ],
+          [
+            1138.1,
+            916.3
+          ],
+          [
+            1144.94,
+            923.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tan Lay Vinh",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 47,
+        "width": 0.04,
+        "length": 23.99,
+        "riverId": 133
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            634.48,
+            148.95
+          ],
+          [
+            627.3,
+            134.3
+          ],
+          [
+            628.07,
+            127.69
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shabekagasa",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 73,
+        "width": 0.04,
+        "length": 32.33,
+        "riverId": 134
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1280.72,
+            290.2
+          ],
+          [
+            1299.34,
+            288.65
+          ],
+          [
+            1309.2,
+            297.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Poza",
+        "kind": "river",
+        "riverType": "Fork",
+        "discharge": 44,
+        "width": 0.03,
+        "length": 26.13,
+        "riverId": 144
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1326.61,
+            629.3
+          ],
+          [
+            1317.9,
+            637.78
+          ],
+          [
+            1316.7,
+            650.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Khalqosh",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 143,
+        "width": 0.1,
+        "length": 66.06,
+        "riverId": 145
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1345.05,
+            173.4
+          ],
+          [
+            1360.25,
+            177.44
+          ],
+          [
+            1364.65,
+            155.47
+          ],
+          [
+            1374.04,
+            146.61
+          ],
+          [
+            1374.37,
+            132.86
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Valle",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 59,
+        "width": 0.08,
+        "length": 50.92,
+        "riverId": 146
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1298.21,
+            854.59
+          ],
+          [
+            1294.02,
+            868.22
+          ],
+          [
+            1301.3,
+            884.23
+          ],
+          [
+            1310,
+            886.71
+          ],
+          [
+            1317.25,
+            890.81
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Agssaaq",
+        "kind": "river",
+        "riverType": "Fork",
+        "discharge": 58,
+        "width": 0.03,
+        "length": 27.65,
+        "riverId": 147
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            303.49,
+            514.7
+          ],
+          [
+            307.01,
+            518.95
+          ],
+          [
+            311.6,
+            540
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tautum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 55,
+        "width": 0.07,
+        "length": 42.07,
+        "riverId": 150
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            824.34,
+            225.41
+          ],
+          [
+            836.61,
+            208.73
+          ],
+          [
+            848.36,
+            213.62
+          ],
+          [
+            855.3,
+            216.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Takungalugtoq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 63,
+        "width": 0.04,
+        "length": 31.12,
+        "riverId": 151
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            164.87,
+            391.28
+          ],
+          [
+            148.25,
+            392.9
+          ],
+          [
+            134.6,
+            391.2
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Edersiseq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 73,
+        "width": 0.08,
+        "length": 53.92,
+        "riverId": 152
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            566.16,
+            766.17
+          ],
+          [
+            569.24,
+            784.55
+          ],
+          [
+            570.9,
+            795.6
+          ],
+          [
+            569.9,
+            806.7
+          ],
+          [
+            566.2,
+            817.5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Leptakapet",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 61,
+        "width": 0.04,
+        "length": 19.85,
+        "riverId": 153
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1296.4,
+            271.9
+          ],
+          [
+            1300.64,
+            279.24
+          ],
+          [
+            1309.64,
+            274.22
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Vises",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 45,
+        "width": 0.04,
+        "length": 30.78,
+        "riverId": 155
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            756.73,
+            601.19
+          ],
+          [
+            763.1,
+            588.2
+          ],
+          [
+            774.6,
+            577.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Saltasham",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 88,
+        "width": 0.05,
+        "length": 29.42,
+        "riverId": 156
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1105.32,
+            940.15
+          ],
+          [
+            1085.6,
+            937.6
+          ],
+          [
+            1082.17,
+            945.62
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Alinnaaq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 69,
+        "width": 0.03,
+        "length": 16.39,
+        "riverId": 158
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            347.3,
+            604.7
+          ],
+          [
+            346.5,
+            607.5
+          ],
+          [
+            345.36,
+            619.91
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Erus-Uboyat",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 64,
+        "width": 0.08,
+        "length": 43.7,
+        "riverId": 172
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1142.8,
+            150.47
+          ],
+          [
+            1139.88,
+            137.97
+          ],
+          [
+            1129.05,
+            127.92
+          ],
+          [
+            1126.58,
+            113.09
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Povaduno",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 61,
+        "width": 0.06,
+        "length": 63.8,
+        "riverId": 173
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1222.07,
+            883.91
+          ],
+          [
+            1232.48,
+            900.91
+          ],
+          [
+            1247.17,
+            907.58
+          ],
+          [
+            1258.93,
+            911.02
+          ],
+          [
+            1271.32,
+            917.94
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Atalhal",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 103,
+        "width": 0.09,
+        "length": 68.72,
+        "riverId": 174
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1037.95,
+            190.96
+          ],
+          [
+            1026.47,
+            178.92
+          ],
+          [
+            1012.89,
+            159.25
+          ],
+          [
+            1002.94,
+            150.96
+          ],
+          [
+            989.11,
+            148.74
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Revus-Tukish",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 183,
+        "width": 0.11,
+        "length": 59,
+        "riverId": 176
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1281.52,
+            134.85
+          ],
+          [
+            1278.67,
+            123.03
+          ],
+          [
+            1293.66,
+            111.01
+          ],
+          [
+            1308.66,
+            104.88
+          ],
+          [
+            1318.17,
+            107.94
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ataaq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 125,
+        "width": 0.09,
+        "length": 55.95,
+        "riverId": 177
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            246.48,
+            508.9
+          ],
+          [
+            245.89,
+            522.19
+          ],
+          [
+            256.12,
+            534.27
+          ],
+          [
+            258,
+            549.9
+          ],
+          [
+            261.24,
+            558.93
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kuursut",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 82,
+        "width": 0.08,
+        "length": 44.61,
+        "riverId": 178
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            514.49,
+            767.4
+          ],
+          [
+            512.3,
+            775.63
+          ],
+          [
+            526,
+            789.32
+          ],
+          [
+            539.29,
+            797.44
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Keysa",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 184,
+        "width": 0.09,
+        "length": 40.19,
+        "riverId": 179
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1320.32,
+            146.45
+          ],
+          [
+            1325.67,
+            134.57
+          ],
+          [
+            1340.4,
+            129.2
+          ],
+          [
+            1350.23,
+            126.08
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ostobury",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 151,
+        "width": 0.09,
+        "length": 42.78,
+        "riverId": 180
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1047.72,
+            828.83
+          ],
+          [
+            1041.94,
+            841.24
+          ],
+          [
+            1040.87,
+            852.91
+          ],
+          [
+            1030.8,
+            865.7
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fraso",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 54,
+        "width": 0.03,
+        "length": 28.49,
+        "riverId": 182
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1405.05,
+            751.23
+          ],
+          [
+            1391.4,
+            761.9
+          ],
+          [
+            1391.37,
+            772.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bifamat",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 60,
+        "width": 0.04,
+        "length": 38.42,
+        "riverId": 183
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1224.81,
+            95.61
+          ],
+          [
+            1219.71,
+            78.1
+          ],
+          [
+            1235.17,
+            65.99
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Prebucanea",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 76,
+        "width": 0.05,
+        "length": 26.11,
+        "riverId": 184
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            789.85,
+            311.05
+          ],
+          [
+            797.4,
+            319.2
+          ],
+          [
+            791.48,
+            332.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Artusissaakaki",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 160,
+        "width": 0.1,
+        "length": 45.98,
+        "riverId": 185
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            384.97,
+            790.55
+          ],
+          [
+            395.49,
+            795.21
+          ],
+          [
+            394.48,
+            807.05
+          ],
+          [
+            394.1,
+            814.6
+          ],
+          [
+            380.95,
+            818.02
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sutulorum",
+        "kind": "river",
+        "riverType": "Fork",
+        "discharge": 183,
+        "width": 0.08,
+        "length": 39.82,
+        "riverId": 186
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            793.66,
+            151.58
+          ],
+          [
+            808.27,
+            150.28
+          ],
+          [
+            815.47,
+            153.11
+          ],
+          [
+            821.4,
+            157.27
+          ],
+          [
+            829.6,
+            160.5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Har Ek",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 701,
+        "width": 0.64,
+        "length": 54.56,
+        "riverId": 187
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1158.28,
+            144.3
+          ],
+          [
+            1152.98,
+            137.93
+          ],
+          [
+            1149.12,
+            128.06
+          ],
+          [
+            1160.4,
+            108.5
+          ],
+          [
+            1158.8,
+            99.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Keseq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 45,
+        "width": 0.03,
+        "length": 33.62,
+        "riverId": 188
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1184.24,
+            130.63
+          ],
+          [
+            1172.43,
+            123.36
+          ],
+          [
+            1160.4,
+            108.5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Artiusturum",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 141,
+        "width": 0.07,
+        "length": 32.47,
+        "riverId": 189
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            764.73,
+            319.92
+          ],
+          [
+            783.3,
+            321.8
+          ],
+          [
+            791.48,
+            332.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kanbyen",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 58,
+        "width": 0.04,
+        "length": 24.48,
+        "riverId": 191
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            241.38,
+            543.19
+          ],
+          [
+            247.17,
+            550.58
+          ],
+          [
+            254.51,
+            562.74
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dunstovil",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 88,
+        "width": 0.04,
+        "length": 27.28,
+        "riverId": 192
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1020.35,
+            829.96
+          ],
+          [
+            1019.4,
+            844.2
+          ],
+          [
+            1024.49,
+            855.34
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Paignzaney",
+        "kind": "river",
+        "riverType": "Brook",
+        "discharge": 114,
+        "width": 0.06,
+        "length": 22.44,
+        "riverId": 194
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1103.66,
+            952.14
+          ],
+          [
+            1095.3,
+            948.9
+          ],
+          [
+            1084,
+            954.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Leselonesta",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 228,
+        "width": 0.12,
+        "length": 95.35,
+        "riverId": 208
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1310.91,
+            705.86
+          ],
+          [
+            1323.42,
+            701.06
+          ],
+          [
+            1335.85,
+            707.57
+          ],
+          [
+            1346.8,
+            721.2
+          ],
+          [
+            1357.07,
+            724.49
+          ],
+          [
+            1357.07,
+            724.49
+          ],
+          [
+            1356.51,
+            739.72
+          ],
+          [
+            1355.1,
+            748.2
+          ],
+          [
+            1361.25,
+            757.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Keruutaalen",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 153,
+        "width": 0.1,
+        "length": 64.58,
+        "riverId": 209
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            452.57,
+            767.41
+          ],
+          [
+            465.94,
+            777.55
+          ],
+          [
+            465.48,
+            792.57
+          ],
+          [
+            476.7,
+            806.4
+          ],
+          [
+            475.67,
+            820.08
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Quynh",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 98,
+        "width": 0.09,
+        "length": 37.86,
+        "riverId": 211
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            729.38,
+            122.2
+          ],
+          [
+            731.21,
+            112.31
+          ],
+          [
+            728.59,
+            93.81
+          ],
+          [
+            729.87,
+            86.16
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bruryfield",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 76,
+        "width": 0.07,
+        "length": 42.54,
+        "riverId": 212
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1187.53,
+            914.63
+          ],
+          [
+            1182.9,
+            921.95
+          ],
+          [
+            1174.1,
+            934.1
+          ],
+          [
+            1171.5,
+            951.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Calney",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 159,
+        "width": 0.09,
+        "length": 45.1,
+        "riverId": 214
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1218.56,
+            933.84
+          ],
+          [
+            1205.18,
+            937.09
+          ],
+          [
+            1197.95,
+            943.67
+          ],
+          [
+            1180.05,
+            953.56
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tzigipa",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 167,
+        "width": 0.09,
+        "length": 34.12,
+        "riverId": 216
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1282.79,
+            98.16
+          ],
+          [
+            1295.11,
+            98.24
+          ],
+          [
+            1307.11,
+            96.04
+          ],
+          [
+            1309.88,
+            88.31
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Alil",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 59,
+        "width": 0.04,
+        "length": 26.01,
+        "riverId": 218
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1308.21,
+            130.45
+          ],
+          [
+            1315.1,
+            121.5
+          ],
+          [
+            1318.17,
+            107.94
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bretherming",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 57,
+        "width": 0.04,
+        "length": 30.71,
+        "riverId": 221
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            685.54,
+            603.61
+          ],
+          [
+            693.71,
+            588.89
+          ],
+          [
+            687.24,
+            577.39
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Portstabro",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 97,
+        "width": 0.05,
+        "length": 27.95,
+        "riverId": 222
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1094.19,
+            872.55
+          ],
+          [
+            1081.5,
+            885.5
+          ],
+          [
+            1074.51,
+            891.16
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Stotham",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 99,
+        "width": 0.08,
+        "length": 32.12,
+        "riverId": 223
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            695,
+            640.5
+          ],
+          [
+            694.06,
+            646.44
+          ],
+          [
+            696.6,
+            654.3
+          ],
+          [
+            685.97,
+            666.48
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nampi",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 149,
+        "width": 0.11,
+        "length": 52.83,
+        "riverId": 225
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1450.68,
+            233.31
+          ],
+          [
+            1462.42,
+            240.2
+          ],
+          [
+            1477.49,
+            246.16
+          ],
+          [
+            1487.24,
+            248.07
+          ],
+          [
+            1497.9,
+            243.7
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Belle",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 69,
+        "width": 0.04,
+        "length": 25.99,
+        "riverId": 226
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1320.26,
+            869.69
+          ],
+          [
+            1324.2,
+            885.7
+          ],
+          [
+            1317.25,
+            890.81
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Selathayim",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 74,
+        "width": 0.04,
+        "length": 21.71,
+        "riverId": 227
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1384.93,
+            186.26
+          ],
+          [
+            1396.5,
+            180.3
+          ],
+          [
+            1403.23,
+            176.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ketah",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 78,
+        "width": 0.05,
+        "length": 26.04,
+        "riverId": 228
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            358.53,
+            770.32
+          ],
+          [
+            344.52,
+            766.49
+          ],
+          [
+            334.63,
+            770.59
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Bao Lak Son",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 62,
+        "width": 0.05,
+        "length": 27.19,
+        "riverId": 232
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            745.62,
+            101.68
+          ],
+          [
+            740.92,
+            87.1
+          ],
+          [
+            729.87,
+            86.16
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Iuretorita",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 77,
+        "width": 0.05,
+        "length": 24.46,
+        "riverId": 233
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            282.54,
+            166.57
+          ],
+          [
+            286.59,
+            158.86
+          ],
+          [
+            295.9,
+            147.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Citro",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 65,
+        "width": 0.04,
+        "length": 33.35,
+        "riverId": 234
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            962.66,
+            737.74
+          ],
+          [
+            951.82,
+            744
+          ],
+          [
+            932.3,
+            749.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lalamon Nah",
+        "kind": "river",
+        "riverType": "Brook",
+        "discharge": 82,
+        "width": 0.05,
+        "length": 19.65,
+        "riverId": 235
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1417.71,
+            238.77
+          ],
+          [
+            1408.5,
+            240
+          ],
+          [
+            1404.08,
+            248.18
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Caviola",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 375,
+        "width": 0.35,
+        "length": 94.02,
+        "riverId": 261
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1383.2,
+            782.48
+          ],
+          [
+            1372.4,
+            787
+          ],
+          [
+            1374.71,
+            795.63
+          ],
+          [
+            1372.64,
+            800.5
+          ],
+          [
+            1372.53,
+            817.73
+          ],
+          [
+            1388.74,
+            814.61
+          ],
+          [
+            1394.82,
+            827.96
+          ],
+          [
+            1405.6,
+            837.8
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Betrun",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 200,
+        "width": 0.1,
+        "length": 57.51,
+        "riverId": 262
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1266.41,
+            109.93
+          ],
+          [
+            1273.44,
+            95.11
+          ],
+          [
+            1272.41,
+            83.95
+          ],
+          [
+            1269.05,
+            67.14
+          ],
+          [
+            1267.7,
+            55.9
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hebragus",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 256,
+        "width": 0.12,
+        "length": 46.72,
+        "riverId": 263
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1262.64,
+            96.63
+          ],
+          [
+            1257.25,
+            83.85
+          ],
+          [
+            1239.7,
+            78.8
+          ],
+          [
+            1235.17,
+            65.99
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Phu",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 149,
+        "width": 0.1,
+        "length": 52.97,
+        "riverId": 264
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            779.55,
+            113.57
+          ],
+          [
+            782.59,
+            102.41
+          ],
+          [
+            793.31,
+            88.47
+          ],
+          [
+            791.4,
+            78.3
+          ],
+          [
+            801.49,
+            71.99
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Hanimpiyame",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 97,
+        "width": 0.09,
+        "length": 37.65,
+        "riverId": 266
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1111.39,
+            141.04
+          ],
+          [
+            1121.54,
+            128.33
+          ],
+          [
+            1117.7,
+            121.5
+          ],
+          [
+            1126.58,
+            113.09
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Knavewen",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 52,
+        "width": 0.02,
+        "length": 14.7,
+        "riverId": 267
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1266.31,
+            958.21
+          ],
+          [
+            1279.52,
+            962.58
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Geth-Ho",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 143,
+        "width": 0.09,
+        "length": 46.33,
+        "riverId": 269
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1455.82,
+            224.51
+          ],
+          [
+            1459.57,
+            215.08
+          ],
+          [
+            1474.59,
+            216.88
+          ],
+          [
+            1493.68,
+            210.95
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ypedasuittit",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 115,
+        "width": 0.09,
+        "length": 44.79,
+        "riverId": 270
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            218.11,
+            531.17
+          ],
+          [
+            203.28,
+            532.66
+          ],
+          [
+            205,
+            551.5
+          ],
+          [
+            208.54,
+            560.72
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Etuga",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 132,
+        "width": 0.07,
+        "length": 35.83,
+        "riverId": 271
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1424.2,
+            205.65
+          ],
+          [
+            1431,
+            189.5
+          ],
+          [
+            1436.58,
+            172.67
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ventia",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 50,
+        "width": 0.04,
+        "length": 25.15,
+        "riverId": 272
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            403.37,
+            157.45
+          ],
+          [
+            398.14,
+            149.96
+          ],
+          [
+            387.5,
+            139.2
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Haiho",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 121,
+        "width": 0.05,
+        "length": 28.36,
+        "riverId": 273
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1282.78,
+            86.24
+          ],
+          [
+            1296.07,
+            84.78
+          ],
+          [
+            1309.88,
+            88.31
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Fipabedeba",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 92,
+        "width": 0.05,
+        "length": 24.49,
+        "riverId": 274
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1339.44,
+            266.46
+          ],
+          [
+            1350.72,
+            264.94
+          ],
+          [
+            1361.6,
+            259.3
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Napilortoq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 73,
+        "width": 0.04,
+        "length": 24.92,
+        "riverId": 275
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            201.07,
+            527.38
+          ],
+          [
+            191.14,
+            534.37
+          ],
+          [
+            184.03,
+            543.97
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Shmalysaza",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 95,
+        "width": 0.06,
+        "length": 34.67,
+        "riverId": 276
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1211.79,
+            97.61
+          ],
+          [
+            1199.9,
+            83.5
+          ],
+          [
+            1197.3,
+            68.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Aladirrukish",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 83,
+        "width": 0.05,
+        "length": 30.64,
+        "riverId": 277
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1405.21,
+            200.22
+          ],
+          [
+            1412.06,
+            181.81
+          ],
+          [
+            1403.23,
+            176.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Horntef",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 75,
+        "width": 0.05,
+        "length": 29.74,
+        "riverId": 278
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1166.15,
+            919.18
+          ],
+          [
+            1166.1,
+            934
+          ],
+          [
+            1156.4,
+            944.4
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sezado",
+        "kind": "river",
+        "riverType": "Brook",
+        "discharge": 41,
+        "width": 0.04,
+        "length": 21.43,
+        "riverId": 280
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1446.09,
+            789.77
+          ],
+          [
+            1457.1,
+            792.1
+          ],
+          [
+            1459,
+            801.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sadeweskirk",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 142,
+        "width": 0.06,
+        "length": 23.18,
+        "riverId": 281
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1089.71,
+            887.52
+          ],
+          [
+            1089.17,
+            897.15
+          ],
+          [
+            1084.44,
+            908.85
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gemesh",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 119,
+        "width": 0.05,
+        "length": 19.81,
+        "riverId": 282
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1447.47,
+            196.96
+          ],
+          [
+            1445.8,
+            191.8
+          ],
+          [
+            1456,
+            182.7
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tresoscrem",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 68,
+        "width": 0.04,
+        "length": 21.1,
+        "riverId": 283
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            809.2,
+            97.65
+          ],
+          [
+            812.7,
+            90
+          ],
+          [
+            823.5,
+            85.57
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Tzardin",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 83,
+        "width": 0.05,
+        "length": 20.75,
+        "riverId": 284
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1332.3,
+            269.2
+          ],
+          [
+            1325.13,
+            271.9
+          ],
+          [
+            1315.8,
+            279.5
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dalingdon",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 67,
+        "width": 0.04,
+        "length": 24.3,
+        "riverId": 285
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1159.25,
+            915.04
+          ],
+          [
+            1158.4,
+            926.2
+          ],
+          [
+            1147.4,
+            931.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Dursonium",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 111,
+        "width": 0.06,
+        "length": 26.43,
+        "riverId": 286
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            848.1,
+            92.6
+          ],
+          [
+            853.15,
+            84.92
+          ],
+          [
+            868,
+            78
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Beth",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 71,
+        "width": 0.05,
+        "length": 22.84,
+        "riverId": 287
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1389.66,
+            176.16
+          ],
+          [
+            1391,
+            168.9
+          ],
+          [
+            1403.23,
+            176.6
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Staple",
+        "kind": "river",
+        "riverType": "Stream",
+        "discharge": 98,
+        "width": 0.05,
+        "length": 22.58,
+        "riverId": 288
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1011.22,
+            828.68
+          ],
+          [
+            1000.06,
+            834.56
+          ],
+          [
+            997.62,
+            843.25
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zeytushet",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 82,
+        "width": 0.05,
+        "length": 24.33,
+        "riverId": 289
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1503.64,
+            339.84
+          ],
+          [
+            1510.39,
+            346.72
+          ],
+          [
+            1520.52,
+            356.1
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ohad",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 128,
+        "width": 0.06,
+        "length": 21.07,
+        "riverId": 290
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1291.6,
+            76.8
+          ],
+          [
+            1297.47,
+            67.4
+          ],
+          [
+            1297.59,
+            58.41
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Vavogontia",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 78,
+        "width": 0.03,
+        "length": 19.72,
+        "riverId": 291
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            854.5,
+            91.7
+          ],
+          [
+            859.5,
+            89.7
+          ],
+          [
+            872.91,
+            87.35
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lepqishehu",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 68,
+        "width": 0.04,
+        "length": 15.97,
+        "riverId": 292
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1293.8,
+            297.9
+          ],
+          [
+            1300.1,
+            298.4
+          ],
+          [
+            1305.9,
+            304.35
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Saartoq",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 71,
+        "width": 0.05,
+        "length": 23.79,
+        "riverId": 293
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            170.6,
+            522.4
+          ],
+          [
+            170.99,
+            511.36
+          ],
+          [
+            168.3,
+            499.8
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rach",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 119,
+        "width": 0.04,
+        "length": 18.43,
+        "riverId": 294
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            844.9,
+            74.8
+          ],
+          [
+            840.6,
+            72.9
+          ],
+          [
+            829.4,
+            66.42
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rocheapton",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 90,
+        "width": 0.05,
+        "length": 28.19,
+        "riverId": 361
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1065.48,
+            860.38
+          ],
+          [
+            1058.77,
+            872.22
+          ],
+          [
+            1055.6,
+            885.7
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ampitan",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 108,
+        "width": 0.06,
+        "length": 27.28,
+        "riverId": 363
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1385,
+            228.43
+          ],
+          [
+            1383.47,
+            247.17
+          ],
+          [
+            1381.2,
+            254.4
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Salcester",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 121,
+        "width": 0.03,
+        "length": 15.15,
+        "riverId": 364
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1231.49,
+            960.11
+          ],
+          [
+            1222.5,
+            957.7
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Semeksos",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 84,
+        "width": 0.05,
+        "length": 19.88,
+        "riverId": 365
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1305.12,
+            118.28
+          ],
+          [
+            1306.9,
+            111.6
+          ],
+          [
+            1318.17,
+            107.94
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Nubaalgot",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 68,
+        "width": 0.04,
+        "length": 20.96,
+        "riverId": 366
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1476.26,
+            232.86
+          ],
+          [
+            1484.2,
+            239.4
+          ],
+          [
+            1491.79,
+            233.39
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Gehyon",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 67,
+        "width": 0.04,
+        "length": 32.55,
+        "riverId": 367
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1436.16,
+            449.57
+          ],
+          [
+            1445.7,
+            448.8
+          ],
+          [
+            1442.85,
+            426.76
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Onorum",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 72,
+        "width": 0.03,
+        "length": 18.95,
+        "riverId": 368
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            555.5,
+            84.7
+          ],
+          [
+            553.5,
+            80.1
+          ],
+          [
+            552.74,
+            66.95
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kiyalis",
+        "kind": "river",
+        "riverType": "River",
+        "discharge": 97,
+        "width": 0.05,
+        "length": 19.22,
+        "riverId": 369
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            1477.8,
+            223.9
+          ],
+          [
+            1484.5,
+            224.74
+          ],
+          [
+            1491.79,
+            233.39
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Asisoq",
+        "kind": "river",
+        "riverType": "Brook",
+        "discharge": 83,
+        "width": 0.03,
+        "length": 18.83,
+        "riverId": 370
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            174.4,
+            519.8
+          ],
+          [
+            176.7,
+            507.7
+          ],
+          [
+            177.47,
+            501.98
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Velle",
+        "kind": "river",
+        "riverType": "Creek",
+        "discharge": 78,
+        "width": 0.03,
+        "length": 19.17,
+        "riverId": 372
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            958.4,
+            751.3
+          ],
+          [
+            955.8,
+            755.9
+          ],
+          [
+            962.64,
+            767.12
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 6",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 6
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              810,
+              156
+            ],
+            [
+              810,
+              155
+            ],
+            [
+              813,
+              146
+            ],
+            [
+              815,
+              145
+            ],
+            [
+              818,
+              146
+            ],
+            [
+              820,
+              151
+            ],
+            [
+              816,
+              158
+            ],
+            [
+              810,
+              156
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 7",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 7
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1153,
+              143
+            ],
+            [
+              1159,
+              138
+            ],
+            [
+              1162,
+              143
+            ],
+            [
+              1170,
+              142
+            ],
+            [
+              1172,
+              147
+            ],
+            [
+              1179,
+              149
+            ],
+            [
+              1180,
+              151
+            ],
+            [
+              1180,
+              152
+            ],
+            [
+              1188,
+              157
+            ],
+            [
+              1193,
+              155
+            ],
+            [
+              1198,
+              158
+            ],
+            [
+              1199,
+              157
+            ],
+            [
+              1205,
+              157
+            ],
+            [
+              1207,
+              156
+            ],
+            [
+              1215,
+              155
+            ],
+            [
+              1216,
+              156
+            ],
+            [
+              1222,
+              153
+            ],
+            [
+              1229,
+              159
+            ],
+            [
+              1229,
+              159
+            ],
+            [
+              1229,
+              160
+            ],
+            [
+              1231,
+              166
+            ],
+            [
+              1238,
+              168
+            ],
+            [
+              1239,
+              158
+            ],
+            [
+              1243,
+              158
+            ],
+            [
+              1248,
+              160
+            ],
+            [
+              1249,
+              162
+            ],
+            [
+              1249,
+              165
+            ],
+            [
+              1254,
+              170
+            ],
+            [
+              1249,
+              177
+            ],
+            [
+              1246,
+              176
+            ],
+            [
+              1244,
+              182
+            ],
+            [
+              1238,
+              184
+            ],
+            [
+              1236,
+              192
+            ],
+            [
+              1231,
+              193
+            ],
+            [
+              1230,
+              196
+            ],
+            [
+              1222,
+              199
+            ],
+            [
+              1220,
+              203
+            ],
+            [
+              1216,
+              205
+            ],
+            [
+              1215,
+              207
+            ],
+            [
+              1215,
+              215
+            ],
+            [
+              1214,
+              215
+            ],
+            [
+              1215,
+              222
+            ],
+            [
+              1211,
+              226
+            ],
+            [
+              1212,
+              230
+            ],
+            [
+              1208,
+              235
+            ],
+            [
+              1207,
+              235
+            ],
+            [
+              1206,
+              241
+            ],
+            [
+              1201,
+              244
+            ],
+            [
+              1196,
+              243
+            ],
+            [
+              1192,
+              247
+            ],
+            [
+              1189,
+              247
+            ],
+            [
+              1182,
+              245
+            ],
+            [
+              1180,
+              242
+            ],
+            [
+              1179,
+              241
+            ],
+            [
+              1177,
+              239
+            ],
+            [
+              1172,
+              237
+            ],
+            [
+              1171,
+              236
+            ],
+            [
+              1166,
+              233
+            ],
+            [
+              1164,
+              228
+            ],
+            [
+              1159,
+              226
+            ],
+            [
+              1156,
+              221
+            ],
+            [
+              1155,
+              220
+            ],
+            [
+              1150,
+              215
+            ],
+            [
+              1150,
+              208
+            ],
+            [
+              1150,
+              208
+            ],
+            [
+              1149,
+              201
+            ],
+            [
+              1151,
+              198
+            ],
+            [
+              1151,
+              197
+            ],
+            [
+              1146,
+              192
+            ],
+            [
+              1147,
+              184
+            ],
+            [
+              1145,
+              182
+            ],
+            [
+              1146,
+              174
+            ],
+            [
+              1145,
+              172
+            ],
+            [
+              1145,
+              170
+            ],
+            [
+              1147,
+              166
+            ],
+            [
+              1152,
+              163
+            ],
+            [
+              1152,
+              161
+            ],
+            [
+              1157,
+              156
+            ],
+            [
+              1155,
+              150
+            ],
+            [
+              1153,
+              148
+            ],
+            [
+              1153,
+              143
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 9",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 9
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              808,
+              177
+            ],
+            [
+              800,
+              173
+            ],
+            [
+              800,
+              169
+            ],
+            [
+              807,
+              166
+            ],
+            [
+              811,
+              170
+            ],
+            [
+              811,
+              171
+            ],
+            [
+              808,
+              177
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 24",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 24
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1149,
+              566
+            ],
+            [
+              1155,
+              569
+            ],
+            [
+              1160,
+              567
+            ],
+            [
+              1164,
+              569
+            ],
+            [
+              1169,
+              568
+            ],
+            [
+              1173,
+              571
+            ],
+            [
+              1175,
+              575
+            ],
+            [
+              1183,
+              580
+            ],
+            [
+              1184,
+              579
+            ],
+            [
+              1191,
+              581
+            ],
+            [
+              1197,
+              580
+            ],
+            [
+              1200,
+              581
+            ],
+            [
+              1201,
+              582
+            ],
+            [
+              1207,
+              585
+            ],
+            [
+              1210,
+              589
+            ],
+            [
+              1218,
+              590
+            ],
+            [
+              1222,
+              594
+            ],
+            [
+              1222,
+              595
+            ],
+            [
+              1221,
+              598
+            ],
+            [
+              1223,
+              605
+            ],
+            [
+              1225,
+              607
+            ],
+            [
+              1227,
+              615
+            ],
+            [
+              1224,
+              618
+            ],
+            [
+              1224,
+              621
+            ],
+            [
+              1217,
+              628
+            ],
+            [
+              1213,
+              627
+            ],
+            [
+              1209,
+              622
+            ],
+            [
+              1203,
+              621
+            ],
+            [
+              1202,
+              622
+            ],
+            [
+              1202,
+              622
+            ],
+            [
+              1200,
+              629
+            ],
+            [
+              1201,
+              634
+            ],
+            [
+              1196,
+              640
+            ],
+            [
+              1190,
+              641
+            ],
+            [
+              1187,
+              640
+            ],
+            [
+              1183,
+              641
+            ],
+            [
+              1180,
+              643
+            ],
+            [
+              1175,
+              643
+            ],
+            [
+              1172,
+              646
+            ],
+            [
+              1164,
+              645
+            ],
+            [
+              1161,
+              648
+            ],
+            [
+              1155,
+              648
+            ],
+            [
+              1155,
+              648
+            ],
+            [
+              1147,
+              647
+            ],
+            [
+              1147,
+              635
+            ],
+            [
+              1147,
+              635
+            ],
+            [
+              1148,
+              626
+            ],
+            [
+              1148,
+              625
+            ],
+            [
+              1148,
+              624
+            ],
+            [
+              1152,
+              618
+            ],
+            [
+              1157,
+              616
+            ],
+            [
+              1160,
+              617
+            ],
+            [
+              1162,
+              623
+            ],
+            [
+              1157,
+              629
+            ],
+            [
+              1158,
+              635
+            ],
+            [
+              1165,
+              636
+            ],
+            [
+              1168,
+              634
+            ],
+            [
+              1171,
+              628
+            ],
+            [
+              1173,
+              627
+            ],
+            [
+              1174,
+              625
+            ],
+            [
+              1175,
+              625
+            ],
+            [
+              1174,
+              616
+            ],
+            [
+              1174,
+              616
+            ],
+            [
+              1176,
+              606
+            ],
+            [
+              1173,
+              602
+            ],
+            [
+              1175,
+              597
+            ],
+            [
+              1171,
+              591
+            ],
+            [
+              1169,
+              590
+            ],
+            [
+              1165,
+              583
+            ],
+            [
+              1164,
+              582
+            ],
+            [
+              1161,
+              580
+            ],
+            [
+              1157,
+              581
+            ],
+            [
+              1153,
+              576
+            ],
+            [
+              1147,
+              576
+            ],
+            [
+              1145,
+              570
+            ],
+            [
+              1149,
+              566
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 25",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 25
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1308,
+              637
+            ],
+            [
+              1311,
+              639
+            ],
+            [
+              1311,
+              641
+            ],
+            [
+              1315,
+              644
+            ],
+            [
+              1322,
+              644
+            ],
+            [
+              1323,
+              644
+            ],
+            [
+              1327,
+              648
+            ],
+            [
+              1326,
+              656
+            ],
+            [
+              1328,
+              657
+            ],
+            [
+              1328,
+              663
+            ],
+            [
+              1330,
+              665
+            ],
+            [
+              1330,
+              670
+            ],
+            [
+              1329,
+              671
+            ],
+            [
+              1330,
+              677
+            ],
+            [
+              1326,
+              679
+            ],
+            [
+              1325,
+              685
+            ],
+            [
+              1323,
+              686
+            ],
+            [
+              1318,
+              693
+            ],
+            [
+              1318,
+              693
+            ],
+            [
+              1315,
+              700
+            ],
+            [
+              1316,
+              702
+            ],
+            [
+              1315,
+              709
+            ],
+            [
+              1314,
+              709
+            ],
+            [
+              1308,
+              712
+            ],
+            [
+              1302,
+              709
+            ],
+            [
+              1301,
+              707
+            ],
+            [
+              1301,
+              707
+            ],
+            [
+              1298,
+              698
+            ],
+            [
+              1297,
+              697
+            ],
+            [
+              1289,
+              698
+            ],
+            [
+              1289,
+              697
+            ],
+            [
+              1280,
+              696
+            ],
+            [
+              1278,
+              697
+            ],
+            [
+              1272,
+              695
+            ],
+            [
+              1268,
+              697
+            ],
+            [
+              1267,
+              696
+            ],
+            [
+              1264,
+              692
+            ],
+            [
+              1268,
+              684
+            ],
+            [
+              1266,
+              681
+            ],
+            [
+              1267,
+              676
+            ],
+            [
+              1264,
+              675
+            ],
+            [
+              1263,
+              673
+            ],
+            [
+              1263,
+              664
+            ],
+            [
+              1267,
+              660
+            ],
+            [
+              1269,
+              659
+            ],
+            [
+              1270,
+              658
+            ],
+            [
+              1274,
+              656
+            ],
+            [
+              1280,
+              658
+            ],
+            [
+              1288,
+              654
+            ],
+            [
+              1288,
+              652
+            ],
+            [
+              1297,
+              648
+            ],
+            [
+              1298,
+              646
+            ],
+            [
+              1302,
+              646
+            ],
+            [
+              1302,
+              637
+            ],
+            [
+              1308,
+              637
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 26",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 26
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1350,
+              727
+            ],
+            [
+              1352,
+              720
+            ],
+            [
+              1359,
+              720
+            ],
+            [
+              1364,
+              725
+            ],
+            [
+              1363,
+              731
+            ],
+            [
+              1362,
+              732
+            ],
+            [
+              1354,
+              732
+            ],
+            [
+              1350,
+              727
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lake 27",
+        "kind": "lake",
+        "group": "freshwater",
+        "featureId": 27
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              1363,
+              749
+            ],
+            [
+              1367,
+              752
+            ],
+            [
+              1367,
+              753
+            ],
+            [
+              1371,
+              758
+            ],
+            [
+              1379,
+              760
+            ],
+            [
+              1381,
+              759
+            ],
+            [
+              1383,
+              759
+            ],
+            [
+              1387,
+              767
+            ],
+            [
+              1393,
+              767
+            ],
+            [
+              1393,
+              773
+            ],
+            [
+              1401,
+              773
+            ],
+            [
+              1400,
+              781
+            ],
+            [
+              1399,
+              782
+            ],
+            [
+              1395,
+              783
+            ],
+            [
+              1394,
+              783
+            ],
+            [
+              1388,
+              784
+            ],
+            [
+              1385,
+              787
+            ],
+            [
+              1378,
+              787
+            ],
+            [
+              1376,
+              781
+            ],
+            [
+              1376,
+              779
+            ],
+            [
+              1370,
+              771
+            ],
+            [
+              1370,
+              770
+            ],
+            [
+              1367,
+              768
+            ],
+            [
+              1366,
+              767
+            ],
+            [
+              1364,
+              766
+            ],
+            [
+              1362,
+              762
+            ],
+            [
+              1357,
+              759
+            ],
+            [
+              1357,
+              752
+            ],
+            [
+              1363,
+              749
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

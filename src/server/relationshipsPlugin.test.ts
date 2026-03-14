@@ -67,6 +67,21 @@ const createResponse = () => {
 }
 
 describe('relationshipsPlugin /by-object', () => {
+  it('liefert die vordefinierten relationship types', async () => {
+    const handler = registerPluginAndCaptureHandler()
+
+    const { response, store } = createResponse()
+    await handler(
+      { method: 'GET', url: '/types' } as IncomingMessage,
+      response,
+      () => undefined,
+    )
+
+    expect((response as any).statusCode).toBe(200)
+    expect(store.body).toContain('"relationshipTypes"')
+    expect(store.body).toContain('"type":"mother_of"')
+  })
+
   it('liefert 400 ohne type/id', async () => {
     const handler = registerPluginAndCaptureHandler()
 

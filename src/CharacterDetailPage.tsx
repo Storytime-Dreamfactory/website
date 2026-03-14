@@ -1,10 +1,10 @@
 import { useMemo, useState, type CSSProperties } from 'react'
-import { Link } from 'react-router-dom'
 import { Button, Tag, Typography } from 'antd'
 import { BookOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import type { Character, StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
 import useCharacterData from './useCharacterData'
+import RelationshipPill from './design-system/gameObjects/RelationshipPill'
 
 const { Title, Text } = Typography
 
@@ -142,23 +142,13 @@ export default function CharacterDetailPage({ content }: Props) {
               <Text className="character-detail-friends-label">Beziehungen</Text>
               <div className="character-detail-friends-list">
                 {relatedCharacters.map(({ char, relationLabel }) => (
-                  <Link
+                  <RelationshipPill
                     key={`${char.id}-${relationLabel}`}
                     to={`/characters/${char.id}`}
-                    className="character-detail-friend-link"
-                  >
-                    {char.images.profileImage?.file && (
-                      <img
-                        src={char.images.profileImage.file}
-                        alt={char.name}
-                        className="character-detail-friend-avatar"
-                      />
-                    )}
-                    <div className="character-detail-friend-info">
-                      <span className="character-detail-friend-name">{char.name}</span>
-                      <span className="character-detail-friend-type">{relationLabel}</span>
-                    </div>
-                  </Link>
+                    name={char.name}
+                    imageSrc={char.images.profileImage?.file}
+                    relationLabel={relationLabel}
+                  />
                 ))}
               </div>
             </div>

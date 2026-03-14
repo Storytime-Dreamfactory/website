@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import type { CharacterActivityItem } from './activityPanelTypes'
+import ProgressiveImage from './ProgressiveImage'
 
 type Props = {
   item: CharacterActivityItem
@@ -220,10 +221,12 @@ export default function CharacterActivityRow({ item, hideSummary = false, onOpen
 
                 return (
                   <div key={imageStateKey} className="character-activity-image-frame">
-                    <img
+                    <ProgressiveImage
                       src={url}
                       alt={imageAlt}
                       className="character-activity-image"
+                      loading="lazy"
+                      fetchPriority="low"
                       onError={() =>
                         setBrokenImages((current) => ({
                           ...current,

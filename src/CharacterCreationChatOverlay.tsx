@@ -347,20 +347,16 @@ export default function CharacterCreationChatOverlay({
         onCancel={() => setOpen(false)}
         footer={null}
         width={760}
+        style={{
+          background:
+            'radial-gradient(circle at top right, rgba(113, 176, 255, 0.22), rgba(113, 176, 255, 0) 42%), linear-gradient(160deg, rgba(8, 14, 34, 0.96), rgba(3, 8, 24, 0.94))',
+          border: '1px solid rgba(156, 211, 255, 0.28)',
+          boxShadow: '0 28px 72px rgba(0, 0, 0, 0.66), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+          backdropFilter: 'blur(12px)',
+          borderRadius: 20,
+          overflow: 'hidden',
+        }}
         styles={{
-          content: {
-            background:
-              'radial-gradient(circle at top right, rgba(113, 176, 255, 0.22), rgba(113, 176, 255, 0) 42%), linear-gradient(160deg, rgba(8, 14, 34, 0.96), rgba(3, 8, 24, 0.94))',
-            border: '1px solid rgba(156, 211, 255, 0.28)',
-            boxShadow: '0 28px 72px rgba(0, 0, 0, 0.66), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
-            backdropFilter: 'blur(12px)',
-            borderRadius: 20,
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: 'var(--character-chat-min-height)',
-            maxHeight: 'var(--character-chat-max-height)',
-          },
           header: {
             background: 'transparent',
             borderBottom: '1px solid rgba(156, 211, 255, 0.2)',

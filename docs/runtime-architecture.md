@@ -47,7 +47,7 @@ Diese Datei beschreibt die technische Trennung zwischen Skills, Tools und Script
   - `activities[]` (Ereignis-/Verlaufskontext)
 - Jeder `relatedObject` enthält:
   - `objectType`, `objectId`, `displayName`
-  - `relationshipLinks[]` mit `relationshipType`, `relationshipTypeReadable`, `relationship`, `direction`
+  - `relationshipLinks[]` mit `relationshipType`, `fromTitle`, `toTitle`, `relationshipTypeReadable`, `relationship`, `direction`
   - `imageRefs[]` (alle verfuegbaren Referenzen, z. B. hero/standard/portrait/profile)
   - `evidence[]` (warum der Kandidat relevant ist)
 - Bildreferenz-Auswahl wird explizit als `selectedReferences[]` mit `reason` transportiert.

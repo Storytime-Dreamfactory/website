@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
-import { Card, Collapse, Input, Select, Space, Tag, Typography } from 'antd'
-import { BookOutlined, ExperimentOutlined, SearchOutlined } from '@ant-design/icons'
+import { Card, Drawer, Input, Select, Space, Tag, Typography } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 import type { LearningGoal, StoryContent } from './content/types'
 import GameObjectCard from './design-system/gameObjects/GameObjectCard'
 
@@ -22,9 +22,6 @@ const SUBJECT_LABELS: Record<string, string> = {
   kochen: 'Kochen und Ernaehrung',
 }
 
-const SUBJECT_ICONS: Record<string, React.ReactNode> = {
-  naturwissenschaften: <ExperimentOutlined />,
-}
 
 function subjectLabel(subject: string): string {
   return SUBJECT_LABELS[subject] ?? subject.charAt(0).toUpperCase() + subject.slice(1)
@@ -77,15 +74,6 @@ function filterGoals(
   })
 }
 
-function groupBySubject(goals: LearningGoal[]): Map<string, LearningGoal[]> {
-  const groups = new Map<string, LearningGoal[]>()
-  for (const goal of goals) {
-    const existing = groups.get(goal.subject) ?? []
-    existing.push(goal)
-    groups.set(goal.subject, existing)
-  }
-  return groups
-}
 
 type LearningGoalCardProps = {
   goal: LearningGoal
@@ -93,7 +81,7 @@ type LearningGoalCardProps = {
 
 function LearningGoalCard({ goal }: LearningGoalCardProps) {
   return (
-    <Card className="content-card learning-goal-card" bordered={false}>
+    <Card className="content-card" bordered={false}>
       <GameObjectCard
         kind="learning-goal"
         name={goal.name}
@@ -144,7 +132,7 @@ export default function LearningGoalsPage({ content }: { content: StoryContent }
   const [selectedKeyStage, setSelectedKeyStage] = useState<number | undefined>()
   const [selectedYearGroup, setSelectedYearGroup] = useState<number | undefined>()
   const [searchText, setSearchText] = useState('')
-  const [expandedGoalId, setExpandedGoalId] = useState<string | null>(null)
+  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null)
 
   const allGoals = content.learningGoals
   const filterOptions = useMemo(() => extractFilterOptions(allGoals), [allGoals])
@@ -160,52 +148,9 @@ export default function LearningGoalsPage({ content }: { content: StoryContent }
     [allGoals, selectedSubject, selectedKeyStage, selectedYearGroup, searchText],
   )
 
-  const grouped = useMemo(() => groupBySubject(filtered), [filtered])
-
-  const collapseItems = useMemo(
-    () =>
-      [...grouped.entries()].map(([subject, goals]) => ({
-        key: subject,
-        label: (
-          <span className="learning-goals-group-header">
-            {SUBJECT_ICONS[subject] ?? <BookOutlined />}
-            <span>{subjectLabel(subject)}</span>
-            <Tag>{goals.length}</Tag>
-          </span>
-        ),
-        children: (
-          <div className="learning-goals-subject-group">
-            {goals.map((goal) => (
-              <div key={goal.id} className="learning-goal-entry">
-                <div
-                  className="learning-goal-card-wrapper"
-                  onClick={() =>
-                    setExpandedGoalId((prev) => (prev === goal.id ? null : goal.id))
-                  }
-                >
-                  <LearningGoalCard goal={goal} />
-                </div>
-                {expandedGoalId === goal.id && (
-                  <div className="learning-goal-detail-panel">
-                    <Text className="learning-goal-detail-description">{goal.description}</Text>
-                    <LearningGoalObjectives goal={goal} />
-                    {goal.domainTags.length > 0 && (
-                      <div className="learning-goal-detail-tags">
-                        {goal.domainTags.map((tag) => (
-                          <Tag key={tag} color="blue">
-                            {tag}
-                          </Tag>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ),
-      })),
-    [grouped, expandedGoalId],
+  const selectedGoal = useMemo(
+    () => (selectedGoalId ? allGoals.find((g) => g.id === selectedGoalId) ?? null : null),
+    [allGoals, selectedGoalId],
   )
 
   const hasFilters = selectedSubject || selectedKeyStage || selectedYearGroup || searchText
@@ -278,13 +223,94 @@ export default function LearningGoalsPage({ content }: { content: StoryContent }
           </Text>
         </div>
       ) : (
-        <Collapse
-          items={collapseItems}
-          defaultActiveKey={[...grouped.keys()]}
-          className="learning-goals-collapse"
-          ghost
-        />
+        <div className="card-grid">
+          {filtered.map((goal) => (
+            <div
+              key={goal.id}
+              className="learning-goal-card-wrapper"
+              onClick={() => setSelectedGoalId(goal.id)}
+            >
+              <LearningGoalCard goal={goal} />
+            </div>
+          ))}
+        </div>
       )}
+
+      <Drawer
+        title={selectedGoal?.name ?? 'Lernziel'}
+        placement="right"
+        open={selectedGoalId !== null}
+        onClose={() => setSelectedGoalId(null)}
+        rootClassName="conversation-drawer"
+        width={440}
+        styles={{
+          content: { background: '#000', boxShadow: 'none' },
+          header: { background: '#000' },
+          body: { background: '#000' },
+          mask: { background: 'rgba(0, 0, 0, 0.35)' },
+          wrapper: { background: 'transparent' },
+        }}
+      >
+        {selectedGoal && (
+          <div className="learning-goal-drawer-content">
+            {selectedGoal.curriculumSource && (
+              <Text className="learning-goal-drawer-meta">
+                Year {selectedGoal.curriculumSource.yearGroup} · Key Stage{' '}
+                {selectedGoal.curriculumSource.keyStage}
+              </Text>
+            )}
+
+            <div className="learning-goal-drawer-properties">
+              <Tag>{subjectLabel(selectedGoal.subject)}</Tag>
+              {selectedGoal.ageRange.length > 0 && (
+                <Tag>Alter {selectedGoal.ageRange.join(', ')}</Tag>
+              )}
+            </div>
+
+            {selectedGoal.description && (
+              <Text className="learning-goal-drawer-description">{selectedGoal.description}</Text>
+            )}
+
+            <LearningGoalObjectives goal={selectedGoal} />
+
+            {selectedGoal.domainTags.length > 0 && (
+              <div className="learning-goal-detail-tags">
+                {selectedGoal.domainTags.map((tag) => (
+                  <Tag key={tag} color="blue">
+                    {tag}
+                  </Tag>
+                ))}
+              </div>
+            )}
+
+            {selectedGoal.exampleQuestions && selectedGoal.exampleQuestions.length > 0 && (
+              <div className="learning-goal-drawer-section">
+                <Text strong className="learning-goal-drawer-section-title">
+                  Beispielfragen
+                </Text>
+                <ul className="learning-goal-drawer-list">
+                  {selectedGoal.exampleQuestions.map((q, i) => (
+                    <li key={i}>{q}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {selectedGoal.practiceIdeas && selectedGoal.practiceIdeas.length > 0 && (
+              <div className="learning-goal-drawer-section">
+                <Text strong className="learning-goal-drawer-section-title">
+                  Uebungsideen
+                </Text>
+                <ul className="learning-goal-drawer-list">
+                  {selectedGoal.practiceIdeas.map((idea, i) => (
+                    <li key={i}>{idea}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+      </Drawer>
     </section>
   )
 }

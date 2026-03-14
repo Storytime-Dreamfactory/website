@@ -4,6 +4,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import type { StoryContent } from './content/types'
 import type { CharacterActivityItem } from './activityPanelTypes'
 import { readCanonicalStoryText } from './storyText'
+import { warmImageCacheInBackground } from './imageDeliveryService'
 import {
   type ApiRelationship,
   type ApiActivityRecord,
@@ -202,10 +203,12 @@ export default function useCharacterData({ content, loadActivities = false }: Us
 
     const cachedHeroUrl = readCachedHeroUrl(character.id)
     if (!cachedHeroUrl) {
+      warmImageCacheInBackground([normalizedHeroUrl])
       applyHeroUrlImmediately(normalizedHeroUrl)
       return
     }
 
+    warmImageCacheInBackground([cachedHeroUrl, normalizedHeroUrl])
     applyHeroUrlImmediately(cachedHeroUrl)
 
     void preloadImage(cachedHeroUrl).then((isValid) => {
@@ -279,6 +282,8 @@ export default function useCharacterData({ content, loadActivities = false }: Us
         writeCachedHeroUrl(character.id, normalizedNextUrl)
       }
 
+      warmImageCacheInBackground([normalizedNextUrl])
+
       setIncomingHeroUrl(normalizedNextUrl)
       heroTransitionTimerRef.current = window.setTimeout(() => {
         setActiveHeroUrl(normalizedNextUrl)
@@ -323,6 +328,15 @@ export default function useCharacterData({ content, loadActivities = false }: Us
     character?.id,
     applyHeroUrlImmediately,
   ])
+
+  useEffect(() => {
+    if (!apiActivities || apiActivities.length === 0) return
+    const urls: string[] = []
+    for (const activity of apiActivities) {
+      urls.push(...readAllActivityImageUrls(activity))
+    }
+    warmImageCacheInBackground(urls)
+  }, [apiActivities])
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {

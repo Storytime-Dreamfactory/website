@@ -47,9 +47,9 @@ const registerPluginAndCaptureHandlers = (): CapturedHandler[] => {
   }
   const configureServer = plugin.configureServer
   if (typeof configureServer === 'function') {
-    configureServer.call(undefined, server as never)
+    configureServer.call({} as never, server as never)
   } else if (configureServer && typeof configureServer === 'object') {
-    configureServer.handler.call(undefined, server as never)
+    configureServer.handler.call({} as never, server as never)
   }
   return handlers
 }

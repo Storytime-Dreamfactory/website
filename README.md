@@ -15,6 +15,7 @@ Begriffslogik:
 - Content-Modelle: `src/content/types.ts`
 - Content-Regeln: `docs/content-model.md`
 - Agent-Workflow: `docs/agent-guide.md`
+- Deploy-Workflow: `docs/deploy-workflow.md`
 - Repo-Agent-Regeln: `AGENTS.md`
 - Visuelle Stilregeln: `docs/visual-style-guide.md`
 - Character Generator: `tools/character-image-service/README.md`
@@ -37,6 +38,35 @@ Begriffslogik:
 npm install
 npm run dev
 ```
+
+### Lokal gegen echte APIs arbeiten (optional)
+
+Standardmaessig nutzt `npm run dev` lokale Vite-API-Plugins.
+Wenn du stattdessen lokal gegen die produktive AWS-API arbeiten willst:
+
+1. `.env.example` nach `.env` kopieren (falls noch nicht passiert)
+2. In `.env` setzen:
+
+```bash
+STORYTIME_USE_REMOTE_APIS=true
+STORYTIME_REMOTE_API_ORIGIN=https://da64uvv5aj.execute-api.eu-central-1.amazonaws.com
+```
+
+Dann proxyt Vite lokal folgende Routen auf die echte API:
+
+- `/api/*`
+- `/health`
+- `/ready`
+
+Wichtig: Das betrifft nur den lokalen Dev-Server. Das Production-Routing bleibt in `vercel.json`.
+
+### Empfohlener Workflow (Local -> GitHub -> Vercel)
+
+1. Lokal entwickeln und testen (`npm run dev`, `npm run quality:local`)
+2. Aenderungen committen und nach GitHub pushen
+3. Vercel baut und deployt automatisch den aktuellen Branch/PR
+4. Nach Merge auf den Hauptbranch laeuft der Production-Deploy
+5. Nach Production-Deploy Smoke-Check ausfuehren (`npm run deploy:smoke -- https://<deine-vercel-domain>`, optional `200,401` bei geschuetzter Preview)
 
 ## Build und Qualität
 
@@ -69,15 +99,18 @@ Umgebungsvariablen:
 - `GOOGLE_GEMINI_API_KEY` fuer Gemini-Bildmodelle wie `gemini-3.1-flash-image`
 - `OPENAI_API_KEY` fuer OpenAI-Bildmodelle wie `gpt-image-1.5` oder `chatgpt-image-latest`
 - `CONVERSATION_IMAGE_MODEL` optional fuer das Standardmodell der Conversation-Hero-Bildgenerierung, z. B. `mini` (`flux-2-klein-4b`), `flux-2-pro`, `banana` (`gemini-2.5-flash-image`) oder `chatgpt` (`chatgpt-image-latest`). Default: `flux-2-pro`
+- `AWS_REGION` und `ACTIVITY_EVENTBRIDGE_*` optional fuer Activity-Dual-Write nach AWS EventBridge
 
 API-Endpunkte (lokaler Vite-Server):
 
 - `POST /api/relationships/`
-  - Body: `sourceCharacterId`, `targetCharacterId`, `relationship`, `relationshipType`, optional `relationshipTypeReadable`, optional `description`, optional `metadata`
+  - Body: `sourceCharacterId`, `targetCharacterId`, `relationshipType` (vordefiniert), optional `fromTitle`, optional `toTitle`, optional `relationship`, optional `description`, optional `properties` (JSON oder YAML-String), optional `otherRelatedObjects`
 - `GET /api/relationships/?characterId=<id>`
   - Liefert eingehende und ausgehende Beziehungen für eine Figur
 - `GET /api/relationships/all`
   - Liefert alle Character-Beziehungen (wird vom Frontend-Loader genutzt)
+- `GET /api/relationships/types`
+  - Liefert die erlaubten Relationship-Typen inkl. `fromTitle`/`toTitle`
 - `POST /api/activities/`
   - Legt einen Activity-Stream-Eintrag an
   - Body: `activityType`, optional `isPublic` (default `false`), optional `characterId`, optional `placeId`, optional `learningGoalIds[]`, optional `conversationId`, optional `subject`, optional `object`, optional `metadata`, optional `occurredAt`
@@ -114,6 +147,21 @@ Hinweis:
 - Place-/Lernziel-Kontext kann ueber Conversation-Metadata mitgegeben werden:
   - `placeId` oder `place_id`
   - `learningGoalIds` / `learning_goal_ids` (Array) oder `learningGoalId` (single)
+
+## Activity EventBridge (Dual-Write)
+
+Activities bleiben weiterhin in Postgres (`character_activities`) als Query-/History-Store.
+Optional kann bei jedem `createActivity` zusaetzlich ein Event nach AWS EventBridge publiziert werden.
+
+Umgebungsvariablen:
+
+- `ACTIVITY_EVENTBRIDGE_ENABLED` (`true`/`false`, default `false`)
+- `AWS_REGION` (z. B. `eu-central-1`)
+- `ACTIVITY_EVENTBRIDGE_BUS_NAME` (Name oder ARN des Event Busses)
+- `ACTIVITY_EVENTBRIDGE_SOURCE` (default `storytime.activities`)
+- `ACTIVITY_EVENTBRIDGE_DETAIL_TYPE_PREFIX` (default `storytime.activity`)
+- `ACTIVITY_EVENTBRIDGE_STRICT` (`true` => Publish-Fehler brechen den Request ab; default `false`)
+- `ACTIVITY_EVENTBRIDGE_ENDPOINT` optional (z. B. LocalStack)
 
 CLI-Query:
 

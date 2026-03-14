@@ -21,27 +21,54 @@ export default defineConfig(({ mode }) => {
     }
   }
 
+  const useRemoteApis = env.STORYTIME_USE_REMOTE_APIS === 'true'
+  const remoteApiOrigin =
+    env.STORYTIME_REMOTE_API_ORIGIN ??
+    'https://da64uvv5aj.execute-api.eu-central-1.amazonaws.com'
+
+  const plugins = [
+    react(),
+    contentYamlPlugin(),
+    ...(useRemoteApis
+      ? []
+      : [
+          characterCreatorApiPlugin(),
+          realtimeApiPlugin(),
+          gameObjectsApiPlugin(),
+          relationshipsApiPlugin(),
+          conversationsApiPlugin(),
+          activitiesApiPlugin(),
+          imageGenerationApiPlugin(),
+          conversationImageToolApiPlugin(),
+          conversationQuizToolApiPlugin(),
+          evalProcessorPlugin(),
+        ]),
+  ]
+
   return {
-    plugins: [
-      react(),
-      contentYamlPlugin(),
-      characterCreatorApiPlugin(),
-      realtimeApiPlugin(),
-      gameObjectsApiPlugin(),
-      relationshipsApiPlugin(),
-      conversationsApiPlugin(),
-      activitiesApiPlugin(),
-      imageGenerationApiPlugin(),
-      conversationImageToolApiPlugin(),
-      conversationQuizToolApiPlugin(),
-      evalProcessorPlugin(),
-    ],
+    plugins,
     server: {
       proxy: {
         '/__debug_ingest': {
           target: 'http://127.0.0.1:7409',
           changeOrigin: true,
         },
+        ...(useRemoteApis
+          ? {
+              '/api': {
+                target: remoteApiOrigin,
+                changeOrigin: true,
+              },
+              '/health': {
+                target: remoteApiOrigin,
+                changeOrigin: true,
+              },
+              '/ready': {
+                target: remoteApiOrigin,
+                changeOrigin: true,
+              },
+            }
+          : {}),
       },
     },
   }

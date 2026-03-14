@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:lan": "vite --host",
+    "quality:local": "npm run lint && npm run test && npm run build",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
@@ -25,23 +26,30 @@
     "db:backfill-story-summaries": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts",
     "db:backfill-story-summaries:dry-run": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts --dry-run",
     "db:backfill-story-summaries:force": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts --force",
+    "content:deploy:aws": "./scripts/deploy-content-to-aws.sh",
+    "deploy:smoke": "./scripts/deploy-smoke-check.sh",
     "runtime:smoke": "node --env-file=.env --import tsx ./scripts/runtime-conversation-smoke.ts",
     "character-images:smoke-eval": "node --env-file=.env --import tsx ./scripts/character-image-eval-smoke.ts",
     "eval:self": "node --env-file=.env --import tsx ./src/server/eval/selfEvaluationCli.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
+    "@aws-sdk/client-eventbridge": "^3.1009.0",
     "antd": "^6.3.1",
+    "leaflet": "^1.9.4",
+    "leaflet.glify": "^3.3.1",
     "openai": "^6.27.0",
     "pg": "^8.20.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.13.1",
     "sharp": "^0.34.5",
     "yaml": "^2.8.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.18.0",
     "@types/react": "^19.2.7",

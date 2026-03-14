@@ -15,9 +15,13 @@ type ReadRelationshipsToolOutput = {
     relatedCharacterId: string
     direction: 'outgoing' | 'incoming'
     relationshipType: string
+    fromTitle: string
+    toTitle: string
     relationshipTypeReadable: string
     relationship: string
     description?: string
+    properties?: Record<string, unknown>
+    /** @deprecated Use properties instead. */
     metadata?: Record<string, unknown>
     otherRelatedObjects: Array<{
       type: string
@@ -83,10 +87,13 @@ export const readRelationshipsTool: RuntimeToolHandler<ReadRelationshipsToolInpu
           item.direction === 'outgoing' ? item.targetCharacterId : item.sourceCharacterId,
         direction: item.direction,
         relationshipType: item.relationshipType,
+        fromTitle: item.fromTitle,
+        toTitle: item.toTitle,
         relationshipTypeReadable: item.relationshipTypeReadable,
         relationship: item.relationship,
         description: item.description,
-        metadata: item.metadata,
+        properties: item.properties,
+        metadata: item.properties ?? item.metadata,
         otherRelatedObjects: item.otherRelatedObjects,
       }))
 

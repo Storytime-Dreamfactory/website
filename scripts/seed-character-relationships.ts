@@ -27,12 +27,67 @@ type CharacterYamlRecord = {
   }
 }
 
-const toRelationshipType = (value: string): string =>
-  value
+const RELATIONSHIP_ALIAS: Record<string, string> = {
+  mutter: 'mother_of',
+  vater: 'father_of',
+  elternteil: 'parent_of',
+  kind: 'child_of',
+  schwester: 'sibling_of',
+  bruder: 'sibling_of',
+  geschwister: 'sibling_of',
+  cousine: 'cousin_of',
+  cousin: 'cousin_of',
+  freund: 'friend_of',
+  freundin: 'friend_of',
+  freundschaft: 'friend_of',
+  beste_freundin: 'best_friend_of',
+  gute_freundin: 'friend_of',
+  bezugsmensch: 'guardian_of',
+  spielgefaehrtin: 'friend_of',
+  huendin: 'ally_of',
+  vorbild: 'mentor_of',
+  fuerchtet_sich_vor: 'fears',
+  hat_angst_vor: 'fears',
+  feind: 'enemy_of',
+  mentor: 'mentor_of',
+}
+
+const ALLOWED_TYPES = new Set([
+  'mother_of',
+  'father_of',
+  'parent_of',
+  'child_of',
+  'sibling_of',
+  'cousin_of',
+  'grandparent_of',
+  'grandchild_of',
+  'guardian_of',
+  'ward_of',
+  'friend_of',
+  'best_friend_of',
+  'ally_of',
+  'mentor_of',
+  'student_of',
+  'rival_of',
+  'enemy_of',
+  'fears',
+  'protects',
+  'is_from',
+  'lives_in',
+  'currently_at',
+  'frequently_visits',
+  'belongs_to_place',
+])
+
+const toRelationshipType = (value: string): string => {
+  const slug = value
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_+|_+$/g, '') || 'related_to'
+    .replace(/^_+|_+$/g, '')
+
+  return RELATIONSHIP_ALIAS[slug] ?? slug
+}
 
 const fileExists = async (filePath: string): Promise<boolean> => {
   try {
@@ -114,8 +169,12 @@ const run = async (): Promise<void> => {
         continue
       }
 
-      const relationship = relationshipLabel || 'related_to'
+      const relationship = relationshipLabel || 'friend_of'
       const relationshipType = toRelationshipType(relationship)
+      if (!ALLOWED_TYPES.has(relationshipType)) {
+        skipped += 1
+        continue
+      }
       const metadata: CharacterRelationshipMetadata = {
         source: 'content/characters/*/character.yaml',
         sourceField: 'relationships.characters',

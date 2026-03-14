@@ -5,6 +5,7 @@ import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
 import CharacterActivityStream from './CharacterActivityStream'
 import useCharacterData from './useCharacterData'
+import ProgressiveImage from './ProgressiveImage'
 import {
   readTextValue,
   readActivityDisplayValue,
@@ -166,10 +167,12 @@ export default function CharacterStoryPage({ content }: Props) {
             >
               <Card className="content-card character-story-learning-goal-content-card" bordered={false}>
                 <div className="content-card-media">
-                  <img
+                  <ProgressiveImage
                     src={LEARNING_GOAL_CARD_IMAGE}
                     alt={selectedLearningGoal?.name ?? 'Lernziel hinzufuegen'}
                     className="content-card-image"
+                    loading="lazy"
+                    fetchPriority="low"
                   />
                   <div className="content-card-overlay character-story-learning-goal-overlay">
                     <div className="character-story-learning-goal-overlay-copy">
@@ -265,7 +268,13 @@ export default function CharacterStoryPage({ content }: Props) {
               >
                 <Card className="content-card character-story-learning-goal-content-card" bordered={false}>
                   <div className="content-card-media">
-                    <img src={LEARNING_GOAL_CARD_IMAGE} alt={goal.name} className="content-card-image" />
+                    <ProgressiveImage
+                      src={LEARNING_GOAL_CARD_IMAGE}
+                      alt={goal.name}
+                      className="content-card-image"
+                      loading="lazy"
+                      fetchPriority="low"
+                    />
                     <div className="content-card-overlay character-story-learning-goal-overlay">
                       <div className="character-story-learning-goal-overlay-copy">
                         <Text className="character-story-learning-goal-kicker">Lernziel</Text>
@@ -357,10 +366,12 @@ export default function CharacterStoryPage({ content }: Props) {
                             onClick={() => transitionToHeroUrl(messageImageUrl)}
                             aria-label="Bild als Szene anzeigen"
                           >
-                            <img
+                            <ProgressiveImage
                               src={messageImageUrl}
                               alt="Generiertes Conversation-Bild"
                               className="conversation-drawer-image"
+                              loading="lazy"
+                              fetchPriority="low"
                             />
                           </button>
                         )}

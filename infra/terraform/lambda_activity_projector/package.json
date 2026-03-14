@@ -1,0 +1,9 @@
+{
+  "name": "storytime-activity-projector",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.1009.0",
+    "pg": "^8.20.0"
+  }
+}

@@ -29,7 +29,6 @@ import { trackTraceActivitySafely } from './traceActivity.ts'
 import type { SceneCharacterContext, SceneRelationshipContext } from './runtime/skills/createSceneBuilder.ts'
 import type {
   RoutedSkillDecision,
-  RuntimeIntentModelDecision,
   RuntimeIntentPublicMessage,
 } from './runtime/router/intentRouter.ts'
 

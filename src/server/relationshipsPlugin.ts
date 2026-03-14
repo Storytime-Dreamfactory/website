@@ -2,12 +2,14 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import type { Plugin } from 'vite'
 import {
   type CharacterRelatedObject,
+  RELATIONSHIP_TYPES,
   listAllRelationships,
   listRelationshipsByOtherRelatedObject,
   listRelationshipsForCharacter,
   upsertCharacterRelationship,
   type CharacterRelationshipMetadata,
 } from './relationshipStore.ts'
+import { parse as parseYaml } from 'yaml'
 import * as gameObjectService from './gameObjectService.ts'
 import type { Character } from '../content/types.ts'
 
@@ -37,11 +39,19 @@ const readJsonBody = async (request: IncomingMessage): Promise<Record<string, un
   return raw ? (JSON.parse(raw) as Record<string, unknown>) : {}
 }
 
-const toMetadata = (value: unknown): CharacterRelationshipMetadata | undefined => {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    return undefined
+const toProperties = (value: unknown): CharacterRelationshipMetadata | undefined => {
+  if (!value) return undefined
+  if (typeof value === 'object' && !Array.isArray(value)) {
+    return value as CharacterRelationshipMetadata
   }
-  return value as CharacterRelationshipMetadata
+  if (typeof value === 'string' && value.trim().length > 0) {
+    const parsed = parseYaml(value)
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      return parsed as CharacterRelationshipMetadata
+    }
+    throw new Error('properties muss ein Objekt sein (JSON oder YAML).')
+  }
+  throw new Error('properties muss ein Objekt sein (JSON oder YAML).')
 }
 
 const toOtherRelatedObjects = (value: unknown): CharacterRelatedObject[] | undefined => {
@@ -70,6 +80,11 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
       if (request.method === 'GET' && isAllPath) {
         const relationships = await listAllRelationships()
         json(response, 200, { relationships })
+        return
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/types') {
+        json(response, 200, { relationshipTypes: RELATIONSHIP_TYPES })
         return
       }
 
@@ -151,21 +166,25 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
           typeof body.targetCharacterId === 'string' ? body.targetCharacterId : ''
         const relationshipType =
           typeof body.relationshipType === 'string' ? body.relationshipType : ''
+        const fromTitle = typeof body.fromTitle === 'string' ? body.fromTitle : undefined
+        const toTitle = typeof body.toTitle === 'string' ? body.toTitle : undefined
         const relationshipTypeReadable =
           typeof body.relationshipTypeReadable === 'string' ? body.relationshipTypeReadable : undefined
         const relationship = typeof body.relationship === 'string' ? body.relationship : ''
         const description = typeof body.description === 'string' ? body.description : undefined
-        const metadata = toMetadata(body.metadata)
+        const properties = toProperties(body.properties ?? body.metadata)
         const otherRelatedObjects = toOtherRelatedObjects(body.otherRelatedObjects)
 
         const storedRelationship = await upsertCharacterRelationship({
           sourceCharacterId,
           targetCharacterId,
           relationshipType,
+          fromTitle,
+          toTitle,
           relationshipTypeReadable,
           relationship,
           description,
-          metadata,
+          properties,
           otherRelatedObjects,
         })
 
@@ -176,7 +195,10 @@ const registerRelationshipsApi = (middlewares: MiddlewareStack): void => {
       next()
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error)
-      const statusCode = message.includes('erforderlich') ? 400 : 500
+      const statusCode =
+        message.includes('erforderlich') || message.includes('Unbekannter') || message.includes('muss ein Objekt')
+          ? 400
+          : 500
       json(response, statusCode, { error: message })
     }
   })

@@ -479,7 +479,7 @@ export const executeRoutedSkill = async (input: {
         characterId: input.characterId,
         characterName: input.characterName,
         learningGoalIds: input.learningGoalIds,
-        traceStage: 'runtime',
+        traceStage: 'egress',
         traceKind: 'response',
         traceSource: 'runtime',
         output: {

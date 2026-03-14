@@ -3203,36 +3203,6 @@
   margin-bottom: 24px;
 }
 
-.learning-goals-collapse .ant-collapse-header {
-  padding: 10px 0 !important;
-}
-
-.learning-goals-group-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Alice', serif;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.learning-goals-group-header .ant-tag {
-  margin-left: 4px;
-  font-size: 12px;
-}
-
-.learning-goals-subject-group {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.learning-goal-entry {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
 .learning-goal-card-wrapper {
   cursor: pointer;
 }
@@ -3245,22 +3215,54 @@
   box-shadow: 0 2px 12px rgba(60, 161, 254, 0.15);
 }
 
-.learning-goal-card .content-card-media {
-  height: 120px;
-}
-
-.learning-goal-detail-panel {
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 0 0 14px 14px;
-  padding: 16px 20px;
-  margin-top: -4px;
+.learning-goal-drawer-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
-.learning-goal-detail-description {
+.learning-goal-drawer-meta {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.04em;
+}
+
+.learning-goal-drawer-properties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.learning-goal-drawer-description {
+  display: block;
   line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.learning-goal-drawer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.learning-goal-drawer-section-title {
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.learning-goal-drawer-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .learning-goal-objectives {
@@ -3281,11 +3283,13 @@
 
 .learning-goal-objective-cando {
   font-size: 14px;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .learning-goal-objective-original {
   font-size: 12px;
   font-style: italic;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .learning-goal-detail-tags {

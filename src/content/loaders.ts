@@ -50,14 +50,50 @@ const parseYaml = (rawYaml: string, filePath: string): unknown => {
   }
 }
 
+const normalizeRuntimeGameObject = (
+  rawObject: unknown,
+  objectType: 'character' | 'place' | 'learning-goals' | 'artifact',
+  index: number,
+): Character | Place | LearningGoal | Artifact => {
+  const objectRecord = rawObject as Record<string, unknown>
+  const slugCandidate =
+    typeof objectRecord?.slug === 'string' && objectRecord.slug.trim().length > 0
+      ? objectRecord.slug.trim()
+      : typeof objectRecord?.id === 'string' && objectRecord.id.trim().length > 0
+        ? objectRecord.id.trim()
+        : `${objectType}-${index + 1}`
+  const runtimePath = `runtime:${objectType}:${slugCandidate}`
+
+  switch (objectType) {
+    case 'character':
+      return validateCharacter(rawObject, slugCandidate, runtimePath)
+    case 'place':
+      return validatePlace(rawObject, slugCandidate, runtimePath)
+    case 'learning-goals':
+      return validateLearningGoal(rawObject, slugCandidate, runtimePath)
+    case 'artifact':
+      return validateArtifact(rawObject, slugCandidate, runtimePath)
+  }
+}
+
 const loadRuntimeGameObjects = async <T>(objectType: string): Promise<T[]> => {
   const response = await fetch(`/api/game-objects?type=${encodeURIComponent(objectType)}`)
   if (!response.ok) {
     throw new Error(`GameObjects API could not be loaded for ${objectType}: ${response.status}`)
   }
 
-  const payload = (await response.json()) as { gameObjects?: T[] }
-  return Array.isArray(payload.gameObjects) ? payload.gameObjects : []
+  const payload = (await response.json()) as { gameObjects?: unknown[] }
+  const runtimeObjects = Array.isArray(payload.gameObjects) ? payload.gameObjects : []
+
+  return runtimeObjects
+    .map((runtimeObject, index) =>
+      normalizeRuntimeGameObject(
+        runtimeObject,
+        objectType as 'character' | 'place' | 'learning-goals' | 'artifact',
+        index,
+      ),
+    )
+    .filter(Boolean) as T[]
 }
 
 type DbRelationshipResponse = {

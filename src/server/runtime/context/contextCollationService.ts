@@ -12,9 +12,13 @@ export type CollatedRelationshipLink = {
   relatedCharacterId: string
   direction: 'outgoing' | 'incoming'
   relationshipType: string
+  fromTitle: string
+  toTitle: string
   relationshipTypeReadable: string
   relationship: string
   description?: string
+  properties?: Record<string, unknown>
+  /** @deprecated Use properties instead. */
   metadata?: Record<string, unknown>
 }
 
@@ -399,10 +403,13 @@ export const collateContextForConversation = async (input: {
         : relationship.sourceCharacterId,
     direction: relationship.direction,
     relationshipType: relationship.relationshipType,
+    fromTitle: relationship.fromTitle,
+    toTitle: relationship.toTitle,
     relationshipTypeReadable: relationship.relationshipTypeReadable,
     relationship: relationship.relationship,
     description: relationship.description,
-    metadata: relationship.metadata,
+    properties: relationship.properties,
+    metadata: relationship.properties ?? relationship.metadata,
   }))
   const relatedCharacterIds = relationshipLinks.map((link) => link.relatedCharacterId)
   const relatedObjects = await collateRelatedCharacterObjects({

@@ -45,10 +45,12 @@ describe('relationshipStore', () => {
       .mockResolvedValueOnce({
         rows: [
           {
-            relationship_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0#e3bf634f-af12-4d51-aeb1-d1464bea2d13#freundin',
+            relationship_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0#e3bf634f-af12-4d51-aeb1-d1464bea2d13#friend_of',
             source_character_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
             target_character_id: 'e3bf634f-af12-4d51-aeb1-d1464bea2d13',
-            relationship_type: 'freundin',
+            relationship_type: 'friend_of',
+            from_title: 'Freundschaft',
+            to_title: 'Freundschaft',
             relationship_type_readable: 'Freundin',
             relationship: 'Freundin',
             description: 'kennen sich vom See',
@@ -64,7 +66,7 @@ describe('relationshipStore', () => {
     const result = await upsertCharacterRelationship({
       sourceCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
       targetCharacterId: 'e3bf634f-af12-4d51-aeb1-d1464bea2d13',
-      relationshipType: 'freundin',
+      relationshipType: 'friend_of',
       relationshipTypeReadable: 'Freundin',
       relationship: 'Freundin',
       otherRelatedObjects: [
@@ -80,7 +82,7 @@ describe('relationshipStore', () => {
 
     const upsertCall = mocks.queryMock.mock.calls[2]
     expect(String(upsertCall[0])).toContain('other_related_objects')
-    expect(upsertCall[1][8]).toBe(
+    expect(upsertCall[1][10]).toBe(
       JSON.stringify([{ type: 'place', id: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a', label: 'home_waters' }]),
     )
   })
@@ -92,10 +94,12 @@ describe('relationshipStore', () => {
       .mockResolvedValueOnce({
         rows: [
           {
-            relationship_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0#e3bf634f-af12-4d51-aeb1-d1464bea2d13#freundin',
+            relationship_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0#e3bf634f-af12-4d51-aeb1-d1464bea2d13#friend_of',
             source_character_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
             target_character_id: 'e3bf634f-af12-4d51-aeb1-d1464bea2d13',
-            relationship_type: 'freundin',
+            relationship_type: 'friend_of',
+            from_title: 'Freundschaft',
+            to_title: 'Freundschaft',
             relationship_type_readable: 'Freundin',
             relationship: 'Freundin',
             description: null,
@@ -124,19 +128,21 @@ describe('relationshipStore', () => {
     expect(selectCall[1][0]).toBe(JSON.stringify([{ type: 'place', id: 'cb8ce8f2-1b10-48b9-8afc-905a7a8d060a' }]))
   })
 
-  it('normalisiert Beziehungstypen semantisch fuer Filter und Lesbarkeit', async () => {
+  it('normalisiert Beziehungstypen auf kanonische Ontology-Typen', async () => {
     mocks.queryMock
       .mockResolvedValueOnce({ rows: [{ exists: true }] })
       .mockResolvedValueOnce({ rows: [] })
       .mockResolvedValueOnce({
         rows: [
           {
-            relationship_id: '00000000-0000-4000-8000-000000000001#8eb40291-65ee-49b6-b826-d7c7e97404c0#beste_freundin',
+            relationship_id: '00000000-0000-4000-8000-000000000001#8eb40291-65ee-49b6-b826-d7c7e97404c0#friend_of',
             source_character_id: '00000000-0000-4000-8000-000000000001',
             target_character_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
-            relationship_type: 'beste_freundin',
-            relationship_type_readable: 'beste Freundin',
-            relationship: 'beste Freundin',
+            relationship_type: 'friend_of',
+            from_title: 'Freundschaft',
+            to_title: 'Freundschaft',
+            relationship_type_readable: 'Freundschaft',
+            relationship: 'Freundschaft',
             description: null,
             metadata: {},
             other_related_objects: [],
@@ -151,76 +157,62 @@ describe('relationshipStore', () => {
       sourceCharacterId: '00000000-0000-4000-8000-000000000001',
       targetCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
       relationshipType: 'Freundin',
-      relationshipTypeReadable: 'beste Freundin',
-      relationship: 'beste Freundin',
+      relationshipTypeReadable: 'Freundin',
+      relationship: 'Freundin',
     })
 
     const upsertCall = mocks.queryMock.mock.calls[2]
-    expect(upsertCall[1][0]).toBe('00000000-0000-4000-8000-000000000001#8eb40291-65ee-49b6-b826-d7c7e97404c0#beste_freundin')
-    expect(upsertCall[1][3]).toBe('beste_freundin')
-    expect(upsertCall[1][4]).toBe('Beste Freundin')
-    expect(upsertCall[1][5]).toBe('Beste Freundin')
+    expect(upsertCall[1][0]).toBe('00000000-0000-4000-8000-000000000001#8eb40291-65ee-49b6-b826-d7c7e97404c0#friend_of')
+    expect(upsertCall[1][3]).toBe('friend_of')
+    expect(upsertCall[1][4]).toBe('Freundschaft')
+    expect(upsertCall[1][5]).toBe('Freundschaft')
   })
 
-  it('kann readable Labels auch ohne relationshipType persistieren', async () => {
+  it('weist unbekannte relationshipType-Werte ab', async () => {
     mocks.queryMock
       .mockResolvedValueOnce({ rows: [{ exists: true }] })
       .mockResolvedValueOnce({ rows: [] })
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            relationship_id: '00000000-0000-4000-8000-000000000001#8eb40291-65ee-49b6-b826-d7c7e97404c0#schwester',
-            source_character_id: '00000000-0000-4000-8000-000000000001',
-            target_character_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
-            relationship_type: 'schwester',
-            relationship_type_readable: 'Schwester',
-            relationship: 'Schwester',
-            description: null,
-            metadata: {},
-            other_related_objects: [],
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          },
-        ],
-      })
+      .mockResolvedValueOnce({ rows: [] })
 
     const { upsertCharacterRelationship } = await import('./relationshipStore.ts')
-    await upsertCharacterRelationship({
-      sourceCharacterId: '00000000-0000-4000-8000-000000000001',
-      targetCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
-      relationshipType: '',
-      relationshipTypeReadable: 'Schwester',
-      relationship: '',
-    })
-
-    const upsertCall = mocks.queryMock.mock.calls[2]
-    expect(upsertCall[1][0]).toBe('00000000-0000-4000-8000-000000000001#8eb40291-65ee-49b6-b826-d7c7e97404c0#schwester')
-    expect(upsertCall[1][3]).toBe('schwester')
-    expect(upsertCall[1][4]).toBe('Schwester')
-    expect(upsertCall[1][5]).toBe('Schwester')
+    await expect(
+      upsertCharacterRelationship({
+        sourceCharacterId: '00000000-0000-4000-8000-000000000001',
+        targetCharacterId: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+        relationshipType: 'space_wizard',
+        relationship: 'Space Wizard',
+      }),
+    ).rejects.toThrow('Unbekannter relationshipType')
   })
 
   it('liefert beim Listen kanonische UUIDs im Output', async () => {
-    mocks.queryMock
-      .mockResolvedValueOnce({ rows: [{ exists: true }] })
-      .mockResolvedValueOnce({ rows: [] })
-      .mockResolvedValueOnce({
-        rows: [
-          {
-            relationship_id: 'flora-blumenfreude#8eb40291-65ee-49b6-b826-d7c7e97404c0#freundin',
-            source_character_id: 'flora-blumenfreude',
-            target_character_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
-            relationship_type: 'freundin',
-            relationship_type_readable: 'Freundin',
-            relationship: 'Freundin',
-            description: null,
-            metadata: {},
-            other_related_objects: [],
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          },
-        ],
-      })
+    mocks.queryMock.mockImplementation(async (sql: unknown) => {
+      const text = String(sql)
+      if (text.includes('SELECT EXISTS')) return { rows: [{ exists: true }] }
+      if (text.includes('CREATE TABLE IF NOT EXISTS character_relationships')) return { rows: [] }
+      if (text.includes('FROM character_relationships')) {
+        return {
+          rows: [
+            {
+              relationship_id: 'flora-blumenfreude#8eb40291-65ee-49b6-b826-d7c7e97404c0#friend_of',
+              source_character_id: 'flora-blumenfreude',
+              target_character_id: '8eb40291-65ee-49b6-b826-d7c7e97404c0',
+              relationship_type: 'friend_of',
+              from_title: 'Freundschaft',
+              to_title: 'Freundschaft',
+              relationship_type_readable: 'Freundschaft',
+              relationship: 'Freundschaft',
+              description: null,
+              metadata: {},
+              other_related_objects: [],
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+            },
+          ],
+        }
+      }
+      return { rows: [] }
+    })
 
     const { listAllRelationships } = await import('./relationshipStore.ts')
     const result = await listAllRelationships()
@@ -228,7 +220,7 @@ describe('relationshipStore', () => {
     expect(result).toHaveLength(1)
     expect(result[0]?.sourceCharacterId).toBe('78a52cad-30b5-468f-9687-c50c30a4bd39')
     expect(result[0]?.targetCharacterId).toBe('8eb40291-65ee-49b6-b826-d7c7e97404c0')
-    expect(result[0]?.relationshipTypeReadable).toBe('Freundin')
-    expect(result[0]?.relationship).toBe('Freundin')
+    expect(result[0]?.relationshipTypeReadable).toBe('Freundschaft')
+    expect(result[0]?.relationship).toBe('Freundschaft')
   })
 })

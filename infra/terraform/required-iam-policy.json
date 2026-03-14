@@ -1,0 +1,48 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "StorytimeTerraformProvisioning",
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:*",
+        "cloudformation:*",
+        "cloudfront:*",
+        "dynamodb:*",
+        "ec2:*",
+        "events:*",
+        "iam:AttachRolePolicy",
+        "iam:CreatePolicy",
+        "iam:CreateRole",
+        "iam:DeletePolicy",
+        "iam:DeleteRole",
+        "iam:DeleteRolePolicy",
+        "iam:DetachRolePolicy",
+        "iam:GetPolicy",
+        "iam:GetRole",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListRolePolicies",
+        "iam:PassRole",
+        "iam:PutRolePolicy",
+        "iam:TagRole",
+        "iam:UntagRole",
+        "kms:*",
+        "lambda:*",
+        "logs:*",
+        "rds:*",
+        "route53:*",
+        "s3:*",
+        "secretsmanager:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowStsIdentity",
+      "Effect": "Allow",
+      "Action": [
+        "sts:GetCallerIdentity"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

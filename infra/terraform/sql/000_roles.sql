@@ -1,0 +1,40 @@
+-- Run as RDS master user once.
+
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_rw') THEN
+    CREATE ROLE app_rw LOGIN;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'app_ro') THEN
+    CREATE ROLE app_ro LOGIN;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'migration_role') THEN
+    CREATE ROLE migration_role LOGIN;
+  END IF;
+END
+$$;
+
+GRANT CONNECT ON DATABASE storytime TO app_rw, app_ro, migration_role;
+
+\c storytime;
+
+GRANT USAGE ON SCHEMA public TO app_rw, app_ro, migration_role;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO app_rw;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO app_ro;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO migration_role;
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO app_rw, app_ro;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO migration_role;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_rw;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT ON TABLES TO app_ro;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON TABLES TO migration_role;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT USAGE, SELECT ON SEQUENCES TO app_rw, app_ro;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT ALL PRIVILEGES ON SEQUENCES TO migration_role;

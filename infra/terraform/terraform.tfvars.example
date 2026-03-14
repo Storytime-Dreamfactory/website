@@ -1,0 +1,25 @@
+project     = "storytime"
+environment = "prod"
+aws_region  = "eu-central-1"
+
+# Optional: Custom API Domain
+# api_domain_name         = "api.example.com"
+# api_acm_certificate_arn = "arn:aws:acm:eu-central-1:123456789012:certificate/..."
+# route53_zone_id         = "Z1234567890"
+
+# Optional: Content CDN Alias (ACM Zertifikat in us-east-1)
+# content_cdn_domain_alias = "content.example.com"
+# content_cdn_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/..."
+
+# Optional: initial secrets (sonst leer lassen und nach Deploy im Secrets Manager setzen)
+openai_api_key        = ""
+bfl_api_key           = ""
+google_gemini_api_key = ""
+
+# Optional: Log retention
+# lambda_log_retention_days = 30
+# apigw_log_retention_days  = 30
+
+# Optional: GitHub OIDC Deploy Role
+# github_oidc_provider_arn = "arn:aws:iam::123456789012:oidc-provider/token.actions.githubusercontent.com"
+# github_repository        = "owner/repo"

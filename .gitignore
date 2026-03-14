@@ -26,3 +26,18 @@ dist-ssr
 # Environment
 .env
 .env.local
+.vercel
+.env*.local
+.env.storytime.production
+
+# Temp / dumps
+.tmp/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+infra/terraform/tfplan*
+infra/terraform/lambda_stub/api_stub.zip
+infra/terraform/lambda_activity_projector/activity_projector.zip
