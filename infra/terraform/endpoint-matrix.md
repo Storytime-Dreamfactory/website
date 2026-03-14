@@ -6,10 +6,10 @@ Alle bestehenden Pfade sind im HTTP API vorprovisioniert. Stand jetzt:
 
 - `GET /api/activities` -> aktiv (RDS Read-Path)
 - `POST /api/activities` -> Stub (`501`)
-- `GET /api/activities/stream` -> degradiert (`501`, Polling-Fallback)
-- `GET /api/conversations` -> provisioniert
-- `GET /api/conversations/characters-with-conversations` -> provisioniert
-- `GET /api/conversations/latest` -> provisioniert
+- `GET /api/activities/stream` -> aktiv (SSE Snapshot-Bridge, reconnect-faehig)
+- `GET /api/conversations` -> aktiv (RDS Read-Path)
+- `GET /api/conversations/characters-with-conversations` -> aktiv (RDS Read-Path)
+- `GET /api/conversations/latest` -> aktiv (RDS Read-Path)
 - `POST /api/conversations/start` -> provisioniert
 - `POST /api/conversations/metadata` -> provisioniert
 - `POST /api/conversations/message` -> provisioniert

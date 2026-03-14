@@ -79,7 +79,7 @@ Erwartung:
 1. Read-Only-Domaenen sind bereits migriert (`game-objects`, `relationships`, `GET /api/activities`).
 2. Realtime Schritt 1 ist event-driven: `POST /api/realtime/session`, `POST /api/realtime/instructions`, `POST /api/realtime/events`.
 3. Conversations sind bewusst aus dem kritischen Realtime-Pfad entkoppelt und folgen als Projektion in Schritt 2 (`conversation-projection-step2.md`).
-4. `GET /api/activities/stream` ist aktuell degradiert und wird spaeter ersetzt.
+4. `GET /api/activities/stream` ist als SSE Snapshot-Bridge verfuegbar (kurzlebige Streams mit Auto-Reconnect); vollwertiges Push-Streaming folgt spaeter.
 4. Content-Deploy erfolgt ueber `npm run content:deploy:aws` (inkl. versioniertem Snapshot in S3).
 
 ## IAM Blocker beheben

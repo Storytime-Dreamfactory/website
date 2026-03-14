@@ -8,7 +8,7 @@ type Props = {
   hideSummary?: boolean
   onOpenConversation?: (conversationId: string) => void
 }
-const CONVERSATION_BOUNDARY_ACTIVITY_TYPES = new Set(['character.chat.completed', 'conversation.ended'])
+const CONVERSATION_BOUNDARY_ACTIVITY_TYPES = new Set(['conversation.started'])
 
 const SUMMARY_PREVIEW_LENGTH = 220
 

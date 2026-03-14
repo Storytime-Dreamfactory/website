@@ -11,17 +11,24 @@ let pool = null
 let poolDatabaseUrl = ''
 
 const EVENT_TO_ACTIVITY_TYPE = {
-  'voice.session.requested': 'runtime.voice.session.requested',
+  'voice.session.requested': 'conversation.started',
   'voice.instructions.updated': 'runtime.voice.instructions.updated',
-  'voice.user.transcript.received': 'runtime.voice.user.transcript.received',
-  'voice.assistant.transcript.received': 'runtime.voice.assistant.transcript.received',
-  'voice.session.ended': 'runtime.voice.session.ended',
-  'voice.session.failed': 'runtime.voice.session.failed',
+  'voice.user.transcript.received': 'conversation.message.created',
+  'voice.assistant.transcript.received': 'conversation.message.created',
+  'voice.session.ended': 'conversation.ended',
+  'voice.session.failed': 'conversation.ended',
 }
 
 const readOptionalString = (value) => {
   if (typeof value !== 'string') return ''
   return value.trim()
+}
+
+const toConversationId = (detail) => {
+  const conversationKey = readOptionalString(detail.conversationKey)
+  if (conversationKey) return conversationKey
+  const correlationId = readOptionalString(detail.correlationId)
+  return correlationId || undefined
 }
 
 const getDatabaseUrlFromSecret = async () => {
@@ -82,20 +89,62 @@ const parseRecordEnvelope = (record) => {
       ? detail.characterId
       : null
   if (!characterId) throw new Error('characterId fehlt.')
+  const conversationId = toConversationId(detail)
+  const payload = detail.payload && typeof detail.payload === 'object' ? detail.payload : {}
+  const transcript = readOptionalString(payload.transcript)
+  const messageRole =
+    eventType === 'voice.user.transcript.received'
+      ? 'user'
+      : eventType === 'voice.assistant.transcript.received'
+        ? 'assistant'
+        : undefined
+
   const metadata = {
     schemaVersion: detail.schemaVersion ?? '1.0',
     correlationId: detail.correlationId ?? null,
     conversationKey: detail.conversationKey ?? null,
-    payload: detail.payload && typeof detail.payload === 'object' ? detail.payload : {},
+    payload,
     projectedFrom: eventType,
     projectedAt: new Date().toISOString(),
     source: 'eventbridge.realtime',
+    ...(messageRole ? { messageRole } : {}),
+    ...(transcript ? { summary: transcript } : {}),
   }
+  const isPublic =
+    eventType === 'voice.session.requested' ||
+    eventType === 'voice.user.transcript.received' ||
+    eventType === 'voice.assistant.transcript.received'
+  const subject =
+    eventType === 'voice.assistant.transcript.received'
+      ? { type: 'character', id: characterId }
+      : eventType === 'voice.user.transcript.received'
+        ? { type: 'person', id: 'user', name: 'Yoko' }
+        : {
+            type: 'conversation',
+            id: (conversationId ?? readOptionalString(detail.correlationId)) || 'conversation',
+          }
+  const object =
+    messageRole
+      ? {
+          type: 'conversation_message',
+          id: activityId,
+          role: messageRole,
+          eventType,
+        }
+      : {
+          type: 'conversation',
+          id: (conversationId ?? readOptionalString(detail.correlationId)) || 'conversation',
+        }
   return {
     activityId,
     activityType,
+    isPublic,
     characterId,
+    conversationId,
+    storySummary: transcript || undefined,
     metadata,
+    subject,
+    object,
     occurredAt,
   }
 }
@@ -108,19 +157,26 @@ const insertActivityProjection = async (db, projection) => {
       activity_type,
       is_public,
       character_id,
+      conversation_id,
       metadata,
       subject,
       object,
+      story_summary,
       occurred_at
     )
-    VALUES ($1, $2, false, $3, $4::jsonb, '{}'::jsonb, '{}'::jsonb, $5::timestamptz)
+    VALUES ($1, $2, $3, $4, $5, $6::jsonb, $7::jsonb, $8::jsonb, $9, $10::timestamptz)
     ON CONFLICT (activity_id) DO NOTHING
     `,
     [
       projection.activityId,
       projection.activityType,
+      projection.isPublic,
       projection.characterId,
+      projection.conversationId || null,
       JSON.stringify(projection.metadata),
+      JSON.stringify(projection.subject ?? {}),
+      JSON.stringify(projection.object ?? {}),
+      projection.storySummary || null,
       projection.occurredAt,
     ],
   )

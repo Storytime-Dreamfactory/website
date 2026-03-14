@@ -736,7 +736,11 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   const activityItems = useMemo<CharacterActivityItem[]>(() => {
     if (!loadActivities || !character) return []
     if (!apiActivities || apiActivities.length === 0) return []
-    const sourceItems = apiActivities
+    const sourceItems = apiActivities.filter(
+      (activity) =>
+        activity.activityType !== 'conversation.ended' &&
+        activity.activityType !== 'character.chat.completed',
+    )
 
     const resolvedTraceToolCalls = new Set<string>()
     const pendingTraceRequestIds = new Set<string>()

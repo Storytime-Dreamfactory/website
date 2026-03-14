@@ -574,6 +574,122 @@ const listActivities = async (requestUrl) => {
   }
 }
 
+const toConversationRecord = (row) => ({
+  conversationId: row.conversation_id,
+  userId: row.user_id || undefined,
+  characterId: row.character_id,
+  startedAt: new Date(row.started_at).toISOString(),
+  endedAt: row.ended_at ? new Date(row.ended_at).toISOString() : undefined,
+  metadata: row.metadata || {},
+})
+
+const toConversationMessageRecord = (row) => ({
+  messageId: Number(row.message_id),
+  conversationId: row.conversation_id,
+  role: row.role,
+  content: row.content,
+  eventType: row.event_type || undefined,
+  createdAt: new Date(row.created_at).toISOString(),
+  metadata: row.metadata || {},
+})
+
+const getConversationDetails = async (conversationId) => {
+  const db = getPool()
+  if (!db) throw new Error('DATABASE_URL fehlt.')
+
+  const normalizedConversationId = readOptionalString(conversationId)
+  if (!normalizedConversationId) {
+    throw new Error('conversationId ist erforderlich.')
+  }
+
+  const conversationResult = await db.query(
+    `
+    SELECT
+      conversation_id,
+      user_id,
+      character_id,
+      started_at::text,
+      ended_at::text,
+      metadata
+    FROM conversations
+    WHERE conversation_id = $1
+    LIMIT 1
+    `,
+    [normalizedConversationId],
+  )
+  if (conversationResult.rowCount === 0) return null
+
+  const messageResult = await db.query(
+    `
+    SELECT
+      message_id,
+      conversation_id,
+      role,
+      content,
+      event_type,
+      created_at::text,
+      metadata
+    FROM conversation_messages
+    WHERE conversation_id = $1
+    ORDER BY created_at ASC, message_id ASC
+    `,
+    [normalizedConversationId],
+  )
+
+  return {
+    conversation: toConversationRecord(conversationResult.rows[0]),
+    messages: messageResult.rows.map((row) => toConversationMessageRecord(row)),
+  }
+}
+
+const getLatestConversationForCharacter = async (characterId) => {
+  const db = getPool()
+  if (!db) throw new Error('DATABASE_URL fehlt.')
+
+  const normalizedCharacterId = readOptionalString(characterId)
+  if (!normalizedCharacterId) {
+    throw new Error('characterId ist erforderlich.')
+  }
+
+  const conversationResult = await db.query(
+    `
+    SELECT
+      conversation_id,
+      user_id,
+      character_id,
+      started_at::text,
+      ended_at::text,
+      metadata
+    FROM conversations
+    WHERE character_id = $1
+    ORDER BY started_at DESC
+    LIMIT 1
+    `,
+    [normalizedCharacterId],
+  )
+  if (conversationResult.rowCount === 0) return null
+
+  const details = await getConversationDetails(conversationResult.rows[0].conversation_id)
+  return details
+}
+
+const getCharacterIdsWithConversations = async () => {
+  const db = getPool()
+  if (!db) return []
+  const result = await db.query(
+    `
+    SELECT DISTINCT c.character_id
+    FROM conversations c
+    INNER JOIN conversation_messages m ON m.conversation_id = c.conversation_id
+    WHERE m.role IN ('user', 'assistant')
+    ORDER BY c.character_id ASC
+    `,
+  )
+  return result.rows
+    .map((row) => readOptionalString(row.character_id))
+    .filter((value) => Boolean(value))
+}
+
 export const handler = async (event) => {
   const routeKey = event?.routeKey || 'UNKNOWN'
   const path = event?.rawPath || ''
@@ -701,15 +817,63 @@ export const handler = async (event) => {
     }
 
     // Activities read-first
+    if (routeKey === 'GET /api/conversations') {
+      const conversationId = requestUrl.searchParams.get('conversationId') || ''
+      if (!conversationId.trim()) return json(400, { error: 'conversationId ist erforderlich.' })
+      const details = await getConversationDetails(conversationId)
+      if (!details) return json(404, { error: 'Conversation nicht gefunden.' })
+      return json(200, details)
+    }
+
+    if (routeKey === 'GET /api/conversations/latest') {
+      const characterId = requestUrl.searchParams.get('characterId') || ''
+      if (!characterId.trim()) return json(400, { error: 'characterId ist erforderlich.' })
+      const details = await getLatestConversationForCharacter(characterId)
+      if (!details) {
+        return json(404, { error: 'Keine Conversation fuer diesen Character gefunden.' })
+      }
+      return json(200, details)
+    }
+
+    if (routeKey === 'GET /api/conversations/characters-with-conversations') {
+      const characterIds = await getCharacterIdsWithConversations()
+      return json(200, { characterIds })
+    }
+
     if (routeKey === 'GET /api/activities') {
       const payload = await listActivities(requestUrl)
       return json(200, payload)
     }
     if (routeKey === 'GET /api/activities/stream') {
-      return json(501, {
-        error: 'Stream noch nicht migriert. Nutze vorerst GET /api/activities Polling.',
-        migrationMode: 'stream-degraded',
-      })
+      const summaryOnly = ['1', 'true'].includes(
+        (requestUrl.searchParams.get('summaryOnly') || '').toLowerCase(),
+      )
+      const streamUrl = new URL(requestUrl.toString())
+      if (!streamUrl.searchParams.get('limit')) {
+        streamUrl.searchParams.set('limit', '30')
+      }
+      const payload = await listActivities(streamUrl)
+      const activities = (payload.activities || []).filter((activity) =>
+        summaryOnly ? Boolean(activity.storySummary && activity.storySummary.trim()) : true,
+      )
+
+      const chunks = ['retry: 3000', 'event: ready', 'data: {"status":"connected"}', '']
+      for (const activity of activities) {
+        chunks.push(`id: ${activity.activityId}`)
+        chunks.push('event: activity.created')
+        chunks.push(`data: ${JSON.stringify(activity)}`)
+        chunks.push('')
+      }
+
+      return {
+        statusCode: 200,
+        headers: {
+          'content-type': 'text/event-stream',
+          'cache-control': 'no-cache, no-transform',
+          connection: 'keep-alive',
+        },
+        body: chunks.join('\n'),
+      }
     }
 
     // Realtime (event-driven, ohne Conversations)

@@ -26,6 +26,17 @@ CREATE INDEX IF NOT EXISTS idx_conversation_messages_conversation
 CREATE INDEX IF NOT EXISTS idx_conversation_messages_created_at
   ON conversation_messages (created_at DESC);
 
+CREATE TABLE IF NOT EXISTS conversation_projected_events (
+  event_id TEXT PRIMARY KEY,
+  conversation_id TEXT NOT NULL,
+  event_type TEXT NOT NULL,
+  message_id BIGINT,
+  projected_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_conversation_projected_events_conversation_id
+  ON conversation_projected_events (conversation_id);
+
 CREATE TABLE IF NOT EXISTS character_activities (
   activity_id TEXT PRIMARY KEY,
   activity_type TEXT NOT NULL,

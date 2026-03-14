@@ -196,6 +196,7 @@ export default function CharacterStoryPage({ content }: Props) {
             conversationId={selectedConversationId}
             selectedLearningGoalId={selectedLearningGoalId}
             enableTextChat
+            textChatMountSelector="#activity-panel-chat-composer"
           />
         </div>
         <div ref={activityOverlayRef} className="character-story-activity-overlay">
@@ -209,6 +210,7 @@ export default function CharacterStoryPage({ content }: Props) {
             isLoadingMore={activityLoadMorePending}
             onLoadMore={loadMoreActivities}
           />
+          <div id="activity-panel-chat-composer" className="character-story-activity-chat-slot" />
         </div>
       </div>
 

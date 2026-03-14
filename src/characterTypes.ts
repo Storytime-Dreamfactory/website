@@ -172,7 +172,7 @@ export const normalizeConversationMessageSummary = (
       : resolveConversationCounterpartName(activity) ?? FIXED_USER_NAME
 
   const match = trimmedSummary.match(/^([^:]{1,160}):\s*(.+)$/s)
-  if (!match) return trimmedSummary
+  if (!match) return `${speakerName}: ${trimmedSummary}`
 
   const [, prefix, content] = match
   const subjectId = readTextValue(activity.subject?.id)

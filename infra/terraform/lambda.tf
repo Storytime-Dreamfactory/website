@@ -10,6 +10,12 @@ data "archive_file" "activity_projector_zip" {
   output_path = "${path.module}/lambda_activity_projector/activity_projector.zip"
 }
 
+data "archive_file" "conversation_projector_zip" {
+  type        = "zip"
+  source_dir  = "${path.module}/lambda_conversation_projector"
+  output_path = "${path.module}/lambda_conversation_projector/conversation_projector.zip"
+}
+
 resource "aws_iam_role" "lambda_exec" {
   name = "${local.prefix}-lambda-exec"
   assume_role_policy = jsonencode({
@@ -70,9 +76,12 @@ resource "aws_iam_policy" "lambda_runtime" {
         Resource = [aws_kms_key.app.arn]
       },
       {
-        Effect   = "Allow"
-        Action   = ["sqs:ReceiveMessage", "sqs:DeleteMessage", "sqs:GetQueueAttributes"]
-        Resource = [aws_sqs_queue.realtime_activity_projection.arn]
+        Effect = "Allow"
+        Action = ["sqs:ReceiveMessage", "sqs:DeleteMessage", "sqs:GetQueueAttributes"]
+        Resource = [
+          aws_sqs_queue.realtime_activity_projection.arn,
+          aws_sqs_queue.realtime_conversation_projection.arn
+        ]
       }
     ]
   })
@@ -128,9 +137,38 @@ resource "aws_lambda_function" "activity_projector" {
   depends_on = [aws_cloudwatch_log_group.lambda_activity_projector]
 }
 
+resource "aws_lambda_function" "conversation_projector" {
+  function_name    = "${local.prefix}-conversation-projector"
+  role             = aws_iam_role.lambda_exec.arn
+  runtime          = "nodejs20.x"
+  handler          = "index.handler"
+  filename         = data.archive_file.conversation_projector_zip.output_path
+  source_code_hash = data.archive_file.conversation_projector_zip.output_base64sha256
+  timeout          = 30
+  memory_size      = 256
+  vpc_config {
+    security_group_ids = [aws_security_group.lambda.id]
+    subnet_ids         = [for s in aws_subnet.private : s.id]
+  }
+  environment {
+    variables = {
+      RUNTIME_SECRET_ARN = aws_secretsmanager_secret.app_runtime.arn
+    }
+  }
+  tags       = local.tags
+  depends_on = [aws_cloudwatch_log_group.lambda_conversation_projector]
+}
+
 resource "aws_lambda_event_source_mapping" "activity_projector_from_sqs" {
   event_source_arn = aws_sqs_queue.realtime_activity_projection.arn
   function_name    = aws_lambda_function.activity_projector.arn
+  batch_size       = 10
+  enabled          = true
+}
+
+resource "aws_lambda_event_source_mapping" "conversation_projector_from_sqs" {
+  event_source_arn = aws_sqs_queue.realtime_conversation_projection.arn
+  function_name    = aws_lambda_function.conversation_projector.arn
   batch_size       = 10
   enabled          = true
 }

@@ -2405,8 +2405,8 @@
   height: 36px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.26);
-  background: rgba(0, 0, 0, 0.34);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b1526;
   padding: 0 12px;
   font-size: 13px;
   outline: none;
@@ -2414,6 +2414,11 @@
 
 .vcb-text-chat-input:focus {
   border-color: rgba(120, 190, 255, 0.82);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.vcb-text-chat-input::placeholder {
+  color: rgba(11, 21, 38, 0.56);
 }
 
 .vcb-text-chat-send {
@@ -3155,8 +3160,6 @@
   box-shadow: none;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
-  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
 }
 
 .character-story-activity-overlay .character-activity-stream {
@@ -3167,6 +3170,48 @@
   margin-left: 0;
   background: transparent;
   border-radius: 0;
+  -webkit-mask-image: linear-gradient(to bottom, black 62%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 62%, transparent 100%);
+}
+
+.character-story-activity-chat-slot {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+  padding: 10px 16px 14px;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.character-story-activity-chat-slot::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -46px;
+  height: 46px;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+  z-index: 2;
+}
+
+.character-activity-chat-composer {
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.vcb-text-chat-input-row-embedded {
+  width: 100%;
+}
+
+.vcb-text-chat-input-row-embedded .vcb-text-chat-send {
+  position: relative;
+  z-index: 4;
+  align-self: center;
 }
 
 @media (max-width: 900px) {

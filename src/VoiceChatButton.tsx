@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import { createPortal } from 'react-dom'
 import {
   AudioMutedOutlined,
   AudioOutlined,
@@ -16,6 +17,7 @@ type Props = {
   conversationId?: string | null
   selectedLearningGoalId?: string | null
   enableTextChat?: boolean
+  textChatMountSelector?: string
 }
 type ChatMessage = {
   id: string
@@ -86,6 +88,7 @@ export default function VoiceChatButton({
   character,
   selectedLearningGoalId,
   enableTextChat = false,
+  textChatMountSelector,
 }: Props) {
   const [state, setState] = useState<ConnectionState>('idle')
   const [audioLevel, setAudioLevel] = useState(0)
@@ -93,11 +96,26 @@ export default function VoiceChatButton({
   const [isTextChatOpen, setIsTextChatOpen] = useState(false)
   const [textInputValue, setTextInputValue] = useState('')
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
+  const [resolvedTextChatMountNode, setResolvedTextChatMountNode] = useState<Element | null>(null)
   const selectedVoice = useMemo(() => character.voice, [character.voice])
   const activeLearningGoalId = useMemo(() => {
     const trimmed = selectedLearningGoalId?.trim() ?? ''
     return UUID_LIKE_RE.test(trimmed) ? trimmed : null
   }, [selectedLearningGoalId])
+  useEffect(() => {
+    if (!enableTextChat || !textChatMountSelector || typeof document === 'undefined') {
+      setResolvedTextChatMountNode(null)
+      return
+    }
+    const resolveNode = () => {
+      setResolvedTextChatMountNode(document.querySelector(textChatMountSelector))
+    }
+    resolveNode()
+    const rafId = window.requestAnimationFrame(resolveNode)
+    return () => {
+      window.cancelAnimationFrame(rafId)
+    }
+  }, [enableTextChat, textChatMountSelector])
 
   const pcRef = useRef<RTCPeerConnection | null>(null)
   const localStreamRef = useRef<MediaStream | null>(null)
@@ -800,6 +818,28 @@ export default function VoiceChatButton({
     sendTextMessage(textInputValue)
   }, [sendTextMessage, textInputValue])
 
+  const textChatComposer = (
+    <form
+      className={`vcb-text-chat-input-row${resolvedTextChatMountNode ? ' vcb-text-chat-input-row-embedded' : ''}`}
+      onSubmit={handleTextSubmit}
+    >
+      <input
+        className="vcb-text-chat-input"
+        type="text"
+        value={textInputValue}
+        onChange={(event) => setTextInputValue(event.target.value)}
+        placeholder="Nachricht schreiben..."
+      />
+      <button
+        type="submit"
+        className="vcb-text-chat-send"
+        aria-label="Nachricht senden"
+      >
+        <SendOutlined />
+      </button>
+    </form>
+  )
+
   return (
     <>
       <div className="vcb-wrapper">
@@ -844,7 +884,13 @@ export default function VoiceChatButton({
           </button>
         )}
       </div>
-      {enableTextChat && (
+      {enableTextChat && resolvedTextChatMountNode && createPortal(
+        <div className="character-activity-chat-composer">
+          {textChatComposer}
+        </div>,
+        resolvedTextChatMountNode,
+      )}
+      {enableTextChat && !resolvedTextChatMountNode && (
         <div className="vcb-text-chat-root">
           {isTextChatOpen && (
             <div className="vcb-text-chat-panel" role="dialog" aria-label="Textchat">
@@ -879,22 +925,7 @@ export default function VoiceChatButton({
                   ))
                 )}
               </div>
-              <form className="vcb-text-chat-input-row" onSubmit={handleTextSubmit}>
-                <input
-                  className="vcb-text-chat-input"
-                  type="text"
-                  value={textInputValue}
-                  onChange={(event) => setTextInputValue(event.target.value)}
-                  placeholder="Nachricht schreiben..."
-                />
-                <button
-                  type="submit"
-                  className="vcb-text-chat-send"
-                  aria-label="Nachricht senden"
-                >
-                  <SendOutlined />
-                </button>
-              </form>
+              {textChatComposer}
             </div>
           )}
           <button
