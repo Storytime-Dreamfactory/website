@@ -1,0 +1,42 @@
+id: 2f1847cd-cf8f-4216-9865-4b7c8bedb019
+name: Pflanzen
+type: learning-goals
+subject: naturwissenschaften
+topic_group: Biologie
+topic: Pflanzen
+subtopic: Heimische Pflanzen erkennen und ihren Aufbau beschreiben
+description: >
+  Die Schueler lernen, verschiedene heimische Wild- und Gartenpflanzen zu
+  erkennen und zu benennen, darunter Laub- und Nadelbaeume. Sie beschreiben
+  den grundlegenden Aufbau gaengiger Bluetenpflanzen einschliesslich Baeumen.
+age_range:
+  - "5-6"
+domain_tags:
+  - naturwissenschaften
+  - biologie
+  - pflanzen
+  - baeume
+  - year-1
+  - ks1
+curriculum_source:
+  framework: national-curriculum-england
+  key_stage: 1
+  year_group: 1
+  subject_en: Science
+  topic_en: Plants
+  document_ref: DFE-00178-2013
+learning_objectives:
+  - id: identify-common-plants
+    can_do: >
+      Das Kind kann verschiedene heimische Wild- und Gartenpflanzen erkennen
+      und benennen, einschliesslich Laub- und Nadelbaeumen.
+    original_en: >
+      identify and name a variety of common wild and garden plants, including
+      deciduous and evergreen trees
+  - id: describe-plant-structure
+    can_do: >
+      Das Kind kann den grundlegenden Aufbau verschiedener gaengiger
+      Bluetenpflanzen einschliesslich Baeumen erkennen und beschreiben.
+    original_en: >
+      identify and describe the basic structure of a variety of common
+      flowering plants, including trees

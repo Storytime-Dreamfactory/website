@@ -1,0 +1,58 @@
+id: 038aafbb-279c-4948-8a5e-0c1235be2484
+name: Alltagsmaterialien
+type: learning-goals
+subject: naturwissenschaften
+topic_group: Chemie und Materialien
+topic: Alltagsmaterialien
+subtopic: Materialien erkennen, ihre Eigenschaften beschreiben und vergleichen
+description: >
+  Die Schueler lernen, zwischen einem Gegenstand und dem Material zu
+  unterscheiden, aus dem er besteht. Sie erkennen und benennen gaengige
+  Alltagsmaterialien wie Holz, Kunststoff, Glas, Metall, Wasser und Stein,
+  beschreiben deren einfache physikalische Eigenschaften und ordnen
+  Materialien anhand dieser Eigenschaften in Gruppen ein.
+age_range:
+  - "5-6"
+domain_tags:
+  - naturwissenschaften
+  - materialien
+  - eigenschaften
+  - vergleichen
+  - gruppieren
+  - year-1
+  - ks1
+curriculum_source:
+  framework: national-curriculum-england
+  key_stage: 1
+  year_group: 1
+  subject_en: Science
+  topic_en: Everyday materials
+  document_ref: DFE-00178-2013
+learning_objectives:
+  - id: distinguish-object-material
+    can_do: >
+      Das Kind kann zwischen einem Gegenstand und dem Material unterscheiden,
+      aus dem er hergestellt ist.
+    original_en: >
+      distinguish between an object and the material from which it is made
+  - id: identify-everyday-materials
+    can_do: >
+      Das Kind kann verschiedene Alltagsmaterialien erkennen und benennen,
+      darunter Holz, Kunststoff, Glas, Metall, Wasser und Stein.
+    original_en: >
+      identify and name a variety of everyday materials, including wood,
+      plastic, glass, metal, water, and rock
+  - id: describe-material-properties
+    can_do: >
+      Das Kind kann die einfachen physikalischen Eigenschaften verschiedener
+      Alltagsmaterialien beschreiben.
+    original_en: >
+      describe the simple physical properties of a variety of everyday
+      materials
+  - id: group-materials-by-properties
+    can_do: >
+      Das Kind kann verschiedene Alltagsmaterialien anhand ihrer einfachen
+      physikalischen Eigenschaften vergleichen und in Gruppen einteilen.
+    original_en: >
+      compare and group together a variety of everyday materials on the
+      basis of their simple physical properties

@@ -1,0 +1,42 @@
+id: f8fdfa87-2d18-49de-92e2-fa4d98907231
+name: Jahreszeiten
+type: learning-goals
+subject: naturwissenschaften
+topic_group: Erde und Weltraum
+topic: Jahreszeiten
+subtopic: Veraenderungen in den vier Jahreszeiten und Wetter beobachten
+description: >
+  Die Schueler beobachten die Veraenderungen in den vier Jahreszeiten und
+  beschreiben das typische Wetter jeder Jahreszeit sowie die Veraenderung
+  der Tageslaenge im Jahresverlauf.
+age_range:
+  - "5-6"
+domain_tags:
+  - naturwissenschaften
+  - jahreszeiten
+  - wetter
+  - beobachten
+  - year-1
+  - ks1
+curriculum_source:
+  framework: national-curriculum-england
+  key_stage: 1
+  year_group: 1
+  subject_en: Science
+  topic_en: Seasonal changes
+  document_ref: DFE-00178-2013
+learning_objectives:
+  - id: observe-four-seasons
+    can_do: >
+      Das Kind kann Veraenderungen in den vier Jahreszeiten beobachten
+      und beschreiben.
+    original_en: >
+      observe changes across the four seasons
+  - id: describe-seasonal-weather
+    can_do: >
+      Das Kind kann das typische Wetter der einzelnen Jahreszeiten
+      beobachten und beschreiben und erklaeren, wie sich die Tageslaenge
+      im Jahresverlauf veraendert.
+    original_en: >
+      observe and describe weather associated with the seasons and how
+      day length varies

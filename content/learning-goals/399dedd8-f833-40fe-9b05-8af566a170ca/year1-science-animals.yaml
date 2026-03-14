@@ -1,0 +1,61 @@
+id: 399dedd8-f833-40fe-9b05-8af566a170ca
+name: Tiere und Menschen
+type: learning-goals
+subject: naturwissenschaften
+topic_group: Biologie
+topic: Tiere und Menschen
+subtopic: Tierarten erkennen, vergleichen und den menschlichen Koerper kennenlernen
+description: >
+  Die Schueler lernen, verschiedene gaengige Tiere zu erkennen und zu benennen,
+  darunter Fische, Amphibien, Reptilien, Voegel und Saeugetiere. Sie ordnen
+  Tiere als Fleisch-, Pflanzen- oder Allesfresser ein, vergleichen den
+  Koerperbau verschiedener Tiergruppen und benennen die wichtigsten Koerperteile
+  des Menschen mit den zugehoerigen Sinnen.
+age_range:
+  - "5-6"
+domain_tags:
+  - naturwissenschaften
+  - biologie
+  - tiere
+  - menschlicher-koerper
+  - sinne
+  - year-1
+  - ks1
+curriculum_source:
+  framework: national-curriculum-england
+  key_stage: 1
+  year_group: 1
+  subject_en: Science
+  topic_en: "Animals, including humans"
+  document_ref: DFE-00178-2013
+learning_objectives:
+  - id: identify-common-animals
+    can_do: >
+      Das Kind kann verschiedene gaengige Tiere erkennen und benennen,
+      darunter Fische, Amphibien, Reptilien, Voegel und Saeugetiere.
+    original_en: >
+      identify and name a variety of common animals including fish,
+      amphibians, reptiles, birds and mammals
+  - id: classify-animals-by-diet
+    can_do: >
+      Das Kind kann verschiedene gaengige Tiere als Fleischfresser,
+      Pflanzenfresser oder Allesfresser erkennen und benennen.
+    original_en: >
+      identify and name a variety of common animals that are carnivores,
+      herbivores and omnivores
+  - id: compare-animal-structures
+    can_do: >
+      Das Kind kann den Koerperbau verschiedener gaengiger Tiere beschreiben
+      und vergleichen, darunter Fische, Amphibien, Reptilien, Voegel und
+      Saeugetiere einschliesslich Haustiere.
+    original_en: >
+      describe and compare the structure of a variety of common animals
+      (fish, amphibians, reptiles, birds and mammals, including pets)
+  - id: label-human-body-parts
+    can_do: >
+      Das Kind kann die wichtigsten Koerperteile des menschlichen Koerpers
+      erkennen, benennen, zeichnen und beschriften und angeben, welcher
+      Koerperteil zu welchem Sinn gehoert.
+    original_en: >
+      identify, name, draw and label the basic parts of the human body and
+      say which part of the body is associated with each sense

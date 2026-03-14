@@ -422,6 +422,7 @@ export const validateLearningGoal = (
   }
 
   const session = asOptionalRecord(value.session, 'session', filePath)
+  const curriculumSourceRaw = asOptionalRecord(value.curriculum_source, 'curriculum_source', filePath)
   const curriculum = asOptionalRecord(value.curriculum, 'curriculum', filePath)
   const teachingContent = asOptionalRecord(value.teaching_content, 'teaching_content', filePath)
   const didactics = asOptionalRecord(value.didactics, 'didactics', filePath)
@@ -453,7 +454,7 @@ export const validateLearningGoal = (
     subtopic: asOptionalString(value.subtopic, 'subtopic', filePath) ?? '',
     description: asString(value.description, 'description', filePath),
     ageRange: asOptionalStringList(value.age_range, 'age_range', filePath),
-    exampleQuestions: asStringList(exampleQuestions, 'example_questions', filePath),
+    exampleQuestions: asOptionalStringList(exampleQuestions, 'example_questions', filePath),
     practiceIdeas: asOptionalStringList(practiceIdeas, 'practice_ideas', filePath),
     domainTags: asOptionalStringList(domainTags, 'domain_tags', filePath),
     session: session
@@ -511,10 +512,21 @@ export const validateLearningGoal = (
           ),
         }
       : undefined,
+    curriculumSource: curriculumSourceRaw
+      ? {
+          framework: asString(curriculumSourceRaw.framework, 'curriculum_source.framework', filePath),
+          keyStage: asNumber(curriculumSourceRaw.key_stage, 'curriculum_source.key_stage', filePath),
+          yearGroup: asNumber(curriculumSourceRaw.year_group, 'curriculum_source.year_group', filePath),
+          subjectEn: asString(curriculumSourceRaw.subject_en, 'curriculum_source.subject_en', filePath),
+          topicEn: asString(curriculumSourceRaw.topic_en, 'curriculum_source.topic_en', filePath),
+          documentRef: asString(curriculumSourceRaw.document_ref, 'curriculum_source.document_ref', filePath),
+        }
+      : undefined,
     learningObjectives: learningObjectives.map((objective) => ({
       id: asString(objective.id, 'learning_objectives[].id', filePath),
       canDo: asString(objective.can_do, 'learning_objectives[].can_do', filePath),
       evidence: asOptionalStringList(objective.evidence, 'learning_objectives[].evidence', filePath),
+      originalEn: asOptionalString(objective.original_en, 'learning_objectives[].original_en', filePath),
     })),
     quiz: quiz
       ? {

@@ -21,8 +21,7 @@
     "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/character.yaml",
     "/content/characters/e3bf634f-af12-4d51-aeb1-d1464bea2d13/character.yaml",
     "/content/characters/f78472dd-f4b8-4881-82ab-d2be564ff283/character.yaml",
-    "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/character.yaml",
-    "/content/characters/b6f1b8c2-6f4d-4b3f-a9d1-2c8e7f5a1d44/character.yaml"
+    "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/character.yaml"
   ],
   "places": [
     "/content/places/crystal-lake.yaml",
@@ -31,7 +30,11 @@
   "learningGoals": [
     "/content/learning-goals/126aa8c8-a7f5-46e0-928b-ee3cc53e564e/problem-solving.yaml",
     "/content/learning-goals/313ab6c5-0d07-48d6-aae6-458a0218c020/kindness.yaml",
-    "/content/learning-goals/20cf5ce8-bfca-495d-add7-c5e0b9a8ac2f/zahlen-ordnen.yaml"
+    "/content/learning-goals/20cf5ce8-bfca-495d-add7-c5e0b9a8ac2f/zahlen-ordnen.yaml",
+    "/content/learning-goals/2f1847cd-cf8f-4216-9865-4b7c8bedb019/year1-science-plants.yaml",
+    "/content/learning-goals/399dedd8-f833-40fe-9b05-8af566a170ca/year1-science-animals.yaml",
+    "/content/learning-goals/038aafbb-279c-4948-8a5e-0c1235be2484/year1-science-materials.yaml",
+    "/content/learning-goals/f8fdfa87-2d18-49de-92e2-fa4d98907231/year1-science-seasonal-changes.yaml"
   ],
   "artifacts": [
     "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/goldener-wandelstein.yaml",

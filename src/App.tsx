@@ -11,7 +11,6 @@ import {
   Layout,
   Menu,
   Space,
-  Spin,
   Switch,
   Tag,
   Typography,
@@ -23,6 +22,14 @@ import userProfileAvatar from './assets/user-profile-avatar.png'
 import CharacterDetailPage from './CharacterDetailPage'
 import CharacterStoryPage from './CharacterStoryPage'
 import CreateCharacterPage from './CreateCharacterPage'
+import MapPage from './MapPage'
+import LearningGoalsPage from './LearningGoalsPage'
+import GameObjectCard, {
+  type GameObjectKind,
+  type GameObjectProperty,
+  type GameObjectRelationship,
+} from './design-system/gameObjects/GameObjectCard'
+import RelationshipPill from './design-system/gameObjects/RelationshipPill'
 import { loadStoryContent } from './content/loaders'
 import type { StoryContent } from './content/types'
 import './App.css'
@@ -44,6 +51,7 @@ const menuItems = [
   { key: '/', label: 'Home' },
   { key: '/characters', label: 'Characters' },
   { key: '/places', label: 'Places' },
+  { key: '/map', label: 'Map' },
   { key: '/artifacts', label: 'Artifacts' },
   { key: '/learning-goals', label: 'Lernziele' },
   { key: '/design-system', label: 'Design System' },
@@ -156,21 +164,49 @@ function resolveCarouselItems(
   content: StoryContent,
   type: ContentCarouselProps['type'],
   ids?: string[],
-): { id: string; name: string; image?: string }[] {
+): {
+  id: string
+  name: string
+  image?: string
+  kind: GameObjectKind
+  properties: GameObjectProperty[]
+  relationships: GameObjectRelationship[]
+}[] {
   if (type === 'characters') {
     const pool = ids
       ? ids.map((id) => content.characters.find((c) => c.id === id)).filter(isDefined)
       : content.characters
     return pool
-      .filter((c) => Boolean(c.images.portrait?.file))
-      .map((c) => ({ id: c.id, name: c.name, image: c.images.portrait?.file }))
+      .filter((c) => Boolean(c.images.profileImage?.file || c.images.portrait?.file))
+      .map((c) => ({
+        id: c.id,
+        name: c.name,
+        image: c.images.profileImage?.file ?? c.images.portrait?.file,
+        kind: 'character' as const,
+        properties: [
+          { key: 'species', label: 'Art', value: c.basis.species },
+          ...(c.basis.roleArchetype
+            ? [{ key: 'role', label: 'Rolle', value: c.basis.roleArchetype }]
+            : []),
+        ],
+        relationships: (c.relationships?.characters ?? []).slice(0, 2).map((relation, index) => ({
+          key: `${c.id}-rel-${index}`,
+          label: relation.type,
+        })),
+      }))
   }
 
   if (type === 'places') {
     const pool = ids
       ? ids.map((id) => content.places.find((p) => p.id === id)).filter(isDefined)
       : content.places
-    return pool.map((p) => ({ id: p.id, name: p.name }))
+    return pool.map((p) => ({
+      id: p.id,
+      name: p.name,
+      kind: 'place' as const,
+      properties: [{ key: 'description', label: 'Beschreibung', value: p.description }],
+      relationships: [],
+    }))
   }
 
   if (type === 'artifacts') {
@@ -181,13 +217,25 @@ function resolveCarouselItems(
       id: artifact.id,
       name: artifact.name,
       image: artifact.images.portrait.file,
+      kind: 'artifact' as const,
+      properties: [
+        { key: 'artifactType', label: 'Typ', value: artifact.artifactType },
+        { key: 'purpose', label: 'Zweck', value: artifact.function.primaryPurpose },
+      ],
+      relationships: [],
     }))
   }
 
   const pool = ids
     ? ids.map((id) => content.learningGoals.find((goal) => goal.id === id)).filter(isDefined)
     : content.learningGoals
-  return pool.map((goal) => ({ id: goal.id, name: goal.name }))
+  return pool.map((goal) => ({
+    id: goal.id,
+    name: goal.name,
+    kind: 'learning-goal' as const,
+    properties: [{ key: 'ageRange', label: 'Alter', value: goal.ageRange.join(' · ') || '-' }],
+    relationships: [],
+  }))
 }
 
 function useCharactersWithConversations(): Set<string> {
@@ -221,6 +269,7 @@ function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
   const fallbackImage =
     type === 'artifacts' ? PAGE_BACKGROUND_ASSETS.learningGoals : PAGE_BACKGROUND_ASSETS[type]
   const charactersWithConversations = useCharactersWithConversations()
+  const isLearningGoalsType = type === 'learningGoals'
 
   return (
     <section className="content-section">
@@ -231,14 +280,17 @@ function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
         {items.map((item) => {
           const cardContent = (
             <Card key={item.id} className="content-card" bordered={false}>
-              <div className="content-card-media">
-                <img src={item.image ?? fallbackImage} alt={item.name} className="content-card-image" />
-                <div className="content-card-overlay">
-                  <Title level={4} className="content-card-title">
-                    {item.name}
-                  </Title>
-                </div>
-              </div>
+              <GameObjectCard
+                kind={item.kind}
+                name={item.name}
+                imageSrc={item.image ?? fallbackImage}
+                properties={item.properties}
+                relationships={item.relationships}
+                showImage
+                showKicker={false}
+                showProperties={isLearningGoalsType}
+                showRelationships={false}
+              />
             </Card>
           )
 
@@ -261,33 +313,21 @@ function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
 }
 
 function resolveLayoutBackground(pathname: string) {
-  if (pathname === '/') {
-    return {
-      background: `linear-gradient(92deg, rgba(3,9,28,0.78) 8%, rgba(3,9,28,0.28) 62%), url('${HOME_HERO_BACKGROUND}') center / cover no-repeat`,
-    }
+  const startPageBackground = {
+    background: `linear-gradient(92deg, rgba(3,9,28,0.78) 8%, rgba(3,9,28,0.28) 62%), url('${HOME_HERO_BACKGROUND}') center / cover no-repeat`,
   }
 
-  if (pathname.startsWith('/characters/')) {
-    return undefined
-  }
+  if (pathname === '/') return startPageBackground
 
-  if (pathname.startsWith('/places')) {
-    return {
-      background: `linear-gradient(92deg, rgba(6,12,34,0.82) 10%, rgba(6,12,34,0.42) 64%), url('${PAGE_BACKGROUND_ASSETS.places}') center / cover no-repeat`,
-    }
-  }
+  if (pathname.startsWith('/map')) return { background: '#03091c' }
 
-  if (pathname.startsWith('/learning-goals')) {
-    return {
-      background: `linear-gradient(92deg, rgba(8,11,28,0.86) 10%, rgba(8,11,28,0.46) 66%), url('${PAGE_BACKGROUND_ASSETS.learningGoals}') center / cover no-repeat`,
-    }
-  }
+  const isGameObjectPath =
+    pathname.startsWith('/characters') ||
+    pathname.startsWith('/places') ||
+    pathname.startsWith('/artifacts') ||
+    pathname.startsWith('/learning-goals')
 
-  if (pathname.startsWith('/artifacts')) {
-    return {
-      background: `linear-gradient(92deg, rgba(8,11,28,0.86) 10%, rgba(8,11,28,0.46) 66%), url('${PAGE_BACKGROUND_ASSETS.artifacts}') center / cover no-repeat`,
-    }
-  }
+  if (isGameObjectPath) return startPageBackground
 
   return {
     background: `linear-gradient(92deg, rgba(3,9,28,0.84) 8%, rgba(3,9,28,0.44) 64%), url('${PAGE_BACKGROUND_ASSETS.characters}') center / cover no-repeat`,
@@ -330,6 +370,9 @@ function HomePage({ content }: { content: StoryContent }) {
 
 function DesignSystemPage({ content }: { content: StoryContent }) {
   const sampleCharacter = content.characters[0]
+  const samplePlace = content.places[0]
+  const sampleArtifact = content.artifacts[0]
+  const sampleLearningGoal = content.learningGoals[0]
 
   return (
     <section className="content-section">
@@ -358,23 +401,118 @@ function DesignSystemPage({ content }: { content: StoryContent }) {
           <Text>Menu-Items: Home, Characters, Places, Lernziele, Design System.</Text>
         </Card>
 
-        <Card className="ds-block" bordered={false} title="Custom: Content Carousel Card">
+        <Card className="ds-block" bordered={false} title="Custom: GameObject Card (Design System)">
           <div className="content-card-preview">
             <Card className="content-card" bordered={false}>
-              <div className="content-card-media">
-                <img
-                  src={sampleCharacter?.images.portrait?.file ?? '/homepage-background.png'}
-                  alt={sampleCharacter?.name ?? 'Preview'}
-                  className="content-card-image"
-                />
-                <div className="content-card-overlay">
-                  <Title level={4} className="content-card-title">
-                    {sampleCharacter?.name ?? 'Carousel Card'}
-                  </Title>
-                </div>
-              </div>
+              <GameObjectCard
+                kind="character"
+                name={sampleCharacter?.name ?? 'Character Preview'}
+                imageSrc={
+                  sampleCharacter?.images.profileImage?.file ??
+                  sampleCharacter?.images.portrait?.file ??
+                  '/homepage-background.png'
+                }
+                properties={[
+                  { key: 'species', label: 'Art', value: sampleCharacter?.basis.species ?? 'Unbekannt' },
+                  { key: 'role', label: 'Rolle', value: sampleCharacter?.basis.roleArchetype ?? 'Character' },
+                ]}
+                relationships={[
+                  { key: 'friend', label: 'friend_of' },
+                  { key: 'mentor', label: 'mentor_of' },
+                ]}
+              />
             </Card>
           </div>
+          <Divider />
+          <Text>
+            Jede Anzeige ist pro Nutzung steuerbar, z. B. nur Name (ohne Bild, Kicker, Properties, Relationships).
+          </Text>
+          <Divider />
+          <div className="card-grid">
+            <Card className="content-card" bordered={false}>
+              <GameObjectCard
+                kind="place"
+                name={samplePlace?.name ?? 'Ort'}
+                imageSrc={PAGE_BACKGROUND_ASSETS.places}
+                properties={[{ key: 'description', label: 'Beschreibung', value: samplePlace?.description ?? '-' }]}
+              />
+            </Card>
+            <Card className="content-card" bordered={false}>
+              <GameObjectCard
+                kind="artifact"
+                name={sampleArtifact?.name ?? 'Artefakt'}
+                imageSrc={sampleArtifact?.images.portrait.file ?? PAGE_BACKGROUND_ASSETS.artifacts}
+                properties={[
+                  { key: 'type', label: 'Typ', value: sampleArtifact?.artifactType ?? '-' },
+                  { key: 'purpose', label: 'Zweck', value: sampleArtifact?.function.primaryPurpose ?? '-' },
+                ]}
+              />
+            </Card>
+            <Card className="content-card" bordered={false}>
+              <GameObjectCard
+                kind="learning-goal"
+                name={sampleLearningGoal?.name ?? 'Lernziel'}
+                imageSrc={PAGE_BACKGROUND_ASSETS.learningGoals}
+                properties={[
+                  { key: 'subject', label: 'Fach', value: sampleLearningGoal?.subject ?? '-' },
+                  { key: 'topic', label: 'Thema', value: sampleLearningGoal?.topic ?? '-' },
+                ]}
+              />
+            </Card>
+            <Card className="content-card" bordered={false}>
+              <GameObjectCard
+                kind="user"
+                name="Yoko"
+                imageSrc={userProfileAvatar}
+                properties={[
+                  { key: 'role', label: 'Rolle', value: 'User' },
+                  { key: 'status', label: 'Status', value: 'Aktiv' },
+                ]}
+                relationships={[{ key: 'chat', label: 'chat_with_character' }]}
+              />
+            </Card>
+            <Card className="content-card" bordered={false}>
+              <GameObjectCard
+                kind="character"
+                name={sampleCharacter?.name ?? 'Nur Name'}
+                showImage={false}
+                showKicker={false}
+                showProperties={false}
+                showRelationships={false}
+              />
+            </Card>
+          </div>
+        </Card>
+
+        <Card className="ds-block" bordered={false} title="Custom: Relationship Pill">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+            <RelationshipPill
+              to="#"
+              name={sampleCharacter?.name ?? 'Character'}
+              imageSrc={
+                sampleCharacter?.images.profileImage?.file ??
+                sampleCharacter?.images.portrait?.file
+              }
+              relationLabel="Freund"
+            />
+            <RelationshipPill
+              to="#"
+              name={content.characters[1]?.name ?? 'Zweiter Character'}
+              imageSrc={
+                content.characters[1]?.images.profileImage?.file ??
+                content.characters[1]?.images.portrait?.file
+              }
+            />
+            <RelationshipPill
+              to="#"
+              name="Nur Name"
+            />
+          </div>
+          <Divider />
+          <Text>
+            Kompakte Pill-Darstellung fuer Beziehungen auf der Character-Detail-Seite.
+            Bild und relationLabel sind optional.
+          </Text>
         </Card>
 
         <Card className="ds-block" bordered={false} title="Custom: Home Link Card">
@@ -577,6 +715,7 @@ function App() {
     }
     if (path.startsWith('/characters')) return { mode: 'home', selectedNavKey: '/characters' }
     if (path.startsWith('/places')) return { mode: 'home', selectedNavKey: '/places' }
+    if (path.startsWith('/map')) return { mode: 'home', selectedNavKey: '/map' }
     if (path.startsWith('/artifacts')) return { mode: 'home', selectedNavKey: '/artifacts' }
     if (path.startsWith('/learning-goals') || path.startsWith('/skills')) return { mode: 'home', selectedNavKey: '/learning-goals' }
     if (path.startsWith('/design-system')) return { mode: 'subpage', pageTitle: 'Design System', backUrl: '/' }
@@ -608,11 +747,13 @@ function App() {
         className={`landing-layout ${
           location.pathname === '/'
             ? `landing-layout-home ${isHomeParallaxEnabled ? 'landing-layout-home-parallax' : ''}`
-            : location.pathname.match(/^\/characters\/[^/]+\/story$/)
-              ? 'landing-layout-character-story'
-              : location.pathname.startsWith('/characters/')
-                ? 'landing-layout-character-detail'
-                : 'landing-layout-inner'
+            : location.pathname.startsWith('/map')
+              ? 'landing-layout-map'
+              : location.pathname.match(/^\/characters\/[^/]+\/story$/)
+                ? 'landing-layout-character-story'
+                : location.pathname.startsWith('/characters/')
+                  ? 'landing-layout-character-detail'
+                  : 'landing-layout-inner'
         }`}
         style={layoutBackground}
         onMouseMove={handleLayoutMouseMove}
@@ -622,11 +763,14 @@ function App() {
 
         <Content className="page-content">
           {loading && (
-            <div className="state-box">
-              <Space>
-                <Spin size="small" />
-                <Text>Lade Storytime-Content...</Text>
-              </Space>
+            <div className="loading-fullscreen">
+              <div className="loading-orb">
+                <div className="loading-orb-ring loading-orb-ring-1" />
+                <div className="loading-orb-ring loading-orb-ring-2" />
+                <div className="loading-orb-ring loading-orb-ring-3" />
+                <div className="loading-orb-core" />
+              </div>
+              <Text className="loading-label">Lade Storytime-Content ...</Text>
             </div>
           )}
 
@@ -670,19 +814,14 @@ function App() {
                   path="/places"
                   element={<ContentCarousel title="Places" content={content} type="places" />}
                 />
+                <Route path="/map" element={<MapPage content={content} />} />
                 <Route
                   path="/artifacts"
                   element={<ContentCarousel title="Artifacts" content={content} type="artifacts" />}
                 />
                 <Route
                   path="/learning-goals"
-                  element={
-                    <ContentCarousel
-                      title="Lernziele"
-                      content={content}
-                      type="learningGoals"
-                    />
-                  }
+                  element={<LearningGoalsPage content={content} />}
                 />
                 <Route path="/skills" element={<Navigate to="/learning-goals" replace />} />
                 <Route

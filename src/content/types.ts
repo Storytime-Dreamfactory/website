@@ -156,12 +156,18 @@ export type Character = {
   metadata: CharacterMetadata
 }
 
+export type PlaceMapPosition = {
+  x: number
+  y: number
+}
+
 export type Place = {
   id: string
   name: string
   type: 'place'
   slug: string
   description: string
+  mapPosition?: PlaceMapPosition
 }
 
 export type LearningGoalSession = {
@@ -194,7 +200,17 @@ export type LearningGoalDidactics = {
 export type LearningGoalObjective = {
   id: string
   canDo: string
-  evidence: string[]
+  evidence?: string[]
+  originalEn?: string
+}
+
+export type CurriculumSource = {
+  framework: string
+  keyStage: number
+  yearGroup: number
+  subjectEn: string
+  topicEn: string
+  documentRef: string
 }
 
 export type LearningGoalQuizAnswerExpectations = {
@@ -231,9 +247,10 @@ export type LearningGoal = {
   subtopic: string
   description: string
   ageRange: string[]
-  exampleQuestions: string[]
-  practiceIdeas: string[]
+  exampleQuestions?: string[]
+  practiceIdeas?: string[]
   domainTags: string[]
+  curriculumSource?: CurriculumSource
   session?: LearningGoalSession
   curriculum?: LearningGoalCurriculum
   teachingContent?: LearningGoalTeachingContent
