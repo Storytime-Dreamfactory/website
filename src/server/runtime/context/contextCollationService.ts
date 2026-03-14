@@ -12,8 +12,8 @@ export type CollatedRelationshipLink = {
   relatedCharacterId: string
   direction: 'outgoing' | 'incoming'
   relationshipType: string
-  fromTitle: string
-  toTitle: string
+  fromTitle?: string
+  toTitle?: string
   relationshipTypeReadable: string
   relationship: string
   description?: string

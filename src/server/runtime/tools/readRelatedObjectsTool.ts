@@ -11,9 +11,13 @@ type RelationshipLinkInput = {
   relatedCharacterId: string
   direction: 'outgoing' | 'incoming'
   relationshipType: string
+  fromTitle?: string
+  toTitle?: string
   relationshipTypeReadable: string
   relationship: string
   description?: string
+  properties?: Record<string, unknown>
+  /** @deprecated Use properties instead. */
   metadata?: Record<string, unknown>
   otherRelatedObjects?: Array<{
     type: string

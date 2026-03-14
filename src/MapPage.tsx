@@ -253,7 +253,7 @@ type DrawingState = {
 }
 
 function DrawClickHandler({ onMapClick }: { onMapClick: (latlng: LatLng) => void }) {
-  useMapEvents({ click(e) { onMapClick(e.latlng) } })
+  useMapEvents({ click(e: LeafletMouseEvent) { onMapClick(e.latlng) } })
   return null
 }
 
@@ -334,8 +334,8 @@ function MapPage(_props: MapPageProps) {
   const stateLabels = useMemo<{ name: string; center: [number, number] }[]>(() => {
     if (!statesData) return []
     return statesData.features
-      .filter(f => f.properties?.name)
-      .map(f => {
+      .filter((f: Feature) => f.properties?.name)
+      .map((f: Feature) => {
         const name = (f.properties?.fullName as string) || (f.properties?.name as string) || ''
         let coords: number[][] = []
         if (f.geometry.type === 'Polygon') {
@@ -358,7 +358,7 @@ function MapPage(_props: MapPageProps) {
         }
         return { name, center: [(minY + maxY) / 2, (minX + maxX) / 2] as [number, number] }
       })
-      .filter((s): s is { name: string; center: [number, number] } => s !== null)
+      .filter((s: { name: string; center: [number, number] } | null): s is { name: string; center: [number, number] } => s !== null)
   }, [statesData])
 
   const stateLabelIcons = useMemo(() => {
@@ -420,11 +420,11 @@ function MapPage(_props: MapPageProps) {
     return {
       rivers: {
         type: 'FeatureCollection' as const,
-        features: terrain.features.filter(f => f.properties?.kind === 'river'),
+        features: terrain.features.filter((f: Feature) => f.properties?.kind === 'river'),
       },
       lakes: {
         type: 'FeatureCollection' as const,
-        features: terrain.features.filter(f => f.properties?.kind === 'lake'),
+        features: terrain.features.filter((f: Feature) => f.properties?.kind === 'lake'),
       },
     }
   }, [terrain])
