@@ -46,6 +46,11 @@ type ReferenceImage = {
   summary: string
 }
 
+type PendingReferenceImage = {
+  id: string
+  file: File
+}
+
 const createId = (): string => `${Date.now()}-${Math.random().toString(16).slice(2)}`
 
 const buildLocalFallbackResponse = (
@@ -107,6 +112,7 @@ export default function CharacterCreationChatOverlay({
   const [job, setJob] = useState<CharacterCreationJob | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [referenceImages, setReferenceImages] = useState<ReferenceImage[]>([])
+  const [pendingReferenceImages, setPendingReferenceImages] = useState<PendingReferenceImage[]>([])
   const lastJobMessageRef = useRef<string>('')
   const bottomAnchorRef = useRef<HTMLDivElement | null>(null)
 
@@ -207,65 +213,94 @@ export default function CharacterCreationChatOverlay({
     fileInputRef.current?.click()
   }
 
-  const uploadReferenceImage = async (file: File): Promise<void> => {
-    setUploadLoading(true)
-    setError(null)
+  const readFileAsDataUrl = async (file: File): Promise<string> =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(String(reader.result ?? ''))
+      reader.onerror = () => reject(new Error('Bild konnte nicht gelesen werden.'))
+      reader.readAsDataURL(file)
+    })
 
-    try {
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = () => resolve(String(reader.result ?? ''))
-        reader.onerror = () => reject(new Error('Bild konnte nicht gelesen werden.'))
-        reader.readAsDataURL(file)
-      })
-
-      const response = await fetchJson<{
-        reply: string
-        referenceImage: ReferenceImage
-      }>('/api/character-creator/reference-image', {
+  const uploadReferenceImage = async (
+    file: File,
+  ): Promise<{ reply: string; referenceImage: ReferenceImage }> => {
+    const dataUrl = await readFileAsDataUrl(file)
+    return fetchJson<{ reply: string; referenceImage: ReferenceImage }>(
+      '/api/character-creator/reference-image',
+      {
         method: 'POST',
         body: JSON.stringify({
           fileName: file.name,
           dataUrl,
         }),
-      })
-
-      setReferenceImages((current) => [...current, response.referenceImage])
-      setCompiledPrompt((current) =>
-        [current, `Visuelle Referenz: ${response.referenceImage.summary}`].filter(Boolean).join('\n'),
-      )
-      setMessages((current) => [
-        ...current,
-        {
-          id: createId(),
-          role: 'assistant',
-          text: `Ich habe dein Bild als Vorlage gespeichert: ${response.referenceImage.summary}`,
-        },
-        {
-          id: createId(),
-          role: 'assistant',
-          text: response.reply,
-        },
-      ])
-      setIsReady((current) => current || response.referenceImage.summary.length >= 120)
-    } catch (uploadError) {
-      setError(uploadError instanceof Error ? uploadError.message : String(uploadError))
-    } finally {
-      setUploadLoading(false)
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
-    }
+      },
+    )
   }
 
   const startCharacterCreation = async (skipAndCreate = false): Promise<void> => {
     if (generateLoading || job) return
-    if (!skipAndCreate && !compiledPrompt && referenceImages.length === 0) return
+    if (
+      !skipAndCreate &&
+      !compiledPrompt &&
+      referenceImages.length === 0 &&
+      pendingReferenceImages.length === 0
+    ) {
+      return
+    }
 
     setGenerateLoading(true)
     setError(null)
 
     try {
+      let nextReferenceImages = [...referenceImages]
+      let nextCompiledPrompt = compiledPrompt
+      let nextReady = isReady
+
+      if (pendingReferenceImages.length > 0) {
+        setUploadLoading(true)
+        setMessages((current) => [
+          ...current,
+          {
+            id: createId(),
+            role: 'assistant',
+            text: 'Ich analysiere jetzt deine Bildvorlagen und nehme sie direkt in die Character-Erstellung mit.',
+          },
+        ])
+
+        const uploaded = await Promise.all(
+          pendingReferenceImages.map(async ({ file }) => uploadReferenceImage(file)),
+        )
+        const uploadedReferences = uploaded.map((entry) => entry.referenceImage)
+
+        nextReferenceImages = [...nextReferenceImages, ...uploadedReferences]
+        nextCompiledPrompt = [
+          nextCompiledPrompt,
+          ...uploadedReferences.map((image) => `Visuelle Referenz: ${image.summary}`),
+        ]
+          .filter(Boolean)
+          .join('\n')
+        nextReady =
+          nextReady || uploadedReferences.some((image) => image.summary.trim().length >= 120)
+
+        setReferenceImages(nextReferenceImages)
+        setCompiledPrompt(nextCompiledPrompt)
+        setIsReady(nextReady)
+        setPendingReferenceImages([])
+        setMessages((current) => [
+          ...current,
+          ...uploaded.map((entry) => ({
+            id: createId(),
+            role: 'assistant' as const,
+            text: `Ich habe dein Bild als Vorlage gespeichert: ${entry.referenceImage.summary}`,
+          })),
+          ...uploaded.map((entry) => ({
+            id: createId(),
+            role: 'assistant' as const,
+            text: entry.reply,
+          })),
+        ])
+      }
+
       setMessages((current) => [
         ...current,
         {
@@ -280,9 +315,9 @@ export default function CharacterCreationChatOverlay({
       const startResponse = await fetchJson<{ jobId: string }>('/api/character-creator/start', {
         method: 'POST',
         body: JSON.stringify({
-          prompt: compiledPrompt,
-          fillMissingFieldsCreatively: skipAndCreate || !isReady,
-          referenceImageIds: referenceImages.map((image) => image.id),
+          prompt: nextCompiledPrompt,
+          fillMissingFieldsCreatively: skipAndCreate || !nextReady,
+          referenceImageIds: nextReferenceImages.map((image) => image.id),
         }),
       })
       const nextJob = await fetchJson<CharacterCreationJob>(
@@ -293,6 +328,8 @@ export default function CharacterCreationChatOverlay({
     } catch (startError) {
       setGenerateLoading(false)
       setError(startError instanceof Error ? startError.message : String(startError))
+    } finally {
+      setUploadLoading(false)
     }
   }
 
@@ -310,6 +347,36 @@ export default function CharacterCreationChatOverlay({
         onCancel={() => setOpen(false)}
         footer={null}
         width={760}
+        styles={{
+          content: {
+            background:
+              'radial-gradient(circle at top right, rgba(113, 176, 255, 0.22), rgba(113, 176, 255, 0) 42%), linear-gradient(160deg, rgba(8, 14, 34, 0.96), rgba(3, 8, 24, 0.94))',
+            border: '1px solid rgba(156, 211, 255, 0.28)',
+            boxShadow: '0 28px 72px rgba(0, 0, 0, 0.66), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
+            backdropFilter: 'blur(12px)',
+            borderRadius: 20,
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 'var(--character-chat-min-height)',
+            maxHeight: 'var(--character-chat-max-height)',
+          },
+          header: {
+            background: 'transparent',
+            borderBottom: '1px solid rgba(156, 211, 255, 0.2)',
+            paddingBottom: 14,
+            flex: '0 0 auto',
+          },
+          body: {
+            paddingTop: 14,
+            paddingBottom: 14,
+            flex: '1 1 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0,
+            overflow: 'hidden',
+          },
+        }}
         title={
           <div className="character-chat-heading">
             <div className="character-chat-heading-howto">
@@ -338,105 +405,134 @@ export default function CharacterCreationChatOverlay({
         rootClassName="character-chat-modal-root"
         className="character-chat-modal"
       >
-        <div className="character-chat-log">
-          {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`character-chat-message ${
-                message.role === 'assistant' ? 'character-chat-message-assistant' : 'character-chat-message-user'
-              }`}
-            >
-              {message.text}
-            </div>
-          ))}
-          <div ref={bottomAnchorRef} />
-        </div>
-
-        {error && (
-          <Text type="danger" className="character-chat-error">
-            {error}
-          </Text>
-        )}
-
-        {referenceImages.length > 0 && (
-          <div className="character-chat-progress">
-            <Space wrap>
-              {referenceImages.map((image) => (
-                <Tag key={image.id} color="blue">
-                  Bildvorlage: {image.fileName}
-                </Tag>
-              ))}
-            </Space>
-          </div>
-        )}
-
-        {job && (
-          <div className="character-chat-progress">
-            <Space>
-              <Tag color={job.phase === 'completed' ? 'success' : job.phase === 'failed' ? 'error' : 'processing'}>
-                {job.phase}
-              </Tag>
-              <Text>{job.message}</Text>
-            </Space>
-            <Progress percent={progressPercent} size="small" status={job.phase === 'failed' ? 'exception' : undefined} />
-          </div>
-        )}
-
-        <div className="character-chat-input-row">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/png,image/jpeg,image/webp,image/gif"
-            style={{ display: 'none' }}
-            onChange={(event) => {
-              const file = event.target.files?.[0]
-              if (file) {
-                void uploadReferenceImage(file)
-              }
-            }}
-          />
-          <Button
-            icon={uploadLoading ? <LoadingOutlined /> : <PictureOutlined />}
-            onClick={handleUploadClick}
-          >
-            Bild hochladen
-          </Button>
-          <Input
-            className="character-chat-input"
-            value={inputText}
-            onChange={(event) => setInputText(event.target.value)}
-            placeholder="Schreib Merlin etwas. Zum Beispiel: Er ist mutig, aber hat Angst vor Gewitter."
-            onPressEnter={(event) => {
-              event.preventDefault()
-              void sendMessage()
-            }}
-          />
-          <Button
-            icon={chatLoading ? <LoadingOutlined /> : <SendOutlined />}
-            onClick={() => void sendMessage()}
-          />
-        </div>
-
-        <div className="character-chat-actions">
-          <Space direction="vertical" size="small" style={{ width: '100%' }}>
-            <Text type="secondary">
-              Du kannst auch direkt auf Skip and create druecken. Dann fuellt Storytime die fehlenden Ideen fuer dich aus.
-            </Text>
-            <Space wrap>
-              <Button disabled={!!job} loading={generateLoading && !isReady} onClick={() => void startCharacterCreation(true)}>
-                Skip and create
-              </Button>
-              <Button
-                className="character-chat-create-btn"
-                type="primary"
-                disabled={(!isReady && referenceImages.length === 0) || !!job}
-                loading={generateLoading}
-                onClick={() => void startCharacterCreation(false)}
+        <div className="character-chat-layout">
+          <div className="character-chat-log">
+            {messages.map((message) => (
+              <div
+                key={message.id}
+                className={`character-chat-message ${
+                  message.role === 'assistant' ? 'character-chat-message-assistant' : 'character-chat-message-user'
+                }`}
               >
-                Character jetzt erstellen
+                {message.text}
+              </div>
+            ))}
+            <div ref={bottomAnchorRef} />
+          </div>
+
+          <div className="character-chat-footer">
+            {error && (
+              <Text type="danger" className="character-chat-error">
+                {error}
+              </Text>
+            )}
+
+            {(referenceImages.length > 0 || pendingReferenceImages.length > 0) && (
+              <div className="character-chat-progress">
+                <Space wrap>
+                  {pendingReferenceImages.map((image) => (
+                    <Tag key={image.id} color="gold">
+                      Ausgewaehlt: {image.file.name}
+                    </Tag>
+                  ))}
+                  {referenceImages.map((image) => (
+                    <Tag key={image.id} color="blue">
+                      Bildvorlage: {image.fileName}
+                    </Tag>
+                  ))}
+                </Space>
+              </div>
+            )}
+
+            {job && (
+              <div className="character-chat-progress">
+                <Space>
+                  <Tag color={job.phase === 'completed' ? 'success' : job.phase === 'failed' ? 'error' : 'processing'}>
+                    {job.phase}
+                  </Tag>
+                  <Text>{job.message}</Text>
+                </Space>
+                <Progress
+                  percent={progressPercent}
+                  size="small"
+                  status={job.phase === 'failed' ? 'exception' : undefined}
+                />
+              </div>
+            )}
+
+            <div className="character-chat-input-row">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                style={{ display: 'none' }}
+                onChange={(event) => {
+                  const file = event.target.files?.[0]
+                  if (file) {
+                    setPendingReferenceImages((current) => [...current, { id: createId(), file }])
+                    setMessages((current) => [
+                      ...current,
+                      {
+                        id: createId(),
+                        role: 'assistant',
+                        text: `Bild "${file.name}" vorgemerkt. Ich nutze es, sobald du auf Character erstellen klickst.`,
+                      },
+                    ])
+                  }
+                  event.currentTarget.value = ''
+                }}
+              />
+              <Button
+                className="character-chat-upload-btn"
+                icon={uploadLoading ? <LoadingOutlined /> : <PictureOutlined />}
+                onClick={handleUploadClick}
+              >
+                Bild hochladen
               </Button>
-            </Space>
-          </Space>
+              <Input
+                className="character-chat-input"
+                value={inputText}
+                onChange={(event) => setInputText(event.target.value)}
+                placeholder="Schreib Merlin etwas. Zum Beispiel: Er ist mutig, aber hat Angst vor Gewitter."
+                onPressEnter={(event) => {
+                  event.preventDefault()
+                  void sendMessage()
+                }}
+              />
+              <Button
+                className="character-chat-send-btn"
+                icon={chatLoading ? <LoadingOutlined /> : <SendOutlined />}
+                onClick={() => void sendMessage()}
+              />
+            </div>
+
+            <div className="character-chat-actions">
+              <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                <Text type="secondary">
+                  Du kannst auch direkt auf Skip and create druecken. Dann fuellt Storytime die fehlenden Ideen fuer dich aus.
+                </Text>
+                <Space wrap>
+                  <Button
+                    className="character-chat-secondary-btn"
+                    disabled={!!job}
+                    loading={generateLoading && !isReady}
+                    onClick={() => void startCharacterCreation(true)}
+                  >
+                    Skip and create
+                  </Button>
+                  <Button
+                    className="character-chat-create-btn"
+                    type="primary"
+                    disabled={(!isReady && referenceImages.length === 0 && pendingReferenceImages.length === 0) || !!job}
+                    loading={generateLoading}
+                    onClick={() => void startCharacterCreation(false)}
+                  >
+                    Character jetzt erstellen
+                  </Button>
+                </Space>
+              </Space>
+            </div>
+          </div>
         </div>
       </Modal>
     </>

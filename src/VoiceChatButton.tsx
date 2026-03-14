@@ -1,5 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { AudioMutedOutlined, AudioOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons'
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
+import {
+  AudioMutedOutlined,
+  AudioOutlined,
+  CloseOutlined,
+  LoadingOutlined,
+  MessageOutlined,
+  SendOutlined,
+} from '@ant-design/icons'
 import type { Character } from './content/types'
 
 type ConnectionState = 'idle' | 'connecting' | 'connected' | 'error'
@@ -7,103 +14,29 @@ type ConnectionState = 'idle' | 'connecting' | 'connected' | 'error'
 type Props = {
   character: Character
   conversationId?: string | null
+  selectedLearningGoalId?: string | null
+  enableTextChat?: boolean
 }
-
-const CHARACTER_VOICES = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'sage', 'shimmer', 'verse'] as const
-
-type CharacterVoice = (typeof CHARACTER_VOICES)[number]
-
-const VOICE_BY_GENDER_EXPRESSION: Record<string, (typeof CHARACTER_VOICES)[number]> = {
-  maskulin: 'ash',
-  feminin: 'coral',
-  maennlich: 'ash',
-  weiblich: 'coral',
+type ChatMessage = {
+  id: string
+  role: 'user' | 'assistant'
+  text: string
 }
-
-const VOICE_BY_ROLE_ARCHETYPE: Record<string, CharacterVoice> = {
-  caregiver: 'sage',
-  mentor: 'sage',
-  challenger: 'ballad',
-  hero: 'verse',
-  explorer: 'shimmer',
-  helper: 'coral',
-  learner: 'alloy',
-  learner_helper: 'coral',
-}
-
-const VOICE_BY_TEMPERAMENT: Record<string, CharacterVoice> = {
-  ruhig: 'sage',
-  nachdenklich: 'ballad',
-  lebhaft: 'shimmer',
-  impulsiv: 'echo',
-}
-
-const VOICE_BY_SOCIAL_STYLE: Record<string, CharacterVoice> = {
-  offen: 'coral',
-  schuechtern: 'ballad',
-  beschuetzend: 'sage',
-  kooperativ: 'verse',
-  unabhaengig: 'echo',
-}
-
-const VOICE_BY_CORE_TRAIT: Record<string, CharacterVoice> = {
-  listig: 'ballad',
-  verfuehrerisch: 'ballad',
-  misstrauisch: 'echo',
-  mutig: 'verse',
-  verspielt: 'shimmer',
-  ruhig: 'sage',
-  neugierig: 'alloy',
-}
-
-const normalizeValue = (value?: string): string => value?.trim().toLowerCase() ?? ''
-
-const hashCharacterId = (value: string): number => {
-  let hash = 0
-  for (const character of value) {
-    hash = (hash * 31 + character.charCodeAt(0)) >>> 0
-  }
-  return hash
-}
-
-const resolveVoiceForCharacter = (character: Character): CharacterVoice => {
-  const roleArchetype = normalizeValue(character.basis.roleArchetype)
-  if (roleArchetype && VOICE_BY_ROLE_ARCHETYPE[roleArchetype]) {
-    return VOICE_BY_ROLE_ARCHETYPE[roleArchetype]
-  }
-
-  const coreTraitMatch = character.personality.coreTraits
-    .map((trait) => normalizeValue(trait))
-    .find((trait) => trait in VOICE_BY_CORE_TRAIT)
-  if (coreTraitMatch) {
-    return VOICE_BY_CORE_TRAIT[coreTraitMatch]
-  }
-
-  const temperament = normalizeValue(character.personality.temperament)
-  if (temperament && VOICE_BY_TEMPERAMENT[temperament]) {
-    return VOICE_BY_TEMPERAMENT[temperament]
-  }
-
-  const socialStyle = normalizeValue(character.personality.socialStyle)
-  if (socialStyle && VOICE_BY_SOCIAL_STYLE[socialStyle]) {
-    return VOICE_BY_SOCIAL_STYLE[socialStyle]
-  }
-
-  const genderExpression = normalizeValue(character.basis.genderExpression)
-  if (genderExpression && VOICE_BY_GENDER_EXPRESSION[genderExpression]) {
-    return VOICE_BY_GENDER_EXPRESSION[genderExpression]
-  }
-
-  // Stabiler Fallback, damit ein Character immer dieselbe Stimme behaelt.
-  const index = hashCharacterId(character.id) % CHARACTER_VOICES.length
-  return CHARACTER_VOICES[index]
-}
+const VOICE_SPEAKER_EVENT = 'storytime:voice-speaker'
 
 const isAssistantResponseStartEvent = (eventType: string): boolean => {
   return (
     eventType === 'output_audio_buffer.started' ||
     eventType === 'response.audio.delta' ||
     eventType === 'response.output_audio.delta'
+  )
+}
+
+const isAssistantResponseStopEvent = (eventType: string): boolean => {
+  return (
+    eventType === 'output_audio_buffer.stopped' ||
+    eventType === 'response.audio.done' ||
+    eventType === 'response.output_audio.done'
   )
 }
 
@@ -116,6 +49,12 @@ const isAssistantQuestion = (transcript: string): boolean => {
 const DEBUG_ENDPOINT = 'http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6'
 const DEBUG_SESSION_ID = '16d83f'
 const DEBUG_RUN_ID = 'pre-fix'
+const REMOTE_SPEECH_START_THRESHOLD = 0.03
+const REMOTE_SPEECH_STOP_THRESHOLD = 0.015
+const REMOTE_MIN_SPEAK_MS = 120
+const REMOTE_MIN_SILENCE_MS = 320
+const ASSISTANT_STOP_FALLBACK_MS = 900
+const UUID_LIKE_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 const sendDebugLog = (
   hypothesisId: string,
@@ -143,23 +82,94 @@ const sendDebugLog = (
   // #endregion
 }
 
-export default function VoiceChatButton({ character, conversationId }: Props) {
+export default function VoiceChatButton({
+  character,
+  conversationId,
+  selectedLearningGoalId,
+  enableTextChat = false,
+}: Props) {
   const [state, setState] = useState<ConnectionState>('idle')
   const [audioLevel, setAudioLevel] = useState(0)
   const [isMicMutedByAssistant, setIsMicMutedByAssistant] = useState(false)
-  const selectedVoice = useMemo(() => resolveVoiceForCharacter(character), [character])
+  const [isTextChatOpen, setIsTextChatOpen] = useState(false)
+  const [textInputValue, setTextInputValue] = useState('')
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
+  const [activeConversationId, setActiveConversationId] = useState<string | null>(conversationId ?? null)
+  const selectedVoice = useMemo(() => character.voice, [character.voice])
+  const activeLearningGoalId = useMemo(() => {
+    const trimmed = selectedLearningGoalId?.trim() ?? ''
+    return UUID_LIKE_RE.test(trimmed) ? trimmed : null
+  }, [selectedLearningGoalId])
 
   const pcRef = useRef<RTCPeerConnection | null>(null)
   const localStreamRef = useRef<MediaStream | null>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const dataChannelRef = useRef<RTCDataChannel | null>(null)
+  const localAudioContextRef = useRef<AudioContext | null>(null)
+  const remoteAudioContextRef = useRef<AudioContext | null>(null)
   const analyserRef = useRef<AnalyserNode | null>(null)
+  const remoteAnalyserRef = useRef<AnalyserNode | null>(null)
   const rafRef = useRef<number>(0)
+  const remoteRafRef = useRef<number>(0)
+  const fallbackResetTimerRef = useRef<number | null>(null)
+  const connectionResetTimerRef = useRef<number | null>(null)
+  const assistantStopFallbackTimerRef = useRef<number | null>(null)
+  const assistantAudioExpectedRef = useRef(false)
+  const characterSpeakingRef = useRef(false)
+  const speechCandidateStartedAtRef = useRef<number | null>(null)
+  const silenceCandidateStartedAtRef = useRef<number | null>(null)
+  const lastRemoteSpeechAtRef = useRef<number>(0)
   const conversationIdRef = useRef<string | null>(null)
   const conversationOwnedRef = useRef(false)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
   const recoverySentForCurrentTurnRef = useRef(false)
   const activityStreamRef = useRef<EventSource | null>(null)
+  const queuedTextMessagesRef = useRef<string[]>([])
+  const nextChatMessageIdRef = useRef(0)
+  const makeChatMessageId = useCallback(() => {
+    nextChatMessageIdRef.current += 1
+    return `${Date.now()}-${nextChatMessageIdRef.current}`
+  }, [])
+  const addChatMessage = useCallback((role: 'user' | 'assistant', text: string) => {
+    const trimmed = text.trim()
+    if (!trimmed) return
+    setChatMessages((prev) => [...prev, { id: makeChatMessageId(), role, text: trimmed }])
+  }, [makeChatMessageId])
+  const buildStartConversationMetadata = useCallback(() => {
+    if (!activeLearningGoalId) return undefined
+    return {
+      learningGoalIds: [activeLearningGoalId],
+      learningGoalId: activeLearningGoalId,
+    }
+  }, [activeLearningGoalId])
+  const buildConversationLearningGoalMetadata = useCallback(() => {
+    if (activeLearningGoalId) {
+      return {
+        learningGoalIds: [activeLearningGoalId],
+        learningGoalId: activeLearningGoalId,
+        skillIds: [activeLearningGoalId],
+        skillId: activeLearningGoalId,
+      }
+    }
+    return {
+      learningGoalIds: [],
+      learningGoalId: '',
+      skillIds: [],
+      skillId: '',
+    }
+  }, [activeLearningGoalId])
+  const emitSpeakerState = useCallback((speaker: 'yoko' | 'character', isSpeaking: boolean) => {
+    if (typeof window === 'undefined') return
+    window.dispatchEvent(
+      new CustomEvent(VOICE_SPEAKER_EVENT, {
+        detail: {
+          characterId: character.id,
+          speaker,
+          isSpeaking,
+        },
+      }),
+    )
+  }, [character.id])
 
   const startConversationSession = useCallback(async (): Promise<{
     conversationId: string | null
@@ -178,7 +188,11 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          metadata: { channel: 'realtime-voice', voice: selectedVoice },
+          metadata: {
+            channel: 'realtime-voice',
+            voice: selectedVoice,
+            ...buildStartConversationMetadata(),
+          },
         }),
       })
       if (!response.ok) {
@@ -198,7 +212,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
         owned: false,
       }
     }
-  }, [character.id, conversationId, selectedVoice])
+  }, [character.id, conversationId, selectedVoice, buildStartConversationMetadata])
 
   const appendMessage = useCallback(
     async (role: 'user' | 'assistant' | 'system', content: string, eventType: string) => {
@@ -225,6 +239,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     const shouldEndConversation = conversationOwnedRef.current
     conversationIdRef.current = null
     conversationOwnedRef.current = false
+    setActiveConversationId(null)
     knownEventIdsRef.current.clear()
     if (!conversationId || !shouldEndConversation) return
 
@@ -243,10 +258,39 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     activityStreamRef.current = null
   }, [])
 
+  const setCharacterSpeaking = useCallback((isSpeaking: boolean) => {
+    if (characterSpeakingRef.current === isSpeaking) return
+    characterSpeakingRef.current = isSpeaking
+    emitSpeakerState('character', isSpeaking)
+  }, [emitSpeakerState])
+
   const cleanup = useCallback(() => {
     closeConversationSession('cleanup')
     stopActivityStream()
+    if (connectionResetTimerRef.current != null) {
+      window.clearTimeout(connectionResetTimerRef.current)
+      connectionResetTimerRef.current = null
+    }
+    if (fallbackResetTimerRef.current != null) {
+      window.clearTimeout(fallbackResetTimerRef.current)
+      fallbackResetTimerRef.current = null
+    }
+    if (assistantStopFallbackTimerRef.current != null) {
+      window.clearTimeout(assistantStopFallbackTimerRef.current)
+      assistantStopFallbackTimerRef.current = null
+    }
     cancelAnimationFrame(rafRef.current)
+    cancelAnimationFrame(remoteRafRef.current)
+    localAudioContextRef.current?.close().catch(() => undefined)
+    localAudioContextRef.current = null
+    remoteAudioContextRef.current?.close().catch(() => undefined)
+    remoteAudioContextRef.current = null
+    assistantAudioExpectedRef.current = false
+    speechCandidateStartedAtRef.current = null
+    silenceCandidateStartedAtRef.current = null
+    lastRemoteSpeechAtRef.current = 0
+    emitSpeakerState('yoko', false)
+    setCharacterSpeaking(false)
     setIsMicMutedByAssistant(false)
     dataChannelRef.current?.close()
     dataChannelRef.current = null
@@ -255,17 +299,22 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     localStreamRef.current?.getTracks().forEach((t) => t.stop())
     localStreamRef.current = null
     analyserRef.current = null
+    remoteAnalyserRef.current = null
 
     if (audioRef.current) {
       audioRef.current.srcObject = null
+      audioRef.current.onplaying = null
+      audioRef.current.onpause = null
+      audioRef.current.onended = null
     }
-  }, [closeConversationSession, stopActivityStream])
+  }, [closeConversationSession, stopActivityStream, emitSpeakerState, setCharacterSpeaking])
 
   const monitorAudio = useCallback(() => {
     const analyser = analyserRef.current
     if (!analyser) return
 
     const data = new Uint8Array(analyser.frequencyBinCount)
+    cancelAnimationFrame(rafRef.current)
     const tick = () => {
       analyser.getByteFrequencyData(data)
       const sum = data.reduce((a, b) => a + b, 0)
@@ -275,6 +324,52 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     }
     rafRef.current = requestAnimationFrame(tick)
   }, [])
+
+  const monitorRemoteAudio = useCallback(() => {
+    const analyser = remoteAnalyserRef.current
+    if (!analyser) return
+
+    const data = new Uint8Array(analyser.fftSize)
+    cancelAnimationFrame(remoteRafRef.current)
+    const tick = () => {
+      analyser.getByteTimeDomainData(data)
+      let sumSquares = 0
+      for (let index = 0; index < data.length; index += 1) {
+        const normalized = (data[index] - 128) / 128
+        sumSquares += normalized * normalized
+      }
+      const rms = Math.sqrt(sumSquares / data.length)
+      const now = performance.now()
+
+      if (rms >= REMOTE_SPEECH_START_THRESHOLD) {
+        lastRemoteSpeechAtRef.current = now
+        silenceCandidateStartedAtRef.current = null
+        if (speechCandidateStartedAtRef.current == null) {
+          speechCandidateStartedAtRef.current = now
+        }
+        if (
+          !characterSpeakingRef.current &&
+          now - speechCandidateStartedAtRef.current >= REMOTE_MIN_SPEAK_MS
+        ) {
+          setCharacterSpeaking(true)
+        }
+      } else if (rms <= REMOTE_SPEECH_STOP_THRESHOLD) {
+        speechCandidateStartedAtRef.current = null
+        if (silenceCandidateStartedAtRef.current == null) {
+          silenceCandidateStartedAtRef.current = now
+        }
+        if (
+          characterSpeakingRef.current &&
+          now - silenceCandidateStartedAtRef.current >= REMOTE_MIN_SILENCE_MS
+        ) {
+          setCharacterSpeaking(false)
+        }
+      }
+
+      remoteRafRef.current = requestAnimationFrame(tick)
+    }
+    remoteRafRef.current = requestAnimationFrame(tick)
+  }, [setCharacterSpeaking])
 
   const setLocalMicEnabled = useCallback((
     enabled: boolean,
@@ -316,22 +411,45 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     // #endregion
   }, [])
 
-  const sendRealtimeToolOutput = useCallback((callId: string, output: Record<string, unknown>) => {
+  const sendTextMessageToRealtime = useCallback((text: string) => {
     const dc = dataChannelRef.current
-    if (!dc || dc.readyState !== 'open') return
-    const encodedOutput = JSON.stringify(output)
+    const trimmed = text.trim()
+    if (!dc || dc.readyState !== 'open' || !trimmed) return false
     dc.send(
       JSON.stringify({
         type: 'conversation.item.create',
         item: {
-          type: 'function_call_output',
-          call_id: callId,
-          output: encodedOutput,
+          type: 'message',
+          role: 'user',
+          content: [
+            {
+              type: 'input_text',
+              text: trimmed,
+            },
+          ],
         },
       }),
     )
-    dc.send(JSON.stringify({ type: 'response.create' }))
-  }, [])
+    dc.send(
+      JSON.stringify({
+        type: 'response.create',
+        response: {
+          modalities: ['audio', 'text'],
+        },
+      }),
+    )
+    void appendMessage('user', trimmed, 'conversation.item.input_text')
+    return true
+  }, [appendMessage])
+
+  const flushQueuedTextMessages = useCallback(() => {
+    const queuedMessages = queuedTextMessagesRef.current
+    if (queuedMessages.length === 0) return
+    queuedTextMessagesRef.current = []
+    queuedMessages.forEach((message) => {
+      sendTextMessageToRealtime(message)
+    })
+  }, [sendTextMessageToRealtime])
 
   const sendSceneImageReadySignal = useCallback(async (sceneSummary?: string, imageUrl?: string) => {
     const dc = dataChannelRef.current
@@ -443,13 +561,13 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
       }
       conversationIdRef.current = conversationSession.conversationId
       conversationOwnedRef.current = conversationSession.owned
+      setActiveConversationId(conversationSession.conversationId)
 
       const tokenRes = await fetch('/api/realtime/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          voice: selectedVoice,
           conversationId: conversationSession.conversationId,
         }),
       })
@@ -469,6 +587,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
       localStreamRef.current = stream
 
       const audioCtx = new AudioContext()
+      localAudioContextRef.current = audioCtx
       const source = audioCtx.createMediaStreamSource(stream)
       const analyser = audioCtx.createAnalyser()
       analyser.fftSize = 256
@@ -484,11 +603,35 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
 
       const remoteStream = new MediaStream()
       audio.srcObject = remoteStream
+      audio.onplaying = () => {
+        setCharacterSpeaking(true)
+      }
+      audio.onpause = () => {
+        if (!assistantAudioExpectedRef.current) {
+          setCharacterSpeaking(false)
+        }
+      }
+      audio.onended = () => {
+        setCharacterSpeaking(false)
+      }
+
+      let remoteAnalyserInitialized = false
 
       pc.ontrack = (event) => {
         event.streams[0]?.getTracks().forEach((track) => {
           remoteStream.addTrack(track)
         })
+        if (!remoteAnalyserInitialized && remoteStream.getAudioTracks().length > 0) {
+          remoteAnalyserInitialized = true
+          const remoteAudioCtx = new AudioContext()
+          remoteAudioContextRef.current = remoteAudioCtx
+          const remoteSource = remoteAudioCtx.createMediaStreamSource(remoteStream)
+          const remoteAnalyser = remoteAudioCtx.createAnalyser()
+          remoteAnalyser.fftSize = 256
+          remoteSource.connect(remoteAnalyser)
+          remoteAnalyserRef.current = remoteAnalyser
+          monitorRemoteAudio()
+        }
       }
 
       stream.getTracks().forEach((track) => {
@@ -515,6 +658,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
             }),
           )
         }
+        flushQueuedTextMessages()
       }
       dc.onmessage = (event) => {
         if (typeof event.data !== 'string') return
@@ -537,8 +681,10 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
           }
 
           const assistantSpeechStarted = isAssistantResponseStartEvent(eventType)
+          const assistantSpeechStopped = isAssistantResponseStopEvent(eventType)
           const micRelevantEvent =
             assistantSpeechStarted ||
+            assistantSpeechStopped ||
             eventType === 'conversation.item.input_audio_transcription.completed' ||
             eventType === 'conversation.item.input_audio_transcription.failed' ||
             eventType === 'input_audio_buffer.speech_started' ||
@@ -557,16 +703,43 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
           }
 
           if (assistantSpeechStarted) {
+            assistantAudioExpectedRef.current = true
+            if (assistantStopFallbackTimerRef.current != null) {
+              window.clearTimeout(assistantStopFallbackTimerRef.current)
+              assistantStopFallbackTimerRef.current = null
+            }
             setLocalMicEnabled(false, {
               reason: 'assistant_response_started',
               hypothesisId: 'H2',
               eventType,
             })
             setIsMicMutedByAssistant(true)
+            emitSpeakerState('yoko', false)
+            setCharacterSpeaking(true)
+          }
+
+          if (assistantSpeechStopped) {
+            assistantAudioExpectedRef.current = false
+            if (assistantStopFallbackTimerRef.current != null) {
+              window.clearTimeout(assistantStopFallbackTimerRef.current)
+            }
+            assistantStopFallbackTimerRef.current = window.setTimeout(() => {
+              const now = performance.now()
+              if (now - lastRemoteSpeechAtRef.current > ASSISTANT_STOP_FALLBACK_MS) {
+                setCharacterSpeaking(false)
+              }
+            }, ASSISTANT_STOP_FALLBACK_MS)
           }
 
           if (eventType === 'input_audio_buffer.speech_started') {
             recoverySentForCurrentTurnRef.current = false
+            assistantAudioExpectedRef.current = false
+            setCharacterSpeaking(false)
+            emitSpeakerState('yoko', true)
+          }
+
+          if (eventType === 'input_audio_buffer.speech_stopped') {
+            emitSpeakerState('yoko', false)
           }
 
           if (eventType === 'conversation.item.input_audio_transcription.completed') {
@@ -633,6 +806,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
             // #endregion
             if (transcript) {
               void appendMessage('assistant', transcript, eventType)
+              addChatMessage('assistant', transcript)
             }
           }
         } catch {
@@ -668,7 +842,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
         } else if (pc.connectionState === 'failed' || pc.connectionState === 'disconnected') {
           closeConversationSession(pc.connectionState)
           setState('error')
-          setTimeout(() => {
+          connectionResetTimerRef.current = window.setTimeout(() => {
             cleanup()
             setState('idle')
           }, 2000)
@@ -684,7 +858,7 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
       closeConversationSession('error')
       setState('error')
       cleanup()
-      setTimeout(() => setState('idle'), 2000)
+      fallbackResetTimerRef.current = window.setTimeout(() => setState('idle'), 2000)
     }
   }, [
     character.id,
@@ -692,16 +866,75 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
     monitorAudio,
     selectedVoice,
     appendMessage,
+    addChatMessage,
     closeConversationSession,
     startConversationSession,
     setLocalMicEnabled,
-    sendRealtimeToolOutput,
     startActivityStream,
+    emitSpeakerState,
+    setCharacterSpeaking,
+    monitorRemoteAudio,
+    flushQueuedTextMessages,
   ])
 
   useEffect(() => {
     return cleanup
   }, [cleanup])
+
+  useEffect(() => {
+    if (!activeConversationId) return
+    if (state !== 'connecting' && state !== 'connected') return
+
+    let cancelled = false
+
+    const syncLearningGoalSelection = async () => {
+      await fetch('/api/conversations/metadata', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          conversationId: activeConversationId,
+          metadata: buildConversationLearningGoalMetadata(),
+        }),
+      }).catch(() => undefined)
+
+      const dc = dataChannelRef.current
+      if (cancelled || !dc || dc.readyState !== 'open') return
+
+      const response = await fetch('/api/realtime/instructions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          characterId: character.id,
+          conversationId: activeConversationId,
+        }),
+      }).catch(() => null)
+      if (cancelled || !response?.ok) return
+
+      const payload = (await response.json().catch(() => ({}))) as { instructions?: string }
+      const instructions = typeof payload.instructions === 'string' ? payload.instructions.trim() : ''
+      if (!instructions) return
+
+      dc.send(
+        JSON.stringify({
+          type: 'session.update',
+          session: {
+            instructions,
+          },
+        }),
+      )
+    }
+
+    void syncLearningGoalSelection()
+
+    return () => {
+      cancelled = true
+    }
+  }, [
+    activeConversationId,
+    state,
+    character.id,
+    buildConversationLearningGoalMetadata,
+  ])
 
   const handleClick = useCallback(() => {
     if (state === 'connected' && isMicMutedByAssistant) {
@@ -728,59 +961,143 @@ export default function VoiceChatButton({ character, conversationId }: Props) {
       e.stopPropagation()
       closeConversationSession('manual-close')
       cleanup()
+      emitSpeakerState('yoko', false)
+      setCharacterSpeaking(false)
       setIsMicMutedByAssistant(false)
       setAudioLevel(0)
       setState('idle')
     },
-    [cleanup, closeConversationSession],
+    [cleanup, closeConversationSession, emitSpeakerState, setCharacterSpeaking],
   )
 
   const isActive = state === 'connecting' || state === 'connected'
   const ringScale = 1 + audioLevel * 0.5
+  const sendTextMessage = useCallback((rawText: string) => {
+    const text = rawText.trim()
+    if (!text) return
+    addChatMessage('user', text)
+    setTextInputValue('')
+    if (sendTextMessageToRealtime(text)) return
+    queuedTextMessagesRef.current.push(text)
+    if (state === 'idle' || state === 'error') {
+      void connect()
+    }
+  }, [addChatMessage, connect, sendTextMessageToRealtime, state])
+
+  const handleTextSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    sendTextMessage(textInputValue)
+  }, [sendTextMessage, textInputValue])
 
   return (
-    <div className="vcb-wrapper">
-      <button
-        className={`vcb-button ${isActive ? 'vcb-button-active' : ''} ${state === 'error' ? 'vcb-button-error' : ''}`}
-        onClick={handleClick}
-        type="button"
-      >
-        {isActive && (
-          <>
-            <span
-              className="vcb-ring vcb-ring-1"
-              style={{ transform: `scale(${ringScale})` }}
-            />
-            <span
-              className="vcb-ring vcb-ring-2"
-              style={{ transform: `scale(${1 + audioLevel * 0.8})` }}
-            />
-          </>
-        )}
-
-        <span className="vcb-icon-area">
-          {state === 'idle' && (
+    <>
+      <div className="vcb-wrapper">
+        <button
+          className={`vcb-button ${isActive ? 'vcb-button-active' : ''} ${state === 'error' ? 'vcb-button-error' : ''}`}
+          onClick={handleClick}
+          type="button"
+        >
+          {isActive && (
             <>
-              <AudioOutlined className="vcb-mic-icon" />
-              <span className="vcb-label">Setze die Geschichte fort</span>
+              <span
+                className="vcb-ring vcb-ring-1"
+                style={{ transform: `scale(${ringScale})` }}
+              />
+              <span
+                className="vcb-ring vcb-ring-2"
+                style={{ transform: `scale(${1 + audioLevel * 0.8})` }}
+              />
             </>
           )}
-          {state === 'connecting' && <LoadingOutlined className="vcb-spinner" />}
-          {state === 'connected' &&
-            (isMicMutedByAssistant ? (
-              <AudioMutedOutlined className="vcb-mic-icon vcb-mic-live" />
-            ) : (
-              <AudioOutlined className="vcb-mic-icon vcb-mic-live" />
-            ))}
-          {state === 'error' && <span className="vcb-error-dot" />}
-        </span>
-      </button>
 
-      {isActive && (
-        <button className="vcb-close" onClick={handleClose} type="button" aria-label="Beenden">
-          <CloseOutlined />
+          <span className="vcb-icon-area">
+            {state === 'idle' && (
+              <>
+                <AudioOutlined className="vcb-mic-icon" />
+                <span className="vcb-label">Setze die Geschichte fort</span>
+              </>
+            )}
+            {state === 'connecting' && <LoadingOutlined className="vcb-spinner" />}
+            {state === 'connected' &&
+              (isMicMutedByAssistant ? (
+                <AudioMutedOutlined className="vcb-mic-icon vcb-mic-live" />
+              ) : (
+                <AudioOutlined className="vcb-mic-icon vcb-mic-live" />
+              ))}
+            {state === 'error' && <span className="vcb-error-dot" />}
+          </span>
         </button>
+        {isActive && (
+          <button className="vcb-close" onClick={handleClose} type="button" aria-label="Beenden">
+            <CloseOutlined />
+          </button>
+        )}
+      </div>
+      {enableTextChat && (
+        <div className="vcb-text-chat-root">
+          {isTextChatOpen && (
+            <div className="vcb-text-chat-panel" role="dialog" aria-label="Textchat">
+              <div className="vcb-text-chat-header">
+                <span>Mit {character.name} schreiben</span>
+                <button
+                  type="button"
+                  className="vcb-text-chat-close"
+                  onClick={() => setIsTextChatOpen(false)}
+                  aria-label="Textchat schliessen"
+                >
+                  <CloseOutlined />
+                </button>
+              </div>
+              <div className="vcb-text-chat-log">
+                {chatMessages.length === 0 ? (
+                  <p className="vcb-text-chat-empty">
+                    Schreibe eine Nachricht, um die Conversation automatisch zu starten.
+                  </p>
+                ) : (
+                  chatMessages.map((message) => (
+                    <p
+                      key={message.id}
+                      className={`vcb-text-chat-message ${
+                        message.role === 'assistant'
+                          ? 'vcb-text-chat-message-assistant'
+                          : 'vcb-text-chat-message-user'
+                      }`}
+                    >
+                      {message.text}
+                    </p>
+                  ))
+                )}
+              </div>
+              <form className="vcb-text-chat-input-row" onSubmit={handleTextSubmit}>
+                <input
+                  className="vcb-text-chat-input"
+                  type="text"
+                  value={textInputValue}
+                  onChange={(event) => setTextInputValue(event.target.value)}
+                  placeholder="Nachricht schreiben..."
+                />
+                <button
+                  type="submit"
+                  className="vcb-text-chat-send"
+                  aria-label="Nachricht senden"
+                >
+                  <SendOutlined />
+                </button>
+              </form>
+            </div>
+          )}
+          <button
+            className="vcb-button vcb-button-active vcb-text-chat-launcher"
+            onClick={() => setIsTextChatOpen((prev) => !prev)}
+            type="button"
+            aria-label={isTextChatOpen ? 'Textchat minimieren' : 'Textchat oeffnen'}
+          >
+            <span className="vcb-icon-area">
+              <MessageOutlined className="vcb-mic-icon vcb-mic-live" />
+            </span>
+          </button>
+        </div>
       )}
-    </div>
+    </>
   )
 }

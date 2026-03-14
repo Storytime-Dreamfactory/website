@@ -1,0 +1,103 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-image
+- testedScenarios: image
+- runIndex: 1
+- conversationId: 7862268e-bbc1-4ff4-932c-0ff9b7960be0
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 10300
+
+## Gesamtbeurteilung
+- score: 7/10
+- assessment: Insgesamt erfüllt die Conversation den Bildwunsch solide und kindgerecht: Das Motiv wurde korrekt erkannt, die Bildbeschreibung ist passend, ruhig und sicher. Schwächer ist die aktive Gesprächsführung durch Agatha: Für ein Kind fehlt etwas mehr sichtbare Begleitung, etwa ein kurzes Bestätigen, gemeinsames Staunen oder ein einfacher nächster Impuls. Die Pipeline wirkt funktional beim Bild-Use-Case, zeigt aber Qualitätsprobleme in den Public Activities durch fehlerhafte Namensauflösung und eine teilweise unnötig schwere atmosphärische Färbung.
+
+## Rubric-Details
+- leadershipQuality: 6/10
+  diagnosis: Die Antwort ist kindgerecht, ruhig und klar genug, um den Bildwunsch direkt zu bedienen. Allerdings führt Agatha das Gespräch kaum aktiv: Sie bestätigt nicht ausdrücklich den Wunsch, fragt nichts nach und bietet keinen nächsten kindgerechten Schritt an. Aus Sicht von Yoko wirkt die Führung eher reaktiv als dialogisch. Zusätzlich ist die direkte Ansprache von Yoko in der eigentlichen Assistant-Antwort nicht sichtbar.
+- learningGoalAlignment: 5/10
+  diagnosis: Es sind keine aktiven Lernziele gesetzt, daher ist nur konservativ zu bewerten. Die Antwort enthält eine leichte sprachliche Strukturierung durch anschauliches Benennen von Fell, Laterne, Wasser und Tannen, aber keine sichtbare Mikro-Intervention wie Entscheiden, Reflektieren oder Mitmachen. Mangels gesetzter Lernziele ist das kein klarer Fehler, aber auch keine erkennbare pädagogische Stärke.
+- storyArcQuality: 8/10
+  diagnosis: Die Szene ist stimmig, sicher und kindgerecht. Der Otter, die Laterne, das Ufer und die Tannen erzeugen eine ruhige, märchenhafte Bildwelt ohne unnötige Bedrohung. Die öffentlichen Activities passen weitgehend zur Szene. Kleinere Abzüge gibt es, weil Agathas Perspektive in den Activities etwas distanziert und leicht düster wirkt ('schmale, nachdenkliche Augen', 'dunkle Tannen'), obwohl der eigentliche Nutzerwunsch einfach ein freundliches Bild war.
+- topicThreadHandling: 7/10
+  diagnosis: Der zentrale Thread 'Bild mit freundlichem Otter und kleiner Laterne' wurde korrekt erkannt und umgesetzt. Bildbezug und Motivtreue sind hoch. Unsicherheit bleibt, weil nur ein sehr kurzer Verlauf vorliegt und kein Themenwechsel oder Mehrfachintention testbar ist. Auffällig ist jedoch ein Artefakt in den Public Activities: statt Yoko erscheint eine UUID, was auf schwache Thread-/Entity-Aufbereitung im Pipeline-Verlauf hindeutet.
+
+## Staerken
+- Der Bildwunsch wurde präzise erkannt und mit passenden, stimmigen Details umgesetzt.
+- Die Szene bleibt freundlich, ruhig und insgesamt altersgerecht ohne bedrohliche Zuspitzung.
+
+## Probleme
+- [medium] Zu wenig aktive Gesprächsführung durch den Character
+  details: Agatha reagiert auf den Wunsch, aber sie leitet Yoko kaum aktiv durch die Interaktion. Es fehlt eine kurze bestätigende oder einladende Formulierung wie gemeinsames Betrachten, Nachfragen oder ein sanfter Anschlussimpuls. Gerade laut Evaluationsfokus sollte die Gesprächsführung für das Kind klar geleitet wirken.
+  recommendation: Im Character-Voice-Prompt fest verankern, dass bei Bildwünschen zuerst kurz kindnah bestätigt und anschließend ein einfacher nächster Schritt angeboten wird, z. B. 'Schau mal, Yoko...' oder 'Möchtest du, dass die Laterne goldgelb oder bunt leuchtet?'
+- [medium] Fehlerhafte Entity-Auflösung in Public Activities
+  details: In 'character.chat.completed' erscheint eine UUID anstelle eines kindverständlich benannten Gegenübers. Das wirkt aus Produkt- und Memory-Sicht inkonsistent und kann Folgeprobleme in Zusammenfassungen, Erinnerungen oder UI-Darstellungen verursachen.
+  recommendation: In Runtime/Activity-Erzeugung eine sichere Auflösung von counterpartName und counterpartCharacterId erzwingen und Fallbacks auf technische IDs in öffentlich sichtbaren Texten unterbinden.
+- [low] Atmosphäre in Activities leicht schwerer als der eigentliche Nutzerwunsch
+  details: Formulierungen wie 'dunkle Tannen' und 'schmale, nachdenkliche Augen' verschieben den Ton etwas in eine distanziertere, leicht düstere Richtung. Das ist nicht unangemessen, aber weniger direkt freundlich als der Wunsch nach einem 'freundlichen Otter'.
+  recommendation: Image- und Summary-Prompts stärker auf die primäre Nutzerintention gewichten: Bei freundlichen Bildwünschen positiv-warme Adjektive priorisieren und charaktertypische dunklere Marker nur sparsam einfließen lassen.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Character-Voice-Prompt um klare Kinderführung bei Bildwünschen ergänzen
+   action: Im Prompt 'character-voice-agent.md' eine Regel ergänzen: Bei erkanntem Bildwunsch immer in 2 Schritten antworten — 1) kurze empathische Bestätigung mit Name/Anrede des Kindes, 2) konkrete Bildbeschreibung oder einfache Auswahlfrage. Ziel: sichtbar aktive Führung statt nur szenischer Beschreibung.
+2. [high] Public-Activity-Renderer gegen technische IDs härten
+   action: In der Runtime für 'character.chat.completed' und verwandte Activities prüfen, ob counterpartName sauber aufgelöst wurde; falls nicht, nutze einen sprachlichen Fallback wie 'Yoko' aus evaluationFocus bzw. Relationship-/Conversation-Kontext statt UUID-Ausgabe.
+3. [medium] Image-Prompt-System stärker an Nutzersignal 'freundlich' koppeln
+   action: Im Prompt 'image-prompt-system.md' eine Priorisierungsregel ergänzen: explizite Gefühls-/Tonmarker aus dem Nutzerwunsch ('freundlich') sollen die Stilwahl dominieren; dunklere Umgebungsmarker dürfen nur unterstützend, nicht tonsetzend sein.
+4. [medium] Scene-Summary auf Kindperspektive und Charakterkohärenz optimieren
+   action: Im Prompt 'scene-summary-system.md' ergänzen, dass Zusammenfassungen die Interaktion aus Kindperspektive klar und warm halten sollen und Charakterbeobachtungen wie 'nachdenkliche Augen' nur verwendet werden, wenn sie für den Gesprächsverlauf wirklich relevant sind.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Character-Voice-Prompt um klare Kinderführung bei Bildwünschen ergänzen
+   action: Im Prompt 'character-voice-agent.md' eine Regel ergänzen: Bei erkanntem Bildwunsch immer in 2 Schritten antworten — 1) kurze empathische Bestätigung mit Name/Anrede des Kindes, 2) konkrete Bildbeschreibung oder einfache Auswahlfrage. Ziel: sichtbar aktive Führung statt nur szenischer Beschreibung.
+2. [high] Public-Activity-Renderer gegen technische IDs härten
+   action: In der Runtime für 'character.chat.completed' und verwandte Activities prüfen, ob counterpartName sauber aufgelöst wurde; falls nicht, nutze einen sprachlichen Fallback wie 'Yoko' aus evaluationFocus bzw. Relationship-/Conversation-Kontext statt UUID-Ausgabe.
+3. [medium] Image-Prompt-System stärker an Nutzersignal 'freundlich' koppeln
+   action: Im Prompt 'image-prompt-system.md' eine Priorisierungsregel ergänzen: explizite Gefühls-/Tonmarker aus dem Nutzerwunsch ('freundlich') sollen die Stilwahl dominieren; dunklere Umgebungsmarker dürfen nur unterstützend, nicht tonsetzend sein.
+4. [medium] Scene-Summary auf Kindperspektive und Charakterkohärenz optimieren
+   action: Im Prompt 'scene-summary-system.md' ergänzen, dass Zusammenfassungen die Interaktion aus Kindperspektive klar und warm halten sollen und Charakterbeobachtungen wie 'nachdenkliche Augen' nur verwendet werden, wenn sie für den Gesprächsverlauf wirklich relevant sind.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Eval-Fokus-Kontext
+counterpartName: Yoko
+counterpartCharacterId: yoko
+conversationCharacterId: agatha-knusperhexe
+activeLearningGoalIds: (keine aktiv gesetzt)
+selfEvaluationScenariosFromMetadata: image
+WICHTIG: Beurteile explizit, ob die Gespraechsfuehrung fuer das Kind klar geleitet wird.
+
+## Conversation Total History
+1. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der aufrecht am Ufer sitzt und eine kleine goldene Laterne in den Pfoten hält. Neben ihm glitzert stilles Wasser, und die Laterne leuchtet warm in die dunklen Tannen.
+
+## Public Activities
+1. character.chat.completed: Da sprach Agatha Knusperhexe am stillen Ufer wieder leise mit Yoko, während 7d688ec8-6d27-43d1-9803-6b0d4448f10a im warmen Schein der goldenen Laterne stand und der kleine Otter das glitzernde Wasser wie ein stilles Wunder bewachte.
+2. conversation.story.summarized: Am stillen Ufer hatte Yoko sich einen freundlichen Otter mit einer kleinen Laterne gewünscht, und Agatha Knusperhexe war mit ihr näher ans Wasser getreten. Dort entdeckten sie den Otter mit seinem weichen braunen Fell im warmen goldenen Schein, und Agatha betrachtete ihn nachdenklich, während zwischen den dunklen Tannen alles ganz ruhig wurde.
+3. conversation.image.generated: Danach saß am stillen Ufer ein freundlicher Otter mit weichem braunem Fell aufrecht und hielt eine kleine goldene Laterne in den Pfoten. Neben ihm glitzerte das Wasser leise, und ihr warmes Licht schimmerte sanft bis zu den dunklen Tannen. Die kühle Luft wirkte ruhig, und Agatha hatte ihn mit schmalen, nachdenklichen Augen aus der Nähe betrachtet.
+
+## Bildreferenzen
+1. activity/conversation.image.generated: /content/conversations/7862268e-bbc1-4ff4-932c-0ff9b7960be0/tool-e9254923-c5c7-4ebe-962a-ed93697ad675.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/7862268e-bbc1-4ff4-932c-0ff9b7960be0/tool-e9254923-c5c7-4ebe-962a-ed93697ad675.jpg | summary=Danach saß am stillen Ufer ein freundlicher Otter mit weichem braunem Fell aufrecht und hielt eine kleine goldene Laterne in den Pfoten. Neben ihm glitzerte das Wasser leise, und ihr warmes Licht schimmerte sanft bis zu den dunklen Tannen. Die kühle Luft wirkte ruhig, und Agatha hatte ihn mit schmalen, nachdenklichen Augen aus der Nähe betrachtet.

@@ -5,12 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:lan": "vite --host",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test": "vitest run",
     "preview": "vite preview",
     "character-images:dry-run": "node --env-file=.env --import tsx ./tools/character-image-service/src/cli.ts --dry-run",
     "character-images:generate": "node --env-file=.env --import tsx ./tools/character-image-service/src/cli.ts",
+    "artifact-images:dry-run": "node --env-file=.env --import tsx ./tools/artifact-image-service/src/cli.ts --dry-run",
+    "artifact-images:generate": "node --env-file=.env --import tsx ./tools/artifact-image-service/src/cli.ts",
     "db:start": "docker compose up -d postgres",
     "db:stop": "docker compose stop postgres",
     "db:init-relationships": "node --env-file=.env --import tsx ./scripts/create-character-relationships-table.ts",
@@ -23,7 +26,8 @@
     "db:backfill-story-summaries:dry-run": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts --dry-run",
     "db:backfill-story-summaries:force": "node --env-file=.env --import tsx ./scripts/backfill-activity-story-summaries.ts --force",
     "runtime:smoke": "node --env-file=.env --import tsx ./scripts/runtime-conversation-smoke.ts",
-    "character-images:smoke-eval": "node --env-file=.env --import tsx ./scripts/character-image-eval-smoke.ts"
+    "character-images:smoke-eval": "node --env-file=.env --import tsx ./scripts/character-image-eval-smoke.ts",
+    "eval:self": "node --env-file=.env --import tsx ./src/server/eval/selfEvaluationCli.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",

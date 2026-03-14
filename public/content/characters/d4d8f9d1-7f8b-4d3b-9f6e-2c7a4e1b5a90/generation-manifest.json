@@ -1,0 +1,307 @@
+{
+  "generatedAt": "2026-03-13T20:00:35.729Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nola/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/nova/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/yoko/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/.tmp/character-creator/959b222f-f60e-4b99-a9db-fd4c8d7d20b7.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90",
+    "name": "Maria",
+    "type": "character",
+    "slug": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90",
+    "shortDescription": "Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht.",
+    "basis": {
+      "ageHint": "erwachsen",
+      "species": "gute Fee",
+      "genderExpression": "feminin",
+      "roleArchetype": "helper"
+    },
+    "voice": "marin",
+    "voiceProfile": {
+      "identity": "Sanft glockige, erwachsene Feenstimme mit warmer Tiefe, weichem Laecheln im Klang und ruhiger Sicherheit",
+      "demeanor": "Fuersorglich und gesammelt, wie jemand, der zuerst hinschaut, dann handelt und dabei nie Hektik verbreitet",
+      "tone": "Weich, freundlich und leicht schimmernd, mit klaren, troestenden Worten und einem feinen Hauch von Staunen",
+      "enthusiasmLevel": "ruhig",
+      "formalityLevel": "halb-formell",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "ruhig fliessend, mit kleinen sanften Pausen wie ein behutsam gesetzter Zauberspruch"
+    },
+    "appearance": {
+      "bodyShape": "schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung",
+      "colors": [
+        "dunkelbraun",
+        "nachtblau",
+        "warmes gold"
+      ],
+      "hairOrFur": {
+        "color": "dunkelbraun",
+        "texture": "weich und glatt",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "warmes braun",
+        "expression": "sanft, aufmerksam und froehlich"
+      },
+      "distinctiveFeatures": [
+        "lange dunkelbraune Haare",
+        "goldene Ohrringe und feine goldene Kette",
+        "zarter goldener Magieschimmer an den Haenden"
+      ],
+      "clothingStyle": "elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten"
+    },
+    "personality": {
+      "coreTraits": [
+        "fuersorglich",
+        "magisch",
+        "umsichtig"
+      ],
+      "temperament": "ruhig",
+      "socialStyle": "beschuetzend",
+      "strengths": [
+        "bleibt in schwierigen Momenten ruhig",
+        "erkennt schnell, wer Trost oder Hilfe braucht"
+      ],
+      "weaknesses": [
+        "nimmt Sorgen anderer zu sehr auf sich",
+        "greift manchmal zu frueh helfend ein"
+      ],
+      "quirks": [
+        "streicht beim Nachdenken ueber ihre Kette",
+        "laesst beim Troesten kleine goldene Funken in der Luft tanzen"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen",
+      "deeperNeed": "gebraucht zu werden, ohne alles allein tragen zu muessen",
+      "fear": "dass ein Kind sich allein oder uebersehen fuehlt",
+      "insecurity": "Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da?",
+      "stressResponse": "reflect",
+      "growthDirection": "lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "helper",
+        "guide"
+      ],
+      "suitableLearningGoals": [
+        "Mut",
+        "Selbstregulation",
+        "Zuhoeren",
+        "Freundlichkeit"
+      ],
+      "explanationStyle": "calm"
+    },
+    "origin": {
+      "birthPlace": "Mondfederhain",
+      "upbringingPlaces": [
+        "Mondfederhain",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "spricht ruhig und waehlt troestende, klare Worte",
+        "glaubt daran, dass kleine Gesten oft staerker sind als grosse Zauber"
+      ],
+      "religionOrBelief": "vertraut auf sanfte Magie, Achtsamkeit und das Gute in kleinen Schritten",
+      "historicalContext": [
+        "wurde in einer alten Feentradition des Begleitens statt Beherrschens unterrichtet"
+      ],
+      "notes": "Ihre Herkunft verbindet stille Wiesenmagie mit einer Kultur des behutsamen Helfens"
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "3d1ad7b2-990f-4655-902c-e1baf8d87cbe",
+          "type": "beschuetzende Begleiterin",
+          "description": "Maria begleitet Yoko mit ruhiger Magie und hilft ihr, Gefuehle in Worte zu fassen"
+        }
+      ],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "Rueckzugsort",
+          "description": "In Whispering Meadow sammelt Maria Ruhe, Magie und klare Gedanken"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur einer guten Fee mit schlanker, aufrechter Silhouette, langen dunkelbraunen Haaren, sanften braunen Augen und warmem Laecheln. Sie traegt ein schlicht elegantes nachtblaues Kleid mit feinen goldenen Akzenten, goldene Ohrringe und eine zarte Kette. An ihren Haenden schimmert leise goldene Magie."
+      },
+      "heroImage": {
+        "file": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in Whispering Meadow bei warmem Abendlicht. Maria steht leicht seitlich zwischen hohen Grashalmen, das dunkle nachtblaue Gewand bewegt sich sanft im Wind, waehrend goldene Funken um ihre Haende kreisen. Ihr Gesicht wirkt ruhig, freundlich und beschuetzend."
+      },
+      "portrait": {
+        "file": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait mit langen dunkelbraunen Haaren, heller Haut, sanften braunen Augen, warmem Laecheln sowie goldenen Ohrringen und feiner Kette. Nachtblauer Stoff und ein zarter Goldschimmer rahmen das freundliche Gesicht."
+      },
+      "profileImage": {
+        "file": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Gesicht, langen dunkelbraunen Haaren, sanften Augen und freundlichem Laecheln. Goldene Ohrringe, feine Kette und ein Hauch goldener Magie machen Maria sofort wiedererkennbar."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Maria mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Maria mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "mut",
+      "selbstregulation",
+      "zuhoeren",
+      "freundlichkeit",
+      "fuersorglich",
+      "beschuetzend",
+      "helper",
+      "guide",
+      "lernt-loszulassen",
+      "wiesenmagie",
+      "whispering-meadow",
+      "gute-fee"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-13",
+      "updatedAt": "2026-03-13",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Maria. Short description: Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: helper. Body shape: schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun weich und glatt lang. Eyes: warmes braun, sanft, aufmerksam und froehlich. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe und feine goldene Kette, zarter goldener Magieschimmer an den Haenden. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten. Core traits: fuersorglich, magisch, umsichtig. Temperament: ruhig. Social style: beschuetzend. Strengths: bleibt in schwierigen Momenten ruhig, erkennt schnell, wer Trost oder Hilfe braucht. Weaknesses: nimmt Sorgen anderer zu sehr auf sich, greift manchmal zu frueh helfend ein. Quirks: streicht beim Nachdenken ueber ihre Kette, laesst beim Troesten kleine goldene Funken in der Luft tanzen. Visible goal: Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen. Deeper need: gebraucht zu werden, ohne alles allein tragen zu muessen. Fear: dass ein Kind sich allein oder uebersehen fuehlt. Insecurity: Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da. Stress response: reflect. Growth direction: lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken. Teaching roles: helper, guide. Explanation style: calm. Create a full-body standard character asset of Maria on a solid pure white background. Show enough of the body to keep the gute Fee identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur einer guten Fee mit schlanker, aufrechter Silhouette, langen dunkelbraunen Haaren, sanften braunen Augen und warmem Laecheln. Sie traegt ein schlicht elegantes nachtblaues Kleid mit feinen goldenen Akzenten, goldene Ohrringe und eine zarte Kette. An ihren Haenden schimmert leise goldene Magie. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur einer guten Fee mit schlanker, aufrechter Silhouette, langen dunkelbraunen Haaren, sanften braunen Augen und warmem Laecheln. Sie traegt ein schlicht elegantes nachtblaues Kleid mit feinen goldenen Akzenten, goldene Ohrringe und eine zarte Kette. An ihren Haenden schimmert leise goldene Magie.",
+      "publicFilePath": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "821a5e3a-3200-44e9-b3d6-2cae16017f51",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/beb5e95d44b34c99b64b0ee73fba6bfb_sample.png?se=2026-03-13T20%3A06%3A51Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=XsIxaFpm89irxkx6ppmZ%2BXmICanhbv5JDLx3ZLIs1to%3D",
+      "cost": 10.5
+    },
+    {
+      "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Maria. Short description: Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: helper. Body shape: schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun weich und glatt lang. Eyes: warmes braun, sanft, aufmerksam und froehlich. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe und feine goldene Kette, zarter goldener Magieschimmer an den Haenden. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten. Core traits: fuersorglich, magisch, umsichtig. Temperament: ruhig. Social style: beschuetzend. Strengths: bleibt in schwierigen Momenten ruhig, erkennt schnell, wer Trost oder Hilfe braucht. Weaknesses: nimmt Sorgen anderer zu sehr auf sich, greift manchmal zu frueh helfend ein. Quirks: streicht beim Nachdenken ueber ihre Kette, laesst beim Troesten kleine goldene Funken in der Luft tanzen. Visible goal: Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen. Deeper need: gebraucht zu werden, ohne alles allein tragen zu muessen. Fear: dass ein Kind sich allein oder uebersehen fuehlt. Insecurity: Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da. Stress response: reflect. Growth direction: lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken. Teaching roles: helper, guide. Explanation style: calm. Birth place: Mondfederhain. Raised in: Mondfederhain, Whispering Meadow. Cultural context: spricht ruhig und waehlt troestende, klare Worte, glaubt daran, dass kleine Gesten oft staerker sind als grosse Zauber. Belief or worldview: vertraut auf sanfte Magie, Achtsamkeit und das Gute in kleinen Schritten. Historical context: wurde in einer alten Feentradition des Begleitens statt Beherrschens unterrichtet. Origin notes: Ihre Herkunft verbindet stille Wiesenmagie mit einer Kultur des behutsamen Helfens. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Maria in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in Whispering Meadow bei warmem Abendlicht. Maria steht leicht seitlich zwischen hohen Grashalmen, das dunkle nachtblaue Gewand bewegt sich sanft im Wind, waehrend goldene Funken um ihre Haende kreisen. Ihr Gesicht wirkt ruhig, freundlich und beschuetzend. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in Whispering Meadow bei warmem Abendlicht. Maria steht leicht seitlich zwischen hohen Grashalmen, das dunkle nachtblaue Gewand bewegt sich sanft im Wind, waehrend goldene Funken um ihre Haende kreisen. Ihr Gesicht wirkt ruhig, freundlich und beschuetzend.",
+      "publicFilePath": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "1f874110-e456-4058-9856-6d6a81f3b0d8",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/dece7e18b21a4d2c8ef0dd8d6dd7f92d_sample.jpeg?se=2026-03-13T20%3A07%3A57Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=g5wWQD2hxwWUHZFu%2BRkzmCZ9er4k4IzxwpaJc9lGAso%3D",
+      "cost": 13.5
+    },
+    {
+      "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Maria. Short description: Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: helper. Body shape: schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun weich und glatt lang. Eyes: warmes braun, sanft, aufmerksam und froehlich. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe und feine goldene Kette, zarter goldener Magieschimmer an den Haenden. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten. Core traits: fuersorglich, magisch, umsichtig. Temperament: ruhig. Social style: beschuetzend. Strengths: bleibt in schwierigen Momenten ruhig, erkennt schnell, wer Trost oder Hilfe braucht. Weaknesses: nimmt Sorgen anderer zu sehr auf sich, greift manchmal zu frueh helfend ein. Quirks: streicht beim Nachdenken ueber ihre Kette, laesst beim Troesten kleine goldene Funken in der Luft tanzen. Visible goal: Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen. Deeper need: gebraucht zu werden, ohne alles allein tragen zu muessen. Fear: dass ein Kind sich allein oder uebersehen fuehlt. Insecurity: Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da. Stress response: reflect. Growth direction: lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken. Teaching roles: helper, guide. Explanation style: calm. Birth place: Mondfederhain. Raised in: Mondfederhain, Whispering Meadow. Cultural context: spricht ruhig und waehlt troestende, klare Worte, glaubt daran, dass kleine Gesten oft staerker sind als grosse Zauber. Belief or worldview: vertraut auf sanfte Magie, Achtsamkeit und das Gute in kleinen Schritten. Historical context: wurde in einer alten Feentradition des Begleitens statt Beherrschens unterrichtet. Origin notes: Ihre Herkunft verbindet stille Wiesenmagie mit einer Kultur des behutsamen Helfens. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Maria. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait mit langen dunkelbraunen Haaren, heller Haut, sanften braunen Augen, warmem Laecheln sowie goldenen Ohrringen und feiner Kette. Nachtblauer Stoff und ein zarter Goldschimmer rahmen das freundliche Gesicht. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait mit langen dunkelbraunen Haaren, heller Haut, sanften braunen Augen, warmem Laecheln sowie goldenen Ohrringen und feiner Kette. Nachtblauer Stoff und ein zarter Goldschimmer rahmen das freundliche Gesicht.",
+      "publicFilePath": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "b7559600-31bd-4879-b1a5-47576fbedb42",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/3cfba47a9c58441eb00461744d6104c2_sample.png?se=2026-03-13T20%3A08%3A44Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=PCpue/c6RX2pDf/zsAVHcRrOEUOuUZBKPT7/PjdMC/o%3D",
+      "cost": 13.5
+    },
+    {
+      "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Maria. Short description: Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: helper. Body shape: schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun weich und glatt lang. Eyes: warmes braun, sanft, aufmerksam und froehlich. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe und feine goldene Kette, zarter goldener Magieschimmer an den Haenden. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten. Core traits: fuersorglich, magisch, umsichtig. Temperament: ruhig. Social style: beschuetzend. Strengths: bleibt in schwierigen Momenten ruhig, erkennt schnell, wer Trost oder Hilfe braucht. Weaknesses: nimmt Sorgen anderer zu sehr auf sich, greift manchmal zu frueh helfend ein. Quirks: streicht beim Nachdenken ueber ihre Kette, laesst beim Troesten kleine goldene Funken in der Luft tanzen. Visible goal: Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen. Deeper need: gebraucht zu werden, ohne alles allein tragen zu muessen. Fear: dass ein Kind sich allein oder uebersehen fuehlt. Insecurity: Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da. Stress response: reflect. Growth direction: lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken. Teaching roles: helper, guide. Explanation style: calm. Birth place: Mondfederhain. Raised in: Mondfederhain, Whispering Meadow. Cultural context: spricht ruhig und waehlt troestende, klare Worte, glaubt daran, dass kleine Gesten oft staerker sind als grosse Zauber. Belief or worldview: vertraut auf sanfte Magie, Achtsamkeit und das Gute in kleinen Schritten. Historical context: wurde in einer alten Feentradition des Begleitens statt Beherrschens unterrichtet. Origin notes: Ihre Herkunft verbindet stille Wiesenmagie mit einer Kultur des behutsamen Helfens. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Maria. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Gesicht, langen dunkelbraunen Haaren, sanften Augen und freundlichem Laecheln. Goldene Ohrringe, feine Kette und ein Hauch goldener Magie machen Maria sofort wiedererkennbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Gesicht, langen dunkelbraunen Haaren, sanften Augen und freundlichem Laecheln. Goldene Ohrringe, feine Kette und ein Hauch goldener Magie machen Maria sofort wiedererkennbar.",
+      "publicFilePath": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "ffeeac01-758b-4cad-9fc8-b437248c81df",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/40a6d0636c9547bd91704ecc88efd655_sample.png?se=2026-03-13T20%3A09%3A38Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=70MKZqy5KF83pUWDAwMBZrEG9OzpRW9TZRQWBF3jjsE%3D",
+      "cost": 12
+    },
+    {
+      "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Maria. Short description: Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: helper. Body shape: schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun weich und glatt lang. Eyes: warmes braun, sanft, aufmerksam und froehlich. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe und feine goldene Kette, zarter goldener Magieschimmer an den Haenden. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten. Core traits: fuersorglich, magisch, umsichtig. Temperament: ruhig. Social style: beschuetzend. Strengths: bleibt in schwierigen Momenten ruhig, erkennt schnell, wer Trost oder Hilfe braucht. Weaknesses: nimmt Sorgen anderer zu sehr auf sich, greift manchmal zu frueh helfend ein. Quirks: streicht beim Nachdenken ueber ihre Kette, laesst beim Troesten kleine goldene Funken in der Luft tanzen. Visible goal: Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen. Deeper need: gebraucht zu werden, ohne alles allein tragen zu muessen. Fear: dass ein Kind sich allein oder uebersehen fuehlt. Insecurity: Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da. Stress response: reflect. Growth direction: lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken. Teaching roles: helper, guide. Explanation style: calm. Keep the same exact character identity as the character reference and show Maria expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the gute Fee identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Maria mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Maria mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "2ae57c23-8605-40b1-9f2d-69c75616c19f",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/3127b3c1324841e69e1f5a9609cb2c9d_sample.png?se=2026-03-13T20%3A10%3A06Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=5XQbHeaxE5ZXH%2BllyntoXQlYycJgKyCDAjc1zMX/D2Y%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Maria. Short description: Maria ist eine gute Fee mit langen dunkelbraunen Haaren, sanften Augen und einem warmen Laecheln. Sie wirkt wie eine ruhige, elegante Begleiterin, die mit stiller Magie Trost spendet und Kindern mutig zur Seite steht. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: helper. Body shape: schlanke, aufrechte Gestalt mit sanften Bewegungen und leichter, schwebender Haltung. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun weich und glatt lang. Eyes: warmes braun, sanft, aufmerksam und froehlich. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe und feine goldene Kette, zarter goldener Magieschimmer an den Haenden. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: elegantes nachtblaues Kleid oder langes Oberteil mit schlichtem Schnitt, dunklem Stoff und feinen goldenen Akzenten. Core traits: fuersorglich, magisch, umsichtig. Temperament: ruhig. Social style: beschuetzend. Strengths: bleibt in schwierigen Momenten ruhig, erkennt schnell, wer Trost oder Hilfe braucht. Weaknesses: nimmt Sorgen anderer zu sehr auf sich, greift manchmal zu frueh helfend ein. Quirks: streicht beim Nachdenken ueber ihre Kette, laesst beim Troesten kleine goldene Funken in der Luft tanzen. Visible goal: Yuna, Yoko und Lola sicher begleiten und ihnen mit ihrer Magie durch schwierige Momente helfen. Deeper need: gebraucht zu werden, ohne alles allein tragen zu muessen. Fear: dass ein Kind sich allein oder uebersehen fuehlt. Insecurity: Wenn ich nicht rechtzeitig helfe, war ich dann wirklich da. Stress response: reflect. Growth direction: lernt, nicht jede Loesung selbst zu zaubern, sondern Kindern auch eigenes Zutrauen zu schenken. Teaching roles: helper, guide. Explanation style: calm. Keep the same exact character identity as the character reference and show Maria expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the gute Fee identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Maria mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Maria mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "f51c4c1e-df7b-4868-a56b-96f025a44fa6",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/1d3424ffb4404debaca70fa7c00f4f61_sample.png?se=2026-03-13T20%3A10%3A34Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=4xmpoqn848cCy1LpRT8k%2B6UcYi%2B5Np0R35/t6CJ90qw%3D",
+      "cost": 7.5
+    }
+  ]
+}

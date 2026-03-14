@@ -33,17 +33,17 @@ const loadYamlFilesFlat = async (directoryPath: string): Promise<Array<{ filePat
 
 const loadCharacterYamlsFromSubfolders = async (
   parentDirectory: string,
-): Promise<Array<{ filePath: string; content: string; id: string }>> => {
+): Promise<Array<{ filePath: string; content: string }>> => {
   const entries = await readdir(parentDirectory, { withFileTypes: true })
   const subDirectories = entries.filter((entry) => entry.isDirectory())
 
-  const results: Array<{ filePath: string; content: string; id: string }> = []
+  const results: Array<{ filePath: string; content: string }> = []
 
   for (const subDir of subDirectories) {
     const characterYamlPath = path.resolve(parentDirectory, subDir.name, 'character.yaml')
     try {
       const content = await readFile(characterYamlPath, 'utf8')
-      results.push({ filePath: characterYamlPath, content, id: subDir.name })
+      results.push({ filePath: characterYamlPath, content })
     } catch {
       // subfolder without character.yaml — skip
     }
@@ -58,9 +58,14 @@ export const loadWorldContext = async (): Promise<WorldContext> => {
     loadYamlFilesFlat(path.resolve(workspaceRoot, 'content/places')),
   ])
 
-  const characters = characterFiles.map(({ filePath, content, id }) => {
+  const characters = characterFiles.map(({ filePath, content }) => {
     const parsed = parse(content)
-    return validateCharacter(parsed, id, filePath)
+    const yamlId =
+      parsed && typeof parsed === 'object' && typeof (parsed as { id?: unknown }).id === 'string'
+        ? ((parsed as { id: string }).id ?? '').trim()
+        : ''
+    const fallbackId = path.basename(path.dirname(filePath))
+    return validateCharacter(parsed, yamlId || fallbackId, filePath)
   })
 
   const places = placeFiles.map(({ filePath, content }) => {

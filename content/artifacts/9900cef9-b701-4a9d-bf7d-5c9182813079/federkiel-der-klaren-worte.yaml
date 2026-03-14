@@ -1,0 +1,61 @@
+id: 9900cef9-b701-4a9d-bf7d-5c9182813079
+name: Federkiel der klaren Worte
+type: artifact
+artifact_type: writing-tool
+description: >
+  Ein silberblauer Federkiel, der hilft, Gedanken ruhig zu ordnen und Gefuehle
+  freundlich auszudruecken.
+appearance:
+  form: langer Federkiel mit sanft gebogener Spitze
+  size: etwa so lang wie ein Unterarm
+  materials:
+    - Schwanenfeder
+    - Silberkappe
+    - Saphirtinte
+  colors:
+    - silberblau
+    - nachtgrau
+  condition: gepflegt und tintenbereit
+  distinctive_features:
+    - feine Lichtlinie entlang der Federachse
+    - Tintentropfen glitzern wie kleine Sterne
+function:
+  primary_purpose: verwandelt wirre Gedanken in klare, freundliche Saetze
+  secondary_purposes:
+    - unterstuetzt beim Entschuldigen und Versoehnen
+  activation: schreibt erst, wenn tief geatmet und langsam begonnen wird
+  effects:
+    - Worte werden klarer und besser verstaendlich
+    - der Ton bleibt warm und respektvoll
+  limitations:
+    - schreibt nicht bei boesen Absichten
+images:
+  standard_artifact:
+    file: /content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/standard-artifact.png
+    description: Freigestellter Federkiel mit sichtbarer Spitze und Tintentropfen.
+  hero_image:
+    file: /content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/hero-image.jpg
+    description: Leuchtender Federkiel ueber aufgeschlagenem Buch in einer ruhigen Nachtstube.
+  portrait:
+    file: /content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/portrait.png
+    description: Nahe Card-Ansicht mit Fokus auf Federstruktur und Lichtlinie.
+sensory_profile:
+  sound: feines Rascheln wie Papierwind
+  scent: leichte Note von Tinte und Lavendel
+  texture: weich an der Feder, glatt an der Kappe
+  aura: beruhigend und konzentriert
+origin:
+  creator: Schreiberzirkel vom Mondarchiv
+  era: Zeit der ersten Sternenchroniken
+  cultural_context: fuer friedliche Verstaendigung in schwierigen Gespraechen geschaffen
+  inscriptions:
+    - Worte bauen Bruecken.
+tags:
+  - communication
+  - empathy
+  - writing
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1

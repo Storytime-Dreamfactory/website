@@ -242,6 +242,55 @@ export type LearningGoal = {
   quiz?: LearningGoalQuiz
 }
 
+export type ArtifactAppearance = {
+  form: string
+  size?: string
+  materials: string[]
+  colors: string[]
+  condition: string
+  distinctiveFeatures: string[]
+}
+
+export type ArtifactFunction = {
+  primaryPurpose: string
+  secondaryPurposes: string[]
+  activation?: string
+  effects: string[]
+  limitations: string[]
+}
+
+export type ArtifactSensoryProfile = {
+  sound?: string
+  scent?: string
+  texture?: string
+  aura?: string
+}
+
+export type ArtifactOrigin = {
+  creator?: string
+  era?: string
+  culturalContext?: string
+  inscriptions: string[]
+}
+
+export type ArtifactImageTarget = {
+  file: string
+  description?: string
+}
+
+export type ArtifactImages = {
+  standardArtifact: ArtifactImageTarget
+  heroImage: ArtifactImageTarget
+  portrait: ArtifactImageTarget
+}
+
+export type ArtifactMetadata = {
+  active: boolean
+  createdAt: string
+  updatedAt: string
+  version: number
+}
+
 export type Artifact = {
   id: string
   name: string
@@ -249,7 +298,13 @@ export type Artifact = {
   slug: string
   artifactType: string
   description: string
-  contentFolder: string
+  appearance: ArtifactAppearance
+  function: ArtifactFunction
+  sensoryProfile?: ArtifactSensoryProfile
+  origin?: ArtifactOrigin
+  images: ArtifactImages
+  tags: string[]
+  metadata: ArtifactMetadata
 }
 
 export type GameObject = Character | Place | LearningGoal | Artifact

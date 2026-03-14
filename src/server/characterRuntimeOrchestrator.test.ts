@@ -180,6 +180,139 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     expect(mocks.runConversationQuizSkillMock).not.toHaveBeenCalled()
   })
 
+  it('ignoriert Assistant-Turns des gleichen Characters (kein Self-Trigger)', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: {
+          learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: 'Wirf den Ball nach oben.',
+        },
+      ],
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'assistant',
+      content: 'Ich werfe den Ball jetzt nach oben.',
+      eventType: 'response.audio_transcript.done',
+      messageId: 42,
+      actorType: 'character',
+      actorId: '00000000-0000-4000-8000-000000000001',
+    })
+
+    expect(mocks.generateConversationHeroToolApiMock).not.toHaveBeenCalled()
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'trace.runtime.assistant_turn.ignored',
+        metadata: expect.objectContaining({
+          output: expect.objectContaining({
+            ignored: true,
+            reason: 'self-assistant-turn',
+          }),
+        }),
+      }),
+    )
+  })
+
+  it('fuehrt beim Self-Assistant genau eine offene User-create_scene-Entscheidung aus', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: {
+          learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: JSON.stringify({
+            skillId: 'create_scene',
+            reason: 'action-request',
+            activitiesRequested: false,
+            relationshipsRequested: false,
+          }),
+        },
+      ],
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'user',
+      content: JSON.stringify({
+        skillId: 'create_scene',
+        reason: 'action-request',
+        activitiesRequested: false,
+        relationshipsRequested: false,
+      }),
+      eventType: 'conversation.item.input_audio_transcription.completed',
+      messageId: 1001,
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'assistant',
+      content: 'Ich mache es jetzt und werfe den Ball hoch.',
+      eventType: 'response.audio_transcript.done',
+      messageId: 1002,
+      actorType: 'character',
+      actorId: '00000000-0000-4000-8000-000000000001',
+    })
+
+    expect(mocks.generateConversationHeroToolApiMock).toHaveBeenCalledTimes(1)
+    expect(mocks.generateConversationHeroToolApiMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+      }),
+    )
+  })
+
+  it('verarbeitet dieselbe Assistant-Message-ID nur einmal (idempotent)', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: {
+          learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: JSON.stringify({
+            skillId: 'create_scene',
+            reason: 'action-request',
+            activitiesRequested: false,
+            relationshipsRequested: false,
+          }),
+        },
+      ],
+    })
+
+    const turnInput = {
+      conversationId: 'conv-1',
+      role: 'assistant' as const,
+      content: 'Ich hebe den Ball an und werfe ihn nach oben.',
+      eventType: 'response.audio_transcript.done',
+      messageId: 777,
+      actorType: 'assistant',
+      actorId: 'agent-2',
+    }
+
+    await orchestrateCharacterRuntimeTurn(turnInput)
+    await orchestrateCharacterRuntimeTurn(turnInput)
+
+    expect(mocks.generateConversationHeroToolApiMock).toHaveBeenCalledTimes(1)
+  })
+
   it('schneidet assistantText im runtime decision trace nicht kuenstlich auf 240 Zeichen', async () => {
     const longAssistantText =
       'Ich zeige dir jetzt: einen langen Szenentext, der frueher abgeschnitten wurde, obwohl das Modell normal geantwortet hat. ' +
@@ -698,6 +831,59 @@ describe('orchestrateCharacterRuntimeTurn', () => {
       expect.objectContaining({
         conversationId: 'conv-1',
         characterId: '00000000-0000-4000-8000-000000000001',
+      }),
+    )
+  })
+
+  it('traegt selectedLearningGoalId und openTopicHint in Routing-Metadaten durch', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: {
+          learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: JSON.stringify({
+            skillId: 'create_scene',
+            reason: 'guided-scene',
+            activitiesRequested: false,
+            relationshipsRequested: false,
+            selectedLearningGoalId: '313ab6c5-0d07-48d6-aae6-458a0218c020',
+            openTopicHint: 'erst Fahrrad, dann Sterne',
+          }),
+        },
+      ],
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'assistant',
+      content: 'Wir machen das Schritt fuer Schritt.',
+      eventType: 'response.audio_transcript.done',
+    })
+
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'runtime.skill.routed',
+        metadata: expect.objectContaining({
+          selectedLearningGoalId: '313ab6c5-0d07-48d6-aae6-458a0218c020',
+          openTopicHint: 'erst Fahrrad, dann Sterne',
+        }),
+      }),
+    )
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'trace.runtime.decision.response',
+        metadata: expect.objectContaining({
+          output: expect.objectContaining({
+            selectedLearningGoalId: '313ab6c5-0d07-48d6-aae6-458a0218c020',
+            openTopicHint: 'erst Fahrrad, dann Sterne',
+          }),
+        }),
       }),
     )
   })

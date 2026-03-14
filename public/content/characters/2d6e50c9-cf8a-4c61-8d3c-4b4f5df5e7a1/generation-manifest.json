@@ -1,0 +1,294 @@
+{
+  "generatedAt": "2026-03-13T18:47:13.384Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1",
+  "styleReferencePaths": [],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1",
+    "name": "Kuno Kieselkrabbe",
+    "type": "character",
+    "slug": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1",
+    "shortDescription": "Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Bachuferkrabbe",
+      "genderExpression": "maskulin",
+      "roleArchetype": "learner_helper"
+    },
+    "voice": "echo",
+    "voiceProfile": {
+      "identity": "Knackig-kleiner, leicht scharrender Kinderklang mit kieseligem Unterton, als wuerden Worte ueber glatte Flusssteine hupfen",
+      "demeanor": "Vorsichtig eifrig, erst seitwaerts herantastend und dann ploetzlich mutig mitten hinein",
+      "tone": "Kurz, bildhaft und ein wenig rumpelig, mit kleinen staunenden Betonungen und trockenem Krabbenhumor",
+      "enthusiasmLevel": "hoch",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "trippelnd flott mit kurzen Pausen, wenn er nachdenkt oder sich erst sortieren muss"
+    },
+    "appearance": {
+      "bodyShape": "Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette",
+      "colors": [
+        "petrol",
+        "sandgold",
+        "schilfgruen"
+      ],
+      "hairOrFur": {
+        "color": "keiner",
+        "texture": "glatter Panzer",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "bernstein",
+        "expression": "wach, vorsichtig und schnell erstaunt"
+      },
+      "distinctiveFeatures": [
+        "schiefe Kappe aus geflochtenem Schilf",
+        "petrolfarbener Panzer mit sandgoldenen Kieselpunkten",
+        "eine etwas groessere linke Schere mit hellem Muschelband"
+      ],
+      "clothingStyle": "Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke"
+    },
+    "personality": {
+      "coreTraits": [
+        "aufmerksam",
+        "beharrlich",
+        "leicht frustriert"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "kooperativ",
+      "strengths": [
+        "entdeckt kleine Details, die andere uebersehen",
+        "bleibt bei Aufgaben dran, wenn er sich gesammelt hat"
+      ],
+      "weaknesses": [
+        "wird ungeduldig mit sich selbst",
+        "bittet erst spaet um Hilfe"
+      ],
+      "quirks": [
+        "sortiert gefundene Kiesel nach Klang statt nach Farbe",
+        "tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind",
+      "deeperNeed": "Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt",
+      "fear": "Dass andere weiterziehen, weil er zu lange fuer etwas braucht",
+      "insecurity": "Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "helper"
+      ],
+      "suitableLearningGoals": [
+        "frustrationstoleranz",
+        "geduld",
+        "um-hilfe-bitten",
+        "selbstregulation"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Kieselwink am Silberbach",
+      "upbringingPlaces": [
+        "Kieselwink am Silberbach",
+        "Schilfbogen-Ufer"
+      ],
+      "culturalContext": [
+        "Am Bachufer werden Dinge sorgfaeltig gesammelt, repariert und weitergegeben",
+        "Kleine Alltagsrituale mit Steinen, Wasser und Wetterzeichen sind wichtig"
+      ],
+      "religionOrBelief": "Er glaubt, dass jedes Ding seinen Platz findet, wenn man ruhig genug hinschaut",
+      "historicalContext": [
+        "Nach vielen Fruehlingshochwassern lernten die Uferbewohner, gemeinsam sichere Wege aus Kieseln zu bauen"
+      ],
+      "notes": "Seine Herkunft passt gut zu Geschichten am Wasser, zu Bauaufgaben und zu ruhigen Lernmomenten mit kleinen Rueckschlaegen"
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "cb8ce8f2-1b10-48b9-8afc-905a7a8d060a",
+          "type": "nahe wasserwelt",
+          "description": "Das klare Ufer von Crystal Lake ist fuer Kuno ein staunenswerter Ort, an dem er neue Steinmuster und Pfade studiert"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur einer kleinen Bachuferkrabbe mit runder, seitwaerts lesbarer Silhouette, petrolfarbenem Panzer mit sandgoldenen Sprenkeln, bernsteinfarbenen Augen, schiefer Schilfkappe und kleinem Binsenbeutel. Die linke Schere ist etwas groesser und mit einem hellen Muschelband geschmueckt. Freundlich-vorsichtige Haltung, als wolle er gleich einen Kiesel aufheben."
+      },
+      "heroImage": {
+        "file": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene am warmen Bachufer im Abendlicht: Kuno baut konzentriert einen kleinen Pfad aus glatten Kieseln ueber flaches Wasser, ein Stein wackelt, und er atmet kurz durch, bevor er es noch einmal versucht. Schilf, sanfte Wasserreflexe und seine schiefe Schilfkappe bilden klare visuelle Anker."
+      },
+      "portrait": {
+        "file": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait von Kuno mit bernsteinfarbenen, aufmerksamen Augen, petrolfarbenem Panzer mit goldenen Sprenkeln, schiefer Schilfkappe und leicht angehobener grosser Schere. Der Ausdruck ist freundlich, nachdenklich und ein wenig ehrgeizig."
+      },
+      "profileImage": {
+        "file": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Krabbengesicht, bernsteinfarbenen Augen, petrolfarbenem Panzer, sandgoldenen Punkten und der schiefen Schilfkappe als sofort erkennbarem Merkmal. Freundlicher, konzentrierter Blick."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "frustrationstoleranz",
+      "geduld",
+      "selbstregulation",
+      "um-hilfe-bitten",
+      "detailverliebt",
+      "beharrlich",
+      "learner",
+      "helper",
+      "kleiner-wachst-an-rueckschlaegen",
+      "bachufer",
+      "wasserwelt",
+      "kieselpfad"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-13",
+      "updatedAt": "2026-03-13",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Kuno Kieselkrabbe. Short description: Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt. Species: Bachuferkrabbe. The character must read unmistakably as a Bachuferkrabbe at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette. Dominant colors: petrol, sandgold, schilfgruen. Hair or fur: keiner glatter Panzer kurz. Eyes: bernstein, wach, vorsichtig und schnell erstaunt. Distinctive features: schiefe Kappe aus geflochtenem Schilf, petrolfarbener Panzer mit sandgoldenen Kieselpunkten, eine etwas groessere linke Schere mit hellem Muschelband. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke. Core traits: aufmerksam, beharrlich, leicht frustriert. Temperament: nachdenklich. Social style: kooperativ. Strengths: entdeckt kleine Details, die andere uebersehen, bleibt bei Aufgaben dran, wenn er sich gesammelt hat. Weaknesses: wird ungeduldig mit sich selbst, bittet erst spaet um Hilfe. Quirks: sortiert gefundene Kiesel nach Klang statt nach Farbe, tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt. Visible goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind. Deeper need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt. Fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht. Insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug. Stress response: hesitate_then_try. Growth direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen. Teaching roles: learner, helper. Explanation style: example_based. Create a full-body standard character asset of Kuno Kieselkrabbe on a solid pure white background. Show enough of the body to keep the Bachuferkrabbe identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur einer kleinen Bachuferkrabbe mit runder, seitwaerts lesbarer Silhouette, petrolfarbenem Panzer mit sandgoldenen Sprenkeln, bernsteinfarbenen Augen, schiefer Schilfkappe und kleinem Binsenbeutel. Die linke Schere ist etwas groesser und mit einem hellen Muschelband geschmueckt. Freundlich-vorsichtige Haltung, als wolle er gleich einen Kiesel aufheben. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur einer kleinen Bachuferkrabbe mit runder, seitwaerts lesbarer Silhouette, petrolfarbenem Panzer mit sandgoldenen Sprenkeln, bernsteinfarbenen Augen, schiefer Schilfkappe und kleinem Binsenbeutel. Die linke Schere ist etwas groesser und mit einem hellen Muschelband geschmueckt. Freundlich-vorsichtige Haltung, als wolle er gleich einen Kiesel aufheben.",
+      "publicFilePath": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "5334fa7e-7101-46c8-a146-ba42a1f46b4f",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/e23a91046cc34042bef4ae143891ff75_sample.png?se=2026-03-13T18%3A55%3A11Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=1OTKUopN8muO9JILNCemmAF/H5xqN%2BI9pyD270Zbv6Y%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Kuno Kieselkrabbe. Short description: Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt. Species: Bachuferkrabbe. The character must read unmistakably as a Bachuferkrabbe at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette. Dominant colors: petrol, sandgold, schilfgruen. Hair or fur: keiner glatter Panzer kurz. Eyes: bernstein, wach, vorsichtig und schnell erstaunt. Distinctive features: schiefe Kappe aus geflochtenem Schilf, petrolfarbener Panzer mit sandgoldenen Kieselpunkten, eine etwas groessere linke Schere mit hellem Muschelband. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke. Core traits: aufmerksam, beharrlich, leicht frustriert. Temperament: nachdenklich. Social style: kooperativ. Strengths: entdeckt kleine Details, die andere uebersehen, bleibt bei Aufgaben dran, wenn er sich gesammelt hat. Weaknesses: wird ungeduldig mit sich selbst, bittet erst spaet um Hilfe. Quirks: sortiert gefundene Kiesel nach Klang statt nach Farbe, tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt. Visible goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind. Deeper need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt. Fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht. Insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug. Stress response: hesitate_then_try. Growth direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen. Teaching roles: learner, helper. Explanation style: example_based. Birth place: Kieselwink am Silberbach. Raised in: Kieselwink am Silberbach, Schilfbogen-Ufer. Cultural context: Am Bachufer werden Dinge sorgfaeltig gesammelt, repariert und weitergegeben, Kleine Alltagsrituale mit Steinen, Wasser und Wetterzeichen sind wichtig. Belief or worldview: Er glaubt, dass jedes Ding seinen Platz findet, wenn man ruhig genug hinschaut. Historical context: Nach vielen Fruehlingshochwassern lernten die Uferbewohner, gemeinsam sichere Wege aus Kieseln zu bauen. Origin notes: Seine Herkunft passt gut zu Geschichten am Wasser, zu Bauaufgaben und zu ruhigen Lernmomenten mit kleinen Rueckschlaegen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Kuno Kieselkrabbe in a cinematic story moment. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene am warmen Bachufer im Abendlicht: Kuno baut konzentriert einen kleinen Pfad aus glatten Kieseln ueber flaches Wasser, ein Stein wackelt, und er atmet kurz durch, bevor er es noch einmal versucht. Schilf, sanfte Wasserreflexe und seine schiefe Schilfkappe bilden klare visuelle Anker. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene am warmen Bachufer im Abendlicht: Kuno baut konzentriert einen kleinen Pfad aus glatten Kieseln ueber flaches Wasser, ein Stein wackelt, und er atmet kurz durch, bevor er es noch einmal versucht. Schilf, sanfte Wasserreflexe und seine schiefe Schilfkappe bilden klare visuelle Anker.",
+      "publicFilePath": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "655852c6-8a91-48a1-ae39-e662ebc4e311",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/381d89abf276402787be33578b70cced_sample.jpeg?se=2026-03-13T18%3A55%3A38Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=wn5JE81F5iWem1FNxoJByrImHV5rS1/eorksyt%2BlE2A%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Kuno Kieselkrabbe. Short description: Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt. Species: Bachuferkrabbe. The character must read unmistakably as a Bachuferkrabbe at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette. Dominant colors: petrol, sandgold, schilfgruen. Hair or fur: keiner glatter Panzer kurz. Eyes: bernstein, wach, vorsichtig und schnell erstaunt. Distinctive features: schiefe Kappe aus geflochtenem Schilf, petrolfarbener Panzer mit sandgoldenen Kieselpunkten, eine etwas groessere linke Schere mit hellem Muschelband. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke. Core traits: aufmerksam, beharrlich, leicht frustriert. Temperament: nachdenklich. Social style: kooperativ. Strengths: entdeckt kleine Details, die andere uebersehen, bleibt bei Aufgaben dran, wenn er sich gesammelt hat. Weaknesses: wird ungeduldig mit sich selbst, bittet erst spaet um Hilfe. Quirks: sortiert gefundene Kiesel nach Klang statt nach Farbe, tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt. Visible goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind. Deeper need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt. Fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht. Insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug. Stress response: hesitate_then_try. Growth direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen. Teaching roles: learner, helper. Explanation style: example_based. Birth place: Kieselwink am Silberbach. Raised in: Kieselwink am Silberbach, Schilfbogen-Ufer. Cultural context: Am Bachufer werden Dinge sorgfaeltig gesammelt, repariert und weitergegeben, Kleine Alltagsrituale mit Steinen, Wasser und Wetterzeichen sind wichtig. Belief or worldview: Er glaubt, dass jedes Ding seinen Platz findet, wenn man ruhig genug hinschaut. Historical context: Nach vielen Fruehlingshochwassern lernten die Uferbewohner, gemeinsam sichere Wege aus Kieseln zu bauen. Origin notes: Seine Herkunft passt gut zu Geschichten am Wasser, zu Bauaufgaben und zu ruhigen Lernmomenten mit kleinen Rueckschlaegen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Kuno Kieselkrabbe. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait von Kuno mit bernsteinfarbenen, aufmerksamen Augen, petrolfarbenem Panzer mit goldenen Sprenkeln, schiefer Schilfkappe und leicht angehobener grosser Schere. Der Ausdruck ist freundlich, nachdenklich und ein wenig ehrgeizig. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait von Kuno mit bernsteinfarbenen, aufmerksamen Augen, petrolfarbenem Panzer mit goldenen Sprenkeln, schiefer Schilfkappe und leicht angehobener grosser Schere. Der Ausdruck ist freundlich, nachdenklich und ein wenig ehrgeizig.",
+      "publicFilePath": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "751c76c0-9e84-474a-b4dd-fea82ad6b8ed",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/c4e309c85fc8422692f76d8c36d08440_sample.png?se=2026-03-13T18%3A56%3A01Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Veqa3CPfNvSE4rbvtGtfUTPMWohNdyhhATdZQyYRLqw%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Kuno Kieselkrabbe. Short description: Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt. Species: Bachuferkrabbe. The character must read unmistakably as a Bachuferkrabbe at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette. Dominant colors: petrol, sandgold, schilfgruen. Hair or fur: keiner glatter Panzer kurz. Eyes: bernstein, wach, vorsichtig und schnell erstaunt. Distinctive features: schiefe Kappe aus geflochtenem Schilf, petrolfarbener Panzer mit sandgoldenen Kieselpunkten, eine etwas groessere linke Schere mit hellem Muschelband. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke. Core traits: aufmerksam, beharrlich, leicht frustriert. Temperament: nachdenklich. Social style: kooperativ. Strengths: entdeckt kleine Details, die andere uebersehen, bleibt bei Aufgaben dran, wenn er sich gesammelt hat. Weaknesses: wird ungeduldig mit sich selbst, bittet erst spaet um Hilfe. Quirks: sortiert gefundene Kiesel nach Klang statt nach Farbe, tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt. Visible goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind. Deeper need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt. Fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht. Insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug. Stress response: hesitate_then_try. Growth direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen. Teaching roles: learner, helper. Explanation style: example_based. Birth place: Kieselwink am Silberbach. Raised in: Kieselwink am Silberbach, Schilfbogen-Ufer. Cultural context: Am Bachufer werden Dinge sorgfaeltig gesammelt, repariert und weitergegeben, Kleine Alltagsrituale mit Steinen, Wasser und Wetterzeichen sind wichtig. Belief or worldview: Er glaubt, dass jedes Ding seinen Platz findet, wenn man ruhig genug hinschaut. Historical context: Nach vielen Fruehlingshochwassern lernten die Uferbewohner, gemeinsam sichere Wege aus Kieseln zu bauen. Origin notes: Seine Herkunft passt gut zu Geschichten am Wasser, zu Bauaufgaben und zu ruhigen Lernmomenten mit kleinen Rueckschlaegen. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Kuno Kieselkrabbe. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Krabbengesicht, bernsteinfarbenen Augen, petrolfarbenem Panzer, sandgoldenen Punkten und der schiefen Schilfkappe als sofort erkennbarem Merkmal. Freundlicher, konzentrierter Blick. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Krabbengesicht, bernsteinfarbenen Augen, petrolfarbenem Panzer, sandgoldenen Punkten und der schiefen Schilfkappe als sofort erkennbarem Merkmal. Freundlicher, konzentrierter Blick.",
+      "publicFilePath": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "a6b0d605-af16-49d0-ac92-c3ea891e7076",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/6f5cf100f3ae4c9d999fd2ea525c0963_sample.png?se=2026-03-13T18%3A56%3A23Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=ARDLsjr9zFAUHadekbK1Ocr%2BrI7h1FcBjH%2BG9WRkUsU%3D",
+      "cost": 6
+    },
+    {
+      "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Kuno Kieselkrabbe. Short description: Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt. Species: Bachuferkrabbe. The character must read unmistakably as a Bachuferkrabbe at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette. Dominant colors: petrol, sandgold, schilfgruen. Hair or fur: keiner glatter Panzer kurz. Eyes: bernstein, wach, vorsichtig und schnell erstaunt. Distinctive features: schiefe Kappe aus geflochtenem Schilf, petrolfarbener Panzer mit sandgoldenen Kieselpunkten, eine etwas groessere linke Schere mit hellem Muschelband. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke. Core traits: aufmerksam, beharrlich, leicht frustriert. Temperament: nachdenklich. Social style: kooperativ. Strengths: entdeckt kleine Details, die andere uebersehen, bleibt bei Aufgaben dran, wenn er sich gesammelt hat. Weaknesses: wird ungeduldig mit sich selbst, bittet erst spaet um Hilfe. Quirks: sortiert gefundene Kiesel nach Klang statt nach Farbe, tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt. Visible goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind. Deeper need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt. Fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht. Insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug. Stress response: hesitate_then_try. Growth direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen. Teaching roles: learner, helper. Explanation style: example_based. Keep the same exact character identity as the character reference and show Kuno Kieselkrabbe expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Bachuferkrabbe identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "416e3af2-a073-41dd-a063-83d6be9c6862",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/a7e644a05c75461e969a92bc2c6410eb_sample.png?se=2026-03-13T18%3A56%3A48Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=KE3WUEwVIuUritKyI/uUPktz4TxChWUpitZh2jY0Gjg%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Kuno Kieselkrabbe. Short description: Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt. Species: Bachuferkrabbe. The character must read unmistakably as a Bachuferkrabbe at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette. Dominant colors: petrol, sandgold, schilfgruen. Hair or fur: keiner glatter Panzer kurz. Eyes: bernstein, wach, vorsichtig und schnell erstaunt. Distinctive features: schiefe Kappe aus geflochtenem Schilf, petrolfarbener Panzer mit sandgoldenen Kieselpunkten, eine etwas groessere linke Schere mit hellem Muschelband. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke. Core traits: aufmerksam, beharrlich, leicht frustriert. Temperament: nachdenklich. Social style: kooperativ. Strengths: entdeckt kleine Details, die andere uebersehen, bleibt bei Aufgaben dran, wenn er sich gesammelt hat. Weaknesses: wird ungeduldig mit sich selbst, bittet erst spaet um Hilfe. Quirks: sortiert gefundene Kiesel nach Klang statt nach Farbe, tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt. Visible goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind. Deeper need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt. Fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht. Insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug. Stress response: hesitate_then_try. Growth direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen. Teaching roles: learner, helper. Explanation style: example_based. Keep the same exact character identity as the character reference and show Kuno Kieselkrabbe expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Bachuferkrabbe identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "e0e42521-77bb-4d30-92a2-a320d5e6ed08",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/202b74272d91468f937cb6f6b50a35e7_sample.png?se=2026-03-13T18%3A57%3A11Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=hIzMyPyJwhiYrGih87BqBg14pmOzgKDwHsIcF7mI6jI%3D",
+      "cost": 7.5
+    }
+  ]
+}

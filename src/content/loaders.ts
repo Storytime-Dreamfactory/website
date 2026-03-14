@@ -21,13 +21,13 @@ const fallbackPlaceFiles = import.meta.glob('../../content/places/*.yaml', {
   eager: true,
 }) as Record<string, string>
 
-const fallbackLearningGoalFiles = import.meta.glob('../../content/learning-goals/*.yaml', {
+const fallbackLearningGoalFiles = import.meta.glob('../../content/learning-goals/*/*.yaml', {
   query: '?raw',
   import: 'default',
   eager: true,
 }) as Record<string, string>
 
-const fallbackArtifactFiles = import.meta.glob('../../content/artifacts/*.yaml', {
+const fallbackArtifactFiles = import.meta.glob('../../content/artifacts/*/*.yaml', {
   query: '?raw',
   import: 'default',
   eager: true,

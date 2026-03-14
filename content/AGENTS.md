@@ -10,6 +10,8 @@ Diese Regeln gelten fuer redaktionelle Pflege von Storytime-Content.
 - `distinctive_features` beschreibt wiedererkennbare Merkmale, nicht nur Stimmung.
 - `bilder.*.beschreibung` beschreibt das Bildziel und nicht den technischen Workflow.
 - `herkunft` beschreibt kulturelle, historische und regionale Praegung nuanciert und respektvoll.
+- `voice` und `voice_profile` sind Pflichtfelder in jedem Character-YAML.
+- `voice_profile` muss charakterbezogen und konkret ausgefuellt werden (`identity`, `demeanor`, `tone`, `enthusiasm_level`, `formality_level`, `emotion_level`, `filler_words`, `pacing`).
 - Relationships werden nicht in Character-YAML gepflegt; dafuer ausschliesslich die Relationship-DB/API verwenden.
 
 ## Dateipflege

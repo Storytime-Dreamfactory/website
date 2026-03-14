@@ -1,32 +1,41 @@
 {
   "characters": [
-    "/content/characters/nola/character.yaml",
-    "/content/characters/romi/character.yaml",
-    "/content/characters/finja-schneevoegelchen/character.yaml",
-    "/content/characters/borin-brummbart/character.yaml",
-    "/content/characters/malvarion-der-graue/character.yaml",
-    "/content/characters/lina-flussmaedchen/character.yaml",
-    "/content/characters/agatha-knusperhexe/character.yaml",
-    "/content/characters/lorelei-das-goldmaedchen/character.yaml",
-    "/content/characters/juna-lia/character.yaml",
-    "/content/characters/carla/character.yaml",
-    "/content/characters/leni/character.yaml",
-    "/content/characters/wilma/character.yaml",
-    "/content/characters/yoko/character.yaml",
-    "/content/characters/merlin/character.yaml",
-    "/content/characters/raina/character.yaml",
-    "/content/characters/pippa-pusteblume/character.yaml",
-    "/content/characters/mira-windhopser/character.yaml",
-    "/content/characters/tilda-tannenzapfen/character.yaml",
-    "/content/characters/flora-blumenfreude/character.yaml"
+    "/content/characters/1a5d87f3-0efe-4d22-af5c-60de37e24cb1/character.yaml",
+    "/content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/character.yaml",
+    "/content/characters/3234380c-c1a0-4d69-ac9e-fe07b8e76557/character.yaml",
+    "/content/characters/3d1ad7b2-990f-4655-902c-e1baf8d87cbe/character.yaml",
+    "/content/characters/3d832246-c0ba-45b1-a6c4-69df50bd85f6/character.yaml",
+    "/content/characters/4e35de62-56fe-405f-9935-2f3c9e5a41f0/character.yaml",
+    "/content/characters/53182bc0-c460-4fc8-9a57-cae6dd2ec28b/character.yaml",
+    "/content/characters/555305a8-e7d2-4d1d-8dbd-3d1194f6972a/character.yaml",
+    "/content/characters/6903d27b-0444-4368-a361-046f57511f85/character.yaml",
+    "/content/characters/78a52cad-30b5-468f-9687-c50c30a4bd39/character.yaml",
+    "/content/characters/7d688ec8-6d27-43d1-9803-6b0d4448f10a/character.yaml",
+    "/content/characters/7f8cc9c1-8a1f-48b5-87c6-70aed1d08d6a/character.yaml",
+    "/content/characters/8beac193-c00b-4363-a75a-84152df9b137/character.yaml",
+    "/content/characters/8c42a128-bffd-4ea7-ab96-9d3c84b34f2a/character.yaml",
+    "/content/characters/8eb40291-65ee-49b6-b826-d7c7e97404c0/character.yaml",
+    "/content/characters/9f61bd38-e771-4e94-b985-a02bfa656820/character.yaml",
+    "/content/characters/ae1687d9-51ab-4459-95fb-c579a9dca94a/character.yaml",
+    "/content/characters/c247cba6-247e-453b-8bea-c853e2f24af1/character.yaml",
+    "/content/characters/d4d8f9d1-7f8b-4d3b-9f6e-2c7a4e1b5a90/character.yaml",
+    "/content/characters/e3bf634f-af12-4d51-aeb1-d1464bea2d13/character.yaml",
+    "/content/characters/f78472dd-f4b8-4881-82ab-d2be564ff283/character.yaml",
+    "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/character.yaml",
+    "/content/characters/b6f1b8c2-6f4d-4b3f-a9d1-2c8e7f5a1d44/character.yaml"
   ],
   "places": [
     "/content/places/crystal-lake.yaml",
     "/content/places/whispering-meadow.yaml"
   ],
   "learningGoals": [
-    "/content/learning-goals/problem-solving.yaml",
-    "/content/learning-goals/kindness.yaml"
+    "/content/learning-goals/126aa8c8-a7f5-46e0-928b-ee3cc53e564e/problem-solving.yaml",
+    "/content/learning-goals/313ab6c5-0d07-48d6-aae6-458a0218c020/kindness.yaml",
+    "/content/learning-goals/20cf5ce8-bfca-495d-add7-c5e0b9a8ac2f/zahlen-ordnen.yaml"
   ],
-  "artifacts": []
+  "artifacts": [
+    "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/goldener-wandelstein.yaml",
+    "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/kompass-der-mutpfade.yaml",
+    "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/federkiel-der-klaren-worte.yaml"
+  ]
 }

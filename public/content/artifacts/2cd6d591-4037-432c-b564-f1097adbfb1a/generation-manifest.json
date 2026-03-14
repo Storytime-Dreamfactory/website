@@ -1,0 +1,149 @@
+{
+  "generatedAt": "2026-03-13T23:13:20.055Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceArtifactPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/goldener-wandelstein.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a",
+  "styleReferencePaths": [],
+  "artifactReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "artifact": {
+    "id": "2cd6d591-4037-432c-b564-f1097adbfb1a",
+    "name": "Goldener Wandelstein",
+    "type": "artifact",
+    "slug": "goldener-wandelstein",
+    "artifactType": "transformation-stone",
+    "description": "Ein warmer, goldglitzernder Stein, der in einer kleinen Hand genau richtig liegt und auf mutige Entscheidungen reagiert.",
+    "appearance": {
+      "form": "rundlicher, glatt geschliffener Stein",
+      "size": "handtellergross",
+      "materials": [
+        "goldhaltiger Bergkristall"
+      ],
+      "colors": [
+        "gold",
+        "honiggelb"
+      ],
+      "condition": "makellos, mit feinem Schimmer",
+      "distinctiveFeatures": [
+        "winzige funkelnde Adern wie Sternenlinien",
+        "weiches Leuchten bei Beruehrung"
+      ]
+    },
+    "function": {
+      "primaryPurpose": "verzaubert eine Person voruebergehend zu einem Riesen oder einem Zwerg",
+      "secondaryPurposes": [
+        "hilft beim Perspektivwechsel in Lernabenteuern"
+      ],
+      "activation": "reagiert auf den klar ausgesprochenen Wunsch \"Riese\" oder \"Zwerg\"",
+      "effects": [
+        "der Koerper waechst zu Riesenhoehe oder schrumpft auf Zwergengroesse",
+        "Kleidung und Stimme passen sich sanft an"
+      ],
+      "limitations": [
+        "wirkt nur fuer kurze Zeit",
+        "kann nicht zwei Verwandlungen gleichzeitig ausloesen"
+      ]
+    },
+    "sensoryProfile": {
+      "sound": "leises Klingen wie kleine Glocken",
+      "texture": "seidig glatt und leicht warm",
+      "aura": "freundlich, verspielt und kraftvoll"
+    },
+    "origin": {
+      "creator": "die Schmiedin Aurelia vom Morgenberg",
+      "era": "alte Sternenzeit",
+      "culturalContext": "wurde fuer faire Groessenmagie und mutige Lernpruefungen gefertigt",
+      "inscriptions": [
+        "Gross oder klein, bleib immer du."
+      ]
+    },
+    "images": {
+      "standardArtifact": {
+        "file": "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/standard-artifact.png",
+        "description": "Freigestellter Goldstein mit klarer Silhouette auf neutralem Hintergrund."
+      },
+      "heroImage": {
+        "file": "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/hero-image.jpg",
+        "description": "Cinematische Szene, in der der Stein zwischen Riesenschatten und kleiner Figur leuchtet."
+      },
+      "portrait": {
+        "file": "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/portrait.png",
+        "description": "Halbnahe Darstellung des Steins fuer Kartenansichten."
+      }
+    },
+    "tags": [
+      "magical",
+      "transformation",
+      "growth"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-13",
+      "updatedAt": "2026-03-13",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "2cd6d591-4037-432c-b564-f1097adbfb1a:standard_artifact",
+      "type": "standard_artifact",
+      "kind": "standard_artifact",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Goldener Wandelstein. Artifact type: transformation-stone. Description: Ein warmer, goldglitzernder Stein, der in einer kleinen Hand genau richtig liegt und auf mutige Entscheidungen reagiert. Form: rundlicher, glatt geschliffener Stein. Size: handtellergross. Materials: goldhaltiger Bergkristall. Colors: gold, honiggelb. Condition: makellos, mit feinem Schimmer. Distinctive features: winzige funkelnde Adern wie Sternenlinien, weiches Leuchten bei Beruehrung. Primary purpose: verzaubert eine Person voruebergehend zu einem Riesen oder einem Zwerg. Secondary purposes: hilft beim Perspektivwechsel in Lernabenteuern. Activation: reagiert auf den klar ausgesprochenen Wunsch \"Riese\" oder \"Zwerg\". Effects: der Koerper waechst zu Riesenhoehe oder schrumpft auf Zwergengroesse, Kleidung und Stimme passen sich sanft an. Limitations: wirkt nur fuer kurze Zeit, kann nicht zwei Verwandlungen gleichzeitig ausloesen. Sound impression: leises Klingen wie kleine Glocken. Texture impression: seidig glatt und leicht warm. Aura: freundlich, verspielt und kraftvoll. Creator: die Schmiedin Aurelia vom Morgenberg. Era: alte Sternenzeit. Cultural context: wurde fuer faire Groessenmagie und mutige Lernpruefungen gefertigt. Inscriptions: Gross oder klein, bleib immer du. Tags: magical, transformation, growth. Render Goldener Wandelstein as a single isolated artifact on a pure white background. No environment, no floor, no gradients, no transparent background, no extra props, and no character in frame. The silhouette must be crisp and highly readable for UI compositing. Target brief: Freigestellter Goldstein mit klarer Silhouette auf neutralem Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Goldener Wandelstein visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Use a solid pure white background only.",
+      "description": "Freigestellter Goldstein mit klarer Silhouette auf neutralem Hintergrund.",
+      "publicFilePath": "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/standard-artifact.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/standard-artifact.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "938e18b2-b1b8-4344-8236-fb066eef7931",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/8f911b37bd1349a593e6c8974af47c5b_sample.png?se=2026-03-13T23%3A22%3A31Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=E%2BXhWZfaetUWmPsf6ObaipNpzwe7Lw2qbYHarQ5TqWI%3D",
+      "cost": 3
+    },
+    {
+      "id": "2cd6d591-4037-432c-b564-f1097adbfb1a:hero_image",
+      "type": "hero_image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Goldener Wandelstein. Artifact type: transformation-stone. Description: Ein warmer, goldglitzernder Stein, der in einer kleinen Hand genau richtig liegt und auf mutige Entscheidungen reagiert. Form: rundlicher, glatt geschliffener Stein. Size: handtellergross. Materials: goldhaltiger Bergkristall. Colors: gold, honiggelb. Condition: makellos, mit feinem Schimmer. Distinctive features: winzige funkelnde Adern wie Sternenlinien, weiches Leuchten bei Beruehrung. Primary purpose: verzaubert eine Person voruebergehend zu einem Riesen oder einem Zwerg. Secondary purposes: hilft beim Perspektivwechsel in Lernabenteuern. Activation: reagiert auf den klar ausgesprochenen Wunsch \"Riese\" oder \"Zwerg\". Effects: der Koerper waechst zu Riesenhoehe oder schrumpft auf Zwergengroesse, Kleidung und Stimme passen sich sanft an. Limitations: wirkt nur fuer kurze Zeit, kann nicht zwei Verwandlungen gleichzeitig ausloesen. Sound impression: leises Klingen wie kleine Glocken. Texture impression: seidig glatt und leicht warm. Aura: freundlich, verspielt und kraftvoll. Creator: die Schmiedin Aurelia vom Morgenberg. Era: alte Sternenzeit. Cultural context: wurde fuer faire Groessenmagie und mutige Lernpruefungen gefertigt. Inscriptions: Gross oder klein, bleib immer du. Tags: magical, transformation, growth. Render Goldener Wandelstein as the singular visual protagonist of a cinematic story moment in a child-friendly fantasy world. Keep the exact same artifact identity, material qualities, color palette, and distinctive features as Goldener Wandelstein in the standard artifact image. No secondary object may steal focus from the artifact. Target brief: Cinematische Szene, in der der Stein zwischen Riesenschatten und kleiner Figur leuchtet. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Goldener Wandelstein visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Allow cinematic environments but keep the artifact as the only primary focus.",
+      "description": "Cinematische Szene, in der der Stein zwischen Riesenschatten und kleiner Figur leuchtet.",
+      "publicFilePath": "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "89aa155d-b09c-4a08-af11-39446a4e91c2",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/12a2fd90556f4292b0b0972c3dac7d54_sample.jpeg?se=2026-03-13T23%3A22%3A54Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=5Mf3aPANI9TU93kdfj5SGgCou0L0XvQ0xA1uMkDTHck%3D",
+      "cost": 6
+    },
+    {
+      "id": "2cd6d591-4037-432c-b564-f1097adbfb1a:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Goldener Wandelstein. Artifact type: transformation-stone. Description: Ein warmer, goldglitzernder Stein, der in einer kleinen Hand genau richtig liegt und auf mutige Entscheidungen reagiert. Form: rundlicher, glatt geschliffener Stein. Size: handtellergross. Materials: goldhaltiger Bergkristall. Colors: gold, honiggelb. Condition: makellos, mit feinem Schimmer. Distinctive features: winzige funkelnde Adern wie Sternenlinien, weiches Leuchten bei Beruehrung. Primary purpose: verzaubert eine Person voruebergehend zu einem Riesen oder einem Zwerg. Secondary purposes: hilft beim Perspektivwechsel in Lernabenteuern. Activation: reagiert auf den klar ausgesprochenen Wunsch \"Riese\" oder \"Zwerg\". Effects: der Koerper waechst zu Riesenhoehe oder schrumpft auf Zwergengroesse, Kleidung und Stimme passen sich sanft an. Limitations: wirkt nur fuer kurze Zeit, kann nicht zwei Verwandlungen gleichzeitig ausloesen. Sound impression: leises Klingen wie kleine Glocken. Texture impression: seidig glatt und leicht warm. Aura: freundlich, verspielt und kraftvoll. Creator: die Schmiedin Aurelia vom Morgenberg. Era: alte Sternenzeit. Cultural context: wurde fuer faire Groessenmagie und mutige Lernpruefungen gefertigt. Inscriptions: Gross oder klein, bleib immer du. Tags: magical, transformation, growth. Create a portrait card image of Goldener Wandelstein with strong close-up readability and clean framing. Preserve identity exactly: same shape language, materials, colors, and distinctive markings as the standard artifact. Target brief: Halbnahe Darstellung des Steins fuer Kartenansichten. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Goldener Wandelstein visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Allow cinematic environments but keep the artifact as the only primary focus.",
+      "description": "Halbnahe Darstellung des Steins fuer Kartenansichten.",
+      "publicFilePath": "/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "f045925f-91f7-487a-95f0-e6877043cbe1",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/fb429a31dfad4d1b84cf880c7cd861da_sample.png?se=2026-03-13T23%3A23%3A18Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=OtfuXA0GSZrnY0PaI7e33EMw7O0fgEyZHhnbpaBqikE%3D",
+      "cost": 6
+    }
+  ]
+}

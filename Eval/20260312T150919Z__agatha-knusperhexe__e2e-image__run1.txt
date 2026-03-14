@@ -1,0 +1,94 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-image
+- testedScenarios: image
+- runIndex: 1
+- conversationId: 26cada9e-260f-453d-b77a-d55cb1aa1904
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 9853
+
+## Gesamtbeurteilung
+- score: 8/10
+- assessment: Die Conversation ist insgesamt kindgerecht, klar und stimmig. Der Bildwunsch wurde korrekt erkannt und es wurde passend ein Bild mit freundlichem Otter und kleiner Laterne erzeugt. Agatha klingt charakterstark und leicht verspielt, ohne unverständlich zu werden. Die Public Activities passen weitgehend zur Unterhaltung und bilden den Ablauf nachvollziehbar ab. Kleinere Schwächen liegen vor allem in der Bildbeschreibung: Dort wird Agatha zusätzlich in die Szene geschrieben, obwohl das Kind nur einen Otter mit Laterne wollte. Außerdem wirkt die Aktivitätsformulierung stellenweise unnötig ausgeschmückt und leicht systemisch statt rein kindzentriert.
+
+## Staerken
+- Der Bildwunsch wurde direkt erkannt und inhaltlich passend umgesetzt: freundlicher Otter, kleine Laterne, warmes ruhiges Setting.
+- Die Antwort auf die Rückfrage erklärt anschaulich und kindgerecht, warum das Bild freundlich wirkt, und bleibt dabei tonal konsistent mit der Figur Agatha.
+
+## Probleme
+- [medium] Bildprompt erweitert die Szene um Agatha ohne Nutzerwunsch
+  details: Die generierte Bildzusammenfassung enthält zusätzlich: „Aus der Nähe hatte Agatha ihn mit schmalen, nachdenklichen Augen beobachtet“. In der Nutzeranfrage wurde nur ein Bild mit einem freundlichen Otter und einer kleinen Laterne gewünscht. Diese Charakter-Einmischung kann das Bild vom eigentlichen Wunschmotiv wegziehen.
+  recommendation: Im image-prompt und/oder im Runtime-Verhalten festlegen, dass bei expliziten Bildwünschen zunächst nur die vom Kind genannten Kernelemente visualisiert werden. Charakter-Selbstinszenierung sollte nur ergänzt werden, wenn der Nutzer sie erwähnt oder wenn ein Story-Modus aktiv ist.
+- [low] Leicht ambivalente Formulierung im kinderfreundlichen Ton
+  details: Die Aussage „nicht faucht oder schnappt“ funktioniert als Kontrast, bringt aber unnötig kleine bedrohliche Bilder in eine sehr friedliche Szene ein. Für ein Kind wäre eine rein positive Erklärung oft noch sanfter.
+  recommendation: Im Character-Voice-Prompt eine Präferenz für positive Beschreibungen bei Bilddeutungen ergänzen, z. B. eher „schaut ruhig und lieb“ statt negative Abgrenzungen zu verwenden.
+- [low] Public Activities sind stärker narrativ ausgeschmückt als die eigentliche Interaktion
+  details: Einträge wie „Da blieb ... am glitzernden Ufer still neben Agatha stehen“ fügen zusätzliche erzählerische Details hinzu, die nicht direkt in der sichtbaren Nutzer-Assistant-Interaktion vorkommen. Das ist nicht falsch, kann aber Nachvollziehbarkeit und Auditierbarkeit der Pipeline schwächen.
+  recommendation: Scene-summary und Activity-Formate etwas näher an den tatsächlichen Gesprächsinhalt binden, besonders bei kurzen Bildanfragen. Story-Ausschmückung sollte von Event-Protokollierung klar getrennt werden.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Image-Prompt auf nutzerzentrierte Motivtreue begrenzen
+   action: Im Prompt content/prompts/runtime/image-prompt-system.md eine Regel ergänzen: Bei direkten Bildwünschen nur angeforderte Hauptmotive, Stimmung und wenige unterstützende Umgebungsdetails einbauen; keine zusätzlichen Charaktere oder Beobachter hinzufügen, außer sie wurden explizit genannt.
+2. [medium] Character-Voice für sanftere Erklärsprache schärfen
+   action: Im Prompt content/prompts/character-voice-agent.md eine Guideline ergänzen, bei kindlichen Erklärungen positive Merkmale zu betonen und unnötige negative Kontraste wie „faucht oder schnappt nicht“ zu vermeiden, sofern keine Spannungsszene vorliegt.
+3. [medium] Activity- und Story-Summary sauberer trennen
+   action: Im Prompt content/prompts/runtime/scene-summary-system.md oder in der Runtime-Regelung festlegen, dass Public Activities den realen Austausch knapp und überprüfbar abbilden, während poetische Ausschmückungen optional nur in separaten Story-Summaries erscheinen.
+4. [low] Bildnutzung und Wiederverwendung explizit absichern
+   action: Da show_image als Tool vorhanden ist, im Intent-Router oder Runtime-Kontext eine Regel ergänzen: Bei Folgefragen zu einem bereits erzeugten Bild zuerst vorhandene Bildreferenz und Summary nutzen statt implizit neue Szenenelemente einzuführen.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Image-Prompt auf nutzerzentrierte Motivtreue begrenzen
+   action: Im Prompt content/prompts/runtime/image-prompt-system.md eine Regel ergänzen: Bei direkten Bildwünschen nur angeforderte Hauptmotive, Stimmung und wenige unterstützende Umgebungsdetails einbauen; keine zusätzlichen Charaktere oder Beobachter hinzufügen, außer sie wurden explizit genannt.
+2. [medium] Character-Voice für sanftere Erklärsprache schärfen
+   action: Im Prompt content/prompts/character-voice-agent.md eine Guideline ergänzen, bei kindlichen Erklärungen positive Merkmale zu betonen und unnötige negative Kontraste wie „faucht oder schnappt nicht“ zu vermeiden, sofern keine Spannungsszene vorliegt.
+3. [medium] Activity- und Story-Summary sauberer trennen
+   action: Im Prompt content/prompts/runtime/scene-summary-system.md oder in der Runtime-Regelung festlegen, dass Public Activities den realen Austausch knapp und überprüfbar abbilden, während poetische Ausschmückungen optional nur in separaten Story-Summaries erscheinen.
+4. [low] Bildnutzung und Wiederverwendung explizit absichern
+   action: Da show_image als Tool vorhanden ist, im Intent-Router oder Runtime-Kontext eine Regel ergänzen: Bei Folgefragen zu einem bereits erzeugten Bild zuerst vorhandene Bildreferenz und Summary nutzen statt implizit neue Szenenelemente einzuführen.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Conversation Total History
+1. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit glänzendem Fell, der am Ufer sitzt und eine kleine warme Laterne in den Pfötchen hält. Neben ihm glitzert das Wasser, und der Schein der Laterne macht alles goldig und ruhig.
+3. system [tool.image.generated]: Danach saß am stillen Ufer ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfötchen. Neben ihm glitzerte das Wasser leise im goldenen Schein, und die kühle Luft wirkte ganz ruhig. Aus der Nähe hatte Agatha ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.
+4. user [chat.turn]: Was sieht man da genau und warum wirkt es so freundlich?
+5. assistant [response.audio_transcript.done]: Da sitzt der Otter ganz still am Wasser, mit runden Augen und einem weichen, glänzenden Fell, und die kleine Laterne leuchtet warm wie ein winziges Honiglicht. Alles wirkt freundlich, weil das Licht sanft ist, das Wasser leise glitzert und der Otter nicht faucht oder schnappt, sondern ganz friedlich schaut, hrrm, fast zu süß für meinen Wald. Magst du lieber das warme Licht oder den niedlichen Otter?
+
+## Public Activities
+1. character.chat.completed: Da blieb 7d688ec8-6d27-43d1-9803-6b0d4448f10a am glitzernden Ufer still neben Agatha stehen und lauschte, wie sie Yoko mit sanfter Stimme erklärte, warum das warme Laternenlicht den freundlichen Otter und das leise Wasser so friedlich wirken ließ.
+2. conversation.story.summarized: So waren Yoko und Agatha am stillen Ufer stehen geblieben und hatten den freundlichen Otter betrachtet, der mit seiner kleinen Laterne ein warmes Honiglicht über das glitzernde Wasser warf. Yoko fragte neugierig nach dem freundlichen Zauber des Bildes, und Agatha erklärte, dass das sanfte Licht, das leise Wasser und der friedliche Blick des Otters alles so ruhig und lieb wirken ließen.
+3. conversation.message.created: Agatha Knusperhexe: Da sitzt der Otter ganz still am Wasser, mit runden Augen und einem weichen, glänzenden Fell, und die kleine Laterne leuchtet warm wie ein winziges Honiglicht. Alles wirkt freundlich, weil das Licht sanft ist, das Wasser leise glitzert und der Otter nicht faucht oder schnappt, sondern ganz friedlich schaut, hrrm, fast zu süß für meinen Wald.  
+Magst du lieber das warme Licht oder den niedlichen Otter?
+4. conversation.message.created: Yoko: Was sieht man da genau und warum wirkt es so freundlich?
+5. conversation.image.generated: Danach saß am stillen Ufer ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfötchen. Neben ihm glitzerte das Wasser leise im goldenen Schein, und die kühle Luft wirkte ganz ruhig. Aus der Nähe hatte Agatha ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.
+6. conversation.message.created: Agatha Knusperhexe: Ich zeige dir jetzt: einen freundlichen Otter mit glänzendem Fell, der am Ufer sitzt und eine kleine warme Laterne in den Pfötchen hält. Neben ihm glitzert das Wasser, und der Schein der Laterne macht alles goldig und ruhig.
+7. conversation.message.created: Yoko: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+
+## Bildreferenzen
+1. activity/conversation.image.generated: /content/conversations/26cada9e-260f-453d-b77a-d55cb1aa1904/tool-d5848b9b-bc4e-40c5-a3d6-b7b10de89378.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/26cada9e-260f-453d-b77a-d55cb1aa1904/tool-d5848b9b-bc4e-40c5-a3d6-b7b10de89378.jpg | summary=Danach saß am stillen Ufer ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfötchen. Neben ihm glitzerte das Wasser leise im goldenen Schein, und die kühle Luft wirkte ganz ruhig. Aus der Nähe hatte Agatha ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.
+2. message/tool.image.generated: /content/conversations/26cada9e-260f-453d-b77a-d55cb1aa1904/tool-d5848b9b-bc4e-40c5-a3d6-b7b10de89378.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/26cada9e-260f-453d-b77a-d55cb1aa1904/tool-d5848b9b-bc4e-40c5-a3d6-b7b10de89378.jpg | summary=Danach saß am stillen Ufer ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfötchen. Neben ihm glitzerte das Wasser leise im goldenen Schein, und die kühle Luft wirkte ganz ruhig. Aus der Nähe hatte Agatha ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.

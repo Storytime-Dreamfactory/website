@@ -129,7 +129,7 @@ export const resolveCharacterImageRefs = async (characterId: string): Promise<Co
   const normalizedId = characterId.trim()
   if (!normalizedId) return []
   const gameObject = await getGameObject(normalizedId)
-  const characterSlug = gameObject?.type === 'character' ? gameObject.slug : normalizedId
+  const characterFolder = gameObject?.type === 'character' ? gameObject.id : normalizedId
   let yaml: CharacterYaml | null = null
   try {
     const yamlPath = await resolveYamlPathForGameObject(normalizedId, 'character')
@@ -142,31 +142,31 @@ export const resolveCharacterImageRefs = async (characterId: string): Promise<Co
 
   const heroRef = await collectExistingImageRef('hero', 'Hero', [
     readText(yaml?.bilder?.hero_image?.datei),
-    `/content/characters/${characterSlug}/hero-image.jpg`,
-    `/content/characters/${characterSlug}/hero-image.png`,
-    `/content/characters/${characterSlug}/hero-image.jpeg`,
-    `/content/characters/${characterSlug}/hero-image.webp`,
+    `/content/characters/${characterFolder}/hero-image.jpg`,
+    `/content/characters/${characterFolder}/hero-image.png`,
+    `/content/characters/${characterFolder}/hero-image.jpeg`,
+    `/content/characters/${characterFolder}/hero-image.webp`,
   ])
   const standardRef = await collectExistingImageRef('standard', 'Standard', [
     readText(yaml?.bilder?.standard_figur?.datei),
-    `/content/characters/${characterSlug}/standard-figur.png`,
-    `/content/characters/${characterSlug}/standard-figur.jpg`,
-    `/content/characters/${characterSlug}/standard-figur.jpeg`,
-    `/content/characters/${characterSlug}/standard-figur.webp`,
+    `/content/characters/${characterFolder}/standard-figur.png`,
+    `/content/characters/${characterFolder}/standard-figur.jpg`,
+    `/content/characters/${characterFolder}/standard-figur.jpeg`,
+    `/content/characters/${characterFolder}/standard-figur.webp`,
   ])
   const portraitRef = await collectExistingImageRef('portrait', 'Portrait', [
     readText(yaml?.bilder?.portrait?.datei),
-    `/content/characters/${characterSlug}/portrait.png`,
-    `/content/characters/${characterSlug}/portrait.jpg`,
-    `/content/characters/${characterSlug}/portrait.jpeg`,
-    `/content/characters/${characterSlug}/portrait.webp`,
+    `/content/characters/${characterFolder}/portrait.png`,
+    `/content/characters/${characterFolder}/portrait.jpg`,
+    `/content/characters/${characterFolder}/portrait.jpeg`,
+    `/content/characters/${characterFolder}/portrait.webp`,
   ])
   const profileRef = await collectExistingImageRef('profile', 'Profilbild', [
     readText(yaml?.bilder?.profilbild?.datei),
-    `/content/characters/${characterSlug}/profilbild.png`,
-    `/content/characters/${characterSlug}/profilbild.jpg`,
-    `/content/characters/${characterSlug}/profilbild.jpeg`,
-    `/content/characters/${characterSlug}/profilbild.webp`,
+    `/content/characters/${characterFolder}/profilbild.png`,
+    `/content/characters/${characterFolder}/profilbild.jpg`,
+    `/content/characters/${characterFolder}/profilbild.jpeg`,
+    `/content/characters/${characterFolder}/profilbild.webp`,
   ])
 
   return [heroRef, standardRef, portraitRef, profileRef].filter(

@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { randomUUID } from 'node:crypto'
 import { parse } from 'yaml'
 import type { WorldContext } from './loadWorldContext.ts'
 import { serializeWorldContextForPrompt } from './loadWorldContext.ts'
@@ -12,26 +13,15 @@ const workspaceRoot = path.resolve(fileURLToPath(new URL('../../../', import.met
 
 const SYSTEM_PROMPT_PATH = path.resolve(workspaceRoot, 'content/prompts/character-agent-brief.md')
 
-const slugify = (value: string): string =>
-  value
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
-const uniqueId = (baseId: string, context: WorldContext): string => {
+const uniqueUuid = (context: WorldContext): string => {
   const usedIds = new Set(context.characters.map((character) => character.id))
-  if (!usedIds.has(baseId)) {
-    return baseId
+  let candidate = randomUUID()
+  while (usedIds.has(candidate)) {
+    candidate = randomUUID()
   }
-
-  let suffix = 2
-  while (usedIds.has(`${baseId}-${suffix}`)) {
-    suffix += 1
-  }
-
-  return `${baseId}-${suffix}`
+  return candidate
 }
 
 const loadSystemPrompt = async (): Promise<string> =>
@@ -108,8 +98,11 @@ export const createCharacterDraft = async (
   let rawYaml = await generateCharacterYaml(systemPrompt, userMessage)
 
   const rawId = extractIdFromYaml(rawYaml)
-  const baseSlug = rawId ? slugify(rawId) : `char-${Date.now()}`
-  const characterId = uniqueId(baseSlug || `char-${Date.now()}`, context)
+  const usedIds = new Set(context.characters.map((character) => character.id))
+  const characterId =
+    rawId && UUID_RE.test(rawId) && !usedIds.has(rawId.trim())
+      ? rawId.trim()
+      : uniqueUuid(context)
 
   let yamlText = normalizeYaml(rawYaml, characterId)
 

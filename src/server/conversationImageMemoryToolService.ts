@@ -176,6 +176,21 @@ const chooseImageCandidate = (
   return { candidate: candidates[0], reason: 'latest' }
 }
 
+const isImmediateRecallQuery = (queryText: string): boolean => {
+  const normalized = queryText.trim().toLowerCase()
+  if (!normalized) return false
+  return (
+    normalized.includes('von eben') ||
+    normalized.includes('gerade eben') ||
+    normalized.includes('genau das') ||
+    normalized.includes('das gleiche') ||
+    normalized.includes('dieselbe') ||
+    normalized.includes('dieses nochmal') ||
+    normalized.includes('das nochmal') ||
+    normalized.includes('unser bild')
+  )
+}
+
 const sortCandidatesByRecency = (candidates: ImageMessageCandidate[]): ImageMessageCandidate[] =>
   candidates
     .slice()
@@ -423,8 +438,14 @@ export const recallConversationImage = async (
     preferredImageId,
   )
   const hasStrictPreference = Boolean(preferredImageUrl || preferredImageId)
+  const immediateRecallCandidate =
+    hasStrictPreference || !isImmediateRecallQuery(input.queryText ?? '')
+      ? null
+      : currentConversationCandidates[0] ?? null
   const selected = preferredCandidate
     ? { candidate: preferredCandidate, reason: 'query_match' as const }
+    : immediateRecallCandidate
+      ? { candidate: immediateRecallCandidate, reason: 'latest' as const }
     : hasStrictPreference
       ? null
       : chooseImageCandidate(orderedCandidates, input.queryText ?? '')
@@ -582,7 +603,7 @@ export const recallConversationImage = async (
     metadata: {
       summary: publicRecallSummary,
       sceneSummary: finalSelection.candidate.sceneSummary || publicRecallSummary,
-      conversationLinkLabel: 'Conversation ansehen',
+      conversationLinkLabel: 'View Full Conversation',
       heroImageUrl: resolvedImageUrl,
       imageUrl: resolvedImageUrl,
       imageLinkUrl: resolvedImageUrl,

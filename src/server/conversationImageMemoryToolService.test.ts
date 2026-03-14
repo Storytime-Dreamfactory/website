@@ -254,6 +254,72 @@ describe('recallConversationImage', () => {
     )
   })
 
+  it('priorisiert bei "von eben" das letzte Bild aus derselben Conversation', async () => {
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: { learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'] },
+      },
+      messages: [
+        {
+          role: 'system',
+          conversationId: 'conv-1',
+          createdAt: '2026-03-10T10:00:00.000Z',
+          content: 'Yoko zeigt ein neues Bild: Von eben im Wald',
+          metadata: {
+            imageUrl: 'https://example.com/current-forest.jpg',
+            sceneSummary: 'Waldweg von eben',
+          },
+        },
+      ],
+    })
+    mocks.listActivitiesMock
+      .mockResolvedValueOnce([
+        {
+          activityId: 'a-generated-1',
+          activityType: 'conversation.image.generated',
+          characterId: '00000000-0000-4000-8000-000000000001',
+          conversationId: 'conv-old-1',
+          isPublic: true,
+          learningGoalIds: [],
+          subject: {},
+          object: { url: 'https://example.com/old-beach.jpg' },
+          metadata: {
+            summary: 'Altes Strandbild',
+            sceneSummary: 'Strand',
+          },
+          occurredAt: '2026-03-01T10:00:00.000Z',
+          createdAt: '2026-03-01T10:00:01.000Z',
+        },
+      ])
+      .mockResolvedValueOnce([])
+    mocks.storeConversationImageAssetMock.mockResolvedValue({
+      localUrl: '/content/conversations/conv-1/recalled-current.jpg',
+      localFilePath: '/tmp/recalled-current.jpg',
+      originalUrl: 'https://example.com/current-forest.jpg',
+      format: 'jpeg',
+    })
+
+    const result = await recallConversationImage({
+      conversationId: 'conv-1',
+      queryText: 'Zeig bitte genau das Bild von eben nochmal',
+      source: 'runtime',
+    })
+
+    expect(result).toEqual(
+      expect.objectContaining({
+        reason: 'latest',
+        sceneSummary: 'Waldweg von eben',
+      }),
+    )
+    expect(mocks.storeConversationImageAssetMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        imageUrl: 'https://example.com/current-forest.jpg',
+      }),
+    )
+  })
+
   it('faellt auf Charakterbild zurueck, wenn keine Erinnerungsbilder vorhanden sind', async () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {

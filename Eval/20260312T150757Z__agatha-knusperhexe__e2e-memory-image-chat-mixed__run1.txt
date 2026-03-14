@@ -1,0 +1,132 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-memory-image-chat-mixed
+- testedScenarios: memory, image, chat, mixed
+- runIndex: 1
+- conversationId: 919e0188-83ec-4e03-b6a8-33aba1037bcf
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 9853
+
+## Gesamtbeurteilung
+- score: 8/10
+- assessment: Die Conversation wirkt insgesamt kindgerecht, warm und kohärent. Agatha bleibt in ihrer Rolle konsistent, reagiert empathisch auf das Thema Angst beim Klettern und erklärt Sterne einfach genug für ein kleines Kind. Bildwünsche wurden korrekt erkannt, inklusive der Wiederverwendung genau desselben früheren Bildes. Auch der Themenwechsel von Bildwelt zu Alltagsgespräch und dann zu Wissensthema wurde robust aufgefangen. Kleine Schwächen liegen vor allem in der teils leicht unheimlichen Bildsprache für ein Kind, in einer verpassten direkten Erfüllung des vom Kind angekündigten Doppeltopics (Fahrrad und danach Sterne) und in Optimierungspotenzial für Routing und Prompting bei Mehrfachintentionen.
+
+## Staerken
+- Sehr starke Charakterstimme: Agatha klingt eigenständig, märchenhaft und trotzdem überwiegend liebevoll, verständlich und kindnah.
+- Bild- und Memory-Verhalten funktionieren gut: Erstes Bild wurde erzeugt, das spätere 'genau das nochmal' korrekt als Recall behandelt, und das neue Otter-Bild passt klar zur Unterhaltung.
+
+## Probleme
+- [medium] Mehrfachintention des Kindes wurde nur teilweise aufgegriffen
+  details: Das Kind sagte: 'Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.' Die Assistenz ging nur auf das Fahrrad ein und fragte nach Details. Als das Kind direkt zu den Sternen wechseln wollte, wurde zwar freundlich umgeschaltet, aber der zuerst angekündigte Fahrradteil blieb unbearbeitet. Aus Kindersicht kann das wie ein leicht verlorener Gesprächsfaden wirken.
+  recommendation: Im Routing oder in der Charakterantwort Mehrfachintentionen explizit spiegeln und vormerken, z. B. 'Wir reden erst kurz übers Fahrrad und danach über Sterne.' Wenn das Kind später springt, die offene Schleife kurz benennen.
+- [medium] Teilweise leicht düstere oder unheimliche Formulierungen in Bildbeschreibungen
+  details: Formulierungen wie 'dunkler Tann', 'der Wald still um uns lauscht', 'heimlich zuhört', 'lange Finger leise klappre' oder 'schmale, nachdenkliche Augen' sind stilistisch passend zur Figur, können für kleine Kinder aber stellenweise eher unheimlich als gemütlich wirken. Das fällt besonders auf, weil der Nutzer explizit ein freundliches Bild wollte.
+  recommendation: Im Character-Voice- oder Image-Prompt klarer steuern, dass bei kindlichen Bildwünschen freundliche, sichere und helle Sinneseindrücke Vorrang haben und gruselige Marker abgeschwächt werden.
+- [low] Bild-Erklärung beschreibt teilweise Elemente, die im Nutzerwunsch nicht explizit genannt waren
+  details: Beim Otter-Bild sagt Agatha 'Man sieht dich und mich ... und direkt neben uns sitzt der Otter'. Das passt zwar zur etablierten Szene, aber der Nutzer hatte nur nach einem Bild mit Otter und Laterne gefragt. Für Kinder ist das nicht problematisch, zeigt aber, dass die Szene stark vom bestehenden Setting überformt wird.
+  recommendation: Im Image-Prompt präzisieren, wann bestehende Szenenelemente übernommen werden sollen und wann der neue Nutzerwunsch stärker im Vordergrund stehen sollte.
+- [low] Öffentliche Activities sind stimmig, aber eher zusammenfassend als kindlich nachvollziehbar
+  details: Die Public Activities bilden die Story korrekt ab und referenzieren Recall und Bildgenerierung sauber. Allerdings sind einzelne Aktivitätstexte recht literarisch und weniger funktional, was für Debugging und Nachvollziehbarkeit der Pipeline etwas unklarer sein kann.
+  recommendation: Activities zweischichtig gestalten: eine knappe technische Kennzeichnung des Events plus eine kindlich-passende Storyformulierung.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Intent-Router auf Mehrfachintentionen erweitern
+   action: In `intent-router-system.md` Regeln ergänzen, die Äußerungen wie 'erst ..., dann ...' erkennen, beide Teilziele markieren und an den Voice-Agenten als geordnete Agenda übergeben. Falls das Kind später springt, soll der Agent offenen Kontext kurz referenzieren.
+2. [high] Kindersicheres Stimmungs-Guardrail für Bildsprache einbauen
+   action: In `character-voice-agent.md` und `image-prompt-system.md` festlegen, dass bei jungen Kindern und bei Wörtern wie 'freundlich', 'klein', 'nicht zu schwer' warme, sichere, helle, beruhigende Details priorisiert werden und potenziell gruselige Beschreibungen reduziert werden.
+3. [medium] Kontinuitätsmanagement für offene Themen im Runtime-Kontext ergänzen
+   action: Über `runtimeContext` oder Activities einen kleinen 'open topic queue'-Mechanismus vorsehen, damit angekündigte Themen wie Fahrrad -> Sterne nicht verloren gehen. Der Agent soll beim Wechsel kurz sagen, was offen bleibt oder bereits übersprungen wurde.
+4. [medium] Image-Prompt stärker auf Nutzerfokus ausrichten
+   action: In `image-prompt-system.md` ergänzen: Bei neuen Bildwünschen zuerst die explizit genannten Motive priorisieren; bestehende Szenenelemente nur dann übernehmen, wenn sie die Verständlichkeit erhöhen oder vom Nutzer gewünscht/etabliert sind.
+5. [low] Activities technischer und eindeutiger strukturieren
+   action: Bei `conversation.story.summarized` und ähnlichen Public Activities zusätzlich kompakte Metadaten oder knappe Eventlabels ausgeben, damit Recall, neue Bildgenerierung und Themenwechsel leichter überprüfbar bleiben.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Intent-Router auf Mehrfachintentionen erweitern
+   action: In `intent-router-system.md` Regeln ergänzen, die Äußerungen wie 'erst ..., dann ...' erkennen, beide Teilziele markieren und an den Voice-Agenten als geordnete Agenda übergeben. Falls das Kind später springt, soll der Agent offenen Kontext kurz referenzieren.
+2. [high] Kindersicheres Stimmungs-Guardrail für Bildsprache einbauen
+   action: In `character-voice-agent.md` und `image-prompt-system.md` festlegen, dass bei jungen Kindern und bei Wörtern wie 'freundlich', 'klein', 'nicht zu schwer' warme, sichere, helle, beruhigende Details priorisiert werden und potenziell gruselige Beschreibungen reduziert werden.
+3. [medium] Kontinuitätsmanagement für offene Themen im Runtime-Kontext ergänzen
+   action: Über `runtimeContext` oder Activities einen kleinen 'open topic queue'-Mechanismus vorsehen, damit angekündigte Themen wie Fahrrad -> Sterne nicht verloren gehen. Der Agent soll beim Wechsel kurz sagen, was offen bleibt oder bereits übersprungen wurde.
+4. [medium] Image-Prompt stärker auf Nutzerfokus ausrichten
+   action: In `image-prompt-system.md` ergänzen: Bei neuen Bildwünschen zuerst die explizit genannten Motive priorisieren; bestehende Szenenelemente nur dann übernehmen, wenn sie die Verständlichkeit erhöhen oder vom Nutzer gewünscht/etabliert sind.
+5. [low] Activities technischer und eindeutiger strukturieren
+   action: Bei `conversation.story.summarized` und ähnlichen Public Activities zusätzlich kompakte Metadaten oder knappe Eventlabels ausgeben, damit Recall, neue Bildgenerierung und Themenwechsel leichter überprüfbar bleiben.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Conversation Total History
+1. user [chat.turn]: Kannst du mir bitte ein Bild von uns auf dem moosigen Waldweg zeigen?
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: mich und dich auf einem weichen, moosigen Waldweg im dunklen Tann, mit hohen Bäumen, grünem Moos, kleinen Pilzen am Rand und meinem schiefen Lebkuchenhaus blinzelnd zwischen den Stämmen. Du kannst uns darauf nebeneinander sehen, während ich mit meinen langen Fingern leise klappre und der Wald still um uns lauscht.
+3. system [tool.image.generated]: Danach standen wir nebeneinander auf dem weichen, moosigen Waldweg im dunklen Tann, und zwischen den hohen Baeumen blinzelte Agathas schiefes Lebkuchenhaus hervor. Kleine Pilze leuchteten am Rand, es roch nach feuchtem Moos und Honig, und Agathas lange Finger hatten leise geklappert. Mit wachsamer Freude hatte sie dich dicht bei sich behalten, waehrend der stille Wald um euch herum lauschte.
+4. user [chat.turn]: Weisst du noch unser Bild von eben? Zeig bitte genau das nochmal.
+5. system [tool.image.recalled]: Agatha Knusperhexe zeigt ein frueheres Bild aus eurer Conversation.
+6. assistant [response.audio_transcript.done]: Ich schaue kurz in unsere Erinnerungen... Ja, ich kenne das Bild noch: wir zwei auf dem weichen, moosigen Waldweg, die Pilze am Rand, hohe Bäume ringsum und mein schiefes Lebkuchenhaus zwischen den Stämmen. Ich zeige dir jetzt: genau dieses Bild noch einmal, mit feuchtem Moos unter unseren Füßen und dem stillen Wald, der uns heimlich zuhört.
+7. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+8. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit glänzendem Fell, der auf dem moosigen Waldweg neben uns sitzt und eine kleine warme Laterne hält, während zwischen den hohen Bäumen das grüne Moos leuchtet und mein schiefes Lebkuchenhaus fern zwischen den Stämmen hervorschaut. Dann kannst du den Otter mit seinen neugierigen Augen und das sanfte Licht der Laterne im stillen Wald sehen.
+9. system [tool.image.generated]: Danach saß auf dem moosigen Waldweg neben uns ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfoten. Ihr sanftes Licht hatte das grüne Moos zum Leuchten gebracht, und zwischen den hohen Bäumen hatte Agathas schiefes Lebkuchenhaus fern hervorgeschaut. Agatha hatte ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.
+10. user [chat.turn]: Was sieht man da genau und warum wirkt es so freundlich?
+11. assistant [response.audio_transcript.done]: Man sieht dich und mich auf dem moosigen Waldweg, und direkt neben uns sitzt der Otter mit seinem glänzenden Fell und hält die kleine Laterne ganz vorsichtig in den Pfoten. Das Licht ist warm wie Honigschein, das Moos leuchtet weich, und der Otter schaut so ruhig und neugierig, dass alles still und freundlich wirkt, statt heimlich und knarzig wie sonst in meinem Wald. Was gefällt dir daran am meisten?
+12. user [chat.turn]: Heute war ich mutig beim Klettern, aber ich hatte auch etwas Angst.
+13. assistant [response.audio_transcript.done]: Hoho... das ist echte Klettertapferkeit, mein Krümelchen — mutig sein heißt nicht, keine Angst zu haben, sondern trotzdem vorsichtig weiterzukraxeln. Selbst ich, Agatha, spüre manchmal ein kleines Zippeln im Bauch, wenn etwas hoch und wackelig ist. Worauf warst du beim Klettern besonders stolz?
+14. user [chat.turn]: Wie kann ich beim naechsten Mal mutig bleiben, ohne zu schnell zu werden?
+15. assistant [response.audio_transcript.done]: Ich mache es listig langsam: erst stehen, dann schauen, dann greifen, dann steigen — ein Schritt nach dem anderen, nicht husch-husch wie ein erschrockener Käfer. Wenn die Angst im Bauch zappelt, kannst du leise sagen: „Langsam, schlau, ich trau mich genau“, das ist fast schon ein kleiner Hexenreim. Willst du dafür einen kurzen Mut-Spruch von mir?
+16. user [chat.turn]: Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.
+17. assistant [response.audio_transcript.done]: Ein kaputtes Fahrrad, hm... das ist ärgerlich wie ein Keks mit Riss, und ich mag Risse nur in fremden Plänen. Erzähl mir erst von deinem Rad: Was ist daran kaputt?
+18. user [chat.turn]: Jetzt bitte Sterne, aber nicht zu schwer erklaert, ich bin noch klein.
+19. assistant [response.audio_transcript.done]: Sterne sind kleine Lichter hoch oben am Nachthimmel, und wenn es dunkel wird, kann man sie funkeln sehen wie verstreuten Zucker auf schwarzem Tuch. Manche wirken heller, manche blasser, und zusammen sehen sie aus, als hätte jemand winzige Lichtkrümel über die Nacht gestreut. Magst du lieber einen ganz hellen Stern oder viele kleine auf einmal?
+
+## Public Activities
+1. character.chat.completed: Da blieb 7d688ec8-6d27-43d1-9803-6b0d4448f10a auf dem moosigen Waldweg noch einen Augenblick stehen und lauschte, wie Agathas leise Worte zu Yoko unter den tiefblauen Tannen wie warmer Honig durch die Nacht flossen.
+2. conversation.story.summarized: So waren Yoko und Agatha erst wieder auf dem moosigen Waldweg beim schiefen Lebkuchenhaus unterwegs, wo sie sich an ihr gemeinsames Bild erinnerten und dann einem freundlichen Otter mit einer kleinen goldenen Laterne begegneten, dessen warmes Licht den Wald ganz sanft und freundlich machte. Danach erzählte Yoko mutig vom Klettern und von ihrer Angst, und Agatha erklärte ihr, dass man tapfer sein konnte, wenn man langsam und schlau Schritt für Schritt weiterging, bevor sie Yoko zum Schluss noch die Sterne als kleine funkelnde Lichter am Nachthimmel beschrieb.
+3. conversation.message.created: Agatha Knusperhexe: Sterne sind kleine Lichter hoch oben am Nachthimmel, und wenn es dunkel wird, kann man sie funkeln sehen wie verstreuten Zucker auf schwarzem Tuch. Manche wirken heller, manche blasser, und zusammen sehen sie aus, als hätte jemand winzige Lichtkrümel über die Nacht gestreut. Magst du lieber einen ganz hellen Stern oder viele kleine auf einmal?
+4. conversation.message.created: Yoko: Jetzt bitte Sterne, aber nicht zu schwer erklaert, ich bin noch klein.
+5. conversation.message.created: Agatha Knusperhexe: Ein kaputtes Fahrrad, hm... das ist ärgerlich wie ein Keks mit Riss, und ich mag Risse nur in fremden Plänen. Erzähl mir erst von deinem Rad: Was ist daran kaputt?
+6. conversation.message.created: Yoko: Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.
+7. conversation.message.created: Agatha Knusperhexe: Ich mache es listig langsam: erst stehen, dann schauen, dann greifen, dann steigen — ein Schritt nach dem anderen, nicht husch-husch wie ein erschrockener Käfer. Wenn die Angst im Bauch zappelt, kannst du leise sagen: „Langsam, schlau, ich trau mich genau“, das ist fast schon ein kleiner Hexenreim. Willst du dafür einen kurzen Mut-Spruch von mir?
+8. conversation.message.created: Yoko: Wie kann ich beim naechsten Mal mutig bleiben, ohne zu schnell zu werden?
+9. conversation.message.created: Agatha Knusperhexe: Hoho... das ist echte Klettertapferkeit, mein Krümelchen — mutig sein heißt nicht, keine Angst zu haben, sondern trotzdem vorsichtig weiterzukraxeln. Selbst ich, Agatha, spüre manchmal ein kleines Zippeln im Bauch, wenn etwas hoch und wackelig ist. Worauf warst du beim Klettern besonders stolz?
+10. conversation.message.created: Yoko: Heute war ich mutig beim Klettern, aber ich hatte auch etwas Angst.
+11. conversation.message.created: Agatha Knusperhexe: Man sieht dich und mich auf dem moosigen Waldweg, und direkt neben uns sitzt der Otter mit seinem glänzenden Fell und hält die kleine Laterne ganz vorsichtig in den Pfoten. Das Licht ist warm wie Honigschein, das Moos leuchtet weich, und der Otter schaut so ruhig und neugierig, dass alles still und freundlich wirkt, statt heimlich und knarzig wie sonst in meinem Wald. Was gefällt dir daran am meisten?
+12. conversation.message.created: Yoko: Was sieht man da genau und warum wirkt es so freundlich?
+13. conversation.image.generated: Danach saß auf dem moosigen Waldweg neben uns ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfoten. Ihr sanftes Licht hatte das grüne Moos zum Leuchten gebracht, und zwischen den hohen Bäumen hatte Agathas schiefes Lebkuchenhaus fern hervorgeschaut. Agatha hatte ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.
+14. conversation.message.created: Agatha Knusperhexe: Ich zeige dir jetzt: einen freundlichen Otter mit glänzendem Fell, der auf dem moosigen Waldweg neben uns sitzt und eine kleine warme Laterne hält, während zwischen den hohen Bäumen das grüne Moos leuchtet und mein schiefes Lebkuchenhaus fern zwischen den Stämmen hervorschaut. Dann kannst du den Otter mit seinen neugierigen Augen und das sanfte Licht der Laterne im stillen Wald sehen.
+15. conversation.message.created: Yoko: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+16. conversation.message.created: Agatha Knusperhexe: Ich schaue kurz in unsere Erinnerungen... Ja, ich kenne das Bild noch: wir zwei auf dem weichen, moosigen Waldweg, die Pilze am Rand, hohe Bäume ringsum und mein schiefes Lebkuchenhaus zwischen den Stämmen. Ich zeige dir jetzt: genau dieses Bild noch einmal, mit feuchtem Moos unter unseren Füßen und dem stillen Wald, der uns heimlich zuhört.
+17. conversation.image.recalled: Agatha Knusperhexe zeigt ein frueheres Bild aus eurer Conversation.
+18. conversation.message.created: Yoko: Weisst du noch unser Bild von eben? Zeig bitte genau das nochmal.
+19. conversation.image.generated: Danach standen wir nebeneinander auf dem weichen, moosigen Waldweg im dunklen Tann, und zwischen den hohen Baeumen blinzelte Agathas schiefes Lebkuchenhaus hervor. Kleine Pilze leuchteten am Rand, es roch nach feuchtem Moos und Honig, und Agathas lange Finger hatten leise geklappert. Mit wachsamer Freude hatte sie dich dicht bei sich behalten, waehrend der stille Wald um euch herum lauschte.
+20. conversation.message.created: Agatha Knusperhexe: Ich zeige dir jetzt: mich und dich auf einem weichen, moosigen Waldweg im dunklen Tann, mit hohen Bäumen, grünem Moos, kleinen Pilzen am Rand und meinem schiefen Lebkuchenhaus blinzelnd zwischen den Stämmen. Du kannst uns darauf nebeneinander sehen, während ich mit meinen langen Fingern leise klappre und der Wald still um uns lauscht.
+21. conversation.message.created: Yoko: Kannst du mir bitte ein Bild von uns auf dem moosigen Waldweg zeigen?
+
+## Bildreferenzen
+1. activity/conversation.image.generated: /content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-e7a6ee2f-21a5-4eee-befb-fcd5d812aa78.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-e7a6ee2f-21a5-4eee-befb-fcd5d812aa78.jpg | summary=Danach saß auf dem moosigen Waldweg neben uns ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfoten. Ihr sanftes Licht hatte das grüne Moos zum Leuchten gebracht, und zwischen den hohen Bäumen hatte Agathas schiefes Lebkuchenhaus fern hervorgeschaut. Agatha hatte ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.
+2. activity/conversation.image.recalled: /content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-c61e451a-a50a-46d0-be48-b853ca186b72.jpg | summary=Agatha Knusperhexe zeigt ein frueheres Bild aus eurer Conversation.
+3. activity/conversation.image.generated: /content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-c61e451a-a50a-46d0-be48-b853ca186b72.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-c61e451a-a50a-46d0-be48-b853ca186b72.jpg | summary=Danach standen wir nebeneinander auf dem weichen, moosigen Waldweg im dunklen Tann, und zwischen den hohen Baeumen blinzelte Agathas schiefes Lebkuchenhaus hervor. Kleine Pilze leuchteten am Rand, es roch nach feuchtem Moos und Honig, und Agathas lange Finger hatten leise geklappert. Mit wachsamer Freude hatte sie dich dicht bei sich behalten, waehrend der stille Wald um euch herum lauschte.
+4. message/tool.image.generated: /content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-c61e451a-a50a-46d0-be48-b853ca186b72.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-c61e451a-a50a-46d0-be48-b853ca186b72.jpg | summary=Danach standen wir nebeneinander auf dem weichen, moosigen Waldweg im dunklen Tann, und zwischen den hohen Baeumen blinzelte Agathas schiefes Lebkuchenhaus hervor. Kleine Pilze leuchteten am Rand, es roch nach feuchtem Moos und Honig, und Agathas lange Finger hatten leise geklappert. Mit wachsamer Freude hatte sie dich dicht bei sich behalten, waehrend der stille Wald um euch herum lauschte.
+5. message/tool.image.recalled: /content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-c61e451a-a50a-46d0-be48-b853ca186b72.jpg | summary=Agatha Knusperhexe zeigt ein frueheres Bild aus eurer Conversation.
+6. message/tool.image.generated: /content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-e7a6ee2f-21a5-4eee-befb-fcd5d812aa78.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/919e0188-83ec-4e03-b6a8-33aba1037bcf/tool-e7a6ee2f-21a5-4eee-befb-fcd5d812aa78.jpg | summary=Danach saß auf dem moosigen Waldweg neben uns ein freundlicher Otter mit glänzendem Fell und hielt eine kleine warme Laterne in den Pfoten. Ihr sanftes Licht hatte das grüne Moos zum Leuchten gebracht, und zwischen den hohen Bäumen hatte Agathas schiefes Lebkuchenhaus fern hervorgeschaut. Agatha hatte ihn mit schmalen, nachdenklichen Augen beobachtet, während es nach feuchtem Wald und Honig roch.

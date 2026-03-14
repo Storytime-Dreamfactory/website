@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-03-13T23:16:20.758Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceArtifactPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/federkiel-der-klaren-worte.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079",
+  "styleReferencePaths": [],
+  "artifactReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "artifact": {
+    "id": "9900cef9-b701-4a9d-bf7d-5c9182813079",
+    "name": "Federkiel der klaren Worte",
+    "type": "artifact",
+    "slug": "federkiel-der-klaren-worte",
+    "artifactType": "writing-tool",
+    "description": "Ein silberblauer Federkiel, der hilft, Gedanken ruhig zu ordnen und Gefuehle freundlich auszudruecken.",
+    "appearance": {
+      "form": "langer Federkiel mit sanft gebogener Spitze",
+      "size": "etwa so lang wie ein Unterarm",
+      "materials": [
+        "Schwanenfeder",
+        "Silberkappe",
+        "Saphirtinte"
+      ],
+      "colors": [
+        "silberblau",
+        "nachtgrau"
+      ],
+      "condition": "gepflegt und tintenbereit",
+      "distinctiveFeatures": [
+        "feine Lichtlinie entlang der Federachse",
+        "Tintentropfen glitzern wie kleine Sterne"
+      ]
+    },
+    "function": {
+      "primaryPurpose": "verwandelt wirre Gedanken in klare, freundliche Saetze",
+      "secondaryPurposes": [
+        "unterstuetzt beim Entschuldigen und Versoehnen"
+      ],
+      "activation": "schreibt erst, wenn tief geatmet und langsam begonnen wird",
+      "effects": [
+        "Worte werden klarer und besser verstaendlich",
+        "der Ton bleibt warm und respektvoll"
+      ],
+      "limitations": [
+        "schreibt nicht bei boesen Absichten"
+      ]
+    },
+    "sensoryProfile": {
+      "sound": "feines Rascheln wie Papierwind",
+      "scent": "leichte Note von Tinte und Lavendel",
+      "texture": "weich an der Feder, glatt an der Kappe",
+      "aura": "beruhigend und konzentriert"
+    },
+    "origin": {
+      "creator": "Schreiberzirkel vom Mondarchiv",
+      "era": "Zeit der ersten Sternenchroniken",
+      "culturalContext": "fuer friedliche Verstaendigung in schwierigen Gespraechen geschaffen",
+      "inscriptions": [
+        "Worte bauen Bruecken."
+      ]
+    },
+    "images": {
+      "standardArtifact": {
+        "file": "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/standard-artifact.png",
+        "description": "Freigestellter Federkiel mit sichtbarer Spitze und Tintentropfen."
+      },
+      "heroImage": {
+        "file": "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/hero-image.jpg",
+        "description": "Leuchtender Federkiel ueber aufgeschlagenem Buch in einer ruhigen Nachtstube."
+      },
+      "portrait": {
+        "file": "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/portrait.png",
+        "description": "Nahe Card-Ansicht mit Fokus auf Federstruktur und Lichtlinie."
+      }
+    },
+    "tags": [
+      "communication",
+      "empathy",
+      "writing"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-13",
+      "updatedAt": "2026-03-13",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "9900cef9-b701-4a9d-bf7d-5c9182813079:standard_artifact",
+      "type": "standard_artifact",
+      "kind": "standard_artifact",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Federkiel der klaren Worte. Artifact type: writing-tool. Description: Ein silberblauer Federkiel, der hilft, Gedanken ruhig zu ordnen und Gefuehle freundlich auszudruecken. Form: langer Federkiel mit sanft gebogener Spitze. Size: etwa so lang wie ein Unterarm. Materials: Schwanenfeder, Silberkappe, Saphirtinte. Colors: silberblau, nachtgrau. Condition: gepflegt und tintenbereit. Distinctive features: feine Lichtlinie entlang der Federachse, Tintentropfen glitzern wie kleine Sterne. Primary purpose: verwandelt wirre Gedanken in klare, freundliche Saetze. Secondary purposes: unterstuetzt beim Entschuldigen und Versoehnen. Activation: schreibt erst, wenn tief geatmet und langsam begonnen wird. Effects: Worte werden klarer und besser verstaendlich, der Ton bleibt warm und respektvoll. Limitations: schreibt nicht bei boesen Absichten. Sound impression: feines Rascheln wie Papierwind. Scent impression: leichte Note von Tinte und Lavendel. Texture impression: weich an der Feder, glatt an der Kappe. Aura: beruhigend und konzentriert. Creator: Schreiberzirkel vom Mondarchiv. Era: Zeit der ersten Sternenchroniken. Cultural context: fuer friedliche Verstaendigung in schwierigen Gespraechen geschaffen. Inscriptions: Worte bauen Bruecken. Tags: communication, empathy, writing. Render Federkiel der klaren Worte as a single isolated artifact on a pure white background. No environment, no floor, no gradients, no transparent background, no extra props, and no character in frame. The silhouette must be crisp and highly readable for UI compositing. Target brief: Freigestellter Federkiel mit sichtbarer Spitze und Tintentropfen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Federkiel der klaren Worte visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Use a solid pure white background only.",
+      "description": "Freigestellter Federkiel mit sichtbarer Spitze und Tintentropfen.",
+      "publicFilePath": "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/standard-artifact.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/standard-artifact.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4442,
+      "requestId": "f6a2469f-1756-4e0e-8151-776607c89258",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/526823a61f404341a28af166f2b8e930_sample.png?se=2026-03-13T23%3A25%3A34Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=n3Z1zWzYB6uptQuVRCf/U4n1UNfjc0BZ1LwI4/7SQfE%3D",
+      "cost": 3
+    },
+    {
+      "id": "9900cef9-b701-4a9d-bf7d-5c9182813079:hero_image",
+      "type": "hero_image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Federkiel der klaren Worte. Artifact type: writing-tool. Description: Ein silberblauer Federkiel, der hilft, Gedanken ruhig zu ordnen und Gefuehle freundlich auszudruecken. Form: langer Federkiel mit sanft gebogener Spitze. Size: etwa so lang wie ein Unterarm. Materials: Schwanenfeder, Silberkappe, Saphirtinte. Colors: silberblau, nachtgrau. Condition: gepflegt und tintenbereit. Distinctive features: feine Lichtlinie entlang der Federachse, Tintentropfen glitzern wie kleine Sterne. Primary purpose: verwandelt wirre Gedanken in klare, freundliche Saetze. Secondary purposes: unterstuetzt beim Entschuldigen und Versoehnen. Activation: schreibt erst, wenn tief geatmet und langsam begonnen wird. Effects: Worte werden klarer und besser verstaendlich, der Ton bleibt warm und respektvoll. Limitations: schreibt nicht bei boesen Absichten. Sound impression: feines Rascheln wie Papierwind. Scent impression: leichte Note von Tinte und Lavendel. Texture impression: weich an der Feder, glatt an der Kappe. Aura: beruhigend und konzentriert. Creator: Schreiberzirkel vom Mondarchiv. Era: Zeit der ersten Sternenchroniken. Cultural context: fuer friedliche Verstaendigung in schwierigen Gespraechen geschaffen. Inscriptions: Worte bauen Bruecken. Tags: communication, empathy, writing. Render Federkiel der klaren Worte as the singular visual protagonist of a cinematic story moment in a child-friendly fantasy world. Keep the exact same artifact identity, material qualities, color palette, and distinctive features as Federkiel der klaren Worte in the standard artifact image. No secondary object may steal focus from the artifact. Target brief: Leuchtender Federkiel ueber aufgeschlagenem Buch in einer ruhigen Nachtstube. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Federkiel der klaren Worte visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Allow cinematic environments but keep the artifact as the only primary focus.",
+      "description": "Leuchtender Federkiel ueber aufgeschlagenem Buch in einer ruhigen Nachtstube.",
+      "publicFilePath": "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4443,
+      "requestId": "2fa051d5-618c-4d15-a345-f5a40afb3e2a",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/c93990bebef24b0a8bce2cd68ce523a0_sample.jpeg?se=2026-03-13T23%3A25%3A59Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=qzxtqnbG2nDXd0HMQNifTr2gng6Emc8X1ogpOpuypUs%3D",
+      "cost": 6
+    },
+    {
+      "id": "9900cef9-b701-4a9d-bf7d-5c9182813079:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Federkiel der klaren Worte. Artifact type: writing-tool. Description: Ein silberblauer Federkiel, der hilft, Gedanken ruhig zu ordnen und Gefuehle freundlich auszudruecken. Form: langer Federkiel mit sanft gebogener Spitze. Size: etwa so lang wie ein Unterarm. Materials: Schwanenfeder, Silberkappe, Saphirtinte. Colors: silberblau, nachtgrau. Condition: gepflegt und tintenbereit. Distinctive features: feine Lichtlinie entlang der Federachse, Tintentropfen glitzern wie kleine Sterne. Primary purpose: verwandelt wirre Gedanken in klare, freundliche Saetze. Secondary purposes: unterstuetzt beim Entschuldigen und Versoehnen. Activation: schreibt erst, wenn tief geatmet und langsam begonnen wird. Effects: Worte werden klarer und besser verstaendlich, der Ton bleibt warm und respektvoll. Limitations: schreibt nicht bei boesen Absichten. Sound impression: feines Rascheln wie Papierwind. Scent impression: leichte Note von Tinte und Lavendel. Texture impression: weich an der Feder, glatt an der Kappe. Aura: beruhigend und konzentriert. Creator: Schreiberzirkel vom Mondarchiv. Era: Zeit der ersten Sternenchroniken. Cultural context: fuer friedliche Verstaendigung in schwierigen Gespraechen geschaffen. Inscriptions: Worte bauen Bruecken. Tags: communication, empathy, writing. Create a portrait card image of Federkiel der klaren Worte with strong close-up readability and clean framing. Preserve identity exactly: same shape language, materials, colors, and distinctive markings as the standard artifact. Target brief: Nahe Card-Ansicht mit Fokus auf Federstruktur und Lichtlinie. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Federkiel der klaren Worte visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Allow cinematic environments but keep the artifact as the only primary focus.",
+      "description": "Nahe Card-Ansicht mit Fokus auf Federstruktur und Lichtlinie.",
+      "publicFilePath": "/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/9900cef9-b701-4a9d-bf7d-5c9182813079/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4444,
+      "requestId": "18f04519-be01-45cd-82b7-319434fafc21",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/d29e9d90b8ed41cb8c4fef7a4399829d_sample.png?se=2026-03-13T23%3A26%3A19Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Ja8PM4pT4zHybELN1cswwsWjJ0bSEp3axxUMmKtqIWU%3D",
+      "cost": 6
+    }
+  ]
+}

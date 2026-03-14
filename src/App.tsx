@@ -16,24 +16,26 @@ import {
   Tag,
   Typography,
 } from 'antd'
-import { ArrowLeftOutlined, HeartOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, AudioOutlined, CloseOutlined, HeartOutlined } from '@ant-design/icons'
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import storytimeLogo from './assets/storytime-logo.png'
 import userProfileAvatar from './assets/user-profile-avatar.png'
 import CharacterDetailPage from './CharacterDetailPage'
 import CharacterStoryPage from './CharacterStoryPage'
-import CharacterCreationChatOverlay from './CharacterCreationChatOverlay'
+import CreateCharacterPage from './CreateCharacterPage'
 import { loadStoryContent } from './content/loaders'
 import type { StoryContent } from './content/types'
 import './App.css'
 
 const { Header, Content } = Layout
 const { Title, Text } = Typography
+const VOICE_SPEAKER_EVENT = 'storytime:voice-speaker'
 
 const PAGE_BACKGROUND_ASSETS = {
   characters: '/generated/characters-forest-background.png',
   places: '/generated/places-dolomites-background.png',
   learningGoals: '/generated/skills-finja-nola-learning-background.png',
+  artifacts: '/generated/characters-forest-background.png',
 } as const
 
 const HOME_HERO_BACKGROUND = '/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg'
@@ -42,6 +44,7 @@ const menuItems = [
   { key: '/', label: 'Home' },
   { key: '/characters', label: 'Characters' },
   { key: '/places', label: 'Places' },
+  { key: '/artifacts', label: 'Artifacts' },
   { key: '/learning-goals', label: 'Lernziele' },
   { key: '/design-system', label: 'Design System' },
 ]
@@ -49,12 +52,24 @@ const menuItems = [
 type AppHeaderProps = {
   source: StoryContent['source'] | undefined
   mode: 'home' | 'subpage'
+  selectedNavKey?: string
   pageTitle?: string
   backUrl?: string
+  backIcon?: 'close' | 'back'
+  storyParticipants?: Array<{ id: 'character' | 'yoko'; name: string; avatarUrl?: string; isSpeaking?: boolean }>
 }
 
-function AppHeader({ source, mode, pageTitle, backUrl }: AppHeaderProps) {
+function AppHeader({
+  source,
+  mode,
+  selectedNavKey,
+  pageTitle,
+  backUrl,
+  backIcon = 'close',
+  storyParticipants,
+}: AppHeaderProps) {
   const navigate = useNavigate()
+  const isStoryHeader = Array.isArray(storyParticipants) && storyParticipants.length > 0
 
   return (
     <Header className="app-header">
@@ -72,7 +87,7 @@ function AppHeader({ source, mode, pageTitle, backUrl }: AppHeaderProps) {
 
             <Menu
               mode="horizontal"
-              selectedKeys={['/']}
+              selectedKeys={[selectedNavKey ?? '/']}
               items={menuItems}
               className="top-nav"
               onClick={({ key }) => navigate(key)}
@@ -80,17 +95,49 @@ function AppHeader({ source, mode, pageTitle, backUrl }: AppHeaderProps) {
           </>
         ) : (
           <div className="brand-area">
-            <Link to={backUrl ?? '/'} className="app-header-back-link" aria-label="Zurueck">
-              <ArrowLeftOutlined />
-              <span className="app-header-page-title">{pageTitle}</span>
+            <Link
+              to={backUrl ?? '/'}
+              className="app-header-back-link"
+              aria-label={backIcon === 'back' ? 'Zurueck' : 'Schliessen'}
+              title={pageTitle}
+            >
+              {backIcon === 'back' ? <ArrowLeftOutlined /> : <CloseOutlined />}
+              <span className="app-header-page-title">Es war einmal vor langer, langer Zeit ...</span>
             </Link>
           </div>
         )}
 
-        <div className="header-user">
-          <Text className="header-user-name">Yoko</Text>
-          <Avatar src={userProfileAvatar} size={40} />
-        </div>
+        {isStoryHeader ? (
+          <div className="header-user app-header-story-participants">
+            <div className="app-header-conversation-participants">
+              {storyParticipants!.map((participant) => (
+                <span key={participant.name} className="app-header-conversation-participant">
+                  <span className="app-header-avatar-shell">
+                    {participant.isSpeaking ? (
+                      <>
+                        <span className="app-header-avatar-ring app-header-avatar-ring-1" />
+                        <span className="app-header-avatar-ring app-header-avatar-ring-2" />
+                      </>
+                    ) : null}
+                    <Avatar
+                      src={participant.avatarUrl}
+                      size={34}
+                      className="app-header-page-avatar"
+                    />
+                  </span>
+                  <span className="app-header-page-title app-header-conversation-participant-name">
+                    {participant.name}
+                  </span>
+                </span>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="header-user">
+            <Text className="header-user-name">Yoko</Text>
+            <Avatar src={userProfileAvatar} size={40} />
+          </div>
+        )}
       </div>
     </Header>
   )
@@ -99,7 +146,7 @@ function AppHeader({ source, mode, pageTitle, backUrl }: AppHeaderProps) {
 type ContentCarouselProps = {
   title: string
   content: StoryContent
-  type: 'characters' | 'places' | 'learningGoals'
+  type: 'characters' | 'places' | 'learningGoals' | 'artifacts'
   ids?: string[]
 }
 
@@ -114,7 +161,9 @@ function resolveCarouselItems(
     const pool = ids
       ? ids.map((id) => content.characters.find((c) => c.id === id)).filter(isDefined)
       : content.characters
-    return pool.map((c) => ({ id: c.id, name: c.name, image: c.images.portrait?.file }))
+    return pool
+      .filter((c) => Boolean(c.images.portrait?.file))
+      .map((c) => ({ id: c.id, name: c.name, image: c.images.portrait?.file }))
   }
 
   if (type === 'places') {
@@ -122,6 +171,17 @@ function resolveCarouselItems(
       ? ids.map((id) => content.places.find((p) => p.id === id)).filter(isDefined)
       : content.places
     return pool.map((p) => ({ id: p.id, name: p.name }))
+  }
+
+  if (type === 'artifacts') {
+    const pool = ids
+      ? ids.map((id) => content.artifacts.find((artifact) => artifact.id === id)).filter(isDefined)
+      : content.artifacts
+    return pool.map((artifact) => ({
+      id: artifact.id,
+      name: artifact.name,
+      image: artifact.images.portrait.file,
+    }))
   }
 
   const pool = ids
@@ -158,7 +218,8 @@ function useCharactersWithConversations(): Set<string> {
 
 function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
   const items = useMemo(() => resolveCarouselItems(content, type, ids), [content, type, ids])
-  const fallbackImage = PAGE_BACKGROUND_ASSETS[type]
+  const fallbackImage =
+    type === 'artifacts' ? PAGE_BACKGROUND_ASSETS.learningGoals : PAGE_BACKGROUND_ASSETS[type]
   const charactersWithConversations = useCharactersWithConversations()
 
   return (
@@ -222,18 +283,18 @@ function resolveLayoutBackground(pathname: string) {
     }
   }
 
+  if (pathname.startsWith('/artifacts')) {
+    return {
+      background: `linear-gradient(92deg, rgba(8,11,28,0.86) 10%, rgba(8,11,28,0.46) 66%), url('${PAGE_BACKGROUND_ASSETS.artifacts}') center / cover no-repeat`,
+    }
+  }
+
   return {
     background: `linear-gradient(92deg, rgba(3,9,28,0.84) 8%, rgba(3,9,28,0.44) 64%), url('${PAGE_BACKGROUND_ASSETS.characters}') center / cover no-repeat`,
   }
 }
 
-function HomePage({
-  content,
-  onCharacterCreated,
-}: {
-  content: StoryContent
-  onCharacterCreated: () => Promise<void> | void
-}) {
+function HomePage({ content }: { content: StoryContent }) {
   return (
     <div className="home-hero">
       <div className="hero-headline">
@@ -246,7 +307,12 @@ function HomePage({
           Orten und Lernzielen. Starte mit deinem eigenen Charakter.
         </Text>
         <Space size="middle">
-          <CharacterCreationChatOverlay onCharacterCreated={onCharacterCreated} />
+          <Link to="/create-character" className="vcb-button" aria-label="Create Character Seite oeffnen">
+            <span className="vcb-icon-area">
+              <AudioOutlined className="vcb-mic-icon" />
+              <span className="vcb-label">Mit Merlin Character erstellen</span>
+            </span>
+          </Link>
           <Button
             shape="circle"
             size="large"
@@ -328,6 +394,15 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [storySpeakerState, setStorySpeakerState] = useState<{
+    characterId: string | null
+    yokoSpeaking: boolean
+    characterSpeaking: boolean
+  }>({
+    characterId: null,
+    yokoSpeaking: false,
+    characterSpeaking: false,
+  })
   const pointerFrameRef = useRef<number | null>(null)
   const layoutBackground = useMemo(() => resolveLayoutBackground(location.pathname), [location.pathname])
   const isHomeParallaxEnabled = location.pathname === '/' && !reduceMotion
@@ -368,6 +443,9 @@ function App() {
   }, [loadContent])
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return
+    }
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const updatePreference = () => setReduceMotion(mediaQuery.matches)
     updatePreference()
@@ -383,6 +461,35 @@ function App() {
       if (pointerFrameRef.current != null) {
         window.cancelAnimationFrame(pointerFrameRef.current)
       }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const onSpeakerEvent = (event: Event) => {
+      const detail = (event as CustomEvent<{ characterId?: string; speaker?: string; isSpeaking?: boolean }>).detail
+      const characterId = typeof detail?.characterId === 'string' ? detail.characterId : ''
+      const speaker = detail?.speaker
+      const isSpeaking = Boolean(detail?.isSpeaking)
+      if (!characterId || (speaker !== 'yoko' && speaker !== 'character')) return
+
+      setStorySpeakerState((prev) => {
+        const next = {
+          characterId,
+          yokoSpeaking:
+            prev.characterId === characterId ? prev.yokoSpeaking : false,
+          characterSpeaking:
+            prev.characterId === characterId ? prev.characterSpeaking : false,
+        }
+        if (speaker === 'yoko') next.yokoSpeaking = isSpeaking
+        if (speaker === 'character') next.characterSpeaking = isSpeaking
+        return next
+      })
+    }
+
+    window.addEventListener(VOICE_SPEAKER_EVENT, onSpeakerEvent as EventListener)
+    return () => {
+      window.removeEventListener(VOICE_SPEAKER_EVENT, onSpeakerEvent as EventListener)
     }
   }, [])
 
@@ -429,23 +536,55 @@ function App() {
 
   const headerProps = useMemo((): Omit<AppHeaderProps, 'source'> => {
     const path = location.pathname
-    if (path === '/') return { mode: 'home' }
+    if (path === '/') return { mode: 'home', selectedNavKey: '/' }
 
     const charMatch = path.match(/^\/characters\/([^/]+)/)
     if (charMatch) {
       const charId = charMatch[1]
-      const charName = content?.characters.find((c) => c.id === charId)?.name
+      const character = content?.characters.find((c) => c.id === charId)
+      const charName = character?.name
+      const charAvatarUrl = character?.images.profileImage?.file ?? character?.images.portrait?.file
       if (path.match(/^\/characters\/[^/]+\/story$/)) {
-        return { mode: 'subpage', pageTitle: charName ?? 'Story', backUrl: `/characters/${charId}` }
+        return {
+          mode: 'subpage',
+          pageTitle: charName ?? 'Story',
+          backUrl: `/characters/${charId}`,
+          backIcon: 'close',
+          storyParticipants: [
+            {
+              id: 'character',
+              name: charName ?? 'Character',
+              avatarUrl: charAvatarUrl,
+              isSpeaking:
+                storySpeakerState.characterId === charId && storySpeakerState.characterSpeaking,
+            },
+            {
+              id: 'yoko',
+              name: 'Yoko',
+              avatarUrl: userProfileAvatar,
+              isSpeaking:
+                storySpeakerState.characterId === charId && storySpeakerState.yokoSpeaking,
+            },
+          ],
+        }
       }
-      return { mode: 'subpage', pageTitle: charName ?? 'Character', backUrl: '/characters' }
+      return {
+        mode: 'subpage',
+        pageTitle: charName ?? 'Character',
+        backUrl: '/characters',
+        backIcon: 'back',
+      }
     }
-    if (path.startsWith('/characters')) return { mode: 'subpage', pageTitle: 'Characters', backUrl: '/' }
-    if (path.startsWith('/places')) return { mode: 'subpage', pageTitle: 'Places', backUrl: '/' }
-    if (path.startsWith('/learning-goals') || path.startsWith('/skills')) return { mode: 'subpage', pageTitle: 'Lernziele', backUrl: '/' }
+    if (path.startsWith('/characters')) return { mode: 'home', selectedNavKey: '/characters' }
+    if (path.startsWith('/places')) return { mode: 'home', selectedNavKey: '/places' }
+    if (path.startsWith('/artifacts')) return { mode: 'home', selectedNavKey: '/artifacts' }
+    if (path.startsWith('/learning-goals') || path.startsWith('/skills')) return { mode: 'home', selectedNavKey: '/learning-goals' }
     if (path.startsWith('/design-system')) return { mode: 'subpage', pageTitle: 'Design System', backUrl: '/' }
+    if (path.startsWith('/create-character')) {
+      return { mode: 'subpage', pageTitle: 'Character erstellen', backUrl: '/', backIcon: 'back' }
+    }
     return { mode: 'subpage', pageTitle: '', backUrl: '/' }
-  }, [location.pathname, content?.characters])
+  }, [location.pathname, content?.characters, storySpeakerState])
 
   return (
     <ConfigProvider
@@ -514,7 +653,7 @@ function App() {
               )}
 
               <Routes>
-                <Route path="/" element={<HomePage content={content} onCharacterCreated={loadContent} />} />
+                <Route path="/" element={<HomePage content={content} />} />
                 <Route
                   path="/characters"
                   element={<ContentCarousel title="Characters" content={content} type="characters" />}
@@ -532,6 +671,10 @@ function App() {
                   element={<ContentCarousel title="Places" content={content} type="places" />}
                 />
                 <Route
+                  path="/artifacts"
+                  element={<ContentCarousel title="Artifacts" content={content} type="artifacts" />}
+                />
+                <Route
                   path="/learning-goals"
                   element={
                     <ContentCarousel
@@ -542,6 +685,10 @@ function App() {
                   }
                 />
                 <Route path="/skills" element={<Navigate to="/learning-goals" replace />} />
+                <Route
+                  path="/create-character"
+                  element={<CreateCharacterPage content={content} onCharacterCreated={loadContent} />}
+                />
                 <Route
                   path="/design-system"
                   element={<DesignSystemPage content={content} />}

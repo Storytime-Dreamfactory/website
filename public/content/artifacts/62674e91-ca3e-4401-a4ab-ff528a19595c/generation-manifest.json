@@ -1,0 +1,151 @@
+{
+  "generatedAt": "2026-03-13T23:14:44.304Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceArtifactPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/kompass-der-mutpfade.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c",
+  "styleReferencePaths": [],
+  "artifactReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "artifact": {
+    "id": "62674e91-ca3e-4401-a4ab-ff528a19595c",
+    "name": "Kompass der Mutpfade",
+    "type": "artifact",
+    "slug": "kompass-der-mutpfade",
+    "artifactType": "compass",
+    "description": "Ein alter Taschenkompass mit warmem Messingrahmen, dessen Nadel nicht nach Norden, sondern zur naechsten mutigen Handlung zeigt.",
+    "appearance": {
+      "form": "runder Taschenkompass mit Klappdeckel",
+      "size": "klein, passt in eine Jackentasche",
+      "materials": [
+        "Messing",
+        "Glas",
+        "Lederband"
+      ],
+      "colors": [
+        "goldbraun",
+        "tiefgruen"
+      ],
+      "condition": "gut erhalten, leicht patiniert",
+      "distinctiveFeatures": [
+        "Nadel in Form eines kleinen Blitzes",
+        "Deckel mit eingraviertem Mutstern"
+      ]
+    },
+    "function": {
+      "primaryPurpose": "zeigt in schwierigen Momenten den naechsten mutigen und freundlichen Schritt",
+      "secondaryPurposes": [
+        "hilft beim Treffen fairer Entscheidungen in der Gruppe"
+      ],
+      "activation": "oeffnet sich bei der Frage \"Was waere jetzt mutig und gut?\"",
+      "effects": [
+        "Nadel richtet sich auf den sinnvollsten naechsten Schritt aus",
+        "ein kurzer Lichtimpuls bestaerkt die Entscheidung"
+      ],
+      "limitations": [
+        "funktioniert nur bei ehrlicher Absicht"
+      ]
+    },
+    "sensoryProfile": {
+      "sound": "leises Tickern wie ein Herzschlag",
+      "scent": "ein Hauch von Leder und Regen",
+      "texture": "kuehles Metall mit glattem Glas",
+      "aura": "ruhig und zuversichtlich"
+    },
+    "origin": {
+      "creator": "Werkstatt der Wegfinderinnen",
+      "era": "fruehe Nebeltaeler-Expeditionen",
+      "culturalContext": "als Lernhilfe fuer verantwortungsvolle Entscheidungen entwickelt",
+      "inscriptions": [
+        "Mut zeigt den Weg."
+      ]
+    },
+    "images": {
+      "standardArtifact": {
+        "file": "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/standard-artifact.png",
+        "description": "Freigestellter Kompass in geschlossener und geoeffneter Sicht."
+      },
+      "heroImage": {
+        "file": "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/hero-image.jpg",
+        "description": "Dramatische Waldlichtung, Kompass leuchtet in der Hand als Szenenfokus."
+      },
+      "portrait": {
+        "file": "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/portrait.png",
+        "description": "Card-taugliche Nahansicht des Kompassgesichts."
+      }
+    },
+    "tags": [
+      "guidance",
+      "courage",
+      "decision-making"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-13",
+      "updatedAt": "2026-03-13",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "62674e91-ca3e-4401-a4ab-ff528a19595c:standard_artifact",
+      "type": "standard_artifact",
+      "kind": "standard_artifact",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Kompass der Mutpfade. Artifact type: compass. Description: Ein alter Taschenkompass mit warmem Messingrahmen, dessen Nadel nicht nach Norden, sondern zur naechsten mutigen Handlung zeigt. Form: runder Taschenkompass mit Klappdeckel. Size: klein, passt in eine Jackentasche. Materials: Messing, Glas, Lederband. Colors: goldbraun, tiefgruen. Condition: gut erhalten, leicht patiniert. Distinctive features: Nadel in Form eines kleinen Blitzes, Deckel mit eingraviertem Mutstern. Primary purpose: zeigt in schwierigen Momenten den naechsten mutigen und freundlichen Schritt. Secondary purposes: hilft beim Treffen fairer Entscheidungen in der Gruppe. Activation: oeffnet sich bei der Frage \"Was waere jetzt mutig und gut?\". Effects: Nadel richtet sich auf den sinnvollsten naechsten Schritt aus, ein kurzer Lichtimpuls bestaerkt die Entscheidung. Limitations: funktioniert nur bei ehrlicher Absicht. Sound impression: leises Tickern wie ein Herzschlag. Scent impression: ein Hauch von Leder und Regen. Texture impression: kuehles Metall mit glattem Glas. Aura: ruhig und zuversichtlich. Creator: Werkstatt der Wegfinderinnen. Era: fruehe Nebeltaeler-Expeditionen. Cultural context: als Lernhilfe fuer verantwortungsvolle Entscheidungen entwickelt. Inscriptions: Mut zeigt den Weg. Tags: guidance, courage, decision-making. Render Kompass der Mutpfade as a single isolated artifact on a pure white background. No environment, no floor, no gradients, no transparent background, no extra props, and no character in frame. The silhouette must be crisp and highly readable for UI compositing. Target brief: Freigestellter Kompass in geschlossener und geoeffneter Sicht. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Kompass der Mutpfade visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Use a solid pure white background only.",
+      "description": "Freigestellter Kompass in geschlossener und geoeffneter Sicht.",
+      "publicFilePath": "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/standard-artifact.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/standard-artifact.png",
+      "width": 1024,
+      "height": 1024,
+      "outputFormat": "png",
+      "seed": 4342,
+      "requestId": "ba59f26f-7676-429e-b413-b6aea8e08e4b",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/8a859f3a236749729d3e86895c4db103_sample.png?se=2026-03-13T23%3A23%3A51Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=QE8dmXA5iUlLDDqOmwXEjfJxSq%2BHS%2BiGFFwF75qVeO8%3D",
+      "cost": 3
+    },
+    {
+      "id": "62674e91-ca3e-4401-a4ab-ff528a19595c:hero_image",
+      "type": "hero_image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Kompass der Mutpfade. Artifact type: compass. Description: Ein alter Taschenkompass mit warmem Messingrahmen, dessen Nadel nicht nach Norden, sondern zur naechsten mutigen Handlung zeigt. Form: runder Taschenkompass mit Klappdeckel. Size: klein, passt in eine Jackentasche. Materials: Messing, Glas, Lederband. Colors: goldbraun, tiefgruen. Condition: gut erhalten, leicht patiniert. Distinctive features: Nadel in Form eines kleinen Blitzes, Deckel mit eingraviertem Mutstern. Primary purpose: zeigt in schwierigen Momenten den naechsten mutigen und freundlichen Schritt. Secondary purposes: hilft beim Treffen fairer Entscheidungen in der Gruppe. Activation: oeffnet sich bei der Frage \"Was waere jetzt mutig und gut?\". Effects: Nadel richtet sich auf den sinnvollsten naechsten Schritt aus, ein kurzer Lichtimpuls bestaerkt die Entscheidung. Limitations: funktioniert nur bei ehrlicher Absicht. Sound impression: leises Tickern wie ein Herzschlag. Scent impression: ein Hauch von Leder und Regen. Texture impression: kuehles Metall mit glattem Glas. Aura: ruhig und zuversichtlich. Creator: Werkstatt der Wegfinderinnen. Era: fruehe Nebeltaeler-Expeditionen. Cultural context: als Lernhilfe fuer verantwortungsvolle Entscheidungen entwickelt. Inscriptions: Mut zeigt den Weg. Tags: guidance, courage, decision-making. Render Kompass der Mutpfade as the singular visual protagonist of a cinematic story moment in a child-friendly fantasy world. Keep the exact same artifact identity, material qualities, color palette, and distinctive features as Kompass der Mutpfade in the standard artifact image. No secondary object may steal focus from the artifact. Target brief: Dramatische Waldlichtung, Kompass leuchtet in der Hand als Szenenfokus. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Kompass der Mutpfade visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Allow cinematic environments but keep the artifact as the only primary focus.",
+      "description": "Dramatische Waldlichtung, Kompass leuchtet in der Hand als Szenenfokus.",
+      "publicFilePath": "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4343,
+      "requestId": "dcb33905-3b68-48cc-9713-631c985578de",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/937d81a87c4d4a769becc012cbea014d_sample.jpeg?se=2026-03-13T23%3A24%3A22Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=QkydSC3Ne%2BIB3qgc4PdrlfcbrhOxdfIAn8L3hF%2BBiWs%3D",
+      "cost": 6
+    },
+    {
+      "id": "62674e91-ca3e-4401-a4ab-ff528a19595c:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Artifact name: Kompass der Mutpfade. Artifact type: compass. Description: Ein alter Taschenkompass mit warmem Messingrahmen, dessen Nadel nicht nach Norden, sondern zur naechsten mutigen Handlung zeigt. Form: runder Taschenkompass mit Klappdeckel. Size: klein, passt in eine Jackentasche. Materials: Messing, Glas, Lederband. Colors: goldbraun, tiefgruen. Condition: gut erhalten, leicht patiniert. Distinctive features: Nadel in Form eines kleinen Blitzes, Deckel mit eingraviertem Mutstern. Primary purpose: zeigt in schwierigen Momenten den naechsten mutigen und freundlichen Schritt. Secondary purposes: hilft beim Treffen fairer Entscheidungen in der Gruppe. Activation: oeffnet sich bei der Frage \"Was waere jetzt mutig und gut?\". Effects: Nadel richtet sich auf den sinnvollsten naechsten Schritt aus, ein kurzer Lichtimpuls bestaerkt die Entscheidung. Limitations: funktioniert nur bei ehrlicher Absicht. Sound impression: leises Tickern wie ein Herzschlag. Scent impression: ein Hauch von Leder und Regen. Texture impression: kuehles Metall mit glattem Glas. Aura: ruhig und zuversichtlich. Creator: Werkstatt der Wegfinderinnen. Era: fruehe Nebeltaeler-Expeditionen. Cultural context: als Lernhilfe fuer verantwortungsvolle Entscheidungen entwickelt. Inscriptions: Mut zeigt den Weg. Tags: guidance, courage, decision-making. Create a portrait card image of Kompass der Mutpfade with strong close-up readability and clean framing. Preserve identity exactly: same shape language, materials, colors, and distinctive markings as the standard artifact. Target brief: Card-taugliche Nahansicht des Kompassgesichts. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: Keep Kompass der Mutpfade visually identical across all generated assets. Keep child-friendly style and clear readability. No horror, no photoreal uncanny style, no violent framing, and no brand/IP references. Allow cinematic environments but keep the artifact as the only primary focus.",
+      "description": "Card-taugliche Nahansicht des Kompassgesichts.",
+      "publicFilePath": "/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4344,
+      "requestId": "745f4336-bdcb-44af-9201-2a03f7c33636",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/9d9aa967fee34319afe08c96cc1b7931_sample.png?se=2026-03-13T23%3A24%3A42Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=/9XNEfjab1LdQm3XXRKjMnqng%2BV8TSl/7u1D0zBcbXA%3D",
+      "cost": 6
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { randomUUID } from 'node:crypto'
 import { parse, stringify } from 'yaml'
 import { validateCharacter } from '../../../src/content/validators.ts'
 import { ensureStandardCharacterImages } from './standardCharacterImages.ts'
@@ -15,13 +16,7 @@ type CharacterManifest = {
   learningGoals: string[]
 }
 
-const slugify = (value: string): string =>
-  value
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export const saveCharacterYaml = async (yamlText: string): Promise<{
   characterId: string
@@ -39,10 +34,8 @@ export const saveCharacterYaml = async (yamlText: string): Promise<{
     throw new Error('Character YAML requires a non-empty string "id" field')
   }
 
-  const characterId = slugify(rawId)
-  if (!characterId) {
-    throw new Error('Character id could not be normalized')
-  }
+  const trimmedId = rawId.trim()
+  const characterId = UUID_RE.test(trimmedId) ? trimmedId.toLowerCase() : randomUUID()
 
   const normalizedDocument = {
     ...(parsed as Record<string, unknown>),

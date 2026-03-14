@@ -1,0 +1,96 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-image
+- testedScenarios: image
+- runIndex: 1
+- conversationId: 80ce599a-521c-4d84-9c67-195b26640091
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 9618
+
+## Gesamtbeurteilung
+- score: 7/10
+- assessment: Die Conversation funktioniert insgesamt gut: Der Bildwunsch des Kindes wurde direkt erkannt, freundlich beantwortet und mit einem passenden Bild umgesetzt. Ton und Bildbeschreibung sind kindgerecht und stimmungsvoll. Aus Kindersicht gibt es aber kleine Irritationen, weil zusätzliche Storyelemente wie Agatha, Yoko, Honigduft und ein „Geheimnis“ auftauchen, obwohl das Kind nur ein einfaches Bild vom Otter mit Laterne wollte. Die Activities und das Bild sind konsistent zueinander, aber die Pipeline scheint den einfachen Bildwunsch unnötig stark zu narrativisieren.
+
+## Staerken
+- Der konkrete Bildwunsch wurde korrekt erkannt und visuell passend umgesetzt: freundlicher Otter, kleine goldene Laterne, warme und kuschelige Stimmung.
+- Antwort, Bildsummary und Public Activities sind inhaltlich weitgehend konsistent und erzeugen ein stimmiges, kindgerechtes Wald-Nachtbild.
+
+## Probleme
+- [medium] Unnötige Story-Anreicherung über den eigentlichen Bildwunsch hinaus
+  details: Das Kind wollte lediglich ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen. In Bildsummary und Activities werden zusätzliche Elemente eingeführt: Agatha beobachtet den Otter, Yoko tritt näher, Honigduft, leises Geheimnis, tiefblauer Waldmoment. Diese Details sind nicht durch den Nutzerwunsch belegt und können aus Kindersicht vom eigentlichen Wunsch ablenken.
+  recommendation: Im create_scene/image-Pfad eine stärkere Bindung an den expliziten Nutzerwunsch vorgeben: Bei einfachen Bildanfragen nur wenige, direkt passende Ausschmückungen erlauben und charakterinterne Lore nur ergänzen, wenn sie angefragt oder für die Verständlichkeit nötig ist.
+- [medium] Charakter-Perspektive im Bild ist nicht sauber auf die Nutzeranfrage abgestimmt
+  details: Die gesprochene Antwort fokussiert auf das Bild des Otters. Das generierte Bildsummary ergänzt jedoch, dass Agatha den Otter „aus der Nähe“ betrachtet. Dadurch verschiebt sich der Bildfokus teilweise von der gewünschten Szene hin zur Charakterinszenierung. Für ein Kind, das einen klaren Bildwunsch äußert, kann das wie ein ungefragter Zusatz wirken.
+  recommendation: Den image-prompt so anpassen, dass die Hauptmotive aus der User-Anfrage Priorität 1 erhalten und Character-Cameos nur dann erscheinen, wenn sie nicht vom Hauptmotiv wegführen.
+- [low] Public Activity 'character.chat.completed' wirkt aus Kindersicht wenig nachvollziehbar
+  details: Die Activity enthält eine kryptische ID statt eines verständlichen Bezugs und beschreibt, dass sich jemand wieder Agatha und Yoko zuwendet. Das ist technisch vielleicht korrekt, aber semantisch weniger klar als die übrigen Activities. Es wirkt nicht sauber auf die Szene abgestimmt.
+  recommendation: Public-Activity-Texte stärker aus Nutzer- bzw. Storysicht formulieren und technische Artefakte wie IDs in nutzernahen Aktivitätsbeschreibungen vermeiden.
+- [low] Keine erkennbare Nutzung des Bild-/Memory-Verhaltens über Wiederverwendung oder Referenzlogik
+  details: Es wurde zwar erfolgreich ein neues Bild erzeugt, aber aus den gelieferten Daten ist keine differenzierte Bild-Memory-Logik sichtbar, etwa ob bestehende Bilder geprüft oder wiederverwendet wurden. Im gegebenen Fall ist das kein Fehler, aber die vorhandene Runtime mit show_image und remember-something wurde offenbar nicht relevant genutzt oder nicht transparent gemacht.
+  recommendation: Im Runtime-Verhalten klarer entscheiden und dokumentieren, wann ein vorhandenes ähnliches Bild gezeigt werden soll und wann neu generiert wird. Falls immer neu generiert wird, sollte die Pipeline das explizit als gewolltes Verhalten definieren.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Einfachen Bildwunsch im Intent Router stärker vom Story-Fortsetzungsmodus trennen
+   action: Im intent-router-system für Anfragen wie „Ich will ein Bild ... sehen“ eine klare create_scene-Bildregel ergänzen: keine automatische Plotfortsetzung, keine neuen Nebenfiguren oder Spannungsanker, sofern der Nutzer das nicht anstößt.
+2. [high] Image-Prompt auf Motivtreue und Zurückhaltung bei Character-Lore schärfen
+   action: Im image-prompt-system festlegen, dass Hauptobjekte, Stimmung und sichtbare Details strikt aus der User-Anfrage abgeleitet werden. Character-spezifische Elemente wie Agathas Beobachtung, Honigduft oder Geheimnis nur optional und nur dann, wenn sie das Bildmotiv nicht erweitern, sondern unterstützen.
+3. [medium] Character-Voice für Bildankündigungen knapper und weniger suggestiv machen
+   action: Im character-voice-agent Prompt eine Regel ergänzen: Bei reinen Bildanfragen zuerst direkt bestätigen und das Bildmotiv benennen, ohne zusätzliche Storyhaken wie „ein neues Geheimnis“ oder implizite Fortsetzung zu erzeugen.
+4. [medium] Public Activities semantisch vereinheitlichen
+   action: Die Runtime für conversation/story Activities so anpassen, dass öffentliche Beschreibungen keine internen IDs enthalten und inhaltlich eng am tatsächlich gezeigten Bild sowie an der letzten User-Anfrage bleiben.
+5. [low] Bildwiederverwendung expliziter in Runtime-Entscheidungen abbilden
+   action: Mit read_conversation_history und show_image vor neuer Bildgenerierung prüfen, ob ein passendes Bild bereits existiert. Falls nicht wiederverwendet wird, die Runtime-Entscheidung intern markieren, damit das Verhalten später evaluierbar ist.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Einfachen Bildwunsch im Intent Router stärker vom Story-Fortsetzungsmodus trennen
+   action: Im intent-router-system für Anfragen wie „Ich will ein Bild ... sehen“ eine klare create_scene-Bildregel ergänzen: keine automatische Plotfortsetzung, keine neuen Nebenfiguren oder Spannungsanker, sofern der Nutzer das nicht anstößt.
+2. [high] Image-Prompt auf Motivtreue und Zurückhaltung bei Character-Lore schärfen
+   action: Im image-prompt-system festlegen, dass Hauptobjekte, Stimmung und sichtbare Details strikt aus der User-Anfrage abgeleitet werden. Character-spezifische Elemente wie Agathas Beobachtung, Honigduft oder Geheimnis nur optional und nur dann, wenn sie das Bildmotiv nicht erweitern, sondern unterstützen.
+3. [medium] Character-Voice für Bildankündigungen knapper und weniger suggestiv machen
+   action: Im character-voice-agent Prompt eine Regel ergänzen: Bei reinen Bildanfragen zuerst direkt bestätigen und das Bildmotiv benennen, ohne zusätzliche Storyhaken wie „ein neues Geheimnis“ oder implizite Fortsetzung zu erzeugen.
+4. [medium] Public Activities semantisch vereinheitlichen
+   action: Die Runtime für conversation/story Activities so anpassen, dass öffentliche Beschreibungen keine internen IDs enthalten und inhaltlich eng am tatsächlich gezeigten Bild sowie an der letzten User-Anfrage bleiben.
+5. [low] Bildwiederverwendung expliziter in Runtime-Entscheidungen abbilden
+   action: Mit read_conversation_history und show_image vor neuer Bildgenerierung prüfen, ob ein passendes Bild bereits existiert. Falls nicht wiederverwendet wird, die Runtime-Entscheidung intern markieren, damit das Verhalten später evaluierbar ist.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Conversation Total History
+1. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der am dunklen Waldrand sitzt und eine kleine goldene Laterne in seinen Pfoten haelt, waehrend warmes Licht auf den Boden und ein paar glitzernde Blaetter faellt. Gleich kannst du sehen, wie sein Licht so lieb und kuschelig durch die Nacht schimmert.
+3. system [tool.image.generated]: Danach saß am dunklen Waldrand ein freundlicher Otter mit weichem braunem Fell und hielt eine kleine goldene Laterne in seinen Pfoten. Ihr warmes Licht fiel lieb und kuschelig auf das feuchte Moos und ein paar glitzernde Blätter, während hinter ihm die Tannen tiefblau in der Nacht standen. Aus der Nähe hatte Agatha ihn mit schmalen, vorsichtigen Augen betrachtet, und in der kühlen Luft roch es nach Wald und Honig.
+
+## Public Activities
+1. character.chat.completed: Dann wandte sich 7d688ec8-6d27-43d1-9803-6b0d4448f10a im warmen Schein der goldenen Laterne wieder Agatha und Yoko zu, während der dunkle Waldrand nach Honig duftete und ein neues, leises Geheimnis zwischen den tiefblauen Tannen schimmerte.
+2. conversation.story.summarized: So war am dunklen Waldrand ein freundlicher Otter mit einer kleinen goldenen Laterne erschienen, und Yoko trat mit Agatha Knusperhexe näher, während das warme Licht über feuchtes Moos und glitzernde Blätter tanzte. Agatha beobachtete ihn mit ihren schmalen, vorsichtigen Augen, doch zwischen Honigduft und tiefblauen Tannen wurde der Wald plötzlich stiller als zuvor — was mochte der kleine Laternenotter ihnen als Nächstes zeigen?
+3. conversation.image.generated: Danach saß am dunklen Waldrand ein freundlicher Otter mit weichem braunem Fell und hielt eine kleine goldene Laterne in seinen Pfoten. Ihr warmes Licht fiel lieb und kuschelig auf das feuchte Moos und ein paar glitzernde Blätter, während hinter ihm die Tannen tiefblau in der Nacht standen. Aus der Nähe hatte Agatha ihn mit schmalen, vorsichtigen Augen betrachtet, und in der kühlen Luft roch es nach Wald und Honig.
+4. conversation.message.created: Agatha Knusperhexe: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der am dunklen Waldrand sitzt und eine kleine goldene Laterne in seinen Pfoten haelt, waehrend warmes Licht auf den Boden und ein paar glitzernde Blaetter faellt. Gleich kannst du sehen, wie sein Licht so lieb und kuschelig durch die Nacht schimmert.
+5. conversation.message.created: Yoko: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+
+## Bildreferenzen
+1. activity/conversation.image.generated: /content/conversations/80ce599a-521c-4d84-9c67-195b26640091/tool-c0507ad2-9b3d-4afa-b3f8-eed9cc200b85.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/80ce599a-521c-4d84-9c67-195b26640091/tool-c0507ad2-9b3d-4afa-b3f8-eed9cc200b85.jpg | summary=Danach saß am dunklen Waldrand ein freundlicher Otter mit weichem braunem Fell und hielt eine kleine goldene Laterne in seinen Pfoten. Ihr warmes Licht fiel lieb und kuschelig auf das feuchte Moos und ein paar glitzernde Blätter, während hinter ihm die Tannen tiefblau in der Nacht standen. Aus der Nähe hatte Agatha ihn mit schmalen, vorsichtigen Augen betrachtet, und in der kühlen Luft roch es nach Wald und Honig.
+2. message/tool.image.generated: /content/conversations/80ce599a-521c-4d84-9c67-195b26640091/tool-c0507ad2-9b3d-4afa-b3f8-eed9cc200b85.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/80ce599a-521c-4d84-9c67-195b26640091/tool-c0507ad2-9b3d-4afa-b3f8-eed9cc200b85.jpg | summary=Danach saß am dunklen Waldrand ein freundlicher Otter mit weichem braunem Fell und hielt eine kleine goldene Laterne in seinen Pfoten. Ihr warmes Licht fiel lieb und kuschelig auf das feuchte Moos und ein paar glitzernde Blätter, während hinter ihm die Tannen tiefblau in der Nacht standen. Aus der Nähe hatte Agatha ihn mit schmalen, vorsichtigen Augen betrachtet, und in der kühlen Luft roch es nach Wald und Honig.

@@ -9,7 +9,7 @@ import {
   type SupportedImageModel,
 } from './imageModelSupport.ts'
 
-const DEFAULT_CONVERSATION_IMAGE_MODEL: SupportedImageModel = 'flux-2-flex'
+const DEFAULT_CONVERSATION_IMAGE_MODEL: SupportedImageModel = 'flux-2-pro'
 
 const outputFormatFromMimeType = (mimeType: string | undefined): 'png' | 'jpeg' => {
   const normalized = (mimeType ?? '').toLowerCase()

@@ -147,4 +147,21 @@ describe('buildCharacterAssetJobs', () => {
     expect(prompt).toContain('must look clearly different from the other emotion assets')
     expect(prompt).toContain('wide smile')
   })
+
+  it('erzwingt fuer hero-image eine harte Identitaetsbindung auf den Hauptcharacter', () => {
+    const jobs = buildCharacterAssetJobs({
+      character: sampleCharacter,
+      outputRoot: '/tmp/storytime',
+      defaultModel: 'flux-2-klein-4b',
+      heroModel: 'flux-2-klein-4b',
+      baseSeed: 4242,
+      styleReferencePaths: ['/tmp/storytime-style.png'],
+      characterReferencePaths: ['/tmp/nola.png', '/tmp/nova.png', '/tmp/yoko.png'],
+    })
+
+    const prompt = jobs.find((job) => job.type === 'hero-image')?.prompt ?? ''
+    expect(prompt).toContain('single canonical protagonist')
+    expect(prompt).toContain('Render Testfigur as the only primary character in frame')
+    expect(prompt).toContain('Never swap identity with any reference character')
+  })
 })

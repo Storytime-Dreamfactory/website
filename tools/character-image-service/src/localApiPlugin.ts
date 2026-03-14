@@ -11,6 +11,7 @@ import { saveCharacterYaml } from './saveCharacterYaml.ts'
 import { generateCharacterImages } from './generateCharacterImages.ts'
 import { loadWorldContext } from './loadWorldContext.ts'
 import { imageBufferToDataUrl, readImageAsDataUrl } from './imageDataUrl.ts'
+import { invalidateCache as invalidateGameObjectCache } from '../../../src/server/gameObjectService.ts'
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../../', import.meta.url)))
 
@@ -19,12 +20,14 @@ const CORE_BACKGROUND_STYLE_REFERENCE = path.resolve(
   'public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg',
 )
 const TEMP_REFERENCE_DIRECTORY = path.resolve(workspaceRoot, '.tmp/character-creator')
-const CHARACTER_CREATION_DEFAULT_MODEL = 'flux-2-max'
-const CHARACTER_CREATION_HERO_MODEL = 'flux-2-max'
+const CHARACTER_CREATION_DEFAULT_MODEL = 'flux-2-pro'
+const CHARACTER_CREATION_HERO_MODEL = 'flux-2-pro'
+const CHARACTER_CREATOR_DEFAULT_POLL_INTERVAL_MS = 1000
+const CHARACTER_CREATOR_DEFAULT_MAX_POLL_ATTEMPTS = 300
 const DEFAULT_CHARACTER_REFERENCE_PATHS = [
-  path.resolve(workspaceRoot, 'public/content/characters/nola/standard-figur.png'),
-  path.resolve(workspaceRoot, 'public/content/characters/nova/standard-figur.png'),
-  path.resolve(workspaceRoot, 'public/content/characters/yoko/standard-figur.png'),
+  path.resolve(workspaceRoot, 'public/content/characters/8eb40291-65ee-49b6-b826-d7c7e97404c0/standard-figur.png'),
+  path.resolve(workspaceRoot, 'public/content/characters/3d1ad7b2-990f-4655-902c-e1baf8d87cbe/standard-figur.png'),
+  path.resolve(workspaceRoot, 'public/content/characters/7d688ec8-6d27-43d1-9803-6b0d4448f10a/standard-figur.png'),
 ]
 
 type UploadedReferenceImage = {
@@ -161,6 +164,17 @@ const resolveDefaultCharacterReferencePaths = async (): Promise<string[]> => {
   }
 
   return [...new Set(result)]
+}
+
+const readIntegerEnv = (name: string, fallback: number, min: number, max: number): number => {
+  const raw = process.env[name]
+  if (!raw) return fallback
+  const parsed = Number(raw)
+  if (!Number.isFinite(parsed)) return fallback
+  const integer = Math.floor(parsed)
+  if (integer < min) return min
+  if (integer > max) return max
+  return integer
 }
 
 const describeReferenceImageForCharacterCreation = async (
@@ -359,6 +373,7 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
     })
 
     const saved = await saveCharacterYaml(yamlText)
+    invalidateGameObjectCache()
     updateJob(jobId, {
       characterId: saved.characterId,
       contentPath: saved.contentPath,
@@ -369,6 +384,18 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
 
     const styleReferencePaths = await resolveStyleReferencePaths()
     const defaultCharacterReferencePaths = await resolveDefaultCharacterReferencePaths()
+    const pollIntervalMs = readIntegerEnv(
+      'CHARACTER_CREATOR_POLL_INTERVAL_MS',
+      CHARACTER_CREATOR_DEFAULT_POLL_INTERVAL_MS,
+      200,
+      10_000,
+    )
+    const maxPollAttempts = readIntegerEnv(
+      'CHARACTER_CREATOR_MAX_POLL_ATTEMPTS',
+      CHARACTER_CREATOR_DEFAULT_MAX_POLL_ATTEMPTS,
+      10,
+      1_000,
+    )
 
     const { manifestPath } = await generateCharacterImages({
       characterPath: saved.contentPath,
@@ -383,8 +410,8 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
       dryRun: false,
       overwrite: true,
       baseSeed: 4242,
-      pollIntervalMs: 1000,
-      maxPollAttempts: 120,
+      pollIntervalMs,
+      maxPollAttempts,
       onProgress: (event) => {
         if (event.type === 'planned') {
           updateJob(jobId, {
@@ -435,9 +462,8 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
 
         if (event.type === 'failed') {
           updateJob(jobId, {
-            phase: 'failed',
+            phase: 'generating',
             message: event.message,
-            error: event.message,
           })
         }
       },
@@ -603,6 +629,13 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
         if (!yamlText && !prompt && !fillMissingFieldsCreatively && selectedReferenceImages.length === 0) {
           json(response, 400, {
             error: 'Bitte gib YAML, eine Character-Beschreibung oder nutze Skip and create.',
+          })
+          return
+        }
+        if (!yamlText && !process.env.OPENAI_API_KEY) {
+          json(response, 400, {
+            error:
+              'OPENAI_API_KEY fehlt. Fuer Character-Draft ohne YAML wird ein OpenAI API Key benoetigt.',
           })
           return
         }

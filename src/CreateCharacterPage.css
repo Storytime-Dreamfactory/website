@@ -1,0 +1,381 @@
+.create-character-page {
+  min-height: calc(100vh - 140px);
+}
+
+.create-character-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.create-character-chat-panel {
+  border: 1px solid rgba(156, 211, 255, 0.24);
+  border-radius: 20px;
+  background: linear-gradient(170deg, rgba(8, 14, 34, 0.92), rgba(3, 8, 24, 0.9));
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+  padding: 16px;
+  min-height: min(74vh, 820px);
+  display: grid;
+  grid-template-rows: auto minmax(260px, 1fr) auto auto;
+  gap: 12px;
+}
+
+.create-character-chat-header .ant-typography {
+  margin: 0 !important;
+  color: #fff !important;
+}
+
+.create-character-chat-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.create-character-merlin-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(60, 161, 254, 0.22);
+  border: 1px solid rgba(145, 208, 255, 0.6);
+  color: #fff;
+}
+
+.create-character-chat-log {
+  min-height: 0;
+  overflow-y: auto;
+  border: 1px solid rgba(156, 211, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(8, 15, 36, 0.72);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.create-character-message {
+  max-width: 85%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: #fff;
+  line-height: 1.35;
+}
+
+.create-character-message-assistant {
+  align-self: flex-start;
+  border: 1px solid rgba(181, 222, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.create-character-message-user {
+  align-self: flex-end;
+  border: 1px solid rgba(145, 208, 255, 0.9);
+  background: rgba(60, 161, 254, 0.38);
+}
+
+.create-character-error {
+  margin-bottom: 0 !important;
+}
+
+.create-character-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.create-character-input-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+}
+
+.create-character-upload-btn.ant-btn,
+.create-character-send-btn.ant-btn,
+.create-character-input.ant-input {
+  height: 40px;
+}
+
+.create-character-upload-btn.ant-btn {
+  min-width: 136px;
+}
+
+.create-character-send-btn.ant-btn {
+  width: 40px;
+  min-width: 40px;
+  padding: 0;
+}
+
+.create-character-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.create-character-side-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.create-character-card.ant-card {
+  border-radius: 16px;
+  background: rgba(8, 15, 36, 0.78);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.create-character-card .ant-card-head-title,
+.create-character-card .ant-typography {
+  color: #fff !important;
+}
+
+.create-character-status-circle-shell {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.create-character-status-circle {
+  position: relative;
+  width: clamp(180px, 38vw, 228px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 1.5px solid rgba(145, 208, 255, 0.42);
+  background:
+    radial-gradient(circle at 28% 24%, rgba(133, 196, 255, 0.25), rgba(133, 196, 255, 0) 48%),
+    linear-gradient(165deg, rgba(6, 14, 34, 0.95), rgba(8, 19, 46, 0.9));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 12px 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.create-character-status-circle:hover {
+  border-color: rgba(145, 208, 255, 0.82);
+  transform: translateY(-1px);
+}
+
+.create-character-status-circle:focus-visible {
+  outline: 2px solid rgba(177, 227, 255, 0.95);
+  outline-offset: 2px;
+}
+
+.create-character-status-circle.is-drag-active {
+  border-color: rgba(179, 229, 255, 0.98);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    0 0 0 3px rgba(117, 194, 255, 0.22),
+    0 16px 32px rgba(0, 0, 0, 0.42);
+}
+
+.create-character-status-circle.is-disabled {
+  cursor: default;
+}
+
+.create-character-status-circle.is-disabled:hover {
+  transform: none;
+}
+
+.create-character-status-circle-image,
+.create-character-status-circle-final-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.create-character-status-circle-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  text-align: center;
+  padding: 14px;
+}
+
+.create-character-status-circle-empty .ant-typography {
+  margin: 0 !important;
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-size: 12px;
+}
+
+.create-character-status-circle-empty .ant-typography-secondary {
+  color: rgba(214, 234, 255, 0.66) !important;
+}
+
+.create-character-status-circle-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: rgba(228, 243, 255, 0.9);
+}
+
+.create-character-status-circle-transform {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.create-character-status-circle-swirl {
+  position: absolute;
+  inset: 16px;
+  border-radius: 50%;
+  animation: create-character-swirl-rotate 1.7s linear infinite;
+  mix-blend-mode: screen;
+}
+
+.create-character-status-circle-swirl.swirl-layer-1 {
+  background:
+    conic-gradient(
+      from 0deg,
+      rgba(167, 230, 255, 0) 0deg,
+      rgba(167, 230, 255, 0.78) 72deg,
+      rgba(146, 181, 255, 0.28) 124deg,
+      rgba(146, 181, 255, 0) 188deg,
+      rgba(195, 141, 255, 0.66) 248deg,
+      rgba(195, 141, 255, 0) 360deg
+    );
+  filter: blur(0.45px) saturate(1.2);
+}
+
+.create-character-status-circle-swirl.swirl-layer-2 {
+  inset: 10px;
+  opacity: 0.72;
+  animation-duration: 2.3s;
+  animation-direction: reverse;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(183, 236, 255, 0) 40%, rgba(183, 236, 255, 0.46) 58%, rgba(183, 236, 255, 0) 70%),
+    conic-gradient(
+      from 160deg,
+      rgba(216, 166, 255, 0) 0deg,
+      rgba(216, 166, 255, 0.56) 92deg,
+      rgba(130, 186, 255, 0) 182deg,
+      rgba(130, 186, 255, 0.5) 286deg,
+      rgba(216, 166, 255, 0) 360deg
+    );
+}
+
+.create-character-status-circle-final-image {
+  opacity: 0;
+  transition: opacity 760ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 2;
+}
+
+.create-character-status-circle-final-image.is-visible {
+  opacity: 1;
+}
+
+.create-character-status-circle-uploading {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 3;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 20, 48, 0.72);
+  border: 1px solid rgba(201, 234, 255, 0.45);
+  color: #fff;
+  font-size: 14px;
+}
+
+.create-character-status-circle-caption.ant-typography {
+  margin: 0 !important;
+  text-align: center;
+  color: rgba(214, 234, 255, 0.74) !important;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+@keyframes create-character-swirl-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.create-character-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.create-character-prompt-preview {
+  margin: 0 !important;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.22);
+  white-space: pre-wrap;
+}
+
+.create-character-assets {
+  display: grid;
+  gap: 8px;
+}
+
+.create-character-asset-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 980px) {
+  .create-character-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .create-character-chat-panel {
+    min-height: min(80vh, 760px);
+  }
+
+  .create-character-input-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .create-character-upload-btn.ant-btn {
+    grid-column: 1 / -1;
+  }
+
+  .create-character-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .create-character-status-circle {
+    width: clamp(164px, 52vw, 204px);
+  }
+
+  .create-character-status-circle-empty .ant-typography {
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .create-character-status-circle,
+  .create-character-status-circle-final-image {
+    transition: none;
+  }
+
+  .create-character-status-circle-swirl {
+    animation: none;
+    opacity: 0.25;
+  }
+}

@@ -40,7 +40,25 @@ const yamlPathForSlug = (objectType: GameObjectType, slug: string): string => {
   if (objectType === 'character') {
     return path.resolve(workspaceRoot, contentDir(objectType), slug, 'character.yaml')
   }
+  if (objectType === 'learning-goals') {
+    return path.resolve(workspaceRoot, contentDir(objectType), `${slug}.yaml`)
+  }
   return path.resolve(workspaceRoot, contentDir(objectType), `${slug}.yaml`)
+}
+
+const yamlPathForObject = (gameObject: Pick<GameObject, 'type' | 'slug' | 'id'>): string => {
+  if (gameObject.type === 'character') {
+    return path.resolve(workspaceRoot, contentDir('character'), gameObject.id, 'character.yaml')
+  }
+  if (gameObject.type === 'learning-goals' || gameObject.type === 'artifact') {
+    return path.resolve(
+      workspaceRoot,
+      contentDir(gameObject.type),
+      gameObject.id,
+      `${gameObject.slug}.yaml`,
+    )
+  }
+  return yamlPathForSlug(gameObject.type, gameObject.slug)
 }
 
 const readYamlFile = async (filePath: string): Promise<Record<string, unknown>> => {
@@ -65,6 +83,32 @@ const loadFlatYamlSlugs = async (objectType: GameObjectType): Promise<string[]> 
     return entries
       .filter((name) => /\.ya?ml$/i.test(name))
       .map((name) => name.replace(/\.ya?ml$/i, ''))
+  } catch {
+    return []
+  }
+}
+
+const loadNestedYamlEntries = async (
+  objectType: Extract<GameObjectType, 'learning-goals' | 'artifact'>,
+): Promise<Array<{ slug: string; filePath: string }>> => {
+  const dir = path.resolve(workspaceRoot, contentDir(objectType))
+  try {
+    const entries = await readdir(dir, { withFileTypes: true })
+    const nestedEntries = await Promise.all(
+      entries
+        .filter((entry) => entry.isDirectory())
+        .map(async (entry) => {
+          const nestedDir = path.resolve(dir, entry.name)
+          const nestedFiles = await readdir(nestedDir)
+          return nestedFiles
+            .filter((name) => /\.ya?ml$/i.test(name))
+            .map((name) => ({
+              slug: name.replace(/\.ya?ml$/i, ''),
+              filePath: path.resolve(nestedDir, name),
+            }))
+        }),
+    )
+    return nestedEntries.flat()
   } catch {
     return []
   }
@@ -105,7 +149,7 @@ const buildIndexes = async (): Promise<{ objects: ObjectIndex; slugs: SlugIndex 
     }
   }
 
-  const flatTypes: GameObjectType[] = ['place', 'learning-goals', 'artifact']
+  const flatTypes: GameObjectType[] = ['place']
   for (const objectType of flatTypes) {
     const typeSlugs = await loadFlatYamlSlugs(objectType)
     for (const slug of typeSlugs) {
@@ -118,6 +162,30 @@ const buildIndexes = async (): Promise<{ objects: ObjectIndex; slugs: SlugIndex 
       } catch {
         /* skip invalid */
       }
+    }
+  }
+
+  const learningGoalEntries = await loadNestedYamlEntries('learning-goals')
+  for (const entry of learningGoalEntries) {
+    try {
+      const parsed = await readYamlFile(entry.filePath)
+      const obj = validateParsed('learning-goals', parsed, entry.slug, entry.filePath)
+      objects.set(obj.id, obj)
+      slugs.set(`learning-goals:${entry.slug}`, obj)
+    } catch {
+      /* skip invalid */
+    }
+  }
+
+  const artifactEntries = await loadNestedYamlEntries('artifact')
+  for (const entry of artifactEntries) {
+    try {
+      const parsed = await readYamlFile(entry.filePath)
+      const obj = validateParsed('artifact', parsed, entry.slug, entry.filePath)
+      objects.set(obj.id, obj)
+      slugs.set(`artifact:${entry.slug}`, obj)
+    } catch {
+      /* skip invalid */
     }
   }
 
@@ -174,7 +242,7 @@ export const resolveYamlPathForGameObject = async (
   const gameObject = await get(normalized)
   if (!gameObject) return null
   if (expectedType && gameObject.type !== expectedType) return null
-  return yamlPathForSlug(gameObject.type, gameObject.slug)
+  return yamlPathForObject(gameObject)
 }
 
 export const listByType = async (objectType: GameObjectType): Promise<GameObject[]> => {
@@ -207,9 +275,12 @@ export const create = async (input: CreateGameObjectInput): Promise<GameObject> 
   const id = randomUUID()
   const yamlData = { id, type: input.type, ...input.data }
 
-  const contentPath = yamlPathForSlug(input.type, input.slug)
+  const contentPath =
+    input.type === 'learning-goals' || input.type === 'artifact'
+      ? yamlPathForObject({ type: input.type, slug: input.slug, id })
+      : yamlPathForSlug(input.type, input.slug)
 
-  if (input.type === 'character') {
+  if (input.type === 'character' || input.type === 'learning-goals' || input.type === 'artifact') {
     await mkdir(path.dirname(contentPath), { recursive: true })
   }
 
@@ -233,7 +304,7 @@ export const update = async (
   const existing = await get(id)
   if (!existing) return null
 
-  const contentPath = yamlPathForSlug(existing.type, existing.slug)
+  const contentPath = yamlPathForObject(existing)
 
   const currentRaw = await readYamlFile(contentPath)
   const merged = { ...currentRaw, ...input.patch, id: existing.id, type: existing.type }
@@ -251,9 +322,13 @@ export const remove = async (id: string): Promise<boolean> => {
   const existing = await get(id)
   if (!existing) return false
 
-  const contentPath = yamlPathForSlug(existing.type, existing.slug)
+  const contentPath = yamlPathForObject(existing)
 
-  if (existing.type === 'character') {
+  if (
+    existing.type === 'character' ||
+    existing.type === 'learning-goals' ||
+    existing.type === 'artifact'
+  ) {
     await rm(path.dirname(contentPath), { recursive: true, force: true })
   } else {
     await rm(contentPath, { force: true })

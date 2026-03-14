@@ -1,0 +1,59 @@
+id: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+name: Zauberstab der Weisheit
+type: artifact
+artifact_type: wand
+description: >
+  Ein alter, knorriger Stab aus Eichenholz, der bei Beruehrung leise summt.
+appearance:
+  form: schlanker Holzstab mit gebogener Spitze
+  size: etwa unterarmlang
+  materials:
+    - Eichenholz
+    - Mondsilber
+  colors:
+    - warmes braun
+    - mattes silber
+  condition: gut gepflegt, mit feinen Gebrauchsspuren
+  distinctive_features:
+    - spiralfoermige Maserung
+    - kleine eingelassene Sternenrunen
+function:
+  primary_purpose: fokussiert kleine Licht- und Suchzauber
+  secondary_purposes:
+    - zeigt im Mondlicht versteckte Spuren
+  activation: reagiert auf ruhige, klare Sprache
+  effects:
+    - die Spitze beginnt sanft silbern zu leuchten
+    - ein leises Summen wird hoerbar
+  limitations:
+    - verliert Kraft bei Hektik und lautem Streit
+sensory_profile:
+  sound: leises, gleichmaessiges Summen
+  scent: harzig und frisch
+  texture: glatt poliertes Holz
+  aura: ruhig und wach
+origin:
+  creator: unbekannte Waldwerkstatt
+  era: alt, aber nicht antik
+  cultural_context: wurde als Werkzeug fuer achtsame Nachtwanderungen gefertigt
+  inscriptions:
+    - Licht zeigt den sanften Weg.
+images:
+  standard_artifact:
+    file: /content/artifacts/a1b2c3d4-e5f6-7890-abcd-ef1234567890/standard-artifact.png
+    description: Freigestelltes Artifact in neutraler, gut lesbarer Produktansicht.
+  hero_image:
+    file: /content/artifacts/a1b2c3d4-e5f6-7890-abcd-ef1234567890/hero-image.jpg
+    description: Cinematische Szene mit dem Artifact als visuellem Fokus.
+  portrait:
+    file: /content/artifacts/a1b2c3d4-e5f6-7890-abcd-ef1234567890/portrait.png
+    description: Halbnahe, card-taugliche Darstellung des Artifacts.
+tags:
+  - magical
+  - guiding
+  - wooden
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1

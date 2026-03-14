@@ -1,0 +1,107 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-image-chat-mixed
+- testedScenarios: image, chat, mixed
+- runIndex: 1
+- conversationId: 6f46e4df-b223-42dc-8368-baeb13ea84a2
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 10300
+
+## Gesamtbeurteilung
+- score: 7/10
+- assessment: Insgesamt ist die Conversation gut gelungen: Der Bildwunsch wurde korrekt erkannt und umgesetzt, die Unterhaltung bleibt kohärent, und Agatha zeigt aktive Gesprächsführung mit klarer Struktur. Besonders stark ist die Thread-Führung bei Mehrfachintentionen. Aus Kindersicht ist die Qualität aber nicht durchgehend optimal, weil Ton und Bild-/Aktivitätsatmosphäre stellenweise unnötig düster oder spröde wirken. Für eine kindlichere, noch sicherere Experience sollte die Pipeline Agathas markante Stimme stärker gegen sanfte, warme Formulierungen absichern und bei angekündigten Folgethemen ein explizites Wiedervorlage-Verhalten fördern.
+
+## Rubric-Details
+- leadershipQuality: 7/10
+  diagnosis: Agatha führt das Gespräch sichtbar und kindgerecht genug: Sie greift Gefühle auf, spiegelt Mut und Angst und strukturiert die Mehrfachintention klar mit 'erst das kaputte Fahrrad, dann die Sterne'. Das ist gute aktive Gesprächsführung. Gleichzeitig ist der Ton stellenweise etwas schroff oder eigensinnig-hexenhaft ('knochige Hand', 'aergerliches Biest', 'nicht das angstfreie Prahlen'), was für manche Kinder weniger warm und anschlussfähig wirken könnte. Die Führung ist also klar, aber nicht maximal sanft.
+- learningGoalAlignment: 6/10
+  diagnosis: Es sind keine aktiven Lernziele gesetzt, daher ist nur begrenzt beurteilbar, wie zielgerichtet die Pipeline Lernförderung umsetzt. Positiv sichtbar sind kleine Mikro-Interventionen: Gefühle werden benannt, Mut wird neu gerahmt, und das Kind wird mit einer klaren Reflexionsfrage eingeladen. Es fehlen aber weiterführende kindgerechte Mini-Schritte wie Wahloptionen, Reparatur-/Problemlösehilfen oder ein sanfter Übergang zum zweiten angekündigten Thema.
+- storyArcQuality: 7/10
+  diagnosis: Die Story- und Activity-Ebene ist kohärent: Bildwunsch, Mut-Erzählung und Themenwechsel werden in den Public Activities nachvollziehbar verdichtet. Das Bildmotiv passt gut zur Unterhaltung und bleibt sicher genug. Allerdings tragen mehrere Beschreibungen eine dunkle, leicht unheimliche Waldästhetik ('dunkle Tannen', 'tieflauen Tannen', 'schmalen, vorsichtigen Augen'), die nicht nötig gewesen wäre, obwohl der eigentliche Nutzerwunsch nur freundlich und ruhig war. Die Story ist stimmig, aber die Atmosphäre ist etwas stärker heksenhaft als kindlich-geborgen.
+- topicThreadHandling: 8/10
+  diagnosis: Der Dialog verarbeitet Themenwechsel robust: Erst Bild, dann emotionale Reflexion, dann eine explizite Zweiteilung ('erst Fahrrad, dann Sterne'). Die Assistentin bestätigt die Reihenfolge sauber und hält den Faden sichtbar. Nicht beobachtbar ist allerdings, ob das zweite Thema später tatsächlich wieder aufgenommen worden wäre, da die Konversation hier endet. Konservativ dennoch stark, weil die Weichenstellung klar gelungen ist.
+
+## Staerken
+- Bildwunsch wurde direkt erkannt und in Bildbeschreibung, Activity und Bildasset konsistent umgesetzt.
+- Mehrfachintention wurde klar geführt: Agatha bestätigt die Reihenfolge und lenkt das Kind verständlich zum ersten Thema.
+
+## Probleme
+- [medium] Stellenweise zu schroffer oder potenziell beschämender Ton
+  details: Die Formulierung 'nicht das angstfreie Prahlen' ist für die kindliche Selbstaussage über Mut und Angst nicht ideal, weil sie unnötig wertend klingt. Auch 'knochige Hand' und ähnliche heksenhafte Marker können Distanz statt Geborgenheit erzeugen.
+  recommendation: Im Character-Voice-Prompt klare Guardrails ergänzen: emotionale Validierung ohne wertende Kontraste, keine Formulierungen mit möglicher Beschämung, und bei sensiblen Gefühlen bevorzugt warme statt schrullig-düstere Selbstbilder.
+- [medium] Bild- und Activity-Atmosphäre driftet unnötig ins Dunkle
+  details: Der Nutzerwunsch war 'freundlicher Otter' mit Laterne. Die erzeugten Activities und Bildzusammenfassungen ergänzen mehrfach dunkle Tannen, vorsichtige Blicke und Waldrand-Dunkelheit. Das bleibt zwar noch kindgerecht, ist aber thematisch stärker und dunkler als angefragt.
+  recommendation: Im Image-Prompt- und Scene-Summary-Prompt stärker an User-Intent binden: bei freundlichen, ruhigen Motiven positive Licht- und Sicherheitsmarker priorisieren und keine unnötigen dunklen Kulissen hinzufügen.
+- [low] Folgethema nur vorgemerkt, nicht sichtbar vorbereitet
+  details: Agatha bestätigt 'erst Fahrrad, dann Sterne', aber sie baut keine kleine Brücke zum späteren Sternethema ein und setzt keinen expliziten Reminder außer der Reihenfolgebestätigung. Da die Konversation endet, bleibt offen, ob das zweite Thema zuverlässig wieder aufgegriffen würde.
+  recommendation: Runtime-seitig bei Mehrfachintentionen eine kleine Topic-Queue oder einen expliziten Pending-Topic-Marker nutzen, damit die Antwort das zweite Thema kurz sichert und später aktiv wieder aufgreift.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Character-Voice-Prompt für kinderfreundliche Empathie härten
+   action: In content/prompts/character-voice-agent.md eine Regel ergänzen: Bei Kinderäußerungen über Angst, Stolz, Mut oder Missgeschicke zuerst validieren, dann spiegeln, dann eine einfache offene Frage stellen; vermeide wertende oder potenziell beschämende Wendungen wie 'Prahlen' und reduziere körperlich-düstere Selbstbeschreibungen in emotionalen Momenten.
+2. [high] Mehrfachintentionen in Runtime explizit speichern und wieder aufnehmen
+   action: Im Intent-Router bzw. Runtime-Kontext für detectRuntimeIntentModelDecision(...) ein Pending-Topics-Verhalten ergänzen: Wenn der Nutzer 'erst..., dann...' sagt, soll ein strukturierter Topic-Marker angelegt werden. Die Voice-Antwort soll das zweite Thema kurz sichern ('Danach schauen wir zu den Sternen') und nach Abschluss des ersten Themas aktiv darauf zurückkommen.
+3. [medium] Image-Prompt stärker auf Sicherheits- und Freundlichkeitsanker ausrichten
+   action: In content/prompts/runtime/image-prompt-system.md ergänzen: Bei freundlichen Tiermotiven nur dann dunkle oder vorsichtig-unheimliche Kulissen hinzufügen, wenn der Nutzer das ausdrücklich wünscht. Sonst warme, ruhige, helle oder geborgene Umgebungsmerkmale priorisieren.
+4. [medium] Scene-Summary/Public-Activities enger an Nutzerintention halten
+   action: Im scene-summary-Systemprompt festlegen, dass Public Activities keine unnötige atmosphärische Zuspitzung ergänzen sollen. Zusammenfassungen sollen freundlich, knapp und kindgerecht bleiben und vor allem das tatsächliche Nutzerziel dokumentieren statt zusätzliche düstere Storymarker einzuführen.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Character-Voice-Prompt für kinderfreundliche Empathie härten
+   action: In content/prompts/character-voice-agent.md eine Regel ergänzen: Bei Kinderäußerungen über Angst, Stolz, Mut oder Missgeschicke zuerst validieren, dann spiegeln, dann eine einfache offene Frage stellen; vermeide wertende oder potenziell beschämende Wendungen wie 'Prahlen' und reduziere körperlich-düstere Selbstbeschreibungen in emotionalen Momenten.
+2. [high] Mehrfachintentionen in Runtime explizit speichern und wieder aufnehmen
+   action: Im Intent-Router bzw. Runtime-Kontext für detectRuntimeIntentModelDecision(...) ein Pending-Topics-Verhalten ergänzen: Wenn der Nutzer 'erst..., dann...' sagt, soll ein strukturierter Topic-Marker angelegt werden. Die Voice-Antwort soll das zweite Thema kurz sichern ('Danach schauen wir zu den Sternen') und nach Abschluss des ersten Themas aktiv darauf zurückkommen.
+3. [medium] Image-Prompt stärker auf Sicherheits- und Freundlichkeitsanker ausrichten
+   action: In content/prompts/runtime/image-prompt-system.md ergänzen: Bei freundlichen Tiermotiven nur dann dunkle oder vorsichtig-unheimliche Kulissen hinzufügen, wenn der Nutzer das ausdrücklich wünscht. Sonst warme, ruhige, helle oder geborgene Umgebungsmerkmale priorisieren.
+4. [medium] Scene-Summary/Public-Activities enger an Nutzerintention halten
+   action: Im scene-summary-Systemprompt festlegen, dass Public Activities keine unnötige atmosphärische Zuspitzung ergänzen sollen. Zusammenfassungen sollen freundlich, knapp und kindgerecht bleiben und vor allem das tatsächliche Nutzerziel dokumentieren statt zusätzliche düstere Storymarker einzuführen.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Eval-Fokus-Kontext
+counterpartName: Yoko
+counterpartCharacterId: yoko
+conversationCharacterId: agatha-knusperhexe
+activeLearningGoalIds: (keine aktiv gesetzt)
+selfEvaluationScenariosFromMetadata: image, chat, mixed
+WICHTIG: Beurteile explizit, ob die Gespraechsfuehrung fuer das Kind klar geleitet wird.
+
+## Conversation Total History
+1. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der aufrecht am Waldrand sitzt und eine kleine leuchtende Laterne in den Pfoten haelt. Neben ihm glitzern ein paar Blaetter, und das warme Licht macht alles ruhig und golden.
+3. user [chat.turn]: Heute war ich mutig beim Klettern, aber ich hatte auch etwas Angst.
+4. assistant [response.audio_transcript.done]: Mutig, obwohl dein Bauch ein wenig gezittert hat … hehehe, das ist oft der echte Mut, nicht das angstfreie Prahlen. Selbst ich setze meine krummen Fuesse nicht auf jeden knarzigen Ast, wenn er zu hoch knackt. Warst du eher stolz oben oder froh, als du wieder unten warst?
+5. user [chat.turn]: Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.
+6. assistant [response.audio_transcript.done]: Gut, erst das kaputte Fahrrad, dann die Sterne — so bleibt der Faden in meiner knochigen Hand. Ein kaputtes Rad ist ein aergerliches Biest, daran knabbert selbst die gute Laune. Was ist denn an deinem Fahrrad kaputt?
+
+## Public Activities
+1. character.chat.completed: Dann sprach Agatha auf dem moosigen Waldweg leise mit Yoko weiter, während der freundliche Otter seine kleine Laterne hob und ihr goldener Schein zwischen den dunklen Tannen über Pilze und Farne tanzte.
+2. conversation.story.summarized: Noch auf dem moosigen Waldweg zeigte Yoko der wachsamen Agatha erst den freundlichen Otter mit der kleinen Laterne und erzählte dann tapfer, dass sie beim Klettern mutig gewesen war, obwohl die Angst in ihr gezittert hatte. Als Yoko danach lieber von ihrem kaputten Fahrrad sprechen wollte, hörte Agatha genau zu und hielt den Gesprächsfaden fest in ihren langen Fingern, während zwischen den Tannen schon die Sterne warteten.
+3. conversation.image.generated: Danach saß am dunklen Waldrand ein freundlicher Otter mit weichem braunem Fell aufrecht und hielt eine kleine leuchtende Laterne in den Pfoten. Neben ihm glitzerten ein paar Blätter im warmen goldenen Licht, und die kühle Luft roch nach Wald und Honig. Agatha hatte ihn aus der Nähe mit schmalen, vorsichtigen Augen betrachtet, während zwischen den tiefblauen Tannen alles ruhig geworden war.
+
+## Bildreferenzen
+1. activity/conversation.image.generated: /content/conversations/6f46e4df-b223-42dc-8368-baeb13ea84a2/tool-2b0443de-cbdc-40e4-88ed-a446f0919b4a.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/6f46e4df-b223-42dc-8368-baeb13ea84a2/tool-2b0443de-cbdc-40e4-88ed-a446f0919b4a.jpg | summary=Danach saß am dunklen Waldrand ein freundlicher Otter mit weichem braunem Fell aufrecht und hielt eine kleine leuchtende Laterne in den Pfoten. Neben ihm glitzerten ein paar Blätter im warmen goldenen Licht, und die kühle Luft roch nach Wald und Honig. Agatha hatte ihn aus der Nähe mit schmalen, vorsichtigen Augen betrachtet, während zwischen den tiefblauen Tannen alles ruhig geworden war.

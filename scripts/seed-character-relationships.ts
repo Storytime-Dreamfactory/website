@@ -20,6 +20,7 @@ type RelatedPlaceYamlRecord = {
 }
 
 type CharacterYamlRecord = {
+  id?: unknown
   relationships?: {
     characters?: unknown
     places?: unknown
@@ -51,10 +52,10 @@ const run = async (): Promise<void> => {
 
   let insertedOrUpdated = 0
   let skipped = 0
+  let skippedCharactersWithoutId = 0
 
   for (const directory of directories) {
-    const sourceCharacterId = directory.name
-    const yamlPath = path.resolve(charactersRoot, sourceCharacterId, 'character.yaml')
+    const yamlPath = path.resolve(charactersRoot, directory.name, 'character.yaml')
 
     if (!(await fileExists(yamlPath))) {
       continue
@@ -62,6 +63,11 @@ const run = async (): Promise<void> => {
 
     const rawYaml = await readFile(yamlPath, 'utf8')
     const parsed = parseYaml(rawYaml) as CharacterYamlRecord
+    const sourceCharacterId = typeof parsed.id === 'string' ? parsed.id.trim() : ''
+    if (!sourceCharacterId) {
+      skippedCharactersWithoutId += 1
+      continue
+    }
     const relationships = parsed.relationships?.characters
     const places = parsed.relationships?.places
     const otherRelatedObjects = Array.isArray(places)
@@ -135,6 +141,7 @@ const run = async (): Promise<void> => {
       {
         insertedOrUpdated,
         skipped,
+          skippedCharactersWithoutId,
       },
       null,
       2,

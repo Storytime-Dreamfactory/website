@@ -1,0 +1,130 @@
+id: 2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1
+name: Kuno Kieselkrabbe
+kurzbeschreibung: |
+  Kuno Kieselkrabbe ist eine kleine Bachuferkrabbe mit rundem Panzer in petrol und sandgoldenen Sprenkeln. Er traegt eine schiefe Schilfkappe und sammelt gern glatte Steine, wird aber ganz still, wenn etwas nicht sofort klappt.
+basis:
+  age_hint: kindlich
+  species: Bachuferkrabbe
+  gender_expression: maskulin
+  role_archetype: learner_helper
+voice: echo
+voice_profile:
+  identity: Knackig-kleiner, leicht scharrender Kinderklang mit kieseligem Unterton, als wuerden Worte ueber glatte Flusssteine hupfen
+  demeanor: Vorsichtig eifrig, erst seitwaerts herantastend und dann ploetzlich mutig mitten hinein
+  tone: Kurz, bildhaft und ein wenig rumpelig, mit kleinen staunenden Betonungen und trockenem Krabbenhumor
+  enthusiasm_level: hoch
+  formality_level: locker
+  emotion_level: ausgewogen
+  filler_words: occasionally
+  pacing: trippelnd flott mit kurzen Pausen, wenn er nachdenkt oder sich erst sortieren muss
+erscheinung:
+  body_shape: Kleine, runde Krabbe mit breitem Panzer, kurzen Beinen und einer klaren, seitwaerts gerichteten Silhouette
+  colors:
+    - petrol
+    - sandgold
+    - schilfgruen
+  hair_or_fur:
+    color: keiner
+    texture: glatter Panzer
+    length: kurz
+  eyes:
+    color: bernstein
+    expression: wach, vorsichtig und schnell erstaunt
+  distinctive_features:
+    - schiefe Kappe aus geflochtenem Schilf
+    - petrolfarbener Panzer mit sandgoldenen Kieselpunkten
+    - eine etwas groessere linke Schere mit hellem Muschelband
+  clothing_style: Einfaches Uferzeug mit Schilfkappe und kleinem Umhaengebeutel aus Binsenfaser fuer Fundstuecke
+persoenlichkeit:
+  core_traits:
+    - aufmerksam
+    - beharrlich
+    - leicht frustriert
+  temperament: nachdenklich
+  social_style: kooperativ
+  strengths:
+    - entdeckt kleine Details, die andere uebersehen
+    - bleibt bei Aufgaben dran, wenn er sich gesammelt hat
+  weaknesses:
+    - wird ungeduldig mit sich selbst
+    - bittet erst spaet um Hilfe
+  quirks:
+    - sortiert gefundene Kiesel nach Klang statt nach Farbe
+    - tippt mit der grossen Schere leise auf Steine, wenn er ueberlegt
+story_psychology:
+  visible_goal: Er moechte der beste Kieselpfad-Bauer am Bachufer werden und zeigen, dass seine Ideen nuetzlich sind
+  deeper_need: Er moechte spuern, dass man ihn auch mag, wenn nicht alles perfekt gelingt
+  fear: Dass andere weiterziehen, weil er zu lange fuer etwas braucht
+  insecurity: Wenn mein Stein wackelt, bin ich wohl doch nicht gut genug.
+  stress_response: hesitate_then_try
+  growth_direction: Er lernt, Frust auszuhalten, Hilfe anzunehmen und kleine Fortschritte stolz zu sehen
+learning_function:
+  teaching_roles:
+    - learner
+    - helper
+  suitable_learning_goals:
+    - frustrationstoleranz
+    - geduld
+    - um-hilfe-bitten
+    - selbstregulation
+  explanation_style: example_based
+herkunft:
+  geburtsort: Kieselwink am Silberbach
+  aufgewachsen_in:
+    - Kieselwink am Silberbach
+    - Schilfbogen-Ufer
+  kulturelle_praegung:
+    - Am Bachufer werden Dinge sorgfaeltig gesammelt, repariert und weitergegeben
+    - Kleine Alltagsrituale mit Steinen, Wasser und Wetterzeichen sind wichtig
+  religion_oder_weltbild: Er glaubt, dass jedes Ding seinen Platz findet, wenn man ruhig genug hinschaut
+  historische_praegung:
+    - Nach vielen Fruehlingshochwassern lernten die Uferbewohner, gemeinsam sichere Wege aus Kieseln zu bauen
+  notizen: Seine Herkunft passt gut zu Geschichten am Wasser, zu Bauaufgaben und zu ruhigen Lernmomenten mit kleinen Rueckschlaegen
+relationships:
+  characters: []
+  places:
+    - place_id: cb8ce8f2-1b10-48b9-8afc-905a7a8d060a
+      typ: nahe wasserwelt
+      beschreibung: Das klare Ufer von Crystal Lake ist fuer Kuno ein staunenswerter Ort, an dem er neue Steinmuster und Pfade studiert
+bilder:
+  standard_figur:
+    datei: /content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/standard-figur.png
+    beschreibung: |
+      Freigestellte Ganzkoerperfigur einer kleinen Bachuferkrabbe mit runder, seitwaerts lesbarer Silhouette, petrolfarbenem Panzer mit sandgoldenen Sprenkeln, bernsteinfarbenen Augen, schiefer Schilfkappe und kleinem Binsenbeutel. Die linke Schere ist etwas groesser und mit einem hellen Muschelband geschmueckt. Freundlich-vorsichtige Haltung, als wolle er gleich einen Kiesel aufheben.
+  hero_image:
+    datei: /content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/hero-image.jpg
+    beschreibung: |
+      Cinematische Storytime-Szene am warmen Bachufer im Abendlicht: Kuno baut konzentriert einen kleinen Pfad aus glatten Kieseln ueber flaches Wasser, ein Stein wackelt, und er atmet kurz durch, bevor er es noch einmal versucht. Schilf, sanfte Wasserreflexe und seine schiefe Schilfkappe bilden klare visuelle Anker.
+  portrait:
+    datei: /content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/portrait.png
+    beschreibung: |
+      Halbnahes Character-Card-Portrait von Kuno mit bernsteinfarbenen, aufmerksamen Augen, petrolfarbenem Panzer mit goldenen Sprenkeln, schiefer Schilfkappe und leicht angehobener grosser Schere. Der Ausdruck ist freundlich, nachdenklich und ein wenig ehrgeizig.
+  profilbild:
+    datei: /content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/profilbild.png
+    beschreibung: |
+      Quadratisches Profilbild mit stark lesbarem Krabbengesicht, bernsteinfarbenen Augen, petrolfarbenem Panzer, sandgoldenen Punkten und der schiefen Schilfkappe als sofort erkennbarem Merkmal. Freundlicher, konzentrierter Blick.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-happy.png
+      beschreibung: Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+    - typ: emotion_sad
+      datei: /content/characters/2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1/emotion-sad.png
+      beschreibung: Freigestellte Emotionsfigur von Kuno Kieselkrabbe mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+tags:
+  - frustrationstoleranz
+  - geduld
+  - selbstregulation
+  - um-hilfe-bitten
+  - detailverliebt
+  - beharrlich
+  - learner
+  - helper
+  - kleiner-wachst-an-rueckschlaegen
+  - bachufer
+  - wasserwelt
+  - kieselpfad
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1

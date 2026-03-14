@@ -1,0 +1,148 @@
+id: 20cf5ce8-bfca-495d-add7-c5e0b9a8ac2f
+name: Zahlen ordnen
+type: learning-goals
+subject: mathematik
+topic_group: Mathematik
+topic: Zahlen ordnen
+subtopic: Groesser, kleiner und dazwischen
+description: >
+  Helping children understand how to compare numbers, place them in order,
+  and identify which number is bigger, smaller, or between two others.
+age_range:
+  - 5-7
+  - 6-8
+practice_ideas:
+  - Sort number cards from the smallest to the biggest.
+  - Find the missing number between two given numbers.
+  - Compare two numbers and say which one is greater.
+domain_tags:
+  - mathematik
+  - zahlenverstaendnis
+  - vergleichen
+  - ordnen
+session:
+  duration_minutes: 30
+  format: one-at-a-time
+  session_goal: >
+    The child learns to compare numbers and place them in the correct order
+    using the ideas of bigger, smaller, and between.
+  end_state: >
+    The child can compare two numbers, explain which is greater or smaller,
+    and identify a number that fits between two others.
+curriculum:
+  domain: Fruehe Mathematik
+  tags:
+    - mathematik
+    - zahlen
+    - ordnen
+    - vergleichen
+  prior_knowledge:
+    - Children can count forward in the number range up to 10 or 20.
+    - Children have seen written numbers before.
+teaching_content:
+  core_ideas:
+    - Numbers can be compared by size.
+    - A number can be bigger or smaller than another number.
+    - Numbers follow a fixed order.
+    - Some numbers fit between two other numbers.
+  key_vocabulary:
+    - groesser
+    - kleiner
+    - dazwischen
+    - vorher
+    - nachher
+    - ordnen
+  examples:
+    - 8 is greater than 5.
+    - 3 is smaller than 7.
+    - 6 is between 5 and 7.
+    - The order 2, 4, 6, 8 goes from smaller to bigger.
+  misconceptions:
+    - a number is bigger because it is written with a longer word
+    - the child confuses counting with comparing
+    - the child names a number outside the given range as the number in between
+didactics:
+  pedagogy:
+    - spielerisches Lernen
+    - dialogisches Entdecken
+    - Lernen mit Zahlkarten
+    - scaffolding
+  character_role: >
+    The character guides the child through short comparison games, asks simple
+    questions, and helps the child notice number relationships step by step.
+  teaching_steps:
+    - Start with two numbers and compare them.
+    - Order a short line of numbers from small to big.
+    - Ask for one number that fits between two others.
+    - Transfer the idea to a small game or number puzzle.
+  interaction_rules:
+    - one question at a time
+    - keep the number range small and clear
+    - use concrete examples before abstract explanations
+    - give a hint before revealing the answer
+learning_objectives:
+  - id: compare-two-numbers
+    can_do: The child can say which of two numbers is greater or smaller.
+    evidence:
+      - correctly identifies the bigger number
+      - correctly identifies the smaller number
+  - id: place-numbers-in-order
+    can_do: The child can put a short set of numbers into the correct order.
+    evidence:
+      - orders at least three numbers correctly
+      - notices the direction from small to big
+  - id: identify-between-number
+    can_do: The child can name a number that lies between two others.
+    evidence:
+      - gives a fitting number within the range
+      - explains the choice in a simple way
+quiz:
+  goal: >
+    The quiz checks whether the child can compare numbers, order them, and
+    identify a fitting number in between.
+  assessment_targets:
+    - compare numbers correctly
+    - order numbers from small to big
+    - identify a number between two others
+    - use comparison language appropriately
+  allowed_question_types:
+    - choose_and_explain
+    - situational_open
+    - compare_options
+    - number_puzzle
+  example_questions:
+    - "Which number is bigger: 6 or 9?"
+    - "Which number is smaller: 4 or 7?"
+    - "What number comes between 5 and 7?"
+    - "Can you put these numbers in order: 8, 3, 6?"
+  example_tasks:
+    - Say which number is greater and why.
+    - Put three numbers in the correct order.
+    - Find the missing number between two others.
+  answer_expectations:
+    strong_signals:
+      - compares the numbers correctly
+      - orders numbers in the right sequence
+      - identifies a fitting middle number
+      - uses language like bigger, smaller, or between correctly
+    acceptable_signals:
+      - gives the correct answer without explanation
+      - solves simple comparisons but needs help with ordering
+    weak_signals:
+      - guesses without comparing
+      - confuses bigger and smaller
+      - gives a number outside the range
+    misconception_signals:
+      - treats the last spoken number as automatically the biggest
+      - confuses the idea of between with before or after
+      - mixes up counting order and size comparison
+  feedback_strategy:
+    encouragement_style: warm, playful, and confidence-building
+    hint_sequence:
+      - Let's count both numbers slowly.
+      - Which one comes later in the number line?
+      - What number would fit right in the middle?
+    follow_up_prompts:
+      - Can you try another pair of numbers?
+      - What comes before it and after it?
+      - Can you put these numbers in order too?

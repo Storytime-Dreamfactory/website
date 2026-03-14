@@ -2,7 +2,7 @@ import OpenAI from 'openai'
 
 const MODEL = 'gpt-5.4'
 const TEMPERATURE = 0.7
-const MAX_TOKENS = 4096
+const MAX_COMPLETION_TOKENS = 4096
 
 const stripMarkdownFences = (text: string): string => {
   const fenced = text.match(/```(?:ya?ml)?\s*\n([\s\S]*?)```/)
@@ -23,7 +23,7 @@ export const generateCharacterYaml = async (
   const response = await client.chat.completions.create({
     model: MODEL,
     temperature: TEMPERATURE,
-    max_tokens: MAX_TOKENS,
+    max_completion_tokens: MAX_COMPLETION_TOKENS,
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userMessage },
@@ -54,7 +54,7 @@ export const retryWithFeedback = async (
   const response = await client.chat.completions.create({
     model: MODEL,
     temperature: TEMPERATURE,
-    max_tokens: MAX_TOKENS,
+    max_completion_tokens: MAX_COMPLETION_TOKENS,
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userMessage },

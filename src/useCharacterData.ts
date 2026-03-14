@@ -2,8 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import type { StoryContent } from './content/types'
-import type { CharacterActivityItem } from './CharacterActivityStream'
-import { shouldShowActivityInPanel } from './activityPanelVisibility'
+import type { CharacterActivityItem } from './activityPanelTypes'
 import { readCanonicalStoryText } from './storyText'
 import {
   type ApiRelationship,
@@ -15,8 +14,6 @@ import {
   MEMORY_OVERLAY_MS,
   MEMORY_OVERLAY_CHARACTER_IDS,
   FIXED_USER_NAME,
-  ACTIVITY_PAGE_SIZE,
-  MAX_ACTIVITY_PAGES,
   readTextValue,
   readActivityDisplayValue,
   resolveActivitySubjectLabel,
@@ -32,13 +29,115 @@ import {
   activityTimeValue,
   sortActivitiesDesc,
   formatTimestamp,
-  readMessageImageUrl,
   formatTracePayload,
 } from './characterTypes'
 
 type UseCharacterDataOptions = {
   content: StoryContent
   loadActivities?: boolean
+}
+
+const HERO_IMAGE_CACHE_PREFIX = 'story:lastHeroImage:'
+const ACTIVITY_CACHE_PREFIX = 'story:activityFeed:'
+const CONVERSATION_CACHE_PREFIX = 'story:conversationDetails:'
+const DEFAULT_CONVERSATION_LINK_LABEL = 'View Full Conversation'
+const ACTIVITY_UI_PAGE_SIZE = 10
+const ACTIVITY_INITIAL_PREFETCH_PAGES = 2
+const ACTIVITY_FETCH_PAGE_SIZE = 500
+
+const getHeroImageCacheKey = (characterId: string): string => `${HERO_IMAGE_CACHE_PREFIX}${characterId}`
+const getActivityCacheKey = (characterId: string): string => `${ACTIVITY_CACHE_PREFIX}${characterId}`
+const getConversationCacheKey = (conversationId: string): string => `${CONVERSATION_CACHE_PREFIX}${conversationId}`
+const buildConversationUrl = (characterId: string, conversationId: string): string =>
+  `/characters/${encodeURIComponent(characterId)}/story?conversationId=${encodeURIComponent(conversationId)}`
+
+const readCachedHeroUrl = (characterId: string): string | null => {
+  if (typeof window === 'undefined') return null
+  try {
+    const value = window.sessionStorage.getItem(getHeroImageCacheKey(characterId))
+    return normalizeImageUrl(value ?? undefined) ?? null
+  } catch {
+    return null
+  }
+}
+
+const writeCachedHeroUrl = (characterId: string, imageUrl: string): void => {
+  if (typeof window === 'undefined') return
+  const normalized = normalizeImageUrl(imageUrl)
+  if (!normalized) return
+  try {
+    window.sessionStorage.setItem(getHeroImageCacheKey(characterId), normalized)
+  } catch {
+    // ignore storage errors silently
+  }
+}
+
+const clearCachedHeroUrl = (characterId: string): void => {
+  if (typeof window === 'undefined') return
+  try {
+    window.sessionStorage.removeItem(getHeroImageCacheKey(characterId))
+  } catch {
+    // ignore storage errors silently
+  }
+}
+
+const preloadImage = async (imageUrl: string): Promise<boolean> => {
+  if (typeof window === 'undefined') return false
+  return new Promise((resolve) => {
+    const image = new Image()
+    image.onload = () => resolve(true)
+    image.onerror = () => resolve(false)
+    image.src = imageUrl
+  })
+}
+
+const readCachedActivities = (characterId: string): ApiActivityRecord[] | null => {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = window.sessionStorage.getItem(getActivityCacheKey(characterId))
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as { activities?: ApiActivityRecord[] } | null
+    return Array.isArray(parsed?.activities) ? sortActivitiesDesc(parsed.activities) : null
+  } catch {
+    return null
+  }
+}
+
+const writeCachedActivities = (characterId: string, activities: ApiActivityRecord[]): void => {
+  if (typeof window === 'undefined') return
+  try {
+    window.sessionStorage.setItem(
+      getActivityCacheKey(characterId),
+      JSON.stringify({ activities: sortActivitiesDesc(activities) }),
+    )
+  } catch {
+    // ignore storage errors silently
+  }
+}
+
+const readCachedConversationDetails = (conversationId: string): ApiConversationDetails | null => {
+  if (typeof window === 'undefined') return null
+  try {
+    const raw = window.sessionStorage.getItem(getConversationCacheKey(conversationId))
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as ApiConversationDetails | null
+    if (!parsed?.conversation || !Array.isArray(parsed.messages)) return null
+    return parsed
+  } catch {
+    return null
+  }
+}
+
+const writeCachedConversationDetails = (
+  conversationId: string,
+  details: ApiConversationDetails,
+): void => {
+  if (typeof window === 'undefined') return
+  try {
+    window.sessionStorage.setItem(getConversationCacheKey(conversationId), JSON.stringify(details))
+  } catch {
+    // ignore storage errors silently
+  }
 }
 
 export default function useCharacterData({ content, loadActivities = false }: UseCharacterDataOptions) {
@@ -49,10 +148,13 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   const pointerFrameRef = useRef<number | null>(null)
   const [apiRelationships, setApiRelationships] = useState<ApiRelationship[] | null>(null)
   const [apiActivities, setApiActivities] = useState<ApiActivityRecord[] | null>(null)
+  const [hasMoreActivities, setHasMoreActivities] = useState(false)
+  const [activityLoadMorePending, setActivityLoadMorePending] = useState(false)
   const [activityStreamConnected, setActivityStreamConnected] = useState(false)
   const [isConversationPanelOpen, setIsConversationPanelOpen] = useState(false)
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null)
   const [conversationDetails, setConversationDetails] = useState<ApiConversationDetails | null>(null)
+  const [conversationActivities, setConversationActivities] = useState<ApiActivityRecord[] | null>(null)
   const [conversationLoading, setConversationLoading] = useState(false)
   const [conversationError, setConversationError] = useState<string | null>(null)
   const [copiedConversationText, setCopiedConversationText] = useState(false)
@@ -64,6 +166,10 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   const memoryOverlayTimerRef = useRef<number | null>(null)
   const activeHeroUrlRef = useRef<string | undefined>(undefined)
   const incomingHeroUrlRef = useRef<string | null>(null)
+  const isFirstHeroResolveRef = useRef(true)
+  const nextActivityOffsetRef = useRef(0)
+  const hasMoreActivitiesRef = useRef(false)
+  const activityLoadMoreInFlightRef = useRef(false)
 
   const character = useMemo(
     () => content.characters.find((c) => c.id === id),
@@ -72,16 +178,44 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   const heroUrl = character?.images.heroImage?.file
   const isHeroParallaxEnabled = Boolean(activeHeroUrl) && !reduceMotion
 
-  useEffect(() => {
-    setHeroViewMode('latest-activity')
-    setActiveHeroUrl(heroUrl)
-    activeHeroUrlRef.current = heroUrl
-    setIncomingHeroUrl(null)
+  const applyHeroUrlImmediately = useCallback((nextUrl: string | undefined) => {
+    const normalizedNextUrl = normalizeImageUrl(nextUrl)
     if (heroTransitionTimerRef.current != null) {
       window.clearTimeout(heroTransitionTimerRef.current)
       heroTransitionTimerRef.current = null
     }
-  }, [heroUrl, character?.id])
+    setIncomingHeroUrl(null)
+    incomingHeroUrlRef.current = null
+    setActiveHeroUrl(normalizedNextUrl)
+    activeHeroUrlRef.current = normalizedNextUrl
+  }, [])
+
+  useEffect(() => {
+    setHeroViewMode('latest-activity')
+    isFirstHeroResolveRef.current = true
+
+    const normalizedHeroUrl = normalizeImageUrl(heroUrl)
+    if (!character?.id || !loadActivities) {
+      applyHeroUrlImmediately(normalizedHeroUrl)
+      return
+    }
+
+    const cachedHeroUrl = readCachedHeroUrl(character.id)
+    if (!cachedHeroUrl) {
+      applyHeroUrlImmediately(normalizedHeroUrl)
+      return
+    }
+
+    applyHeroUrlImmediately(cachedHeroUrl)
+
+    void preloadImage(cachedHeroUrl).then((isValid) => {
+      if (isValid) return
+      if (activeHeroUrlRef.current === cachedHeroUrl) {
+        applyHeroUrlImmediately(normalizedHeroUrl)
+      }
+      clearCachedHeroUrl(character.id)
+    })
+  }, [heroUrl, character?.id, loadActivities, applyHeroUrlImmediately])
 
   useEffect(() => {
     activeHeroUrlRef.current = activeHeroUrl
@@ -92,7 +226,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   }, [incomingHeroUrl])
 
   const transitionToHeroUrl = useCallback(
-    (nextUrl: string | undefined, options?: { memoryOverlay?: boolean }) => {
+    (nextUrl: string | undefined, options?: { memoryOverlay?: boolean; persistToCache?: boolean }) => {
       const normalizedNextUrl = normalizeImageUrl(nextUrl)
       if (!normalizedNextUrl) return
 
@@ -141,6 +275,10 @@ export default function useCharacterData({ content, loadActivities = false }: Us
 
       if (normalizedNextUrl === activeHeroUrlRef.current) return
 
+      if (options?.persistToCache && character?.id) {
+        writeCachedHeroUrl(character.id, normalizedNextUrl)
+      }
+
       setIncomingHeroUrl(normalizedNextUrl)
       heroTransitionTimerRef.current = window.setTimeout(() => {
         setActiveHeroUrl(normalizedNextUrl)
@@ -154,11 +292,42 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   useEffect(() => {
     if (!loadActivities) return
     if (heroViewMode !== 'latest-activity') return
-    const latestActivityImageUrl = readLatestActivityImageUrl(apiActivities)
-    transitionToHeroUrl(latestActivityImageUrl ?? heroUrl)
-  }, [apiActivities, heroUrl, heroViewMode, loadActivities, transitionToHeroUrl])
+    if (apiActivities == null) return
+
+    const latestActivityImageUrl = normalizeImageUrl(readLatestActivityImageUrl(apiActivities))
+    if (!latestActivityImageUrl) {
+      if (character?.id) {
+        clearCachedHeroUrl(character.id)
+      }
+      transitionToHeroUrl(heroUrl)
+      return
+    }
+
+    if (character?.id) {
+      writeCachedHeroUrl(character.id, latestActivityImageUrl)
+    }
+
+    if (isFirstHeroResolveRef.current) {
+      isFirstHeroResolveRef.current = false
+      applyHeroUrlImmediately(latestActivityImageUrl)
+      return
+    }
+
+    transitionToHeroUrl(latestActivityImageUrl)
+  }, [
+    apiActivities,
+    heroUrl,
+    heroViewMode,
+    loadActivities,
+    transitionToHeroUrl,
+    character?.id,
+    applyHeroUrlImmediately,
+  ])
 
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return
+    }
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const updatePreference = () => setReduceMotion(mediaQuery.matches)
     updatePreference()
@@ -212,12 +381,62 @@ export default function useCharacterData({ content, loadActivities = false }: Us
 
   useEffect(() => {
     if (!loadActivities) return
+    if (!id) return
+
+    const cachedActivities = readCachedActivities(id)
+    if (cachedActivities && cachedActivities.length > 0) {
+      setApiActivities(cachedActivities)
+    }
+  }, [loadActivities, id])
+
+  const fetchConversationActivities = useCallback(
+    async (conversationId: string): Promise<ApiActivityRecord[]> => {
+      const collected: ApiActivityRecord[] = []
+      let offset = 0
+
+      while (true) {
+        const response = await fetch(
+          `/api/activities?conversationId=${encodeURIComponent(conversationId)}&includeNonPublic=true&limit=${ACTIVITY_FETCH_PAGE_SIZE}&offset=${offset}`,
+        )
+        if (!response.ok) {
+          throw new Error(`API status ${response.status}`)
+        }
+        const payload = (await response.json()) as { activities?: ApiActivityRecord[] }
+        const pageItems = Array.isArray(payload.activities) ? payload.activities : []
+        collected.push(...pageItems)
+
+        if (pageItems.length < ACTIVITY_FETCH_PAGE_SIZE) {
+          break
+        }
+        offset += ACTIVITY_FETCH_PAGE_SIZE
+      }
+
+      return sortActivitiesDesc(collected)
+    },
+    [],
+  )
+
+  const fetchLatestConversationDetails = useCallback(async (): Promise<ApiConversationDetails | null> => {
+    if (!id) return null
+    const response = await fetch(
+      `/api/conversations/latest?characterId=${encodeURIComponent(id)}`,
+    )
+    if (response.status === 404) return null
+    if (!response.ok) {
+      throw new Error(`API status ${response.status}`)
+    }
+    return (await response.json()) as ApiConversationDetails
+  }, [id])
+
+  useEffect(() => {
+    if (!loadActivities) return
 
     let cancelled = false
 
-    const loadConversationDetails = async () => {
+    const loadConversationPanelData = async () => {
       if (!isConversationPanelOpen || !selectedConversationId) {
         setConversationDetails(null)
+        setConversationActivities(null)
         setConversationLoading(false)
         setConversationError(null)
         return
@@ -225,42 +444,148 @@ export default function useCharacterData({ content, loadActivities = false }: Us
 
       setConversationLoading(true)
       setConversationError(null)
+      const previewItems = sortActivitiesDesc(
+        (apiActivities ?? []).filter((activity) => activity.conversationId === selectedConversationId),
+      )
+      setConversationActivities(previewItems)
+
+      const cachedDetails = readCachedConversationDetails(selectedConversationId)
+      if (cachedDetails) {
+        setConversationDetails(cachedDetails)
+      }
       try {
-        const response = await fetch(
-          `/api/conversations?conversationId=${encodeURIComponent(selectedConversationId)}`,
-        )
-        if (!response.ok) {
-          throw new Error(`API status ${response.status}`)
+        const [conversationResponse, fullConversationActivities] = await Promise.all([
+          fetch(
+            `/api/conversations?conversationId=${encodeURIComponent(selectedConversationId)}`,
+          ),
+          fetchConversationActivities(selectedConversationId),
+        ])
+        if (!conversationResponse.ok) {
+          throw new Error(`API status ${conversationResponse.status}`)
         }
-        const payload = (await response.json()) as ApiConversationDetails
+        const payload = (await conversationResponse.json()) as ApiConversationDetails
         if (!cancelled) {
           setConversationDetails(payload)
+          setConversationActivities(fullConversationActivities)
+          writeCachedConversationDetails(selectedConversationId, payload)
           setConversationLoading(false)
         }
       } catch {
+        try {
+          const latestDetails = await fetchLatestConversationDetails()
+          const latestConversationId = latestDetails?.conversation.conversationId?.trim() ?? ''
+          if (latestDetails && latestConversationId && latestConversationId !== selectedConversationId) {
+            const latestConversationActivities = await fetchConversationActivities(latestConversationId)
+            if (!cancelled) {
+              setSelectedConversationId(latestConversationId)
+              setConversationDetails(latestDetails)
+              setConversationActivities(latestConversationActivities)
+              writeCachedConversationDetails(latestConversationId, latestDetails)
+              setConversationError(null)
+              setConversationLoading(false)
+              setSearchParams((current) => {
+                const next = new URLSearchParams(current)
+                next.set('conversationId', latestConversationId)
+                return next
+              })
+            }
+            return
+          }
+        } catch {
+          // fall through to generic UI error
+        }
         if (!cancelled) {
           setConversationError('Conversation konnte nicht geladen werden.')
           setConversationDetails(null)
+          setConversationActivities(null)
           setConversationLoading(false)
         }
       }
     }
 
-    void loadConversationDetails()
+    void loadConversationPanelData()
 
     return () => {
       cancelled = true
     }
-  }, [loadActivities, isConversationPanelOpen, selectedConversationId])
+  }, [
+    loadActivities,
+    isConversationPanelOpen,
+    selectedConversationId,
+    apiActivities,
+    fetchConversationActivities,
+    fetchLatestConversationDetails,
+    setSearchParams,
+  ])
+
+  const mergeActivities = useCallback(
+    (incoming: ApiActivityRecord[]) => {
+      setApiActivities((current) => {
+        const combined = [...(current ?? []), ...incoming]
+        const dedupedById = new Map<string, ApiActivityRecord>()
+        for (const activity of combined) {
+          dedupedById.set(activity.activityId, activity)
+        }
+        const next = sortActivitiesDesc(Array.from(dedupedById.values()))
+        if (id) {
+          writeCachedActivities(id, next)
+        }
+        return next
+      })
+    },
+    [id],
+  )
+
+  const fetchActivityPage = useCallback(async (characterId: string, offset: number): Promise<ApiActivityRecord[]> => {
+    const response = await fetch(
+      `/api/activities?characterId=${encodeURIComponent(characterId)}&includeNonPublic=false&limit=${ACTIVITY_UI_PAGE_SIZE}&offset=${offset}`,
+    )
+    if (!response.ok) {
+      throw new Error(`API status ${response.status}`)
+    }
+    const payload = (await response.json()) as { activities?: ApiActivityRecord[] }
+    return Array.isArray(payload.activities) ? payload.activities : []
+  }, [])
+
+  const loadMoreActivities = useCallback(async () => {
+    if (!loadActivities || !id) return
+    if (!hasMoreActivitiesRef.current) return
+    if (activityLoadMoreInFlightRef.current) return
+
+    activityLoadMoreInFlightRef.current = true
+    setActivityLoadMorePending(true)
+    try {
+      const offset = nextActivityOffsetRef.current
+      const pageItems = await fetchActivityPage(id, offset)
+      if (pageItems.length > 0) {
+        mergeActivities(pageItems)
+      }
+
+      nextActivityOffsetRef.current += ACTIVITY_UI_PAGE_SIZE
+
+      const hasMore = pageItems.length === ACTIVITY_UI_PAGE_SIZE
+      hasMoreActivitiesRef.current = hasMore
+      setHasMoreActivities(hasMore)
+    } catch {
+      // keep previous pagination state on transient failures
+    } finally {
+      activityLoadMoreInFlightRef.current = false
+      setActivityLoadMorePending(false)
+    }
+  }, [fetchActivityPage, id, loadActivities, mergeActivities])
 
   useEffect(() => {
     if (!loadActivities || !id) {
       setActivityStreamConnected(false)
       return
     }
+    if (typeof window === 'undefined' || typeof window.EventSource !== 'function') {
+      setActivityStreamConnected(false)
+      return
+    }
 
-    const streamUrl = `/api/activities/stream?characterId=${encodeURIComponent(id)}&includeNonPublic=true`
-    const eventSource = new EventSource(streamUrl)
+    const streamUrl = `/api/activities/stream?characterId=${encodeURIComponent(id)}&includeNonPublic=false`
+    const eventSource = new window.EventSource(streamUrl)
 
     const handleReady = () => {
       setActivityStreamConnected(true)
@@ -273,16 +598,16 @@ export default function useCharacterData({ content, loadActivities = false }: Us
           activity.activityType === 'conversation.image.generated' ||
           activity.activityType === 'conversation.image.recalled'
         ) {
+          const activityImageUrl = normalizeImageUrl(readActivityImageUrl(activity))
+          if (character?.id && activityImageUrl) {
+            writeCachedHeroUrl(character.id, activityImageUrl)
+          }
           setHeroViewMode('latest-activity')
-          transitionToHeroUrl(readActivityImageUrl(activity), {
+          transitionToHeroUrl(activityImageUrl ?? undefined, {
             memoryOverlay: activity.activityType === 'conversation.image.recalled',
           })
         }
-        setApiActivities((current) => {
-          const existing = current ?? []
-          const withoutDuplicate = existing.filter((item) => item.activityId !== activity.activityId)
-          return sortActivitiesDesc([activity, ...withoutDuplicate])
-        })
+        mergeActivities([activity])
       } catch {
         // ignore invalid stream payloads
       }
@@ -303,7 +628,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
       eventSource.close()
       setActivityStreamConnected(false)
     }
-  }, [loadActivities, id, transitionToHeroUrl])
+  }, [loadActivities, id, transitionToHeroUrl, character?.id, mergeActivities])
 
   useEffect(() => {
     if (!loadActivities) return
@@ -313,36 +638,53 @@ export default function useCharacterData({ content, loadActivities = false }: Us
     const fetchActivities = async () => {
       if (!id) {
         setApiActivities(null)
+        setHasMoreActivities(false)
         return
       }
 
+      nextActivityOffsetRef.current = 0
+      hasMoreActivitiesRef.current = false
+      activityLoadMoreInFlightRef.current = false
+      setActivityLoadMorePending(false)
+
       try {
         const collected: ApiActivityRecord[] = []
-        for (let page = 0; page < MAX_ACTIVITY_PAGES; page += 1) {
-          const offset = page * ACTIVITY_PAGE_SIZE
-          const response = await fetch(
-            `/api/activities?characterId=${encodeURIComponent(id)}&includeNonPublic=true&limit=${ACTIVITY_PAGE_SIZE}&offset=${offset}`,
-          )
-          if (!response.ok) {
-            throw new Error(`API status ${response.status}`)
-          }
-          const payload = (await response.json()) as { activities?: ApiActivityRecord[] }
-          const pageItems = Array.isArray(payload.activities) ? payload.activities : []
+        let hasMore = true
+        let nextOffset = 0
+
+        for (let page = 0; page < ACTIVITY_INITIAL_PREFETCH_PAGES; page += 1) {
+          const pageItems = await fetchActivityPage(id, nextOffset)
           collected.push(...pageItems)
-          if (pageItems.length < ACTIVITY_PAGE_SIZE) {
+          nextOffset += ACTIVITY_UI_PAGE_SIZE
+          if (pageItems.length < ACTIVITY_UI_PAGE_SIZE) {
+            hasMore = false
             break
           }
         }
+
         if (!cancelled) {
           const dedupedById = new Map<string, ApiActivityRecord>()
           for (const activity of collected) {
             dedupedById.set(activity.activityId, activity)
           }
-          setApiActivities(sortActivitiesDesc(Array.from(dedupedById.values())))
+          const nextActivities = sortActivitiesDesc(Array.from(dedupedById.values()))
+          setApiActivities(nextActivities)
+          writeCachedActivities(id, nextActivities)
+          nextActivityOffsetRef.current = nextOffset
+          hasMoreActivitiesRef.current = hasMore
+          setHasMoreActivities(hasMore)
         }
       } catch {
         if (!cancelled) {
-          setApiActivities(null)
+          const cachedActivities = readCachedActivities(id)
+          const preloadCount = ACTIVITY_UI_PAGE_SIZE * ACTIVITY_INITIAL_PREFETCH_PAGES
+          const limitedCachedActivities = cachedActivities?.slice(0, preloadCount) ?? null
+          setApiActivities(limitedCachedActivities)
+          const cachedCount = limitedCachedActivities?.length ?? 0
+          const hasMore = cachedCount >= ACTIVITY_UI_PAGE_SIZE * ACTIVITY_INITIAL_PREFETCH_PAGES
+          nextActivityOffsetRef.current = cachedCount
+          hasMoreActivitiesRef.current = hasMore
+          setHasMoreActivities(hasMore)
         }
       }
     }
@@ -352,7 +694,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
     return () => {
       cancelled = true
     }
-  }, [loadActivities, id])
+  }, [loadActivities, id, fetchActivityPage])
 
   const relatedCharacters = useMemo(() => {
     if (!character) return []
@@ -380,14 +722,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   const activityItems = useMemo<CharacterActivityItem[]>(() => {
     if (!loadActivities || !character) return []
     if (!apiActivities || apiActivities.length === 0) return []
-    const sourceItems = apiActivities.filter((activity) => {
-      return shouldShowActivityInPanel({
-        activityType: activity.activityType,
-        isPublic: activity.isPublic,
-        object: activity.object,
-        metadata: activity.metadata,
-      })
-    })
+    const sourceItems = apiActivities
 
     const resolvedTraceToolCalls = new Set<string>()
     const pendingTraceRequestIds = new Set<string>()
@@ -415,6 +750,13 @@ export default function useCharacterData({ content, loadActivities = false }: Us
             ? 'Conversation'
             : 'Aktivitaet')
 
+      const conversationId = readTextValue(activity.conversationId)
+      const conversationUrlFromMetadata = readTextValue(activity.metadata.conversationUrl)
+      const conversationUrl =
+        conversationUrlFromMetadata ??
+        (conversationId && character?.id
+          ? buildConversationUrl(character.id, conversationId)
+          : undefined)
       return {
         id: activity.activityId,
         timestamp: activity.occurredAt || activity.createdAt,
@@ -442,11 +784,11 @@ export default function useCharacterData({ content, loadActivities = false }: Us
           activity,
           allCharactersById,
         }),
-        conversationId: activity.conversationId,
-        conversationUrl: readTextValue(activity.metadata.conversationUrl),
+        conversationId,
+        conversationUrl,
         conversationLabel:
           readTextValue(activity.metadata.conversationLinkLabel) ??
-          (activity.conversationId ? 'Conversation ansehen' : undefined),
+          (conversationId ? DEFAULT_CONVERSATION_LINK_LABEL : undefined),
         imageUrl: normalizeImageUrl(readActivityImageUrl(activity)),
         imageUrls: readAllActivityImageUrls(activity),
         imageLabel: readTextValue(activity.metadata.imageLinkLabel),
@@ -555,7 +897,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
       }
     })
 
-    const eventItems = (apiActivities ?? [])
+    const eventItems = (conversationActivities ?? [])
       .filter((activity) => activity.conversationId === selectedConversationId)
       .map((activity) => ({
         kind: 'activity' as const,
@@ -565,7 +907,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
       }))
 
     return [...messageItems, ...eventItems].sort((a, b) => b.timestampMs - a.timestampMs)
-  }, [apiActivities, conversationDetails, loadActivities, selectedConversationId])
+  }, [conversationActivities, conversationDetails, loadActivities, selectedConversationId])
 
   const formatConversationRoleLabel = useCallback(
     (role: ApiConversationMessageRecord['role']): string => {
@@ -671,6 +1013,9 @@ export default function useCharacterData({ content, loadActivities = false }: Us
 
     activityItems,
     activityStreamConnected,
+    hasMoreActivities,
+    activityLoadMorePending,
+    loadMoreActivities,
     apiActivities,
 
     selectedConversationId,

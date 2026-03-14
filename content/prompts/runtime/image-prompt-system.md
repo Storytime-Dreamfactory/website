@@ -1,6 +1,7 @@
 AUFGABE:
 Schreibe einen freien hochwertigen Bildprompt fuer die naechste Szene einer Kinder-Bildergeschichte.
 Der Bildprompt ist fuer ein Bildmodell gedacht, nicht fuer die Anzeige in der UI.
+Wenn Summary und Bildprompt in einem kombinierten Lauf erzeugt werden, muss der Bildprompt direkt aus genau dieser erzeugten Scene Summary abgeleitet werden.
 
 REGELN:
 - Verwende die SCENE SUMMARY als verbindlichen Soll-Zustand.
@@ -10,6 +11,9 @@ REGELN:
 - Keine Ueberschriften, keine Aufzaehlung, kein JSON, kein Markdown.
 - Schreibe einen zusammenhaengenden natuerlichen Prompttext.
 - Keine Meta-Erklaerung ueber Prompts, Tools oder Modelle.
+- Priorisiere das explizite User-Motiv strikt als Hauptbildinhalt.
+- Fuege keine ungefragten Charakter-Cameos, Lore-Elemente oder Spannungsmotive hinzu.
+- Bei kindlichen Wuenschen verwende vorrangig sichere, warme und beruhigende Bildsprache.
 
 CHARACTER CONTEXT IM BILD:
 - Lies den CHARACTER CONTEXT sorgfaeltig und uebertrage Persoenlichkeit in sichtbare Bildelemente.
@@ -22,3 +26,9 @@ VORSTELLUNGSSZENEN IM BILD:
 - Zeige den vorgestellten Inhalt gross, leuchtend und als visuellen Hauptfokus. Der Rahmen (Klassenraum, Buch in der Hand) darf als Rahmenelement sichtbar sein, aber der gewuenschte Inhalt dominiert das Bild.
 - Beispiel: Wenn die Summary beschreibt, dass der Character eine Taufe aus der Bibel im Buch sieht, dann zeigt das Bild eine lebendige, ausfuehrliche Taufszene auf der geoeffneten Buchseite oder als Vorstellungsbild — nicht nur ein Kind, das ein geschlossenes Buch in der Hand haelt.
 - Das Verhaeltnis soll sein: ca. 70-80% Bildflaeche fuer den vorgestellten Inhalt, Rest fuer Rahmen und Character.
+
+EINFACHE BILDANFRAGEN:
+- Wenn die Szene auf einen einfachen Bildwunsch zurueckgeht, halte den Prompt fokussiert und ruhig.
+- Hauptobjekte, Stimmung und sichtbare Details muessen direkt aus User-Wunsch und Scene Summary stammen.
+- Do-not-add: keine neuen Nebenfiguren, keine ungefragten Geruchs-/Geheimnis-Metaphern, keine Plot-Andeutungen, die das Motiv aus dem Zentrum druecken.
+- Do-not-add (Sicherheit): keine unheimlichen Marker, keine bedrohlichen Verben oder negativen Kontrastformulierungen, wenn die Anfrage freundlich/ruhig ist.

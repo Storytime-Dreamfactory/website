@@ -21,6 +21,17 @@ describe('loadStoryContent', () => {
               slug: 'flora-blumenfreude',
               shortDescription: 'Hilfsbereit und optimistisch.',
               basis: { species: 'Mensch' },
+              voice: 'coral',
+              voiceProfile: {
+                identity: 'Freundliche Helferin',
+                demeanor: 'ermutigend',
+                tone: 'warm',
+                enthusiasmLevel: 'hoch',
+                formalityLevel: 'locker',
+                emotionLevel: 'ausdrucksstark',
+                fillerWords: 'occasionally',
+                pacing: 'lebendig',
+              },
               appearance: {
                 bodyShape: 'schlank',
                 colors: ['gelb'],

@@ -3,6 +3,8 @@ import { getCharacterNameSync } from './runtimeContentStore.ts'
 
 const DEFAULT_COUNTERPART_PERSON = 'Yoko'
 const TECHNICAL_EVENT_PREFIXES = ['trace.', 'tool.', 'runtime.', 'skill.']
+const UUID_LIKE_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const TECHNICAL_ID_RE = /^[0-9a-f-]{24,}$/i
 
 export type PublicConversationHistoryMessage = {
   role: 'user' | 'assistant'
@@ -36,9 +38,13 @@ export const formatCharacterDisplayName = (value: string): string => {
 export const resolveCounterpartName = (metadata: ConversationMetadata | undefined): string => {
   const candidates = [metadata?.counterpartName, metadata?.userName, metadata?.displayName]
   for (const candidate of candidates) {
-    if (typeof candidate === 'string' && candidate.trim()) {
-      return candidate.trim()
-    }
+    if (typeof candidate !== 'string') continue
+    const normalized = candidate.trim()
+    if (!normalized) continue
+    const lowered = normalized.toLowerCase()
+    if (UUID_LIKE_RE.test(lowered)) continue
+    if (TECHNICAL_ID_RE.test(lowered)) continue
+    return normalized
   }
   return DEFAULT_COUNTERPART_PERSON
 }

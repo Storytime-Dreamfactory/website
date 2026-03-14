@@ -593,6 +593,24 @@ export const validateArtifact = (
     throw new Error(`Invalid UUID id "${yamlId}" in ${filePath}`)
   }
 
+  if (value.relationships !== undefined) {
+    throw new Error(`Artifacts must not define "relationships" in ${filePath}`)
+  }
+
+  if (value.content_folder !== undefined) {
+    throw new Error(`Artifacts must not define "content_folder" in ${filePath}`)
+  }
+
+  const appearance = asRecord(value.appearance, 'appearance', filePath)
+  const artifactFunction = asRecord(value.function, 'function', filePath)
+  const sensoryProfile = asOptionalRecord(value.sensory_profile, 'sensory_profile', filePath)
+  const origin = asOptionalRecord(value.origin, 'origin', filePath)
+  const images = asRecord(value.images, 'images', filePath)
+  const standardArtifact = asRecord(images.standard_artifact, 'images.standard_artifact', filePath)
+  const heroImage = asRecord(images.hero_image, 'images.hero_image', filePath)
+  const portrait = asRecord(images.portrait, 'images.portrait', filePath)
+  const metadata = asRecord(value.metadata, 'metadata', filePath)
+
   return {
     id: yamlId,
     name: asString(value.name, 'name', filePath),
@@ -600,6 +618,73 @@ export const validateArtifact = (
     slug,
     artifactType: asString(value.artifact_type, 'artifact_type', filePath),
     description: asString(value.description, 'description', filePath),
-    contentFolder: asString(value.content_folder, 'content_folder', filePath),
+    appearance: {
+      form: asString(appearance.form, 'appearance.form', filePath),
+      size: asOptionalString(appearance.size, 'appearance.size', filePath),
+      materials: asStringList(appearance.materials, 'appearance.materials', filePath),
+      colors: asStringList(appearance.colors, 'appearance.colors', filePath),
+      condition: asString(appearance.condition, 'appearance.condition', filePath),
+      distinctiveFeatures: asStringList(
+        appearance.distinctive_features,
+        'appearance.distinctive_features',
+        filePath,
+      ),
+    },
+    function: {
+      primaryPurpose: asString(artifactFunction.primary_purpose, 'function.primary_purpose', filePath),
+      secondaryPurposes: asOptionalStringList(
+        artifactFunction.secondary_purposes,
+        'function.secondary_purposes',
+        filePath,
+      ),
+      activation: asOptionalString(artifactFunction.activation, 'function.activation', filePath),
+      effects: asStringList(artifactFunction.effects, 'function.effects', filePath),
+      limitations: asOptionalStringList(artifactFunction.limitations, 'function.limitations', filePath),
+    },
+    sensoryProfile: sensoryProfile
+      ? {
+          sound: asOptionalString(sensoryProfile.sound, 'sensory_profile.sound', filePath),
+          scent: asOptionalString(sensoryProfile.scent, 'sensory_profile.scent', filePath),
+          texture: asOptionalString(sensoryProfile.texture, 'sensory_profile.texture', filePath),
+          aura: asOptionalString(sensoryProfile.aura, 'sensory_profile.aura', filePath),
+        }
+      : undefined,
+    origin: origin
+      ? {
+          creator: asOptionalString(origin.creator, 'origin.creator', filePath),
+          era: asOptionalString(origin.era, 'origin.era', filePath),
+          culturalContext: asOptionalString(
+            origin.cultural_context,
+            'origin.cultural_context',
+            filePath,
+          ),
+          inscriptions: asOptionalStringList(origin.inscriptions, 'origin.inscriptions', filePath),
+        }
+      : undefined,
+    images: {
+      standardArtifact: {
+        file: asString(standardArtifact.file, 'images.standard_artifact.file', filePath),
+        description: asOptionalString(
+          standardArtifact.description,
+          'images.standard_artifact.description',
+          filePath,
+        ),
+      },
+      heroImage: {
+        file: asString(heroImage.file, 'images.hero_image.file', filePath),
+        description: asOptionalString(heroImage.description, 'images.hero_image.description', filePath),
+      },
+      portrait: {
+        file: asString(portrait.file, 'images.portrait.file', filePath),
+        description: asOptionalString(portrait.description, 'images.portrait.description', filePath),
+      },
+    },
+    tags: asStringList(value.tags, 'tags', filePath),
+    metadata: {
+      active: asBoolean(metadata.active, 'metadata.active', filePath),
+      createdAt: asString(metadata.created_at, 'metadata.created_at', filePath),
+      updatedAt: asString(metadata.updated_at, 'metadata.updated_at', filePath),
+      version: asNumber(metadata.version, 'metadata.version', filePath),
+    },
   }
 }

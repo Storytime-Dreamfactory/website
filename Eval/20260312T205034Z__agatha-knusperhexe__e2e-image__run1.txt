@@ -1,0 +1,84 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-image
+- testedScenarios: image
+- runIndex: 1
+- conversationId: 5b560d10-803e-498b-95af-23a5599ba076
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 10300
+
+## Gesamtbeurteilung
+- score: 0/10
+- assessment: Self-Evaluation konnte nicht automatisch bewertet werden (Keine Model-Antwort erhalten).
+
+## Rubric-Details
+- leadershipQuality: 0/10
+  diagnosis: Keine Rubric-Daten erhalten.
+- learningGoalAlignment: 0/10
+  diagnosis: Keine Rubric-Daten erhalten.
+- storyArcQuality: 0/10
+  diagnosis: Keine Rubric-Daten erhalten.
+- topicThreadHandling: 0/10
+  diagnosis: Keine Rubric-Daten erhalten.
+
+## Staerken
+- (keine)
+
+## Probleme
+- [high] Evaluation fehlgeschlagen
+  details: Keine Model-Antwort erhalten
+  recommendation: API-Setup und Prompt-Response pruefen und Run erneut starten.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Evaluation-Retry
+   action: Self-Eval-Run mit gueltigem API-Key erneut ausfuehren.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Evaluation-Retry
+   action: Self-Eval-Run mit gueltigem API-Key erneut ausfuehren.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Eval-Fokus-Kontext
+counterpartName: Yoko
+counterpartCharacterId: yoko
+conversationCharacterId: agatha-knusperhexe
+activeLearningGoalIds: (keine aktiv gesetzt)
+selfEvaluationScenariosFromMetadata: image
+WICHTIG: Beurteile explizit, ob die Gespraechsfuehrung fuer das Kind klar geleitet wird.
+
+## Conversation Total History
+1. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der eine kleine goldene Laterne in den Pfoten hält und am Waldrand sitzt. Die Laterne leuchtet warm, und der Otter schaut lieb und neugierig. Jetzt kannst du gleich den kleinen Otter mit seinem Licht sehen.
+
+## Public Activities
+1. character.chat.completed: Da verstummten Agathas Worte, und 7d688ec8-6d27-43d1-9803-6b0d4448f10a trat mit ihr näher an den kleinen Otter heran, dessen goldene Laterne das feuchte Moos wie mit Honiglicht übergoss.
+2. conversation.story.summarized: Am dunklen Waldrand hatte Yoko sich einen freundlichen Otter mit einer kleinen Laterne gewünscht, und Agatha Knusperhexe hatte mit schmalen Augen zu ihm hingeschaut. Da saß der kleine Otter wirklich im feuchten Moos, hielt sein goldenes Licht hoch und ließ die Blätter sanft glitzern, bis Yoko und Agatha ganz still den warmen Schein bestaunten.
+3. conversation.image.generated: Danach saß am Waldrand wieder der freundliche kleine Otter mit weichem braunem Fell und hielt eine kleine goldene Laterne in den Pfoten. Ihr warmes Licht hatte das feuchte Moos und ein paar glitzernde Blätter sanft aufleuchten lassen, und der Otter blickte lieb und neugierig in die stille Nacht. Aus der Nähe hatte Agatha ihn mit schmalen, vorsichtigen Augen beobachtet, während es kühl nach Wald und Honig roch.
+
+## Bildreferenzen
+1. activity/conversation.image.generated: /content/conversations/5b560d10-803e-498b-95af-23a5599ba076/tool-09ffbbbb-5a83-477d-8b20-197b17a98356.jpg | asset=/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/conversations/5b560d10-803e-498b-95af-23a5599ba076/tool-09ffbbbb-5a83-477d-8b20-197b17a98356.jpg | summary=Danach saß am Waldrand wieder der freundliche kleine Otter mit weichem braunem Fell und hielt eine kleine goldene Laterne in den Pfoten. Ihr warmes Licht hatte das feuchte Moos und ein paar glitzernde Blätter sanft aufleuchten lassen, und der Otter blickte lieb und neugierig in die stille Nacht. Aus der Nähe hatte Agatha ihn mit schmalen, vorsichtigen Augen beobachtet, während es kühl nach Wald und Honig roch.

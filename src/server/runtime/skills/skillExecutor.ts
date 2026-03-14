@@ -3,7 +3,8 @@ import { recallConversationImage } from '../../conversationImageMemoryToolServic
 import { runConversationQuizSkill } from '../../conversationQuizToolService.ts'
 import { createActivity } from '../../activityStore.ts'
 import { appendConversationMessage } from '../../conversationStore.ts'
-import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE } from '../../openAiConfig.ts'
+import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE, readServerEnv } from '../../openAiConfig.ts'
+import { loadLearningGoalRuntimeProfiles } from '../../runtimeContentStore.ts'
 import { resolveCharacterImageRefs } from '../context/contextCollationService.ts'
 import { generateConversationHeroToolApi } from '../tools/toolApiService.ts'
 import {
@@ -14,10 +15,10 @@ import {
 import {
   buildPublicActivityStream,
   buildStoryHistoryContext,
-  generateImagePromptFromSceneSummary,
-  generateNextSceneSummary,
+  generateSceneSummaryAndImagePrompt,
   selectGroundedSceneCharacters,
   type SceneCharacterContext,
+  type SceneLearningGoalContext,
   type SceneRelationshipContext,
 } from './createSceneBuilder.ts'
 
@@ -37,6 +38,21 @@ const QUERY_STOPWORDS = new Set([
   'unsere',
 ])
 const STORYBOOK_ACTIVITY_TYPES = new Set(['conversation.image.generated', 'conversation.image.recalled'])
+const TRACE_PREVIEW_MAX_LENGTH = 240
+
+const previewText = (value: string | undefined): string | undefined => {
+  if (typeof value !== 'string') return undefined
+  const trimmed = value.trim()
+  if (!trimmed) return undefined
+  return trimmed.length > TRACE_PREVIEW_MAX_LENGTH
+    ? `${trimmed.slice(0, TRACE_PREVIEW_MAX_LENGTH)}...`
+    : trimmed
+}
+
+const resolveSceneBuildModel = (): string => {
+  const nextSceneModel = readServerEnv('RUNTIME_NEXT_SCENE_SUMMARY_MODEL', 'gpt-5.4')
+  return readServerEnv('RUNTIME_IMAGE_PROMPT_MODEL', nextSceneModel)
+}
 
 const tokenize = (value: string): string[] =>
   value
@@ -44,6 +60,28 @@ const tokenize = (value: string): string[] =>
     .split(/[^a-z0-9äöüß]+/i)
     .map((item) => item.trim())
     .filter((item) => item.length > 2 && !QUERY_STOPWORDS.has(item))
+
+const SIMPLE_REUSE_HINTS = [
+  'nochmal',
+  'noch mal',
+  'wieder',
+  'von eben',
+  'gerade eben',
+  'das gleiche',
+  'dieselbe',
+  'selbe bild',
+  'gleiches bild',
+  'unser bild',
+  'letzte bild',
+  'vorige bild',
+] as const
+
+const isExplicitImageReuseRequest = (value: string): boolean => {
+  const normalized = value.trim().toLowerCase()
+  if (!normalized) return false
+  if (!normalized.includes('bild')) return false
+  return SIMPLE_REUSE_HINTS.some((hint) => normalized.includes(hint))
+}
 
 
 const shouldRunQuiz = (input: {
@@ -270,6 +308,17 @@ export const executeRoutedSkill = async (input: {
         STORYBOOK_ACTIVITY_TYPES.has(activity.activityType),
       )
       const storyHistory = buildStoryHistoryContext(storyActivities)
+      const learningGoalProfiles = await loadLearningGoalRuntimeProfiles(input.learningGoalIds ?? [])
+      const learningGoalContexts: SceneLearningGoalContext[] = learningGoalProfiles.map((goal) => ({
+        id: goal.id,
+        name: goal.name,
+        topicGroup: goal.topicGroup,
+        topic: goal.topic,
+        sessionGoal: goal.sessionGoal,
+        endState: goal.endState,
+        coreIdeas: goal.coreIdeas,
+        assessmentTargets: goal.assessmentTargets,
+      }))
       const mainCharacterImageRefs = await resolveCharacterImageRefs(input.characterId)
       const directRelatedObjects = input.relationshipContext?.directRelatedObjects ?? []
       const contextualRelatedObjects = input.relationshipContext?.contextualRelatedObjects ?? []
@@ -282,15 +331,75 @@ export const executeRoutedSkill = async (input: {
         directRelatedObjects,
         contextualRelatedObjects,
       })
-      const nextSceneSummary = await generateNextSceneSummary({
+      const sceneBuildModel = resolveSceneBuildModel()
+      await trackTraceActivitySafely({
+        activityType: 'trace.tool.scene_build.request',
+        summary: 'scene_build gestartet',
+        conversationId: input.conversationId,
+        characterId: input.characterId,
         characterName: input.characterName,
-        characterContext: input.characterContext,
-        userRequest: input.lastUserText,
-        assistantText: input.assistantText,
-        history: storyHistory,
-        publicActivityStream,
-        groundedSceneCharacters: provisionalGroundedSceneCharacters,
+        learningGoalIds: input.learningGoalIds,
+        traceStage: 'tool',
+        traceKind: 'request',
+        traceSource: 'runtime',
+        input: {
+          model: sceneBuildModel,
+          userRequestPreview: previewText(input.lastUserText),
+          assistantTextPreview: previewText(input.assistantText),
+        },
       })
+      let sceneBuild: Awaited<ReturnType<typeof generateSceneSummaryAndImagePrompt>>
+      try {
+        sceneBuild = await generateSceneSummaryAndImagePrompt({
+          characterName: input.characterName,
+          characterContext: input.characterContext,
+          learningGoalContexts,
+          userRequest: input.lastUserText,
+          assistantText: input.assistantText,
+          history: storyHistory,
+          publicActivityStream,
+          groundedSceneCharacters: provisionalGroundedSceneCharacters,
+        })
+        await trackTraceActivitySafely({
+          activityType: 'trace.tool.scene_build.response',
+          summary: 'scene_build abgeschlossen',
+          conversationId: input.conversationId,
+          characterId: input.characterId,
+          characterName: input.characterName,
+          learningGoalIds: input.learningGoalIds,
+          traceStage: 'tool',
+          traceKind: 'response',
+          traceSource: 'runtime',
+          output: {
+            ok: true,
+            model: sceneBuildModel,
+            sceneSummaryPreview: previewText(sceneBuild.sceneSummary),
+            imagePromptPreview: previewText(sceneBuild.imagePrompt),
+          },
+          ok: true,
+        })
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error)
+        await trackTraceActivitySafely({
+          activityType: 'trace.tool.scene_build.error',
+          summary: 'scene_build fehlgeschlagen',
+          conversationId: input.conversationId,
+          characterId: input.characterId,
+          characterName: input.characterName,
+          learningGoalIds: input.learningGoalIds,
+          traceStage: 'tool',
+          traceKind: 'error',
+          traceSource: 'runtime',
+          ok: false,
+          error: message,
+          output: {
+            ok: false,
+            model: sceneBuildModel,
+          },
+        })
+        throw error
+      }
+      const nextSceneSummary = sceneBuild.sceneSummary
       const groundedSceneCharacters = selectGroundedSceneCharacters({
         mainCharacterId: input.characterId,
         mainCharacterName: input.characterName,
@@ -321,72 +430,106 @@ export const executeRoutedSkill = async (input: {
           ),
         ).slice(0, 4),
       ]
-      const imagePrompt = await generateImagePromptFromSceneSummary({
-        characterName: input.characterName,
-        characterContext: input.characterContext,
-        userRequest: input.lastUserText,
-        sceneSummary: nextSceneSummary,
-        history: storyHistory,
-        publicActivityStream,
-        groundedSceneCharacters,
-      })
+      const imagePrompt = sceneBuild.imagePrompt
       const relatedSceneCharacters = groundedSceneCharacters.filter(
         (character) => character.source !== 'active-character',
       )
-      const generatedImage = await generateConversationHeroToolApi({
-        conversationId: input.conversationId,
-        characterId: input.characterId,
-        sceneSummary: nextSceneSummary,
-        imagePrompt,
-        forceReferenceImagePaths,
-        ...(relatedSceneCharacters.length > 0
-          ? {
-              relatedCharacterIds: relatedSceneCharacters.map((character) => character.characterId),
-              relatedCharacterNames: relatedSceneCharacters.map((character) => character.displayName),
-            }
-          : {}),
-      })
-      executedTools.push('generate_image')
+      const prefersImageReuse = isExplicitImageReuseRequest(input.lastUserText)
+      let generatedImage:
+        | Awaited<ReturnType<typeof generateConversationHeroToolApi>>
+        | null = null
+      let imageSelectionMode: 'reused' | 'generated' = 'generated'
 
-      const imageUrl =
-        typeof generatedImage?.imageUrl === 'string'
-          ? generatedImage.imageUrl
-          : typeof generatedImage?.heroImageUrl === 'string'
-            ? generatedImage.heroImageUrl
-            : undefined
-      const imageId =
-        (typeof generatedImage?.requestId === 'string' ? generatedImage.requestId : undefined) ??
-        extractImageIdFromUrl(imageUrl)
-      await createActivity({
-        activityType: 'conversation.scene.directed',
-        isPublic: false,
-        characterId: input.characterId,
-        conversationId: input.conversationId,
-        learningGoalIds: input.learningGoalIds,
-        storySummary: nextSceneSummary,
-        subject: {
-          type: 'character',
-          id: input.characterId,
-          name: input.characterName,
-        },
-        object: {
-          type: 'image',
-          id: imageId,
-          url: imageUrl,
-        },
-        metadata: {
-          summary: nextSceneSummary,
-          skillId: input.decision.skillId,
-          reason: input.decision.reason,
-          nextSceneSummary,
+      if (prefersImageReuse) {
+        const recalledImage = await recallConversationImage({
+          conversationId: input.conversationId,
+          queryText: input.lastUserText,
+          source: 'runtime',
+        })
+        if (recalledImage) {
+          imageSelectionMode = 'reused'
+          executedTools.push('show_image')
+        }
+      }
+
+      if (imageSelectionMode === 'generated') {
+        generatedImage = await generateConversationHeroToolApi({
+          conversationId: input.conversationId,
+          characterId: input.characterId,
+          sceneSummary: nextSceneSummary,
           imagePrompt,
-          publicActivityStream,
-          storyHistory,
-          groundedSceneCharacters,
-          sourceEventType: input.eventType,
+          forceReferenceImagePaths,
+          ...(relatedSceneCharacters.length > 0
+            ? {
+                relatedCharacterIds: relatedSceneCharacters.map((character) => character.characterId),
+                relatedCharacterNames: relatedSceneCharacters.map((character) => character.displayName),
+              }
+            : {}),
+        })
+        executedTools.push('generate_image')
+      }
+
+      await trackTraceActivitySafely({
+        activityType: 'trace.runtime.scene_image_strategy',
+        summary:
+          imageSelectionMode === 'reused'
+            ? 'Bestehendes Bild wurde wiederverwendet'
+            : 'Neues Bild wurde generiert',
+        conversationId: input.conversationId,
+        characterId: input.characterId,
+        characterName: input.characterName,
+        learningGoalIds: input.learningGoalIds,
+        traceStage: 'runtime',
+        traceKind: 'response',
+        traceSource: 'runtime',
+        output: {
+          imageSelectionMode,
+          reason: prefersImageReuse ? 'simple-reuse-request' : 'default-generate',
         },
+        ok: true,
       })
-      executedTools.push('record_scene_activity')
+
+      if (generatedImage) {
+        const imageUrl =
+          typeof generatedImage.imageUrl === 'string'
+            ? generatedImage.imageUrl
+            : typeof generatedImage.heroImageUrl === 'string'
+              ? generatedImage.heroImageUrl
+              : undefined
+        const imageId =
+          (typeof generatedImage.requestId === 'string' ? generatedImage.requestId : undefined) ??
+          extractImageIdFromUrl(imageUrl)
+        await createActivity({
+          activityType: 'conversation.scene.directed',
+          isPublic: false,
+          characterId: input.characterId,
+          conversationId: input.conversationId,
+          learningGoalIds: input.learningGoalIds,
+          storySummary: nextSceneSummary,
+          subject: {
+            type: 'character',
+            id: input.characterId,
+            name: input.characterName,
+          },
+          object: {
+            type: 'image',
+            id: imageId,
+            url: imageUrl,
+          },
+          metadata: {
+            summary: nextSceneSummary,
+            skillId: input.decision.skillId,
+            reason: input.decision.reason,
+            nextSceneSummary,
+            imagePrompt,
+            publicActivityStream,
+            storyHistory,
+            groundedSceneCharacters,
+            sourceEventType: input.eventType,
+          },
+        })
+        executedTools.push('record_scene_activity')
+      }
     }
 
     if (input.decision.skillId === 'evaluate-feedback') {

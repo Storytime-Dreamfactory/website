@@ -34,6 +34,12 @@ const recordForSkip = (job: ResolvedAssetJob, reason: string): AssetGenerationRe
   reason,
 })
 
+const recordForFailure = (job: ResolvedAssetJob, reason: string): AssetGenerationRecord => ({
+  ...createPlannedRecord(job),
+  status: 'failed',
+  reason,
+})
+
 const resolveReferenceImages = (
   job: ResolvedAssetJob,
   standardFigurePath: string | null,
@@ -136,6 +142,39 @@ export const generateCharacterImages = async (
     return { manifest, manifestPath }
   }
 
+  const runAssetWithRetry = async (
+    job: ResolvedAssetJob,
+    referenceImagePaths: string[],
+  ): Promise<Awaited<ReturnType<typeof generateImageWithModel>>> => {
+    const maxAttempts = 2
+    let lastError: unknown
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      try {
+        return await generateImageWithModel({
+          model: job.model,
+          prompt: job.prompt,
+          width: job.width,
+          height: job.height,
+          outputFormat: job.outputFormat,
+          seed: job.seed,
+          pollIntervalMs: options.pollIntervalMs,
+          maxPollAttempts: options.maxPollAttempts,
+          referenceImagePaths: job.mode === 'image-edit' ? referenceImagePaths : undefined,
+        })
+      } catch (error) {
+        lastError = error
+        if (attempt < maxAttempts) {
+          const message = error instanceof Error ? error.message : String(error)
+          options.onProgress?.({
+            type: 'failed',
+            message: `Retry ${attempt}/${maxAttempts - 1} fuer ${job.type}: ${message}`,
+          })
+        }
+      }
+    }
+    throw lastError
+  }
+
   for (const job of jobs) {
     const referenceImagePaths = resolveReferenceImages(
       job,
@@ -153,46 +192,38 @@ export const generateCharacterImages = async (
 
     options.onProgress?.({ type: 'asset-started', asset: job })
 
-    let result: Awaited<ReturnType<typeof generateImageWithModel>>
     try {
-      result = await generateImageWithModel({
-        model: job.model,
-        prompt: job.prompt,
-        width: job.width,
-        height: job.height,
-        outputFormat: job.outputFormat,
-        seed: job.seed,
-        pollIntervalMs: options.pollIntervalMs,
-        maxPollAttempts: options.maxPollAttempts,
-        referenceImagePaths: job.mode === 'image-edit' ? referenceImagePaths : undefined,
+      const result = await runAssetWithRetry(job, referenceImagePaths)
+      const writeStatus = await writeDownloadedImage({
+        sourceUrl: result.imageUrl,
+        outputFilePath: job.outputFilePath,
+        overwrite: options.overwrite,
       })
+
+      const record: AssetGenerationRecord = {
+        ...createPlannedRecord(job),
+        status: writeStatus === 'written' ? 'generated' : 'skipped',
+        requestId: result.requestId,
+        sampleUrl: result.imageUrl,
+        cost: result.cost,
+        reason: writeStatus === 'skipped' ? 'File already exists and overwrite=false' : undefined,
+      }
+
+      assetRecords.push(record)
+      options.onProgress?.({ type: 'asset-finished', asset: record })
+
+      if (job.kind === 'standard_figur' && writeStatus === 'written') {
+        standardFigureReferencePath = job.outputFilePath
+      }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error)
-      const message = `Generation failed for ${job.type}: ${errorMessage}`
-      options.onProgress?.({ type: 'failed', message })
-      throw new Error(message)
-    }
-
-    const writeStatus = await writeDownloadedImage({
-      sourceUrl: result.imageUrl,
-      outputFilePath: job.outputFilePath,
-      overwrite: options.overwrite,
-    })
-
-    const record: AssetGenerationRecord = {
-      ...createPlannedRecord(job),
-      status: writeStatus === 'written' ? 'generated' : 'skipped',
-      requestId: result.requestId,
-      sampleUrl: result.imageUrl,
-      cost: result.cost,
-      reason: writeStatus === 'skipped' ? 'File already exists and overwrite=false' : undefined,
-    }
-
-    assetRecords.push(record)
-    options.onProgress?.({ type: 'asset-finished', asset: record })
-
-    if (job.kind === 'standard_figur' && writeStatus === 'written') {
-      standardFigureReferencePath = job.outputFilePath
+      const failureRecord = recordForFailure(job, errorMessage)
+      assetRecords.push(failureRecord)
+      options.onProgress?.({
+        type: 'failed',
+        message: `Generation failed for ${job.type}: ${errorMessage}`,
+      })
+      options.onProgress?.({ type: 'asset-finished', asset: failureRecord })
     }
   }
 
@@ -212,6 +243,13 @@ export const generateCharacterImages = async (
     outputDirectory: path.resolve(options.outputRoot, character.id),
   })
 
+  const failedAssetCount = assetRecords.filter((asset) => asset.status === 'failed').length
+  if (failedAssetCount > 0) {
+    options.onProgress?.({
+      type: 'failed',
+      message: `${failedAssetCount} Asset(s) konnten nicht erzeugt werden. Siehe Manifest fuer Details.`,
+    })
+  }
   options.onProgress?.({
     type: 'completed',
     manifest,

@@ -5,7 +5,13 @@ const DEFAULT_POOL_MAX = 8
 const DEFAULT_IDLE_TIMEOUT_MS = 10_000
 const DEFAULT_CONNECTION_TIMEOUT_MS = 5_000
 
-let sharedPool: Pool | null = null
+const GLOBAL_POOL_KEY = '__storytimeSharedDbPool__'
+
+type GlobalWithStorytimePool = typeof globalThis & {
+  [GLOBAL_POOL_KEY]?: Pool
+}
+
+let sharedPool: Pool | null = (globalThis as GlobalWithStorytimePool)[GLOBAL_POOL_KEY] ?? null
 
 const readIntegerEnv = (value: string | undefined, fallback: number): number => {
   if (!value) return fallback
@@ -34,6 +40,7 @@ export const getStorytimeDbPool = (): Pool => {
     idleTimeoutMillis,
     connectionTimeoutMillis,
   })
+  ;(globalThis as GlobalWithStorytimePool)[GLOBAL_POOL_KEY] = sharedPool
 
   return sharedPool
 }

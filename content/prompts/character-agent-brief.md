@@ -105,6 +105,20 @@ Jeder Charakter soll klar in der Storytime-Welt verankert sein.
 - Wenn moeglich, waehle Begriffe, die spaeter leicht in Szenen, Dialoge und Konflikte uebersetzt werden koennen.
 - Wenn nur Teilinfos vorliegen, fuelle die restlichen YAML-Felder so aus, dass alles wie aus einem Guss wirkt.
 
+## Voice-Profil aus Charakter ableiten (wichtig)
+
+- `voice_profile` darf NICHT generisch nach Assistent klingen.
+- Leite den Sprechklang immer aus `species`, `age_hint`, `temperament`, `social_style`, `kurzbeschreibung`, `core_traits` und `quirks` ab.
+- Beschreibe in `identity` die hoerbare Stimmfarbe konkret (z. B. brummig-tief, glockig-hell, knarzig-heiser, federleicht zwitschernd, kindlich-zart, ruhig-erdig).
+- `demeanor`, `tone` und `pacing` muessen den individuellen Rhythmus, die Melodie und den Ausdruck der Figur hoerbar machen.
+- Fuer Tier- oder maerchenhafte Wesen sind leichte charaktertypische Klangmarker erlaubt (z. B. "wuff", "hihi", "tschirp"), aber sparsam und kindgerecht.
+- Vermeide austauschbare Formeln wie "warm, freundlich, klar" ohne figurenspezifischen Zusatz.
+- Waehle `voice` immer aus den gueltigen Realtime-Stimmen:
+
+- `alloy | ash | ballad | coral | echo | sage | shimmer | verse | marin | cedar`
+- Orientierung nach Stimmwirkung: eher maskulin = `alloy | ash | echo | sage | verse`; eher feminin = `ballad | coral | shimmer | marin | cedar`.
+- Auswahlregel: Stimme primaer nach Charakterklang, Temperament und gewuenschter maskuliner/femininer Wirkung waehlen.
+
 ## Visuelle Konsistenz
 
 Die Bildfelder muessen so ausgefuellt werden, dass ein Bildgenerator daraus konsistente Assets erzeugen kann.
@@ -175,7 +189,7 @@ Wenn eine Antwort nein ist, verbessere den Charakter vor der Ausgabe.
 - Keine Markdown-Formatierung (kein ```yaml).
 - Keine Kommentare im YAML.
 - Keine Geschichte schreiben.
-- Das Feld id muss ein kebab-case String sein.
+- Das Feld id muss eine UUID (Format xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) sein.
 - Das Feld metadata.created_at und metadata.updated_at muessen das heutige Datum im Format YYYY-MM-DD enthalten.
 - Das Feld metadata.version muss 1 sein.
 - Das Feld metadata.active muss true sein.
@@ -183,13 +197,16 @@ Wenn eine Antwort nein ist, verbessere den Charakter vor der Ausgabe.
 - Setze weitere_bilder auf eine leere Liste [].
 - Nutze in `tags` eine Mischung aus Lernziel-, Verhaltens-, Rollen-, Arc- und Welt-Tags, soweit sie aus dem Charakter sinnvoll ableitbar sind.
 - Waehle fuer `story_psychology.stress_response` eine kurze, narrativ gut spielbare Reaktion. Vermeide monotone Wiederholungen desselben Musters ueber viele Figuren hinweg.
+- Setze immer `voice` auf eine gueltige Realtime-Stimme: alloy | ash | ballad | coral | echo | sage | shimmer | verse | marin | cedar.
+- Erzeuge immer einen vollstaendigen `voice_profile`-Block fuer Voice-Prompting.
+- Jeder `voice_profile` muss klar von bestehenden Figuren unterscheidbar sein und direkt die Figur hoerbar machen.
 
 ## YAML-Schema
 
 Hier ist das vollstaendige Schema. Halte dich exakt an diese Struktur:
 
 ```yaml
-id: kebab-case-id
+id: "123e4567-e89b-12d3-a456-426614174000"
 name: Name
 kurzbeschreibung: >
   Ein bis zwei Saetze, die den Charakter kindgerecht und visuell beschreiben.
@@ -198,6 +215,16 @@ basis:
   species: Speziesname
   gender_expression: feminin | maskulin | androgyn | (leer lassen)
   role_archetype: explorer | helper | mentor | hero | caregiver | challenger | learner | learner_helper
+voice: alloy | ash | ballad | coral | echo | sage | shimmer | verse | marin | cedar
+voice_profile:
+  identity: Konkrete Stimmfarbe aus Spezies, Alter und Temperament (hoerbar statt generisch)
+  demeanor: Figurtypische Haltung mit klarer Eigenfaerbung
+  tone: Charaktereigene Tonalitaet, Melodie und Wortklang
+  enthusiasm_level: sehr hoch | hoch | mittel | ruhig
+  formality_level: locker | halb-formell | formell
+  emotion_level: ausdrucksstark | ausgewogen | sachlich
+  filler_words: none | occasionally | often | very_often
+  pacing: Figurtypischer Sprechrhythmus und Tempo (z. B. brummend langsam, trippelnd flott)
 erscheinung:
   body_shape: kurze Beschreibung der Koerperform
   colors:

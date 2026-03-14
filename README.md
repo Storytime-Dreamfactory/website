@@ -18,6 +18,7 @@ Begriffslogik:
 - Repo-Agent-Regeln: `AGENTS.md`
 - Visuelle Stilregeln: `docs/visual-style-guide.md`
 - Character Generator: `tools/character-image-service/README.md`
+- Artifact Generator: `tools/artifact-image-service/README.md`
 
 ## Projektstruktur
 
@@ -67,7 +68,7 @@ Umgebungsvariablen:
 - `BFL_API_KEY` fuer FLUX-Bildmodelle
 - `GOOGLE_GEMINI_API_KEY` fuer Gemini-Bildmodelle wie `gemini-3.1-flash-image`
 - `OPENAI_API_KEY` fuer OpenAI-Bildmodelle wie `gpt-image-1.5` oder `chatgpt-image-latest`
-- `CONVERSATION_IMAGE_MODEL` optional fuer das Standardmodell der Conversation-Hero-Bildgenerierung, z. B. `mini` (`flux-2-klein-4b`), `flux-2-flex`, `banana` (`gemini-2.5-flash-image`) oder `chatgpt` (`chatgpt-image-latest`). Default: `flux-2-flex`
+- `CONVERSATION_IMAGE_MODEL` optional fuer das Standardmodell der Conversation-Hero-Bildgenerierung, z. B. `mini` (`flux-2-klein-4b`), `flux-2-pro`, `banana` (`gemini-2.5-flash-image`) oder `chatgpt` (`chatgpt-image-latest`). Default: `flux-2-pro`
 
 API-Endpunkte (lokaler Vite-Server):
 
@@ -89,7 +90,7 @@ API-Endpunkte (lokaler Vite-Server):
   - Nutzt dieselben Filter; standardmaessig nur `isPublic=true`, mit `includeNonPublic=true` auch interne Events
 - `POST /api/images/generate`
   - Schneller Prompt-zu-Bild Endpoint fuer Chat-Workflows
-  - Body: `prompt` (required), optional `model` (z. B. `mini`, `banana`, `chatgpt`, `openai`, `flux-2-klein-4b`, `flux-2-max`, `gemini-3.1-flash-image`, `gpt-image-1.5`, `chatgpt-image-latest`; Default `flux-2-klein-4b`), `width`, `height`, `outputFormat` (`jpeg` oder `png`), `seed`, `pollIntervalMs`, `maxPollAttempts`
+  - Body: `prompt` (required), optional `model` (z. B. `mini`, `banana`, `chatgpt`, `openai`, `flux-2-klein-4b`, `flux-2-max`, `gemini-3.1-flash-image`, `gpt-image-1.5`, `chatgpt-image-latest`; Default `flux-2-flex`), `width`, `height`, `outputFormat` (`jpeg` oder `png`), `seed`, `pollIntervalMs`, `maxPollAttempts`
   - Response: `imageUrl`, `requestId`, aufgeloeste Parameter und optionale `cost`
 
 ## Conversation-End Webhook
@@ -132,6 +133,21 @@ npm run character-images:generate -- --character ./content/characters/nola.yaml 
 - Fuer OpenAI-Bildgenerierung zusaetzlich `OPENAI_API_KEY`
 - Outputs landen unter `public/content/characters/<id>/`
 - Stil- und Prompting-Regeln stehen in `docs/visual-style-guide.md`, `AGENTS.md` und `content/prompts/README.md`
+
+## Artifact-Bilder aus Manifest generieren
+
+```bash
+npm run artifact-images:dry-run
+npm run artifact-images:generate
+```
+
+- Quelle ist `public/content-manifest.json` -> `artifacts[]`
+- Pro Artifact werden genau drei Zielbilder aus dem YAML erzeugt:
+  - `images.standard_artifact.file`
+  - `images.hero_image.file`
+  - `images.portrait.file`
+- Outputs landen unter `public/content/artifacts/<uuid>/`
+- API-Key nur ueber `BFL_API_KEY` (optional auch `GOOGLE_GEMINI_API_KEY`/`OPENAI_API_KEY`, je nach Modell in `src/server/imageModelSupport.ts`)
 
 ## Neue Figur hinzufügen (Quick Guide)
 

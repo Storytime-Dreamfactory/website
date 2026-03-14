@@ -45,7 +45,7 @@ export const SUPPORTED_IMAGE_MODELS: SupportedImageModel[] = [
   ...OPENAI_IMAGE_MODELS,
 ]
 
-export const DEFAULT_IMAGE_MODEL: SupportedImageModel = 'flux-2-klein-4b'
+export const DEFAULT_IMAGE_MODEL: SupportedImageModel = 'flux-2-flex'
 
 export const isFluxModel = (value: string): value is FluxModel =>
   FLUX_MODELS.includes(value as FluxModel)

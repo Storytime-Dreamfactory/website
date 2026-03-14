@@ -39,8 +39,8 @@ describe('imageGenerationService', () => {
     vi.unstubAllEnvs()
   })
 
-  it('nutzt standardmaessig flux-2-flex fuer Conversation-Bilder', () => {
-    expect(resolveDefaultConversationImageModel()).toBe('flux-2-flex')
+  it('nutzt standardmaessig flux-2-pro fuer Conversation-Bilder', () => {
+    expect(resolveDefaultConversationImageModel()).toBe('flux-2-pro')
   })
 
   it('routet OpenAI-Bildmodelle ueber den OpenAI-Client', async () => {

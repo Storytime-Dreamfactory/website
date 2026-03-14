@@ -1,0 +1,124 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: agatha-knusperhexe
+- scenario: e2e-image-chat-mixed
+- testedScenarios: image, chat, mixed
+- runIndex: 1
+- conversationId: 0699911b-ebf1-45a2-93e5-0e24a08617ff
+- judgeModel: gpt-5.4
+- executionMode: cli
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 10300
+
+## Gesamtbeurteilung
+- score: 7/10
+- assessment: Die Conversation ist insgesamt kindgerecht, warm und dialogisch stark. Agatha zeigt Empathie, erklärt einfach und führt mit passenden Rückfragen. Besonders gelungen sind die emotionale Validierung rund ums Klettern und die einfache Sternenerklärung. Im Bildbereich wird der Wunsch klar erkannt und verbal beschrieben, aber die Daten zeigen keine Bildreferenz und damit keine überprüfbare Bildausgabe oder Memory-Wiederverwendung. Der größte operative Schwachpunkt ist die Verwaltung offener Themen: Das angekündigte Fahrrad-Thema wird nach dem Wechsel zu Sternen nicht mehr aktiv aufgegriffen oder geparkt. Für die Pipeline heißt das vor allem: Bildausführung sichtbarer machen und Topic-Threads expliziter im Runtime-Verhalten halten.
+
+## Rubric-Details
+- leadershipQuality: 8/10
+  diagnosis: Agatha führt das Gespräch kindgerecht, warm und klar. Sie reagiert empathisch auf Angst beim Klettern, strukturiert Mehrfachintentionen explizit ('erst ..., dann ...') und stellt passende Anschlussfragen. Die Leitungsqualität ist insgesamt gut sichtbar. Leichter Abzug, weil der Wechsel vom angekündigten Fahrrad-Thema zu Sternen zwar vom Kind neu gesetzt wurde und korrekt übernommen wurde, aber kein kurzes Rückbezugssignal erfolgte ('wir können später aufs Fahrrad zurückkommen'), was die Gesprächsführung noch sicherer gemacht hätte.
+- learningGoalAlignment: 7/10
+  diagnosis: Es sind keine aktiven Lernziele gesetzt, daher nur konservativ bewertbar. Trotzdem zeigt die Unterhaltung sinnvolle Mikro-Interventionen: Gefühle benennen ('Mut und Angst zugleich'), eine kleine Strategie geben ('erst atmen, dann schauen, dann greifen') und zur Selbstreflexion einladen. Die Antworten sind altersgerecht und fördern Selbstwirksamkeit. Unsicherheit bleibt, weil ohne explizite Lernziele keine gezielte Ausrichtung an Runtime-Vorgaben nachweisbar ist.
+- storyArcQuality: 7/10
+  diagnosis: Die öffentlichen Activities bilden einen sanften, zusammenhängenden Mini-Bogen vom Otterbild über Mut/Klettern bis zu Sternen. Die Stimmung bleibt freundlich, sicher und kindgerecht. Gleichzeitig ist der Story-Charakter eher locker als dramaturgisch geführt; insbesondere das Fahrrad-Thema wird angekündigt, aber nicht in einen Bogen integriert. Die Summary ist stimmig, wirkt aber etwas glättend gegenüber dem tatsächlichen Themenwechsel.
+- topicThreadHandling: 6/10
+  diagnosis: Mehrfachintention wurde zunächst sehr gut erkannt und geordnet. Beim späteren Themenwechsel auf Sterne bleibt Agatha hilfreich und folgt der neuen Priorität des Kindes. Schwächer ist die Thread-Verwaltung, weil das zuerst genannte Fahrrad-Thema nicht als offener Faden markiert oder aktiv für später vorgemerkt wird. Für ein kleines Kind wäre eine explizitere Navigation zwischen offenen Themen hilfreicher.
+
+## Staerken
+- Sehr kindgerechter, empathischer Charakterton mit klaren, kleinen Anschlussfragen und guter aktiver Gesprächsführung.
+- Starke Mikro-Interventionen bei Emotion und Verhalten: Angst wird normalisiert, Mut konkretisiert und mit einem merkbaren Satz handhabbar gemacht.
+
+## Probleme
+- [medium] Bildwunsch erkannt, aber keine nachweisbare Bildreferenz oder Bildwiederverwendung
+  details: Das Kind wünscht explizit ein Bild. Die Antwort 'Ich zeige dir jetzt ...' beschreibt zwar passend eine Szene, aber in den gelieferten Daten gibt es '(keine Bildreferenzen gefunden)'. Damit ist nicht belegbar, dass die Pipeline tatsächlich ein Bild erzeugt oder ein bestehendes Bild per show_image angezeigt hat.
+  recommendation: Im Runtime- und Tool-Verhalten sollte bei explizitem Bildwunsch eine überprüfbare Bildaktion ausgelöst und als Referenz gespeichert werden. Falls nur eine verbale Visualisierung möglich ist, sollte der Character das transparent formulieren statt 'Ich zeige dir jetzt' zu sagen.
+- [medium] Offener Themenfaden 'kaputtes Fahrrad' wird nicht aktiv verwaltet
+  details: Agatha strukturiert zunächst korrekt 'erst Fahrrad, dann Sterne'. Als das Kind danach direkt zu Sternen wechselt, folgt sie sinnvoll, markiert aber das Fahrrad nicht als offenen Punkt für später. Dadurch geht ein vom Kind selbst gesetzter Gesprächsfaden verloren.
+  recommendation: Die Prompt- oder Runtime-Logik sollte offene Threads bei Mehrfachintentionen zwischenspeichern und mit einer kurzen Rückversicherung beantworten, z. B. 'Wir können nach den Sternen wieder aufs Fahrrad schauen.'
+- [low] Öffentliche Story-Zusammenfassung glättet den tatsächlichen Verlauf leicht
+  details: Die Summary integriert die Themen harmonisch, erwähnt aber nicht, dass das Fahrrad-Thema offen blieb. Dadurch wirkt die Story kohärenter als der echte Dialogverlauf.
+  recommendation: Scene-summary sollte offene, nicht abgeschlossene Kinderanliegen als solche markieren, damit spätere Turns konsistenter daran anknüpfen können.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Explizite Bildausführung bei Bildintention absichern
+   action: Im Intent Router und image-prompt-Flow eine harte Regel ergänzen: Bei Formulierungen wie 'Ich will ein Bild sehen' muss create_scene/show_image sichtbar ausgelöst werden oder der Character muss klar sagen, dass er das Bild nur beschreibt. Zusätzlich Bildreferenz in Activities/Conversation speichern.
+2. [high] Open-thread-Tracking für Mehrfachintentionen einführen
+   action: Runtime-seitig einen kleinen Topic-Stack für Kinderanliegen pflegen. Wenn das Kind 'erst ..., dann ...' sagt und später umpriorisiert, soll der Character den verbleibenden Faden kurz parken und später aktiv anbieten, daran anzuknüpfen.
+3. [medium] Character-Prompt um explizite Leitplanken für kleine Kinder erweitern
+   action: Im character-voice-agent ergänzen: Bei Themenwechseln immer kurz orientieren ('Jetzt reden wir über ... danach können wir ...'), um Gesprächsführung für junge Kinder noch klarer zu machen.
+4. [medium] Summary-Prompt für unvollständige Anliegen verbessern
+   action: Im scene-summary-System festlegen, dass nicht abgeschlossene Themen als offen markiert werden, statt sie stillschweigend aus dem Storybogen herausfallen zu lassen.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Explizite Bildausführung bei Bildintention absichern
+   action: Im Intent Router und image-prompt-Flow eine harte Regel ergänzen: Bei Formulierungen wie 'Ich will ein Bild sehen' muss create_scene/show_image sichtbar ausgelöst werden oder der Character muss klar sagen, dass er das Bild nur beschreibt. Zusätzlich Bildreferenz in Activities/Conversation speichern.
+2. [high] Open-thread-Tracking für Mehrfachintentionen einführen
+   action: Runtime-seitig einen kleinen Topic-Stack für Kinderanliegen pflegen. Wenn das Kind 'erst ..., dann ...' sagt und später umpriorisiert, soll der Character den verbleibenden Faden kurz parken und später aktiv anbieten, daran anzuknüpfen.
+3. [medium] Character-Prompt um explizite Leitplanken für kleine Kinder erweitern
+   action: Im character-voice-agent ergänzen: Bei Themenwechseln immer kurz orientieren ('Jetzt reden wir über ... danach können wir ...'), um Gesprächsführung für junge Kinder noch klarer zu machen.
+4. [medium] Summary-Prompt für unvollständige Anliegen verbessern
+   action: Im scene-summary-System festlegen, dass nicht abgeschlossene Themen als offen markiert werden, statt sie stillschweigend aus dem Storybogen herausfallen zu lassen.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Eval-Fokus-Kontext
+counterpartName: Yoko
+counterpartCharacterId: yoko
+conversationCharacterId: agatha-knusperhexe
+activeLearningGoalIds: (keine aktiv gesetzt)
+selfEvaluationScenariosFromMetadata: image, chat, mixed
+WICHTIG: Beurteile explizit, ob die Gespraechsfuehrung fuer das Kind klar geleitet wird.
+
+## Conversation Total History
+1. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+2. assistant [response.audio_transcript.done]: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der am Ufer sitzt und eine kleine goldene Laterne in den Pfoten hält. Neben ihm glitzert das Wasser, und das warme Licht leuchtet sanft in die Dunkelheit.
+3. user [chat.turn]: Was sieht man da genau und warum wirkt es so freundlich?
+4. assistant [response.audio_transcript.done]: Man sieht den kleinen Otter ganz ruhig am Wasser sitzen, mit runden Augen, einem sanften Gesicht und einer warm leuchtenden Laterne in den Pfoten. Das Licht ist weich und goldgelb, und darum wirkt alles still, sicher und freundlich – fast so, als würde der Otter jemandem heimlich den Weg leuchten, hehehe. Was findest du an dem Otter am süßesten?
+5. user [chat.turn]: Heute war ich mutig beim Klettern, aber ich hatte auch etwas Angst.
+6. assistant [response.audio_transcript.done]: Kluge Kletterei, hm – mutig sein heißt nicht, keine Angst zu haben, sondern trotz Zitterknien weiterzumachen, und das ist stark wie ein kleiner Waldzauber. Ich klappere mit den Fingern und nicke: Beides darf da sein, Mut und Angst zugleich. Worauf warst du beim Klettern am stolzesten?
+7. user [chat.turn]: Wie kann ich beim naechsten Mal mutig bleiben, ohne zu schnell zu werden?
+8. assistant [response.audio_transcript.done]: Ich sage dir einen kleinen Hexentrick: erst atmen, dann schauen, dann greifen – immer nur ein Schritt nach dem anderen, nicht husch-husch wie ein aufgescheuchtes Waldtier. Murmel dir leise: „Langsam, sicher, stark“, dann bleibt der Mut bei dir, ohne dass du zu hastig wirst. Welchen Satz willst du dir beim Klettern merken?
+9. user [chat.turn]: Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.
+10. assistant [response.audio_transcript.done]: Gut, erst das kaputte Fahrrad, dann die Sterne – eins nach dem anderen, so verheddert sich nichts in meinem Hexenhaar. Erzähl mir kurz: Was ist an deinem Fahrrad kaputt?
+11. user [chat.turn]: Jetzt bitte Sterne, aber nicht zu schwer erklaert, ich bin noch klein.
+12. assistant [response.audio_transcript.done]: Sterne sind wie kleine Lichter hoch oben am dunklen Himmel, und nachts kann man sie sehen, wenn die Sonne weg ist. Sie funkeln so hübsch, weil sie ganz weit weg sind und wie winzige Himmelslampen wirken, hihi. Magst du lieber einen ganz hellen Stern oder ganz viele kleine?
+
+## Public Activities
+1. character.chat.completed: Dann betrachtete 7d688ec8-6d27-43d1-9803-6b0d4448f10a mit Yoko und Agatha am stillen Ufer die ersten Sterne, während der freundliche Otter seine kleine Laterne wie einen goldenen Funken über dem dunklen Wasser schaukeln ließ.
+2. conversation.story.summarized: Dann hatte Yoko mit Agatha Knusperhexe am stillen Ufer den freundlichen Otter mit seiner kleinen Laterne betrachtet und verstanden, warum sein warmes Licht alles so ruhig und freundlich machte. Dabei hatte Yoko von ihrem mutigen Klettern mit ein bisschen Angst erzählt, und Agatha hatte ihr den sanften Merkspruch „Langsam, sicher, stark“ geschenkt, bevor sie zum Schluss noch gemeinsam die Sterne wie kleine Himmelslichter bestaunt hatten.
+3. conversation.message.created: Agatha Knusperhexe: Sterne sind wie kleine Lichter hoch oben am dunklen Himmel, und nachts kann man sie sehen, wenn die Sonne weg ist. Sie funkeln so hübsch, weil sie ganz weit weg sind und wie winzige Himmelslampen wirken, hihi. Magst du lieber einen ganz hellen Stern oder ganz viele kleine?
+4. conversation.message.created: Yoko: Jetzt bitte Sterne, aber nicht zu schwer erklaert, ich bin noch klein.
+5. conversation.message.created: Agatha Knusperhexe: Gut, erst das kaputte Fahrrad, dann die Sterne – eins nach dem anderen, so verheddert sich nichts in meinem Hexenhaar. Erzähl mir kurz: Was ist an deinem Fahrrad kaputt?
+6. conversation.message.created: Yoko: Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.
+7. conversation.message.created: Agatha Knusperhexe: Ich sage dir einen kleinen Hexentrick: erst atmen, dann schauen, dann greifen – immer nur ein Schritt nach dem anderen, nicht husch-husch wie ein aufgescheuchtes Waldtier. Murmel dir leise: „Langsam, sicher, stark“, dann bleibt der Mut bei dir, ohne dass du zu hastig wirst. Welchen Satz willst du dir beim Klettern merken?
+8. conversation.message.created: Yoko: Wie kann ich beim naechsten Mal mutig bleiben, ohne zu schnell zu werden?
+9. conversation.message.created: Agatha Knusperhexe: Kluge Kletterei, hm – mutig sein heißt nicht, keine Angst zu haben, sondern trotz Zitterknien weiterzumachen, und das ist stark wie ein kleiner Waldzauber. Ich klappere mit den Fingern und nicke: Beides darf da sein, Mut und Angst zugleich. Worauf warst du beim Klettern am stolzesten?
+10. conversation.message.created: Yoko: Heute war ich mutig beim Klettern, aber ich hatte auch etwas Angst.
+11. conversation.message.created: Agatha Knusperhexe: Man sieht den kleinen Otter ganz ruhig am Wasser sitzen, mit runden Augen, einem sanften Gesicht und einer warm leuchtenden Laterne in den Pfoten. Das Licht ist weich und goldgelb, und darum wirkt alles still, sicher und freundlich – fast so, als würde der Otter jemandem heimlich den Weg leuchten, hehehe. Was findest du an dem Otter am süßesten?
+12. conversation.message.created: Yoko: Was sieht man da genau und warum wirkt es so freundlich?
+13. conversation.message.created: Agatha Knusperhexe: Ich zeige dir jetzt: einen freundlichen Otter mit weichem braunem Fell, der am Ufer sitzt und eine kleine goldene Laterne in den Pfoten hält. Neben ihm glitzert das Wasser, und das warme Licht leuchtet sanft in die Dunkelheit.
+14. conversation.message.created: Yoko: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+
+## Bildreferenzen
+(keine Bildreferenzen gefunden)

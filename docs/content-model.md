@@ -21,8 +21,8 @@ Diese Datei beschreibt das YAML-Schema für Storytime-Content.
 |-----|-----------|--------------|
 | Character | `character` | `content/characters/<slug>/character.yaml` |
 | Place | `place` | `content/places/<slug>.yaml` |
-| Learning Goal | `learning-goals` | `content/learning-goals/<slug>.yaml` |
-| Artifact | `artifact` | `content/artifacts/<slug>.yaml` |
+| Learning Goal | `learning-goals` | `content/learning-goals/<uuid>/<slug>.yaml` |
+| Artifact | `artifact` | `content/artifacts/<uuid>/<slug>.yaml` |
 
 ## Character
 
@@ -239,7 +239,7 @@ Pflichtfelder:
 
 ## Learning Goal
 
-Pfad: `content/learning-goals/<slug>.yaml`
+Pfad: `content/learning-goals/<uuid>/<slug>.yaml`
 
 ```yaml
 id: 313ab6c5-0d07-48d6-aae6-458a0218c020
@@ -344,6 +344,7 @@ Optionale Felder:
 
 Hinweise:
 - Ein `Learning Goal` beschreibt eine einzelne, in etwa 30 Minuten vermittel- und quizbare Lerneinheit.
+- Learning-Goals liegen in einem UUID-Ordner; der Dateiname bleibt der fachliche Slug.
 - `topic_group` ist die grobe Themenklammer wie `Demokratie`, `Englisch`, `Geschichte` oder `Soziales Lernen`.
 - `topic` beschreibt die konkrete Session, nicht das ganze Fachgebiet.
 - Das Quiz bleibt LLM-gestuetzt und offen formuliert; `quiz.example_questions` sind Beispiele, keine starre Fragensammlung.
@@ -351,7 +352,7 @@ Hinweise:
 
 ## Artifact
 
-Pfad: `content/artifacts/<slug>.yaml`
+Pfad: `content/artifacts/<uuid>/<slug>.yaml`
 
 Artifacts sind generische Objekte (Gegenstaende, magische Items, Werkzeuge, etc.).
 
@@ -362,7 +363,59 @@ type: artifact
 artifact_type: wand
 description: >
   Ein alter, knorriger Stab aus Eichenholz, der bei Beruehrung leise summt.
-content_folder: /content/artifacts/zauberstab-der-weisheit
+appearance:
+  form: schlanker Holzstab mit gebogener Spitze
+  size: etwa unterarmlang
+  materials:
+    - Eichenholz
+    - Mondsilber
+  colors:
+    - warmes braun
+    - mattes silber
+  condition: gut gepflegt, mit feinen Gebrauchsspuren
+  distinctive_features:
+    - spiralfoermige Maserung
+    - kleine eingelassene Sternenrunen
+function:
+  primary_purpose: fokussiert kleine Licht- und Suchzauber
+  secondary_purposes:
+    - zeigt im Mondlicht versteckte Spuren
+  activation: reagiert auf ruhige, klare Sprache
+  effects:
+    - die Spitze beginnt sanft silbern zu leuchten
+    - ein leises Summen wird hoerbar
+  limitations:
+    - verliert Kraft bei Hektik und lautem Streit
+sensory_profile:
+  sound: leises, gleichmaessiges Summen
+  scent: harzig und frisch
+  texture: glatt poliertes Holz
+  aura: ruhig und wach
+origin:
+  creator: unbekannte Waldwerkstatt
+  era: alt, aber nicht antik
+  cultural_context: wurde als Werkzeug fuer achtsame Nachtwanderungen gefertigt
+  inscriptions:
+    - Licht zeigt den sanften Weg.
+images:
+  standard_artifact:
+    file: /content/artifacts/a1b2c3d4-e5f6-7890-abcd-ef1234567890/standard-artifact.png
+    description: Freigestelltes Artifact in neutraler, gut lesbarer Produktansicht.
+  hero_image:
+    file: /content/artifacts/a1b2c3d4-e5f6-7890-abcd-ef1234567890/hero-image.jpg
+    description: Cinematische Szene mit dem Artifact als visuellem Fokus.
+  portrait:
+    file: /content/artifacts/a1b2c3d4-e5f6-7890-abcd-ef1234567890/portrait.png
+    description: Halbnahe, card-taugliche Darstellung des Artifacts.
+tags:
+  - magical
+  - guiding
+  - wooden
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1
 ```
 
 Pflichtfelder:
@@ -371,7 +424,35 @@ Pflichtfelder:
 - `type: 'artifact'`
 - `artifact_type: string` (frei taxonomisch, z. B. `wand`, `book`, `amulet`)
 - `description: string`
-- `content_folder: string`
+- `appearance.form: string`
+- `appearance.materials: string[]`
+- `appearance.colors: string[]`
+- `appearance.condition: string`
+- `appearance.distinctive_features: string[]`
+- `function.primary_purpose: string`
+- `function.effects: string[]`
+- `images.standard_artifact.file: string`
+- `images.hero_image.file: string`
+- `images.portrait.file: string`
+- `tags: string[]`
+- `metadata.active: boolean`
+- `metadata.created_at: string`
+- `metadata.updated_at: string`
+- `metadata.version: integer >= 1`
+
+Optionale Felder:
+- `appearance.size: string`
+- `function.secondary_purposes: string[]`
+- `function.activation: string`
+- `function.limitations: string[]`
+- `sensory_profile.*`
+- `origin.*`
+- `images.*.description: string`
+
+Hinweise:
+- Artifacts werden ueber ihre eigenen Eigenschaften beschrieben, nicht ueber ihre Beziehungen.
+- `relationships`-Bloecke sind in Artifact-YAMLs nicht erlaubt; Beziehungen liegen ausschliesslich in der Relationship-DB/API.
+- Ablage- oder Pfad-Metadaten wie `content_folder` gehoeren nicht in das Artifact-YAML.
 
 ## Agentische Skills und Tools
 

@@ -9,6 +9,70 @@ const OPENAI_RESPONSES_URL = 'https://api.openai.com/v1/responses'
 const NEXT_SCENE_SUMMARY_MODEL = readServerEnv('RUNTIME_NEXT_SCENE_SUMMARY_MODEL', 'gpt-5.4')
 const IMAGE_PROMPT_MODEL = readServerEnv('RUNTIME_IMAGE_PROMPT_MODEL', NEXT_SCENE_SUMMARY_MODEL)
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../../../', import.meta.url)))
+const FETCH_ERROR_MESSAGE_MAX_LENGTH = 160
+
+const readCauseCode = (error: unknown): string | undefined => {
+  if (!error || typeof error !== 'object') return undefined
+  const cause = 'cause' in error ? (error as { cause?: unknown }).cause : undefined
+  if (!cause || typeof cause !== 'object') return undefined
+  const code = 'code' in cause ? (cause as { code?: unknown }).code : undefined
+  return typeof code === 'string' && code.trim().length > 0 ? code.trim() : undefined
+}
+
+const classifyFetchFailure = (code: string | undefined, message: string): string => {
+  const normalizedCode = (code ?? '').toUpperCase()
+  const normalizedMessage = message.toLowerCase()
+  if (
+    normalizedCode === 'ENOTFOUND' ||
+    normalizedCode === 'EAI_AGAIN' ||
+    normalizedMessage.includes('getaddrinfo')
+  ) {
+    return 'dns'
+  }
+  if (
+    normalizedCode === 'ETIMEDOUT' ||
+    normalizedCode === 'ABORT_ERR' ||
+    normalizedCode.includes('TIMEOUT') ||
+    normalizedMessage.includes('timed out')
+  ) {
+    return 'timeout'
+  }
+  if (
+    normalizedCode.includes('CERT') ||
+    normalizedCode.includes('TLS') ||
+    normalizedMessage.includes('certificate') ||
+    normalizedMessage.includes('tls')
+  ) {
+    return 'tls'
+  }
+  if (
+    normalizedCode === 'ECONNRESET' ||
+    normalizedCode === 'ECONNREFUSED' ||
+    normalizedCode === 'EHOSTUNREACH' ||
+    normalizedCode === 'ENETUNREACH'
+  ) {
+    return 'network'
+  }
+  return 'unknown'
+}
+
+const compactFetchErrorMessage = (prefix: string, error: unknown): string => {
+  const message = error instanceof Error ? error.message : String(error)
+  const code = readCauseCode(error)
+  const reason = classifyFetchFailure(code, message)
+  const compactMessage =
+    message.length > FETCH_ERROR_MESSAGE_MAX_LENGTH
+      ? `${message.slice(0, FETCH_ERROR_MESSAGE_MAX_LENGTH)}...`
+      : message
+  const parts = [
+    prefix,
+    'fetch-failed',
+    `reason=${reason}`,
+    code ? `code=${code}` : '',
+    `message=${compactMessage}`,
+  ].filter((item) => item.length > 0)
+  return parts.join(':')
+}
 
 let cachedSceneSummaryPrompt: string | null = null
 const loadSceneSummaryPrompt = async (): Promise<string> => {
@@ -82,6 +146,11 @@ export type StoryHistoryContext = {
   whatHappenedSoFar: StorySummaryEntry[]
   previousScene: StorySceneSnapshot | null
   latestScene: StorySceneSnapshot | null
+}
+
+export type SceneBuildResult = {
+  sceneSummary: string
+  imagePrompt: string
 }
 
 export type GroundedSceneCharacter = {
@@ -286,6 +355,17 @@ export type SceneCharacterContext = {
   fear: string
 }
 
+export type SceneLearningGoalContext = {
+  id: string
+  name: string
+  topicGroup: string
+  topic: string
+  sessionGoal: string
+  endState: string
+  coreIdeas: string[]
+  assessmentTargets: string[]
+}
+
 const formatCharacterContextText = (context: SceneCharacterContext | undefined): string => {
   if (!context) return ''
   const lines = [`CHARACTER CONTEXT (${context.name}):`]
@@ -299,6 +379,29 @@ const formatCharacterContextText = (context: SceneCharacterContext | undefined):
   if (context.quirks.length > 0) lines.push(`- Eigenheiten: ${context.quirks.join(', ')}`)
   if (context.visibleGoal) lines.push(`- Sichtbares Ziel: ${context.visibleGoal}`)
   if (context.fear) lines.push(`- Angst: ${context.fear}`)
+  return lines.join('\n')
+}
+
+const formatLearningGoalContextText = (contexts: SceneLearningGoalContext[] | undefined): string => {
+  if (!contexts || contexts.length === 0) return ''
+  const lines = [
+    'ACTIVE LEARNING GOALS:',
+    '- Wenn ein Lernziel angegeben ist, muss die naechste Szene dieses Lernziel sichtbar stuetzen.',
+    '- Das Lernziel ist dann wichtiger als lose Ausschmueckung oder zufaellige Nebenmotive.',
+  ]
+  for (const context of contexts) {
+    const topicGroup = context.topicGroup ? ` | Themenfeld: ${context.topicGroup}` : ''
+    const topic = context.topic ? ` | Thema: ${context.topic}` : ''
+    const sessionGoal = context.sessionGoal ? ` | Sitzungsziel: ${context.sessionGoal}` : ''
+    const endState = context.endState ? ` | Zielzustand: ${context.endState}` : ''
+    lines.push(`- ${context.name} (${context.id})${topicGroup}${topic}${sessionGoal}${endState}`)
+    if (context.coreIdeas.length > 0) {
+      lines.push(`  Kernideen: ${context.coreIdeas.slice(0, 4).join(' | ')}`)
+    }
+    if (context.assessmentTargets.length > 0) {
+      lines.push(`  Pruefbare Aspekte: ${context.assessmentTargets.slice(0, 4).join(' | ')}`)
+    }
+  }
   return lines.join('\n')
 }
 
@@ -423,21 +526,87 @@ const fallbackImagePromptForTests = (input: {
   )
 }
 
-export const generateNextSceneSummary = async (input: {
+const fallbackSceneBuildForTests = (input: {
+  characterName: string
+  userRequest: string
+  history: StoryHistoryContext
+  groundedSceneCharacters?: GroundedSceneCharacter[]
+}): SceneBuildResult => {
+  const sceneSummary = fallbackNextSceneSummaryForTests(input)
+  const imagePrompt = fallbackImagePromptForTests({
+    characterName: input.characterName,
+    userRequest: input.userRequest,
+    sceneSummary,
+    history: input.history,
+    groundedSceneCharacters: input.groundedSceneCharacters,
+  })
+  return { sceneSummary, imagePrompt }
+}
+
+const readResponsesText = (body: {
+  output_text?: string
+  output?: Array<{
+    content?: Array<{ type?: string; text?: string }>
+  }>
+}): string =>
+  readText(body.output_text) ||
+  readText(
+    body.output
+      ?.flatMap((item) => item.content ?? [])
+      .find((item) => item.type === 'output_text' && typeof item.text === 'string')
+      ?.text,
+  )
+
+const parseSceneBuildResult = (raw: string): SceneBuildResult | null => {
+  const tryParse = (value: string): SceneBuildResult | null => {
+    try {
+      const parsed = JSON.parse(value) as Record<string, unknown>
+      const sceneSummary = readText(parsed.sceneSummary)
+      const imagePrompt = readText(parsed.imagePrompt)
+      if (!sceneSummary || !imagePrompt) return null
+      return {
+        sceneSummary: normalizeWhitespace(sceneSummary),
+        imagePrompt,
+      }
+    } catch {
+      return null
+    }
+  }
+
+  const direct = tryParse(raw)
+  if (direct) return direct
+
+  const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)```/i)
+  if (fenced?.[1]) {
+    const fencedResult = tryParse(fenced[1].trim())
+    if (fencedResult) return fencedResult
+  }
+
+  const firstBrace = raw.indexOf('{')
+  const lastBrace = raw.lastIndexOf('}')
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    return tryParse(raw.slice(firstBrace, lastBrace + 1))
+  }
+
+  return null
+}
+
+export const generateSceneSummaryAndImagePrompt = async (input: {
   characterName: string
   characterContext?: SceneCharacterContext
+  learningGoalContexts?: SceneLearningGoalContext[]
   userRequest: string
   assistantText?: string
   history: StoryHistoryContext
   publicActivityStream: PublicActivitySummaryEntry[]
   groundedSceneCharacters?: GroundedSceneCharacter[]
-}): Promise<string> => {
+}): Promise<SceneBuildResult> => {
   const apiKey = getOpenAiApiKey()
   if (!apiKey || process.env.NODE_ENV === 'test') {
     if (!apiKey) {
-      throw new Error('next-scene-summary-unavailable:missing-openai-api-key')
+      throw new Error('scene-build-unavailable:missing-openai-api-key')
     }
-    return fallbackNextSceneSummaryForTests({
+    return fallbackSceneBuildForTests({
       characterName: input.characterName,
       userRequest: input.userRequest,
       history: input.history,
@@ -447,18 +616,34 @@ export const generateNextSceneSummary = async (input: {
 
   try {
     const sceneSummaryInstructions = await loadSceneSummaryPrompt()
+    const imagePromptInstructions = await loadImagePromptPrompt()
     const characterContextText = formatCharacterContextText(input.characterContext)
-    const summaryText = [
+    const learningGoalContextText = formatLearningGoalContextText(input.learningGoalContexts)
+    const combinedText = [
       `HAUPTFIGUR: ${input.characterName}`,
       '',
       characterContextText,
       '',
+      learningGoalContextText,
+      '',
+      'TEIL 1 - SZENEN-SUMMARY-REGELN:',
       sceneSummaryInstructions,
+      '',
+      'TEIL 2 - BILDPROMPT-REGELN:',
+      imagePromptInstructions,
       '',
       'USER REQUEST:',
       normalizeWhitespace(input.userRequest),
       '',
       input.assistantText ? `ASSISTANT TEXT HINT:\n${normalizeWhitespace(input.assistantText)}` : '',
+      '',
+      'WICHTIGER ARBEITSMODUS:',
+      '- Erzeuge zuerst intern eine kindgerechte Scene Summary (2-4 kurze deutsche Saetze).',
+      '- Erzeuge danach den Bildprompt ausschliesslich aus dieser Scene Summary.',
+      '- Nutze die letzten zwei Szenenbilder als Kontinuitaetsanker (LAST SCENE hat hoehere Prioritaet).',
+      '- Gib als Antwort NUR gueltiges JSON ohne Markdown.',
+      '- JSON-Schema: {"sceneSummary":"...","imagePrompt":"..."}',
+      '- Beide Felder sind Pflichtfelder und duerfen nicht leer sein.',
       '',
       formatGroundedSceneCharactersText(input.groundedSceneCharacters),
       '',
@@ -468,6 +653,7 @@ export const generateNextSceneSummary = async (input: {
     ]
       .filter(Boolean)
       .join('\n')
+
     const imageInputs = (
       await Promise.all([
         buildSceneImageInput(input.history.previousScene),
@@ -475,40 +661,45 @@ export const generateNextSceneSummary = async (input: {
       ])
     ).filter((item): item is { label: string; contentItem: { type: 'input_image'; image_url: string } } => item !== null)
 
-    const response = await fetch(OPENAI_RESPONSES_URL, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: NEXT_SCENE_SUMMARY_MODEL,
-        input: [
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'input_text',
-                text: summaryText,
-              },
-              ...imageInputs.map((item, index) => [
+    let response: Response
+    try {
+      response = await fetch(OPENAI_RESPONSES_URL, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: IMAGE_PROMPT_MODEL,
+          input: [
+            {
+              role: 'user',
+              content: [
                 {
-                  type: 'input_text' as const,
-                  text:
-                    index === 0
-                      ? 'BILDKONTEXT: SCENE BEFORE THAT. Dieses Bild zeigt die vorletzte Szene.'
-                      : 'BILDKONTEXT: LAST SCENE. Dieses Bild zeigt die letzte Szene und hat die staerkste visuelle Prioritaet.',
+                  type: 'input_text',
+                  text: combinedText,
                 },
-                item.contentItem,
-              ]).flat(),
-            ],
-          },
-        ],
-        max_output_tokens: 220,
-      }),
-    })
+                ...imageInputs.map((item, index) => [
+                  {
+                    type: 'input_text' as const,
+                    text:
+                      index === 0
+                        ? 'BILDKONTEXT: SCENE BEFORE THAT. Dieses Bild zeigt die vorletzte Szene.'
+                        : 'BILDKONTEXT: LAST SCENE. Dieses Bild zeigt die letzte Szene und hat die staerkste visuelle Prioritaet.',
+                  },
+                  item.contentItem,
+                ]).flat(),
+              ],
+            },
+          ],
+          max_output_tokens: 520,
+        }),
+      })
+    } catch (fetchError) {
+      throw new Error(compactFetchErrorMessage('scene-build-unavailable', fetchError))
+    }
     if (!response.ok) {
-      throw new Error(`next-scene-summary-unavailable:http-${response.status}`)
+      throw new Error(`scene-build-unavailable:http-${response.status}`)
     }
     const body = (await response.json()) as {
       output_text?: string
@@ -516,132 +707,55 @@ export const generateNextSceneSummary = async (input: {
         content?: Array<{ type?: string; text?: string }>
       }>
     }
-    const content =
-      readText(body.output_text) ||
-      readText(
-        body.output
-          ?.flatMap((item) => item.content ?? [])
-          .find((item) => item.type === 'output_text' && typeof item.text === 'string')
-          ?.text,
-      )
+    const content = readResponsesText(body)
     if (!content) {
-      throw new Error('next-scene-summary-unavailable:empty-response')
+      throw new Error('scene-build-unavailable:empty-response')
     }
-    return normalizeWhitespace(content)
+    const parsed = parseSceneBuildResult(content)
+    if (parsed) return parsed
+    return fallbackSceneBuildForTests({
+      characterName: input.characterName,
+      userRequest: input.userRequest,
+      history: input.history,
+      groundedSceneCharacters: input.groundedSceneCharacters,
+    })
   } catch (error) {
     if (error instanceof Error) throw error
-    throw new Error('next-scene-summary-unavailable:unknown')
+    throw new Error('scene-build-unavailable:unknown')
   }
 }
 
-export const generateImagePromptFromSceneSummary = async (input: {
+export const generateNextSceneSummary = async (input: {
   characterName: string
   characterContext?: SceneCharacterContext
+  learningGoalContexts?: SceneLearningGoalContext[]
   userRequest: string
-  sceneSummary: string
+  assistantText?: string
   history: StoryHistoryContext
   publicActivityStream: PublicActivitySummaryEntry[]
   groundedSceneCharacters?: GroundedSceneCharacter[]
 }): Promise<string> => {
-  const apiKey = getOpenAiApiKey()
-  if (!apiKey || process.env.NODE_ENV === 'test') {
-    if (!apiKey) {
-      throw new Error('image-prompt-unavailable:missing-openai-api-key')
-    }
-    return fallbackImagePromptForTests(input)
-  }
-
-  const imageInputs = (
-    await Promise.all([
-      buildSceneImageInput(input.history.previousScene),
-      buildSceneImageInput(input.history.latestScene),
-    ])
-  ).filter((item): item is { label: string; contentItem: { type: 'input_image'; image_url: string } } => item !== null)
-
-  const imagePromptInstructions = await loadImagePromptPrompt()
-  const characterContextText = formatCharacterContextText(input.characterContext)
-  const promptText = [
-    `HAUPTFIGUR: ${input.characterName}`,
-    '',
-    characterContextText,
-    '',
-    imagePromptInstructions,
-    '',
-    'USER REQUEST:',
-    normalizeWhitespace(input.userRequest),
-    '',
-    'SCENE SUMMARY:',
-    input.sceneSummary,
-    '',
-    formatGroundedSceneCharactersText(input.groundedSceneCharacters),
-    '',
-    buildPublicActivityStreamText(input.publicActivityStream),
-    '',
-    buildStoryHistoryContextText(input.history),
-  ].join('\n')
-
-  const response = await fetch(OPENAI_RESPONSES_URL, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: IMAGE_PROMPT_MODEL,
-      input: [
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'input_text',
-              text: promptText,
-            },
-            ...imageInputs
-              .map((item, index) => [
-                {
-                  type: 'input_text' as const,
-                  text:
-                    index === 0
-                      ? 'BILDKONTEXT: SCENE BEFORE THAT. Dieses Bild zeigt die vorletzte Szene.'
-                      : 'BILDKONTEXT: LAST SCENE. Dieses Bild zeigt die letzte Szene und hat die staerkste visuelle Prioritaet.',
-                },
-                item.contentItem,
-              ])
-              .flat(),
-          ],
-        },
-      ],
-      max_output_tokens: 320,
-    }),
-  })
-  if (!response.ok) {
-    throw new Error(`image-prompt-unavailable:http-${response.status}`)
-  }
-  const body = (await response.json()) as {
-    output_text?: string
-    output?: Array<{
-      content?: Array<{ type?: string; text?: string }>
-    }>
-  }
-  const content =
-    readText(body.output_text) ||
-    readText(
-      body.output
-        ?.flatMap((item) => item.content ?? [])
-        .find((item) => item.type === 'output_text' && typeof item.text === 'string')
-        ?.text,
-    )
-  if (!content) {
-    throw new Error('image-prompt-unavailable:empty-response')
-  }
-  return content
+  const result = await generateSceneSummaryAndImagePrompt(input)
+  return result.sceneSummary
 }
 
+export const generateImagePromptFromSceneSummary = async (input: {
+  characterName: string
+  userRequest: string
+  sceneSummary: string
+  history: StoryHistoryContext
+  groundedSceneCharacters?: GroundedSceneCharacter[]
+}): Promise<string> =>
+  fallbackImagePromptForTests({
+    characterName: input.characterName,
+    userRequest: input.userRequest,
+    sceneSummary: input.sceneSummary,
+    history: input.history,
+    groundedSceneCharacters: input.groundedSceneCharacters,
+  })
+
 export const pickPreferredCharacterImagePath = (imageRefs: CollatedImageRef[]): string | undefined =>
-  imageRefs.find((item) => item.kind === 'standard')?.path ??
-  imageRefs.find((item) => item.kind === 'portrait')?.path ??
-  imageRefs.find((item) => item.kind === 'hero')?.path ??
-  imageRefs.find((item) => item.kind === 'profile')?.path
+  imageRefs.find((item) => item.kind === 'standard')?.path
 
 export const collectMentionedRelatedObjects = (input: {
   text: string

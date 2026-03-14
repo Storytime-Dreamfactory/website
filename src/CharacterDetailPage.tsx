@@ -1,8 +1,8 @@
-import type { CSSProperties } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Tag, Typography } from 'antd'
-import { BookOutlined } from '@ant-design/icons'
-import type { StoryContent } from './content/types'
+import { BookOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
+import type { Character, StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
 import useCharacterData from './useCharacterData'
 
@@ -12,22 +12,45 @@ type Props = {
   content: StoryContent
 }
 
+function collectCharacterImageUrls(character: Character): string[] {
+  const candidates = [
+    character.images.heroImage?.file,
+    character.images.portrait?.file,
+    character.images.profileImage?.file,
+    character.images.standardFigure?.file,
+    ...character.images.additionalImages.map((image) => image.file),
+  ]
+
+  const deduped = new Set<string>()
+  const imageUrls: string[] = []
+  for (const candidate of candidates) {
+    if (!candidate || deduped.has(candidate)) continue
+    deduped.add(candidate)
+    imageUrls.push(candidate)
+  }
+
+  return imageUrls
+}
+
 export default function CharacterDetailPage({ content }: Props) {
 
   const {
     id,
     navigate,
     character,
-    heroUrl,
     relatedCharacters,
     activeHeroUrl,
     incomingHeroUrl,
     isMemoryOverlayActive,
     isHeroParallaxEnabled,
     detailStyle,
+    transitionToHeroUrl,
     handleHeroMouseMove,
     resetHeroParallax,
+    setHeroViewMode,
   } = useCharacterData({ content, loadActivities: false })
+  const imageUrls = useMemo(() => (character ? collectCharacterImageUrls(character) : []), [character])
+  const [activeImageIndex, setActiveImageIndex] = useState(0)
 
   if (!character) {
     return (
@@ -38,6 +61,16 @@ export default function CharacterDetailPage({ content }: Props) {
         </Button>
       </div>
     )
+  }
+
+  const cycleImage = (step: number) => {
+    if (imageUrls.length === 0) return
+    const nextIndex = (activeImageIndex + step + imageUrls.length) % imageUrls.length
+    const nextImageUrl = imageUrls[nextIndex]
+    if (!nextImageUrl) return
+    setActiveImageIndex(nextIndex)
+    setHeroViewMode('character-hero')
+    transitionToHeroUrl(nextImageUrl)
   }
 
   return (
@@ -60,6 +93,22 @@ export default function CharacterDetailPage({ content }: Props) {
 
       <div className="character-detail-content">
         <div className="character-detail-info">
+          <div className="character-detail-image-nav" aria-label="Character-Bilder wechseln">
+            <Button
+              type="text"
+              className="character-detail-image-nav-btn"
+              onClick={() => cycleImage(-1)}
+              aria-label="Vorheriges Bild"
+              icon={<LeftOutlined />}
+            />
+            <Button
+              type="text"
+              className="character-detail-image-nav-btn"
+              onClick={() => cycleImage(1)}
+              aria-label="Naechstes Bild"
+              icon={<RightOutlined />}
+            />
+          </div>
           <Text className="character-detail-species">{character.basis.species}</Text>
           <Title level={1} className="character-detail-name">
             {character.name}

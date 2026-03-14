@@ -1,0 +1,302 @@
+{
+  "generatedAt": "2026-03-13T21:13:57.838Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90",
+    "name": "Marija Poppins",
+    "type": "character",
+    "slug": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90",
+    "shortDescription": "Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen.",
+    "basis": {
+      "ageHint": "erwachsen",
+      "species": "gute Fee",
+      "genderExpression": "feminin",
+      "roleArchetype": "caregiver"
+    },
+    "voice": "cedar",
+    "voiceProfile": {
+      "identity": "Ruhige, weich klingende Frauenstimme mit reifer Waerme, dunklem Schimmer und einem jungen, tanzenden Unterton",
+      "demeanor": "Umsorgend und gelassen, als wuerde sie beim Sprechen schon eine Decke glattstreichen und Tee einschenken",
+      "tone": "Sanft melodisch, freundlich und leicht singend, mit kleinen aufhellenden Betonungen bei schoenen oder lustigen Dingen",
+      "enthusiasmLevel": "mittel",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "ruhig fliessend mit weichen Pausen, bei Freude etwas leichter und beschwingter"
+    },
+    "appearance": {
+      "bodyShape": "gross gewachsen, aufrecht, weich und elegant in den Bewegungen",
+      "colors": [
+        "dunkelbraun",
+        "nachtblau",
+        "warmes gold"
+      ],
+      "hairOrFur": {
+        "color": "dunkelbraun",
+        "texture": "glatt mit sanfter Welle",
+        "length": "lang"
+      },
+      "eyes": {
+        "color": "dunkelbraun",
+        "expression": "warm, ruhig und aufmerksam"
+      },
+      "distinctiveFeatures": [
+        "lange dunkelbraune Haare",
+        "goldene Ohrringe als fester Wiedererkennungsanker",
+        "freundliches Laecheln und aufgeraumte, sichere Haltung"
+      ],
+      "clothingStyle": "schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer"
+    },
+    "personality": {
+      "coreTraits": [
+        "fuersorglich",
+        "ordnungsliebend",
+        "lebensfroh"
+      ],
+      "temperament": "ruhig",
+      "socialStyle": "beschuetzend",
+      "strengths": [
+        "schafft schnell eine warme und sichere Atmosphaere",
+        "kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben"
+      ],
+      "weaknesses": [
+        "kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst",
+        "wird unruhig, wenn Chaos oder Streit lange anhalten"
+      ],
+      "quirks": [
+        "summt beim Kochen und Putzen leise Tanzmelodien",
+        "richtet Kissen, Decken oder Kragen fast automatisch gerade"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken",
+      "deeperNeed": "Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden",
+      "fear": "Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt",
+      "insecurity": "Bin ich zu alt fuer so viel Leichtigkeit in mir?",
+      "stressResponse": "reflect",
+      "growthDirection": "Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "helper",
+        "guide"
+      ],
+      "suitableLearningGoals": [
+        "Freundlichkeit",
+        "Teilen",
+        "Selbstregulation"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Mondlaternen-Gasse",
+      "upbringingPlaces": [
+        "Mondlaternen-Gasse",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "haelt gemeinsame Mahlzeiten fuer einen wichtigen Teil von Fuersorge",
+        "verbindet Sauberkeit und Ordnung mit Ruhe, Respekt und Geborgenheit"
+      ],
+      "religionOrBelief": "Glaubt daran, dass kleine gute Taten ein Haus heller machen",
+      "historicalContext": [
+        "wuchs in einem Haushalt auf, in dem mehrere Generationen zusammen fuer andere sorgten"
+      ],
+      "notes": "Ihre Herkunft passt gut fuer Geschichten ueber Zuhause, Alltagsmagie und verlaessliche Fuersorge"
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "3d1ad7b2-990f-4655-902c-e1baf8d87cbe",
+          "type": "fuersorgliche_bezugsperson",
+          "description": "Fuer Yoko ist Marija eine verlassliche Erwachsene, die zuhoert, kocht und Halt gibt"
+        }
+      ],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "rueckzugsort",
+          "description": "In Whispering Meadow findet Marija Ruhe, sammelt Kraeuter und kommt auf gute Gedanken"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur einer grossen, freundlichen guten Fee mit heller Haut, langen dunkelbraunen Haaren, dunkelbraunen Augen und warmem Laecheln. Sie traegt ein schlichtes nachtblaues Kleid mit dezenten goldenen Akzenten und goldene Ohrringe. Aufrechte, ruhige Haltung, weiche elegante Silhouette, sauber und gepflegt, mit einem feinen maerchenhaften Schimmer."
+      },
+      "heroImage": {
+        "file": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in einer warmen Kueche am Abend: Marija Poppins steht in nachtblauer Kleidung zwischen sanftem Licht, ordentlichen Regalen und dampfendem Essen, waehrend sie sich mit ruhigem Laecheln zu einem Kind herunterbeugt. Lange dunkelbraune Haare, goldene Ohrringe und warmes Goldlicht bilden die klaren visuellen Anker."
+      },
+      "portrait": {
+        "file": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait mit heller Haut, langen dunkelbraunen Haaren, dunklen freundlichen Augen, warmem Laecheln und goldenen Ohrringen. Dunkles nachtblaues Oberteil, ruhige froehliche Ausstrahlung, gepflegt und muetterlich ohne streng zu wirken."
+      },
+      "profileImage": {
+        "file": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: lange dunkelbraune Haare, dunkle Augen, warmes Laecheln, goldene Ohrringe und ein nachtblauer Bildakzent. Der Ausdruck ist ruhig, lieb und einladend."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Marija Poppins mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Marija Poppins mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "Freundlichkeit",
+      "Teilen",
+      "Selbstregulation",
+      "caregiver",
+      "helper",
+      "guide",
+      "hausmagie",
+      "fuer_sorge",
+      "ordnungsliebend",
+      "kocht_gern",
+      "beschuetzend",
+      "alltagswaerme",
+      "zugehoerigkeit",
+      "innere_jugend",
+      "Whispering_Meadow"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-13",
+      "updatedAt": "2026-03-13",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "skipped",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Marija Poppins. Short description: Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: caregiver. Body shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun glatt mit sanfter Welle lang. Eyes: dunkelbraun, warm, ruhig und aufmerksam. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe als fester Wiedererkennungsanker, freundliches Laecheln und aufgeraumte, sichere Haltung. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer. Core traits: fuersorglich, ordnungsliebend, lebensfroh. Temperament: ruhig. Social style: beschuetzend. Strengths: schafft schnell eine warme und sichere Atmosphaere, kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben. Weaknesses: kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst, wird unruhig, wenn Chaos oder Streit lange anhalten. Quirks: summt beim Kochen und Putzen leise Tanzmelodien, richtet Kissen, Decken oder Kragen fast automatisch gerade. Visible goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken. Deeper need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden. Fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt. Insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir. Stress response: reflect. Growth direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt. Teaching roles: helper, guide. Explanation style: example_based. Create a full-body standard character asset of Marija Poppins on a solid pure white background. Show enough of the body to keep the gute Fee identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur einer grossen, freundlichen guten Fee mit heller Haut, langen dunkelbraunen Haaren, dunkelbraunen Augen und warmem Laecheln. Sie traegt ein schlichtes nachtblaues Kleid mit dezenten goldenen Akzenten und goldene Ohrringe. Aufrechte, ruhige Haltung, weiche elegante Silhouette, sauber und gepflegt, mit einem feinen maerchenhaften Schimmer. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur einer grossen, freundlichen guten Fee mit heller Haut, langen dunkelbraunen Haaren, dunkelbraunen Augen und warmem Laecheln. Sie traegt ein schlichtes nachtblaues Kleid mit dezenten goldenen Akzenten und goldene Ohrringe. Aufrechte, ruhige Haltung, weiche elegante Silhouette, sauber und gepflegt, mit einem feinen maerchenhaften Schimmer.",
+      "publicFilePath": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "reason": "No reference images available for image-edit mode"
+    },
+    {
+      "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Marija Poppins. Short description: Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: caregiver. Body shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun glatt mit sanfter Welle lang. Eyes: dunkelbraun, warm, ruhig und aufmerksam. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe als fester Wiedererkennungsanker, freundliches Laecheln und aufgeraumte, sichere Haltung. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer. Core traits: fuersorglich, ordnungsliebend, lebensfroh. Temperament: ruhig. Social style: beschuetzend. Strengths: schafft schnell eine warme und sichere Atmosphaere, kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben. Weaknesses: kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst, wird unruhig, wenn Chaos oder Streit lange anhalten. Quirks: summt beim Kochen und Putzen leise Tanzmelodien, richtet Kissen, Decken oder Kragen fast automatisch gerade. Visible goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken. Deeper need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden. Fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt. Insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir. Stress response: reflect. Growth direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt. Teaching roles: helper, guide. Explanation style: example_based. Birth place: Mondlaternen-Gasse. Raised in: Mondlaternen-Gasse, Whispering Meadow. Cultural context: haelt gemeinsame Mahlzeiten fuer einen wichtigen Teil von Fuersorge, verbindet Sauberkeit und Ordnung mit Ruhe, Respekt und Geborgenheit. Belief or worldview: Glaubt daran, dass kleine gute Taten ein Haus heller machen. Historical context: wuchs in einem Haushalt auf, in dem mehrere Generationen zusammen fuer andere sorgten. Origin notes: Ihre Herkunft passt gut fuer Geschichten ueber Zuhause, Alltagsmagie und verlaessliche Fuersorge. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Marija Poppins in a cinematic story moment. Treat Marija Poppins as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Marija Poppins more than Marija Poppins does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in einer warmen Kueche am Abend: Marija Poppins steht in nachtblauer Kleidung zwischen sanftem Licht, ordentlichen Regalen und dampfendem Essen, waehrend sie sich mit ruhigem Laecheln zu einem Kind herunterbeugt. Lange dunkelbraune Haare, goldene Ohrringe und warmes Goldlicht bilden die klaren visuellen Anker. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Marija Poppins as the only primary character in frame; no other person may become the visual focus or share Marija Poppins's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in einer warmen Kueche am Abend: Marija Poppins steht in nachtblauer Kleidung zwischen sanftem Licht, ordentlichen Regalen und dampfendem Essen, waehrend sie sich mit ruhigem Laecheln zu einem Kind herunterbeugt. Lange dunkelbraune Haare, goldene Ohrringe und warmes Goldlicht bilden die klaren visuellen Anker.",
+      "publicFilePath": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "1104b9d0-50de-4f5d-87dc-9486d437eea3",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/e6152c68fa77492d8a82a451a60d2686_sample.jpeg?se=2026-03-13T21%3A21%3A31Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=0OHHu%2BN09VNelEyRQn0GiDuLUJ22Tgw7X0k2lMuxpVk%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Marija Poppins. Short description: Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: caregiver. Body shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun glatt mit sanfter Welle lang. Eyes: dunkelbraun, warm, ruhig und aufmerksam. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe als fester Wiedererkennungsanker, freundliches Laecheln und aufgeraumte, sichere Haltung. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer. Core traits: fuersorglich, ordnungsliebend, lebensfroh. Temperament: ruhig. Social style: beschuetzend. Strengths: schafft schnell eine warme und sichere Atmosphaere, kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben. Weaknesses: kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst, wird unruhig, wenn Chaos oder Streit lange anhalten. Quirks: summt beim Kochen und Putzen leise Tanzmelodien, richtet Kissen, Decken oder Kragen fast automatisch gerade. Visible goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken. Deeper need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden. Fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt. Insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir. Stress response: reflect. Growth direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt. Teaching roles: helper, guide. Explanation style: example_based. Birth place: Mondlaternen-Gasse. Raised in: Mondlaternen-Gasse, Whispering Meadow. Cultural context: haelt gemeinsame Mahlzeiten fuer einen wichtigen Teil von Fuersorge, verbindet Sauberkeit und Ordnung mit Ruhe, Respekt und Geborgenheit. Belief or worldview: Glaubt daran, dass kleine gute Taten ein Haus heller machen. Historical context: wuchs in einem Haushalt auf, in dem mehrere Generationen zusammen fuer andere sorgten. Origin notes: Ihre Herkunft passt gut fuer Geschichten ueber Zuhause, Alltagsmagie und verlaessliche Fuersorge. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Marija Poppins. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait mit heller Haut, langen dunkelbraunen Haaren, dunklen freundlichen Augen, warmem Laecheln und goldenen Ohrringen. Dunkles nachtblaues Oberteil, ruhige froehliche Ausstrahlung, gepflegt und muetterlich ohne streng zu wirken. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Marija Poppins as the only primary character in frame; no other person may become the visual focus or share Marija Poppins's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait mit heller Haut, langen dunkelbraunen Haaren, dunklen freundlichen Augen, warmem Laecheln und goldenen Ohrringen. Dunkles nachtblaues Oberteil, ruhige froehliche Ausstrahlung, gepflegt und muetterlich ohne streng zu wirken.",
+      "publicFilePath": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "04b93b59-d4c5-46b8-be21-b6a9969d4a84",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/37cd4d72e5f746a39f4896b73c94c036_sample.png?se=2026-03-13T21%3A22%3A16Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=RqfeUGhM8VijmqruzCMFbJ6%2BrA1gwhhKUKkw6qSI2NI%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Marija Poppins. Short description: Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: caregiver. Body shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun glatt mit sanfter Welle lang. Eyes: dunkelbraun, warm, ruhig und aufmerksam. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe als fester Wiedererkennungsanker, freundliches Laecheln und aufgeraumte, sichere Haltung. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer. Core traits: fuersorglich, ordnungsliebend, lebensfroh. Temperament: ruhig. Social style: beschuetzend. Strengths: schafft schnell eine warme und sichere Atmosphaere, kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben. Weaknesses: kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst, wird unruhig, wenn Chaos oder Streit lange anhalten. Quirks: summt beim Kochen und Putzen leise Tanzmelodien, richtet Kissen, Decken oder Kragen fast automatisch gerade. Visible goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken. Deeper need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden. Fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt. Insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir. Stress response: reflect. Growth direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt. Teaching roles: helper, guide. Explanation style: example_based. Birth place: Mondlaternen-Gasse. Raised in: Mondlaternen-Gasse, Whispering Meadow. Cultural context: haelt gemeinsame Mahlzeiten fuer einen wichtigen Teil von Fuersorge, verbindet Sauberkeit und Ordnung mit Ruhe, Respekt und Geborgenheit. Belief or worldview: Glaubt daran, dass kleine gute Taten ein Haus heller machen. Historical context: wuchs in einem Haushalt auf, in dem mehrere Generationen zusammen fuer andere sorgten. Origin notes: Ihre Herkunft passt gut fuer Geschichten ueber Zuhause, Alltagsmagie und verlaessliche Fuersorge. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Marija Poppins. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Gesicht: lange dunkelbraune Haare, dunkle Augen, warmes Laecheln, goldene Ohrringe und ein nachtblauer Bildakzent. Der Ausdruck ist ruhig, lieb und einladend. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Marija Poppins as the only primary character in frame; no other person may become the visual focus or share Marija Poppins's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: lange dunkelbraune Haare, dunkle Augen, warmes Laecheln, goldene Ohrringe und ein nachtblauer Bildakzent. Der Ausdruck ist ruhig, lieb und einladend.",
+      "publicFilePath": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "ecc0d8ea-3412-44a2-830b-66f6fbd4a3c4",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/13/a13ca41a0e23468ea994c5c14f1c9a6f_sample.png?se=2026-03-13T21%3A22%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=hYW8gJlwBXoUdFU/59RVSwyIU%2BkknyLib2fROteaZkM%3D",
+      "cost": 6
+    },
+    {
+      "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Marija Poppins. Short description: Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: caregiver. Body shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun glatt mit sanfter Welle lang. Eyes: dunkelbraun, warm, ruhig und aufmerksam. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe als fester Wiedererkennungsanker, freundliches Laecheln und aufgeraumte, sichere Haltung. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer. Core traits: fuersorglich, ordnungsliebend, lebensfroh. Temperament: ruhig. Social style: beschuetzend. Strengths: schafft schnell eine warme und sichere Atmosphaere, kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben. Weaknesses: kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst, wird unruhig, wenn Chaos oder Streit lange anhalten. Quirks: summt beim Kochen und Putzen leise Tanzmelodien, richtet Kissen, Decken oder Kragen fast automatisch gerade. Visible goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken. Deeper need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden. Fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt. Insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir. Stress response: reflect. Growth direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt. Teaching roles: helper, guide. Explanation style: example_based. Keep the same exact character identity as the character reference and show Marija Poppins expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the gute Fee identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Marija Poppins mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Marija Poppins mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "a92a6006-6c91-4ba6-a03b-2355a51173c2",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/13/47b4157bfc614807ba327ef2a66edda2_sample.png?se=2026-03-13T21%3A23%3A06Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=RNbUoWQsf0JBCm2vKCwBL3geWM6D9vQI4PdtQ40MGdA%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Marija Poppins. Short description: Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen. Species: gute Fee. The character must read unmistakably as a gute Fee at first glance and must never be mistaken for another species. Age feel: erwachsen. Archetype: caregiver. Body shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen. Dominant colors: dunkelbraun, nachtblau, warmes gold. Hair or fur: dunkelbraun glatt mit sanfter Welle lang. Eyes: dunkelbraun, warm, ruhig und aufmerksam. Distinctive features: lange dunkelbraune Haare, goldene Ohrringe als fester Wiedererkennungsanker, freundliches Laecheln und aufgeraumte, sichere Haltung. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer. Core traits: fuersorglich, ordnungsliebend, lebensfroh. Temperament: ruhig. Social style: beschuetzend. Strengths: schafft schnell eine warme und sichere Atmosphaere, kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben. Weaknesses: kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst, wird unruhig, wenn Chaos oder Streit lange anhalten. Quirks: summt beim Kochen und Putzen leise Tanzmelodien, richtet Kissen, Decken oder Kragen fast automatisch gerade. Visible goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken. Deeper need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden. Fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt. Insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir. Stress response: reflect. Growth direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt. Teaching roles: helper, guide. Explanation style: example_based. Keep the same exact character identity as the character reference and show Marija Poppins expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the gute Fee identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Marija Poppins mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Marija Poppins mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "8576c0f4-bc4d-47b3-a3ef-b6c4bea6d7f5",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/13/0f4bcbba917f4336a8fb82ee4f4e73f3_sample.png?se=2026-03-13T21%3A23%3A54Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=SLG4wVw0ut1d/tTsWa3BC2kEeY%2BIz%2BtFVy0t9e%2BriLs%3D",
+      "cost": 7.5
+    }
+  ]
+}

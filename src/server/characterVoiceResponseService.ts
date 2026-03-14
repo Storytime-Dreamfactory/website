@@ -403,20 +403,45 @@ const buildLearningGoalContextBlock = async (
   if (profiles.length === 0) return ''
   const lines = [
     '## Aktive Lernziele im Gespraech',
-    'Nutze diese Ziele als sanfte Leitplanken fuer deine Gespraechsfuehrung.',
+    'Wenn hier ein Lernziel aktiv ist, ist es das Hauptziel dieser Session.',
+    'Dein einziges Ziel in dieser Session ist dann, die Lerninhalte spielerisch rueberzubringen.',
+    'Fuehre das Gespraech staendig kindgerecht auf dieses Ziel hin, ohne schulisch oder mechanisch zu klingen.',
+    'Bleibe trotzdem in Character und natuerlich im Dialog. Wenn kein Lernziel aktiv ist, gelten diese Regeln nicht.',
+    'Du darfst frei entscheiden, ob du dafuer eher erklaerst, fragst, uebst, Geschichten baust, Beispiele gibst, Bilder nutzt oder auf Beziehungen und Erinnerungen zurueckgreifst.',
+    'Nutze dafuer bewusst beide Modi: normales Chatten fuer Erklaerung und Rueckfragen, create_scene fuer sichtbare Beispiele im Bild.',
+    'Empfohlener Lernrhythmus bei aktivem Lernziel: kurz erklaeren -> mit create_scene ein konkretes Beispiel zeigen -> mit 1 klaren Frage zum Bild pruefen, ob das Kind es verstanden hat.',
+    'Wenn du ein Bild gezeigt hast, stelle anschliessend eine konkrete Verstaendnisfrage zum sichtbaren Inhalt (z. B. "Welche Zahl ist groesser?" oder "Welche Handlung ist hier freundlich?").',
   ]
   for (const profile of profiles.slice(0, 3)) {
     const topicGroup = profile.topicGroup ? ` | Themenfeld: ${profile.topicGroup}` : ''
     const topic = profile.topic ? ` | Thema: ${profile.topic}` : ''
     const sessionGoal = profile.sessionGoal ? ` | Sitzungsziel: ${profile.sessionGoal}` : ''
-    const practiceIdea =
-      profile.practiceIdeas.length > 0
-        ? ` | Praxisidee: ${profile.practiceIdeas[0]}`
-        : ''
-    lines.push(`- ${profile.name} (${profile.id})${topicGroup}${topic}${sessionGoal}${practiceIdea}`)
+    const endState = profile.endState ? ` | Zielzustand: ${profile.endState}` : ''
+    lines.push(`- ${profile.name} (${profile.id})${topicGroup}${topic}${sessionGoal}${endState}`)
+    if (profile.coreIdeas.length > 0) {
+      lines.push(`  Kernideen: ${profile.coreIdeas.slice(0, 3).join(' | ')}`)
+    }
+    if (profile.practiceIdeas.length > 0) {
+      lines.push(`  Praxisidee: ${profile.practiceIdeas[0]}`)
+    }
+    if (profile.hintSequence.length > 0) {
+      lines.push(`  Hilfereihenfolge: ${profile.hintSequence.slice(0, 2).join(' | ')}`)
+    }
   }
   lines.push(
-    '- Verbinde Antworten mit einer kleinen kindgerechten Handlung oder Entscheidung, damit das Ziel im Dialog sichtbar wird.',
+    '- Jede Antwort soll entweder erklaeren, ueben, rueckfragen, bestaerken oder den naechsten kleinen Schritt in Richtung Lernziel oeffnen.',
+  )
+  lines.push(
+    '- Verliere den roten Faden nicht: lenke freundlich zur Sache zurueck, wenn das Kind abschweift, ohne hart abzublocken.',
+  )
+  lines.push(
+    '- Nutze frei alle verfuegbaren Hilfsmittel aus dem Kontext, wenn sie dem Lernziel dienen: Beziehungen, Activities, Erinnerungen, Bilder, sichtbare Szenen oder kleine spielerische Aufgaben.',
+  )
+  lines.push(
+    '- Konkrete create_scene-Beispiele: (1) Zahlen ordnen: Du zeigst drei Zahlenobjekte im Bild und fragst danach, welche Zahl groesser/kleiner ist. (2) Problem loesen: Du zeigst eine kleine Alltagsszene mit Hindernis und fragst nach dem naechsten sinnvollen Schritt. (3) Freundlichkeit: Du zeigst ein Kind in einer schwierigen Situation und fragst, welche freundliche Handlung passt.',
+  )
+  lines.push(
+    '- Nutze pro Turn nur den naechsten kleinen Lernschritt. Keine langen Erklaermonologe; lieber kurz zeigen, kurz fragen, kurz bestaerken.',
   )
   return lines.join('\n')
 }

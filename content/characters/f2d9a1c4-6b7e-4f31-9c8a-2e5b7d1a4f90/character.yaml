@@ -1,0 +1,135 @@
+id: f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90
+name: Marija Poppins
+kurzbeschreibung: |
+  Marija Poppins ist eine grosse, warmherzige gute Fee mit langen dunkelbraunen Haaren, dunklen Augen und goldenen Ohrringen. Sie sorgt mit ruhiger Freude fuer Ordnung, gutes Essen und ein Zuhause, in dem Kinder sich geborgen fuehlen.
+basis:
+  age_hint: erwachsen
+  species: gute Fee
+  gender_expression: feminin
+  role_archetype: caregiver
+voice: cedar
+voice_profile:
+  identity: Ruhige, weich klingende Frauenstimme mit reifer Waerme, dunklem Schimmer und einem jungen, tanzenden Unterton
+  demeanor: Umsorgend und gelassen, als wuerde sie beim Sprechen schon eine Decke glattstreichen und Tee einschenken
+  tone: Sanft melodisch, freundlich und leicht singend, mit kleinen aufhellenden Betonungen bei schoenen oder lustigen Dingen
+  enthusiasm_level: mittel
+  formality_level: locker
+  emotion_level: ausgewogen
+  filler_words: occasionally
+  pacing: ruhig fliessend mit weichen Pausen, bei Freude etwas leichter und beschwingter
+erscheinung:
+  body_shape: gross gewachsen, aufrecht, weich und elegant in den Bewegungen
+  colors:
+    - dunkelbraun
+    - nachtblau
+    - warmes gold
+  hair_or_fur:
+    color: dunkelbraun
+    texture: glatt mit sanfter Welle
+    length: lang
+  eyes:
+    color: dunkelbraun
+    expression: warm, ruhig und aufmerksam
+  distinctive_features:
+    - lange dunkelbraune Haare
+    - goldene Ohrringe als fester Wiedererkennungsanker
+    - freundliches Laecheln und aufgeraumte, sichere Haltung
+  clothing_style: schlichtes nachtblaues Kleid oder dunkles Oberteil mit goldenen Details, sauber, gepflegt und alltagstauglich mit einem feinen maerchenhaften Schimmer
+persoenlichkeit:
+  core_traits:
+    - fuersorglich
+    - ordnungsliebend
+    - lebensfroh
+  temperament: ruhig
+  social_style: beschuetzend
+  strengths:
+    - schafft schnell eine warme und sichere Atmosphaere
+    - kann mit gutem Essen, Ordnung und kleinen Gesten Trost geben
+  weaknesses:
+    - kuemmert sich manchmal erst um alle anderen und zu spaet um sich selbst
+    - wird unruhig, wenn Chaos oder Streit lange anhalten
+  quirks:
+    - summt beim Kochen und Putzen leise Tanzmelodien
+    - richtet Kissen, Decken oder Kragen fast automatisch gerade
+story_psychology:
+  visible_goal: Fuer Yuna, Yoko und Lola da sein und ihnen ein sicheres, froehliches Zuhause schenken
+  deeper_need: Sie moechte gebraucht werden und trotz ihres aelteren Koerpers als lebendig, leicht und nahbar wahrgenommen werden
+  fear: Dass die Kinder sie nur als strenge Aufraeum-Fee sehen und nicht merken, wie viel Freude und Herz in ihr steckt
+  insecurity: Bin ich zu alt fuer so viel Leichtigkeit in mir?
+  stress_response: reflect
+  growth_direction: Sie lernt, dass ihre junge Seele und ihr reifer Koerper zusammen eine besondere Staerke sind und dass Naehe nicht von Perfektion abhaengt
+learning_function:
+  teaching_roles:
+    - helper
+    - guide
+  suitable_learning_goals:
+    - Freundlichkeit
+    - Teilen
+    - Selbstregulation
+  explanation_style: example_based
+herkunft:
+  geburtsort: Mondlaternen-Gasse
+  aufgewachsen_in:
+    - Mondlaternen-Gasse
+    - Whispering Meadow
+  kulturelle_praegung:
+    - haelt gemeinsame Mahlzeiten fuer einen wichtigen Teil von Fuersorge
+    - verbindet Sauberkeit und Ordnung mit Ruhe, Respekt und Geborgenheit
+  religion_oder_weltbild: Glaubt daran, dass kleine gute Taten ein Haus heller machen
+  historische_praegung:
+    - wuchs in einem Haushalt auf, in dem mehrere Generationen zusammen fuer andere sorgten
+  notizen: Ihre Herkunft passt gut fuer Geschichten ueber Zuhause, Alltagsmagie und verlaessliche Fuersorge
+relationships:
+  characters:
+    - character_id: 3d1ad7b2-990f-4655-902c-e1baf8d87cbe
+      typ: fuersorgliche_bezugsperson
+      beschreibung: Fuer Yoko ist Marija eine verlassliche Erwachsene, die zuhoert, kocht und Halt gibt
+  places:
+    - place_id: ce0cc7ef-99e8-4138-a3ac-a6255e891532
+      typ: rueckzugsort
+      beschreibung: In Whispering Meadow findet Marija Ruhe, sammelt Kraeuter und kommt auf gute Gedanken
+bilder:
+  standard_figur:
+    datei: /content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/standard-figur.png
+    beschreibung: |
+      Freigestellte Ganzkoerperfigur einer grossen, freundlichen guten Fee mit heller Haut, langen dunkelbraunen Haaren, dunkelbraunen Augen und warmem Laecheln. Sie traegt ein schlichtes nachtblaues Kleid mit dezenten goldenen Akzenten und goldene Ohrringe. Aufrechte, ruhige Haltung, weiche elegante Silhouette, sauber und gepflegt, mit einem feinen maerchenhaften Schimmer.
+  hero_image:
+    datei: /content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/hero-image.jpg
+    beschreibung: |
+      Cinematische Storytime-Szene in einer warmen Kueche am Abend: Marija Poppins steht in nachtblauer Kleidung zwischen sanftem Licht, ordentlichen Regalen und dampfendem Essen, waehrend sie sich mit ruhigem Laecheln zu einem Kind herunterbeugt. Lange dunkelbraune Haare, goldene Ohrringe und warmes Goldlicht bilden die klaren visuellen Anker.
+  portrait:
+    datei: /content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/portrait.png
+    beschreibung: |
+      Halbnahes Character-Card-Portrait mit heller Haut, langen dunkelbraunen Haaren, dunklen freundlichen Augen, warmem Laecheln und goldenen Ohrringen. Dunkles nachtblaues Oberteil, ruhige froehliche Ausstrahlung, gepflegt und muetterlich ohne streng zu wirken.
+  profilbild:
+    datei: /content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/profilbild.png
+    beschreibung: |
+      Quadratisches Profilbild mit stark lesbarem Gesicht: lange dunkelbraune Haare, dunkle Augen, warmes Laecheln, goldene Ohrringe und ein nachtblauer Bildakzent. Der Ausdruck ist ruhig, lieb und einladend.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-happy.png
+      beschreibung: Freigestellte Emotionsfigur von Marija Poppins mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+    - typ: emotion_sad
+      datei: /content/characters/f2d9a1c4-6b7e-4f31-9c8a-2e5b7d1a4f90/emotion-sad.png
+      beschreibung: Freigestellte Emotionsfigur von Marija Poppins mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+tags:
+  - Freundlichkeit
+  - Teilen
+  - Selbstregulation
+  - caregiver
+  - helper
+  - guide
+  - hausmagie
+  - fuer_sorge
+  - ordnungsliebend
+  - kocht_gern
+  - beschuetzend
+  - alltagswaerme
+  - zugehoerigkeit
+  - innere_jugend
+  - Whispering_Meadow
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1

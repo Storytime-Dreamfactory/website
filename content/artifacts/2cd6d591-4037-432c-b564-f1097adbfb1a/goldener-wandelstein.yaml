@@ -1,0 +1,59 @@
+id: 2cd6d591-4037-432c-b564-f1097adbfb1a
+name: Goldener Wandelstein
+type: artifact
+artifact_type: transformation-stone
+description: >
+  Ein warmer, goldglitzernder Stein, der in einer kleinen Hand genau richtig liegt
+  und auf mutige Entscheidungen reagiert.
+appearance:
+  form: rundlicher, glatt geschliffener Stein
+  size: handtellergross
+  materials:
+    - goldhaltiger Bergkristall
+  colors:
+    - gold
+    - honiggelb
+  condition: makellos, mit feinem Schimmer
+  distinctive_features:
+    - winzige funkelnde Adern wie Sternenlinien
+    - weiches Leuchten bei Beruehrung
+function:
+  primary_purpose: verzaubert eine Person voruebergehend zu einem Riesen oder einem Zwerg
+  secondary_purposes:
+    - hilft beim Perspektivwechsel in Lernabenteuern
+  activation: reagiert auf den klar ausgesprochenen Wunsch "Riese" oder "Zwerg"
+  effects:
+    - der Koerper waechst zu Riesenhoehe oder schrumpft auf Zwergengroesse
+    - Kleidung und Stimme passen sich sanft an
+  limitations:
+    - wirkt nur fuer kurze Zeit
+    - kann nicht zwei Verwandlungen gleichzeitig ausloesen
+images:
+  standard_artifact:
+    file: /content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/standard-artifact.png
+    description: Freigestellter Goldstein mit klarer Silhouette auf neutralem Hintergrund.
+  hero_image:
+    file: /content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/hero-image.jpg
+    description: Cinematische Szene, in der der Stein zwischen Riesenschatten und kleiner Figur leuchtet.
+  portrait:
+    file: /content/artifacts/2cd6d591-4037-432c-b564-f1097adbfb1a/portrait.png
+    description: Halbnahe Darstellung des Steins fuer Kartenansichten.
+sensory_profile:
+  sound: leises Klingen wie kleine Glocken
+  texture: seidig glatt und leicht warm
+  aura: freundlich, verspielt und kraftvoll
+origin:
+  creator: die Schmiedin Aurelia vom Morgenberg
+  era: alte Sternenzeit
+  cultural_context: wurde fuer faire Groessenmagie und mutige Lernpruefungen gefertigt
+  inscriptions:
+    - Gross oder klein, bleib immer du.
+tags:
+  - magical
+  - transformation
+  - growth
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1

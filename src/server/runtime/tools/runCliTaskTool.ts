@@ -111,7 +111,7 @@ const buildCharacterImageScriptArgs = async (
   const characterObject = await getGameObject(context.characterId)
   const derivedCharacterPath =
     characterObject?.type === 'character'
-      ? `content/characters/${characterObject.slug}/character.yaml`
+      ? `content/characters/${characterObject.id}/character.yaml`
       : `content/characters/${context.characterId}/character.yaml`
   const characterPath = readOptionalPathArg(args, 'characterPath') ?? derivedCharacterPath
   if (!characterPath) {

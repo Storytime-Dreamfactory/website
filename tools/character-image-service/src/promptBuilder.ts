@@ -253,6 +253,12 @@ const assetInstruction = (character: Character, kind: AssetKind, description: st
         `Keep the same exact character identity as the character reference and place ${character.name} in a cinematic story moment`,
       ),
       withPeriod(
+        `Treat ${character.name} as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure`,
+      ),
+      withPeriod(
+        `If the target brief includes other people, they must stay clearly secondary and must never resemble ${character.name} more than ${character.name} does`,
+      ),
+      withPeriod(
         'Use an immersive fantasy environment with clear foreground, midground, and background separation',
       ),
       withPeriod(`Target brief: ${description}`),
@@ -305,7 +311,11 @@ const buildPrompt = (
       ? emotionInstruction(character, type, description)
       : assetInstruction(character, kind, description),
     isWhiteBackgroundAsset(kind, type) ? whiteBackgroundStyleAnchor() : styleAnchor(),
-    `Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. ${
+    `Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. ${
+      kind === 'hero_image' || kind === 'portrait' || kind === 'profilbild'
+        ? `Render ${character.name} as the only primary character in frame; no other person may become the visual focus or share ${character.name}'s defining facial identity.`
+        : ''
+    } ${
       isWhiteBackgroundAsset(kind, type)
         ? 'This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop.'
         : ''

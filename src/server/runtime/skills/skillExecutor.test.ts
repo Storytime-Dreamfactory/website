@@ -65,6 +65,11 @@ vi.mock('../tools/runtimeToolRegistry.ts', () => ({
 import { executeRoutedSkill } from './skillExecutor.ts'
 
 describe('executeRoutedSkill agent-first execution wrapper', () => {
+  const readTraceByType = (activityType: string) =>
+    traceMock.mock.calls
+      .map((call) => call[0] as { activityType?: string })
+      .find((entry) => entry.activityType === activityType)
+
   beforeEach(() => {
     vi.clearAllMocks()
     traceMock.mockResolvedValue(undefined)
@@ -213,8 +218,7 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       }),
     )
     expect(traceMock).toHaveBeenCalledTimes(2)
-    expect(traceMock).toHaveBeenNthCalledWith(
-      2,
+    expect(readTraceByType('trace.skill.execution.response')).toEqual(
       expect.objectContaining({
         activityType: 'trace.skill.execution.response',
         output: expect.objectContaining({
@@ -262,8 +266,26 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       assistantText: 'Ich zeige dir jetzt eine Szene. Und hier ist eine kleine Frage.',
       source: 'runtime',
     })
-    expect(traceMock).toHaveBeenNthCalledWith(
-      2,
+    expect(readTraceByType('trace.tool.scene_build.request')).toEqual(
+      expect.objectContaining({
+        activityType: 'trace.tool.scene_build.request',
+        traceStage: 'tool',
+        traceKind: 'request',
+      }),
+    )
+    expect(readTraceByType('trace.tool.scene_build.response')).toEqual(
+      expect.objectContaining({
+        activityType: 'trace.tool.scene_build.response',
+        traceStage: 'tool',
+        traceKind: 'response',
+        output: expect.objectContaining({
+          ok: true,
+          sceneSummaryPreview: expect.any(String),
+          imagePromptPreview: expect.any(String),
+        }),
+      }),
+    )
+    expect(readTraceByType('trace.skill.execution.response')).toEqual(
       expect.objectContaining({
         output: expect.objectContaining({
           executedTools: expect.arrayContaining([
@@ -302,6 +324,51 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
         metadata: expect.objectContaining({
           summary: expect.any(String),
           nextSceneSummary: expect.any(String),
+        }),
+      }),
+    )
+  })
+
+  it('verwendet bei explizitem Wiederholungs-Bildwunsch show_image statt Neugenerierung', async () => {
+    recallMock.mockResolvedValueOnce({
+      imageUrl: '/content/conversations/conv-2/recalled.jpg',
+      sceneSummary: 'Das gleiche Otterbild wie vorhin',
+      reason: 'query_match',
+    })
+
+    await executeRoutedSkill({
+      conversationId: 'conv-2',
+      decision: { skillId: 'create_scene', reason: 'simple-image-request' },
+      assistantText: 'Ich zeige dir jetzt den Otter.',
+      lastUserText: 'Kannst du das Bild nochmal zeigen?',
+      characterId: '00000000-0000-4000-8000-000000000007',
+      characterName: 'Malvarion der Graue',
+    })
+
+    expect(recallMock).toHaveBeenCalledWith({
+      conversationId: 'conv-2',
+      queryText: 'Kannst du das Bild nochmal zeigen?',
+      source: 'runtime',
+    })
+    expect(generateHeroMock).not.toHaveBeenCalled()
+    expect(createActivityMock).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'conversation.scene.directed',
+      }),
+    )
+    expect(readTraceByType('trace.runtime.scene_image_strategy')).toEqual(
+      expect.objectContaining({
+        activityType: 'trace.runtime.scene_image_strategy',
+        output: expect.objectContaining({
+          imageSelectionMode: 'reused',
+          reason: 'simple-reuse-request',
+        }),
+      }),
+    )
+    expect(readTraceByType('trace.skill.execution.response')).toEqual(
+      expect.objectContaining({
+        output: expect.objectContaining({
+          executedTools: expect.arrayContaining(['read_activities', 'show_image']),
         }),
       }),
     )
@@ -614,12 +681,20 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
           'Ich bin aktuell leider sehr muede und kann nicht helfen. Probiere es ein bisschen spaeter noch einmal.',
       }),
     )
-    expect(traceMock).toHaveBeenNthCalledWith(
-      2,
+    expect(readTraceByType('trace.tool.scene_build.error')).toEqual(
+      expect.objectContaining({
+        activityType: 'trace.tool.scene_build.error',
+        traceStage: 'tool',
+        traceKind: 'error',
+        ok: false,
+        error: 'scene-build-unavailable:missing-openai-api-key',
+      }),
+    )
+    expect(readTraceByType('trace.skill.execution.response')).toEqual(
       expect.objectContaining({
         activityType: 'trace.skill.execution.response',
         ok: false,
-        error: 'next-scene-summary-unavailable:missing-openai-api-key',
+        error: 'scene-build-unavailable:missing-openai-api-key',
       }),
     )
   })

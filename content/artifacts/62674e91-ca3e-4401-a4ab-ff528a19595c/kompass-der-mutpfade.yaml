@@ -1,0 +1,61 @@
+id: 62674e91-ca3e-4401-a4ab-ff528a19595c
+name: Kompass der Mutpfade
+type: artifact
+artifact_type: compass
+description: >
+  Ein alter Taschenkompass mit warmem Messingrahmen, dessen Nadel nicht nach Norden,
+  sondern zur naechsten mutigen Handlung zeigt.
+appearance:
+  form: runder Taschenkompass mit Klappdeckel
+  size: klein, passt in eine Jackentasche
+  materials:
+    - Messing
+    - Glas
+    - Lederband
+  colors:
+    - goldbraun
+    - tiefgruen
+  condition: gut erhalten, leicht patiniert
+  distinctive_features:
+    - Nadel in Form eines kleinen Blitzes
+    - Deckel mit eingraviertem Mutstern
+function:
+  primary_purpose: zeigt in schwierigen Momenten den naechsten mutigen und freundlichen Schritt
+  secondary_purposes:
+    - hilft beim Treffen fairer Entscheidungen in der Gruppe
+  activation: oeffnet sich bei der Frage "Was waere jetzt mutig und gut?"
+  effects:
+    - Nadel richtet sich auf den sinnvollsten naechsten Schritt aus
+    - ein kurzer Lichtimpuls bestaerkt die Entscheidung
+  limitations:
+    - funktioniert nur bei ehrlicher Absicht
+images:
+  standard_artifact:
+    file: /content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/standard-artifact.png
+    description: Freigestellter Kompass in geschlossener und geoeffneter Sicht.
+  hero_image:
+    file: /content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/hero-image.jpg
+    description: Dramatische Waldlichtung, Kompass leuchtet in der Hand als Szenenfokus.
+  portrait:
+    file: /content/artifacts/62674e91-ca3e-4401-a4ab-ff528a19595c/portrait.png
+    description: Card-taugliche Nahansicht des Kompassgesichts.
+sensory_profile:
+  sound: leises Tickern wie ein Herzschlag
+  scent: ein Hauch von Leder und Regen
+  texture: kuehles Metall mit glattem Glas
+  aura: ruhig und zuversichtlich
+origin:
+  creator: Werkstatt der Wegfinderinnen
+  era: fruehe Nebeltaeler-Expeditionen
+  cultural_context: als Lernhilfe fuer verantwortungsvolle Entscheidungen entwickelt
+  inscriptions:
+    - Mut zeigt den Weg.
+tags:
+  - guidance
+  - courage
+  - decision-making
+metadata:
+  active: true
+  created_at: 2026-03-13
+  updated_at: 2026-03-13
+  version: 1

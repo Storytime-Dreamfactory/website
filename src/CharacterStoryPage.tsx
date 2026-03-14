@@ -1,5 +1,5 @@
-import { useCallback, useRef, type CSSProperties } from 'react'
-import { Button, Drawer, Typography } from 'antd'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
+import { Button, Card, Drawer, Typography } from 'antd'
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons'
 import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
@@ -20,18 +20,29 @@ import {
 import { readCanonicalStoryText } from './storyText'
 
 const { Title, Text } = Typography
+const LEARNING_GOAL_CARD_IMAGE = '/generated/skills-finja-nola-learning-background.png'
 
 type Props = {
   content: StoryContent
 }
 
+const readConversationLearningGoalId = (metadata: unknown): string | null => {
+  if (!metadata || typeof metadata !== 'object' || Array.isArray(metadata)) return null
+  const record = metadata as Record<string, unknown>
+  const ids = Array.isArray(record.learningGoalIds)
+    ? record.learningGoalIds.filter((item): item is string => typeof item === 'string')
+    : []
+  const firstId = ids.map((item) => item.trim()).find((item) => item.length > 0)
+  if (firstId) return firstId
+  const singleId = typeof record.learningGoalId === 'string' ? record.learningGoalId.trim() : ''
+  return singleId || null
+}
+
 export default function CharacterStoryPage({ content }: Props) {
 
   const {
-    id,
     navigate,
     character,
-    heroUrl,
     allCharactersById,
     activeHeroUrl,
     incomingHeroUrl,
@@ -44,6 +55,9 @@ export default function CharacterStoryPage({ content }: Props) {
     setHeroViewMode,
     activityItems,
     activityStreamConnected,
+    hasMoreActivities,
+    activityLoadMorePending,
+    loadMoreActivities,
     selectedConversationId,
     isConversationPanelOpen,
     openConversationPanel,
@@ -58,11 +72,45 @@ export default function CharacterStoryPage({ content }: Props) {
   } = useCharacterData({ content, loadActivities: true })
 
   const activityOverlayRef = useRef<HTMLDivElement>(null)
+  const [selectedLearningGoalId, setSelectedLearningGoalId] = useState<string | null>(null)
+  const [isLearningGoalPickerOpen, setIsLearningGoalPickerOpen] = useState(false)
+  const sortedLearningGoals = useMemo(() => {
+    const suitableIds = new Set(character?.learningFunction?.suitableLearningGoals ?? [])
+    return content.learningGoals
+      .slice()
+      .sort((left, right) => {
+        const leftSuitable = suitableIds.has(left.id) ? 0 : 1
+        const rightSuitable = suitableIds.has(right.id) ? 0 : 1
+        if (leftSuitable !== rightSuitable) return leftSuitable - rightSuitable
+        return left.name.localeCompare(right.name, 'de')
+      })
+  }, [character?.learningFunction?.suitableLearningGoals, content.learningGoals])
+  const selectedLearningGoal = useMemo(
+    () => content.learningGoals.find((goal) => goal.id === selectedLearningGoalId) ?? null,
+    [content.learningGoals, selectedLearningGoalId],
+  )
+  const selectedLearningGoalSummary = useMemo(() => {
+    if (!selectedLearningGoal) return 'Tippe, um ein Lernziel auszuwaehlen'
+    return [
+      selectedLearningGoal.ageRange.length > 0 ? `Alter ${selectedLearningGoal.ageRange.join(' · ')}` : null,
+      selectedLearningGoal.subject ? selectedLearningGoal.subject : null,
+      selectedLearningGoal.topicGroup ? selectedLearningGoal.topicGroup : null,
+    ]
+      .filter((value): value is string => Boolean(value))
+      .join(' · ')
+  }, [selectedLearningGoal])
+
+  useEffect(() => {
+    if (!selectedConversationId || !conversationDetails) return
+    setSelectedLearningGoalId(readConversationLearningGoalId(conversationDetails.conversation.metadata))
+    setIsLearningGoalPickerOpen(false)
+  }, [selectedConversationId, conversationDetails])
 
   const handleScrollImageChange = useCallback(
     (imageUrl: string, item: { rawActivityType?: string }) => {
       setHeroViewMode('latest-activity')
       transitionToHeroUrl(imageUrl, {
+        persistToCache: true,
         memoryOverlay:
           item.rawActivityType === 'conversation.image.recalled' ||
           item.rawActivityType === 'tool.image.recalled',
@@ -110,7 +158,42 @@ export default function CharacterStoryPage({ content }: Props) {
 
       <div className="character-story-right-stack">
         <div className="character-story-voice-chat">
-          <VoiceChatButton character={character} conversationId={selectedConversationId} />
+          <div className="character-story-learning-goal-picker">
+            <button
+              type="button"
+              className="character-story-learning-goal-trigger"
+              onClick={() => setIsLearningGoalPickerOpen(true)}
+            >
+              <Card className="content-card character-story-learning-goal-content-card" bordered={false}>
+                <div className="content-card-media">
+                  <img
+                    src={LEARNING_GOAL_CARD_IMAGE}
+                    alt={selectedLearningGoal?.name ?? 'Lernziel hinzufuegen'}
+                    className="content-card-image"
+                  />
+                  <div className="content-card-overlay character-story-learning-goal-overlay">
+                    <div className="character-story-learning-goal-overlay-copy">
+                      <Text className="character-story-learning-goal-kicker">
+                        {selectedLearningGoal ? 'Aktives Lernziel' : 'Lernziel'}
+                      </Text>
+                      <Title level={4} className="content-card-title character-story-learning-goal-card-title">
+                        {selectedLearningGoal?.name ?? 'Lernziel hinzufuegen'}
+                      </Title>
+                      <Text className="character-story-learning-goal-overlay-meta">
+                        {selectedLearningGoalSummary}
+                      </Text>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </button>
+          </div>
+          <VoiceChatButton
+            character={character}
+            conversationId={selectedConversationId}
+            selectedLearningGoalId={selectedLearningGoalId}
+            enableTextChat
+          />
         </div>
         <div ref={activityOverlayRef} className="character-story-activity-overlay">
           <CharacterActivityStream
@@ -119,17 +202,86 @@ export default function CharacterStoryPage({ content }: Props) {
             onOpenConversation={openConversationPanel}
             scrollContainerRef={activityOverlayRef}
             onScrollImageChange={handleScrollImageChange}
-            onSelectImage={(imageUrl, item) => {
-              setHeroViewMode('latest-activity')
-              transitionToHeroUrl(imageUrl, {
-                memoryOverlay:
-                  item.rawActivityType === 'conversation.image.recalled' ||
-                  item.rawActivityType === 'tool.image.recalled',
-              })
-            }}
+            hasMoreItems={hasMoreActivities}
+            isLoadingMore={activityLoadMorePending}
+            onLoadMore={loadMoreActivities}
           />
         </div>
       </div>
+
+      <Drawer
+        title="Lernziel auswaehlen"
+        placement="right"
+        open={isLearningGoalPickerOpen}
+        onClose={() => setIsLearningGoalPickerOpen(false)}
+        rootClassName="conversation-drawer character-story-learning-goal-drawer"
+        width={440}
+        styles={{
+          content: { background: '#000', boxShadow: 'none' },
+          header: { background: '#000' },
+          body: { background: '#000' },
+          mask: { background: 'rgba(0, 0, 0, 0.35)' },
+          wrapper: { background: 'transparent' },
+        }}
+      >
+        <div className="character-story-learning-goal-drawer-head">
+          <Text className="character-story-learning-goal-drawer-copy">
+            Waehle ein Lernziel, damit der Character die Session daran ausrichten kann.
+          </Text>
+          {selectedLearningGoal ? (
+            <Button
+              type="text"
+              size="small"
+              className="character-story-learning-goal-clear-button"
+              onClick={() => {
+                setSelectedLearningGoalId(null)
+                setIsLearningGoalPickerOpen(false)
+              }}
+            >
+              Lernziel entfernen
+            </Button>
+          ) : null}
+        </div>
+        <div className="card-grid character-story-learning-goal-grid">
+          {sortedLearningGoals.map((goal) => {
+            const cardSummary = [
+              goal.ageRange.length > 0 ? `Alter ${goal.ageRange.join(' · ')}` : null,
+              goal.subject ? goal.subject : null,
+              goal.topicGroup ? goal.topicGroup : null,
+            ]
+              .filter((value): value is string => Boolean(value))
+              .join(' · ')
+            return (
+              <button
+                key={goal.id}
+                type="button"
+                className={`character-story-learning-goal-grid-button${
+                  selectedLearningGoalId === goal.id ? ' is-selected' : ''
+                }`}
+                onClick={() => {
+                  setSelectedLearningGoalId(goal.id)
+                  setIsLearningGoalPickerOpen(false)
+                }}
+              >
+                <Card className="content-card character-story-learning-goal-content-card" bordered={false}>
+                  <div className="content-card-media">
+                    <img src={LEARNING_GOAL_CARD_IMAGE} alt={goal.name} className="content-card-image" />
+                    <div className="content-card-overlay character-story-learning-goal-overlay">
+                      <div className="character-story-learning-goal-overlay-copy">
+                        <Text className="character-story-learning-goal-kicker">Lernziel</Text>
+                        <Title level={4} className="content-card-title character-story-learning-goal-card-title">
+                          {goal.name}
+                        </Title>
+                        <Text className="character-story-learning-goal-overlay-meta">{cardSummary}</Text>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </button>
+            )
+          })}
+        </div>
+      </Drawer>
 
       <Drawer
         title="Conversation"

@@ -42,6 +42,20 @@ describe('conversationActivityHelpers', () => {
     expect(resolveCounterpartName(undefined)).toBe('Yoko')
   })
 
+  it('ignoriert technische Gegenpart-Namen wie UUIDs', () => {
+    expect(
+      resolveCounterpartName({
+        counterpartName: '7d688ec8-6d27-43d1-9803-6b0d4448f10a',
+        userName: 'Mila',
+      }),
+    ).toBe('Mila')
+    expect(
+      resolveCounterpartName({
+        counterpartName: '7d688ec8-6d27-43d1-9803-6b0d4448f10a',
+      }),
+    ).toBe('Yoko')
+  })
+
   it('filtert oeffentliche Conversation-Historie ohne technische Events', () => {
     expect(
       toPublicConversationHistory([
