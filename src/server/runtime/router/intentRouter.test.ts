@@ -81,6 +81,22 @@ describe('detectRuntimeIntent', () => {
       openTopicHint: 'erst Fahrrad, dann Sterne',
     })
   })
+
+  it('liest optionalen plan fuer plan-and-act aus strukturierter Ausgabe', () => {
+    expect(
+      detectRuntimeIntent(
+        '{ "activitiesRequested": true, "relationshipsRequested": false, "skillId": "plan-and-act", "reason": "memory-then-scene", "plan": [ { "type": "memory", "intent": "Details erinnern" }, { "type": "scene", "intent": "Szenische Wiederholung" } ] }',
+        '',
+      ),
+    ).toEqual({
+      skillId: 'plan-and-act',
+      reason: 'memory-then-scene',
+      plan: [
+        { type: 'memory', intent: 'Details erinnern' },
+        { type: 'scene', intent: 'Szenische Wiederholung' },
+      ],
+    })
+  })
 })
 
 describe('detectRuntimeIntentModelDecision', () => {
@@ -200,6 +216,7 @@ describe('detectRuntimeIntentModelDecision', () => {
           'reason',
           'selectedLearningGoalId',
           'openTopicHint',
+          'plan',
         ]),
       )
       const properties = parsedBody.response_format?.json_schema?.schema?.properties ?? {}
@@ -208,6 +225,24 @@ describe('detectRuntimeIntentModelDecision', () => {
       })
       expect(properties.openTopicHint).toEqual({
         anyOf: [{ type: 'string' }, { type: 'null' }],
+      })
+      expect(properties.plan).toEqual({
+        anyOf: [
+          {
+            type: 'array',
+            maxItems: 3,
+            items: {
+              type: 'object',
+              additionalProperties: false,
+              properties: {
+                type: { type: 'string', enum: ['memory', 'scene', 'context', 'note'] },
+                intent: { type: 'string' },
+              },
+              required: ['type', 'intent'],
+            },
+          },
+          { type: 'null' },
+        ],
       })
     } finally {
       if (previousKey) process.env.OPENAI_API_KEY = previousKey

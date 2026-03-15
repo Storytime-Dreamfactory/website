@@ -27,6 +27,12 @@ resource "aws_cloudwatch_log_group" "lambda_conversation_projector" {
   tags              = local.tags
 }
 
+resource "aws_cloudwatch_log_group" "lambda_character_creator_worker" {
+  name              = "/aws/lambda/${local.prefix}-character-creator-worker"
+  retention_in_days = var.lambda_log_retention_days
+  tags              = local.tags
+}
+
 resource "aws_cloudwatch_log_group" "apigw_http_access" {
   name              = "/aws/apigateway/${local.prefix}-http-access"
   retention_in_days = var.apigw_log_retention_days
@@ -84,6 +90,23 @@ resource "aws_cloudwatch_metric_alarm" "lambda_conversation_projector_errors" {
   tags = local.tags
 }
 
+resource "aws_cloudwatch_metric_alarm" "lambda_character_creator_worker_errors" {
+  alarm_name          = "${local.prefix}-lambda-character-creator-worker-errors"
+  alarm_description   = "Alarmiert bei Character-Creator-Worker Lambda Errors > 0"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Errors"
+  statistic           = "Sum"
+  period              = 60
+  evaluation_periods  = 1
+  threshold           = 0
+  comparison_operator = "GreaterThanThreshold"
+  treat_missing_data  = "notBreaching"
+  dimensions = {
+    FunctionName = aws_lambda_function.character_creator_worker.function_name
+  }
+  tags = local.tags
+}
+
 resource "aws_cloudwatch_metric_alarm" "apigw_5xx" {
   alarm_name          = "${local.prefix}-apigw-5xx"
   alarm_description   = "Alarmiert bei API Gateway 5XX Errors > 0"
@@ -131,6 +154,23 @@ resource "aws_cloudwatch_metric_alarm" "realtime_conversation_projection_dlq_vis
   treat_missing_data  = "notBreaching"
   dimensions = {
     QueueName = aws_sqs_queue.realtime_conversation_projection_dlq.name
+  }
+  tags = local.tags
+}
+
+resource "aws_cloudwatch_metric_alarm" "character_creation_jobs_dlq_visible" {
+  alarm_name          = "${local.prefix}-character-creation-jobs-dlq-visible"
+  alarm_description   = "Alarmiert bei sichtbaren Messages in der Character-Creation-DLQ."
+  namespace           = "AWS/SQS"
+  metric_name         = "ApproximateNumberOfMessagesVisible"
+  statistic           = "Maximum"
+  period              = 60
+  evaluation_periods  = 1
+  threshold           = 0
+  comparison_operator = "GreaterThanThreshold"
+  treat_missing_data  = "notBreaching"
+  dimensions = {
+    QueueName = aws_sqs_queue.character_creation_jobs_dlq.name
   }
   tags = local.tags
 }

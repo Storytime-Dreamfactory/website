@@ -3,6 +3,7 @@
 ## Zweck
 
 Der Character holt gezielt fehlenden Welt- und Objektkontext, damit anschliessende Erinnerung oder Handlung konsistent und praezise bleibt.
+`request-context` kann direkt geroutet werden oder als vorbereitender Schritt in `plan-and-act` laufen.
 
 ## Trigger
 

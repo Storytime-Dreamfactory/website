@@ -50,12 +50,14 @@ Die Basis-Schemata fuer `conversations`, `conversation_messages`, `character_act
 
 - `sql/000_roles.sql`
 - `sql/001_schema.sql`
+- `sql/020_character_creation.sql`
 - `sql/010_readiness_checks.sql`
 
 Schema auf RDS anwenden (Beispiel):
 
 ```bash
 psql "postgres://<user>:<password>@<rds-endpoint>:5432/storytime?sslmode=require" -f sql/001_schema.sql
+psql "postgres://<user>:<password>@<rds-endpoint>:5432/storytime?sslmode=require" -f sql/020_character_creation.sql
 psql "postgres://<user>:<password>@<rds-endpoint>:5432/storytime?sslmode=require" -f sql/000_roles.sql
 psql "postgres://<user>:<password>@<rds-endpoint>:5432/storytime?sslmode=require" -f sql/010_readiness_checks.sql
 ```

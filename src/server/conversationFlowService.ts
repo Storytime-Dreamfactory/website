@@ -28,10 +28,75 @@ type RuntimeActorMetadata = {
 }
 
 const CONVERSATION_LINK_LABEL = 'Conversation ansehen'
+const RUNTIME_NOTEPAD_MAX_LENGTH = 8_000
 
 const sameStringArray = (left: string[], right: string[]): boolean => {
   if (left.length !== right.length) return false
   return left.every((item, index) => item === right[index])
+}
+
+const normalizeRuntimeNotepad = (value: string): string => {
+  const normalized = value.trim()
+  if (!normalized) return ''
+  if (normalized.length <= RUNTIME_NOTEPAD_MAX_LENGTH) return normalized
+  return normalized.slice(0, RUNTIME_NOTEPAD_MAX_LENGTH).trimEnd()
+}
+
+export const readRuntimeNotepadFromMetadata = (
+  metadata: ConversationMetadata | undefined,
+): { text: string; updatedAt?: string } => {
+  const textCandidate =
+    typeof metadata?.runtime_notepad === 'string'
+      ? metadata.runtime_notepad
+      : typeof metadata?.runtimeNotepad === 'string'
+        ? metadata.runtimeNotepad
+        : ''
+  const updatedAtCandidate =
+    typeof metadata?.runtime_notepad_updated_at === 'string'
+      ? metadata.runtime_notepad_updated_at
+      : typeof metadata?.runtimeNotepadUpdatedAt === 'string'
+        ? metadata.runtimeNotepadUpdatedAt
+        : undefined
+  const text = normalizeRuntimeNotepad(textCandidate)
+  return {
+    text,
+    updatedAt: updatedAtCandidate?.trim() || undefined,
+  }
+}
+
+export const mergeRuntimeNotepad = async (input: {
+  conversationId: string
+  text: string
+}): Promise<{ text: string; updatedAt: string; conversation: ConversationRecord }> => {
+  const normalized = normalizeRuntimeNotepad(input.text)
+  const updatedAt = new Date().toISOString()
+  const conversation = await mergeConversationMetadata({
+    conversationId: input.conversationId,
+    metadata: {
+      runtime_notepad: normalized,
+      runtime_notepad_updated_at: updatedAt,
+    },
+  })
+  return {
+    text: normalized,
+    updatedAt,
+    conversation,
+  }
+}
+
+export const appendRuntimeNotepadBlock = async (input: {
+  conversationId: string
+  block: string
+}): Promise<{ text: string; updatedAt: string; conversation: ConversationRecord }> => {
+  const details = await getConversationDetails(input.conversationId)
+  const previous = readRuntimeNotepadFromMetadata(details.conversation.metadata).text
+  const next = previous
+    ? `${previous}\n\n${input.block.trim()}`
+    : input.block.trim()
+  return mergeRuntimeNotepad({
+    conversationId: input.conversationId,
+    text: next,
+  })
 }
 
 const readText = (value: unknown): string | undefined => {

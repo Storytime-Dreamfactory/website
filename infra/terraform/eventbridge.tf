@@ -37,6 +37,23 @@ resource "aws_sqs_queue" "realtime_conversation_projection" {
   tags = local.tags
 }
 
+resource "aws_sqs_queue" "character_creation_jobs_dlq" {
+  name                      = "${local.prefix}-character-creation-jobs-dlq"
+  message_retention_seconds = 1209600
+  tags                      = local.tags
+}
+
+resource "aws_sqs_queue" "character_creation_jobs" {
+  name                       = "${local.prefix}-character-creation-jobs"
+  visibility_timeout_seconds = 900
+  message_retention_seconds  = 345600
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.character_creation_jobs_dlq.arn
+    maxReceiveCount     = 5
+  })
+  tags = local.tags
+}
+
 resource "aws_cloudwatch_event_rule" "realtime_activity_projection" {
   name           = "${local.prefix}-realtime-activity-projection"
   description    = "Leitet Realtime-Voice-Events an den Activity-Projektor."

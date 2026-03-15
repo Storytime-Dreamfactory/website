@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
-import { Button, Card, Drawer, Typography } from 'antd'
+import { Button, Card, Drawer, Segmented, Typography } from 'antd'
 import { CheckOutlined, CopyOutlined } from '@ant-design/icons'
 import type { StoryContent } from './content/types'
 import VoiceChatButton from './VoiceChatButton'
 import CharacterActivityStream from './CharacterActivityStream'
 import useCharacterData from './useCharacterData'
+import useConversationStream from './useConversationStream'
 import ProgressiveImage from './ProgressiveImage'
 import {
   readTextValue,
@@ -71,6 +72,56 @@ export default function CharacterStoryPage({ content }: Props) {
     copyConversationText,
     formatConversationRoleLabel,
   } = useCharacterData({ content, loadActivities: true })
+
+  const conversationStream = useConversationStream(
+    isConversationPanelOpen ? selectedConversationId : null,
+  )
+  const [drawerTab, setDrawerTab] = useState<'timeline' | 'notepad'>('timeline')
+
+  const mergedConversationTimelineItems = useMemo(() => {
+    if (!conversationStream.connected) return conversationTimelineItems
+
+    const existingMessageIds = new Set(
+      conversationTimelineItems
+        .filter((item) => item.kind === 'message')
+        .map((item) => item.message.messageId),
+    )
+    const existingActivityIds = new Set(
+      conversationTimelineItems
+        .filter((item) => item.kind === 'activity')
+        .map((item) => item.activity.activityId),
+    )
+
+    const toMs = (iso: string): number => {
+      const ms = new Date(iso).getTime()
+      return Number.isFinite(ms) ? ms : 0
+    }
+
+    const newMessages = conversationStream.liveMessages
+      .filter((msg) => !existingMessageIds.has(msg.messageId))
+      .map((msg) => ({
+        kind: 'message' as const,
+        id: `msg-live-${msg.messageId}`,
+        timestampMs: toMs(msg.createdAt),
+        message: msg,
+      }))
+    const newActivities = conversationStream.liveActivities
+      .filter((act) => !existingActivityIds.has(act.activityId))
+      .map((act) => ({
+        kind: 'activity' as const,
+        id: `act-live-${act.activityId}`,
+        timestampMs: toMs(act.occurredAt || act.createdAt),
+        activity: act,
+      }))
+
+    if (newMessages.length === 0 && newActivities.length === 0) return conversationTimelineItems
+
+    return [
+      ...conversationTimelineItems,
+      ...newMessages,
+      ...newActivities,
+    ].sort((a, b) => b.timestampMs - a.timestampMs)
+  }, [conversationTimelineItems, conversationStream])
 
   const activityOverlayRef = useRef<HTMLDivElement>(null)
   const [selectedLearningGoalId, setSelectedLearningGoalId] = useState<string | null>(null)
@@ -297,31 +348,39 @@ export default function CharacterStoryPage({ content }: Props) {
       <Drawer
         title="Conversation"
         extra={
-          selectedConversationId ? (
-            <Button
-              type="text"
-              size="small"
-              onClick={() => {
-                void copyConversationText()
-              }}
-              icon={copiedConversationText ? <CheckOutlined /> : <CopyOutlined />}
-              disabled={!conversationDetails || conversationDetails.messages.length === 0}
-              title={
-                copiedConversationText
-                  ? 'Conversation-Text kopiert'
-                  : 'Gesamten Conversation-Text kopieren'
-              }
-              aria-label={
-                copiedConversationText
-                  ? 'Conversation-Text kopiert'
-                  : 'Gesamten Conversation-Text in Zwischenablage kopieren'
-              }
-            />
-          ) : null
+          <div className="conversation-drawer-extra">
+            {conversationStream.connected && (
+              <span className="conversation-drawer-live-dot" title="Live verbunden" />
+            )}
+            {selectedConversationId ? (
+              <Button
+                type="text"
+                size="small"
+                onClick={() => {
+                  void copyConversationText()
+                }}
+                icon={copiedConversationText ? <CheckOutlined /> : <CopyOutlined />}
+                disabled={!conversationDetails || conversationDetails.messages.length === 0}
+                title={
+                  copiedConversationText
+                    ? 'Conversation-Text kopiert'
+                    : 'Gesamten Conversation-Text kopieren'
+                }
+                aria-label={
+                  copiedConversationText
+                    ? 'Conversation-Text kopiert'
+                    : 'Gesamten Conversation-Text in Zwischenablage kopieren'
+                }
+              />
+            ) : null}
+          </div>
         }
         placement="right"
         open={isConversationPanelOpen}
-        onClose={closeConversationPanel}
+        onClose={() => {
+          closeConversationPanel()
+          setDrawerTab('timeline')
+        }}
         rootClassName="conversation-drawer"
         width={440}
         styles={{
@@ -332,116 +391,150 @@ export default function CharacterStoryPage({ content }: Props) {
           wrapper: { background: 'transparent' },
         }}
       >
-        {conversationLoading && <p className="conversation-drawer-state">Lade Conversation...</p>}
-        {!conversationLoading && conversationError && (
-          <p className="conversation-drawer-state conversation-drawer-state-error">{conversationError}</p>
-        )}
-        {!conversationLoading && !conversationError && conversationDetails && (
-          <div className="conversation-drawer-content">
-            <p className="conversation-drawer-meta">
-              <strong>Gestartet:</strong> {formatTimestamp(conversationDetails.conversation.startedAt)}
-            </p>
-            {conversationDetails.conversation.endedAt && (
-              <p className="conversation-drawer-meta">
-                <strong>Beendet:</strong> {formatTimestamp(conversationDetails.conversation.endedAt)}
+        <Segmented
+          value={drawerTab}
+          onChange={(value) => setDrawerTab(value as 'timeline' | 'notepad')}
+          options={[
+            { label: 'Timeline', value: 'timeline' },
+            { label: 'Notepad', value: 'notepad' },
+          ]}
+          block
+          className="conversation-drawer-tabs"
+        />
+
+        {drawerTab === 'notepad' && (
+          <div className="conversation-drawer-notepad">
+            {conversationStream.notepadText ? (
+              <>
+                <pre className="conversation-drawer-notepad-content">{conversationStream.notepadText}</pre>
+                {conversationStream.notepadUpdatedAt && (
+                  <p className="conversation-drawer-notepad-updated">
+                    Zuletzt aktualisiert: {formatTimestamp(conversationStream.notepadUpdatedAt)}
+                  </p>
+                )}
+              </>
+            ) : (
+              <p className="conversation-drawer-state">
+                Das Notepad ist leer. Es wird automatisch aktualisiert, wenn der Character Plaene erstellt oder Notizen macht.
               </p>
             )}
-            <div className="conversation-drawer-messages">
-              {conversationTimelineItems.length === 0 ? (
-                <p className="conversation-drawer-state">Keine Events gespeichert.</p>
-              ) : (
-                conversationTimelineItems.map((timelineItem) => {
-                  if (timelineItem.kind === 'message') {
-                    const message = timelineItem.message
-                    const messageImageUrl = normalizeImageUrl(readMessageImageUrl(message))
-                    return (
-                      <div key={timelineItem.id} className="conversation-drawer-message">
-                        <p className="conversation-drawer-message-meta">
-                          <span>{formatConversationRoleLabel(message.role)}</span>
-                          <span>{formatTimestamp(message.createdAt)}</span>
-                        </p>
-                        <p className="conversation-drawer-message-content">{message.content}</p>
-                        {messageImageUrl && (
-                          <button
-                            type="button"
-                            className="conversation-drawer-image-button"
-                            onClick={() => transitionToHeroUrl(messageImageUrl)}
-                            aria-label="Bild als Szene anzeigen"
-                          >
-                            <ProgressiveImage
-                              src={messageImageUrl}
-                              alt="Generiertes Conversation-Bild"
-                              className="conversation-drawer-image"
-                              loading="lazy"
-                              fetchPriority="low"
-                            />
-                          </button>
-                        )}
-                      </div>
-                    )
-                  }
-
-                  const activity = timelineItem.activity
-                  const subjectLabel = resolveActivitySubjectLabel(activity, character.name)
-                  const objectLabel = readActivityDisplayValue(activity.object) ?? 'Aktivitaet'
-                  const summary = normalizeConversationMessageSummary(
-                    activity,
-                    normalizeLegacyCharacterNamesInSummary({
-                      activity,
-                      summary:
-                        readCanonicalStoryText({
-                          activityType: activity.activityType,
-                          storySummary: activity.storySummary,
-                          metadata: activity.metadata,
-                        }) ?? buildActivitySummary(activity, character.name, subjectLabel, objectLabel),
-                      characterName: character.name,
-                      allCharactersById,
-                    }),
-                    character.name,
-                  )
-                  const traceInput = formatTracePayload(activity.metadata.input)
-                  const traceOutput = formatTracePayload(activity.metadata.output)
-                  const traceError = readTextValue(activity.metadata.error)
-                  const traceStage = readTextValue(activity.metadata.traceStage)
-                  const traceKind = readTextValue(activity.metadata.traceKind)
-                  const traceSource = readTextValue(activity.metadata.traceSource)
-                  const isTrace = activity.activityType.startsWith('trace.')
-                  return (
-                    <div key={timelineItem.id} className="conversation-drawer-message conversation-drawer-event">
-                      <p className="conversation-drawer-message-meta">
-                        <span>{activity.activityType}</span>
-                        <span>{formatTimestamp(activity.occurredAt || activity.createdAt)}</span>
-                      </p>
-                      <p className="conversation-drawer-message-content">{summary}</p>
-                      {isTrace ? (
-                        <p className="conversation-drawer-trace-meta">
-                          {traceStage ?? '-'} / {traceKind ?? '-'} / {traceSource ?? '-'}
-                        </p>
-                      ) : null}
-                      {traceInput ? (
-                        <div className="conversation-drawer-trace-block">
-                          <p className="conversation-drawer-trace-label">Input</p>
-                          <pre className="conversation-drawer-trace-pre">{traceInput}</pre>
-                        </div>
-                      ) : null}
-                      {traceOutput ? (
-                        <div className="conversation-drawer-trace-block">
-                          <p className="conversation-drawer-trace-label">Output</p>
-                          <pre className="conversation-drawer-trace-pre">{traceOutput}</pre>
-                        </div>
-                      ) : null}
-                      {traceError ? (
-                        <div className="conversation-drawer-trace-block">
-                          <p className="conversation-drawer-trace-label">Error</p>
-                          <pre className="conversation-drawer-trace-pre">{traceError}</pre>
-                        </div>
-                      ) : null}
-                    </div>
-                  )
-                })
-              )}
-            </div>
           </div>
+        )}
+
+        {drawerTab === 'timeline' && (
+          <>
+            {conversationLoading && <p className="conversation-drawer-state">Lade Conversation...</p>}
+            {!conversationLoading && conversationError && (
+              <p className="conversation-drawer-state conversation-drawer-state-error">{conversationError}</p>
+            )}
+            {!conversationLoading && !conversationError && conversationDetails && (
+              <div className="conversation-drawer-content">
+                <p className="conversation-drawer-meta">
+                  <strong>Gestartet:</strong> {formatTimestamp(conversationDetails.conversation.startedAt)}
+                </p>
+                {conversationDetails.conversation.endedAt && (
+                  <p className="conversation-drawer-meta">
+                    <strong>Beendet:</strong> {formatTimestamp(conversationDetails.conversation.endedAt)}
+                  </p>
+                )}
+                <div className="conversation-drawer-messages">
+                  {mergedConversationTimelineItems.length === 0 ? (
+                    <p className="conversation-drawer-state">Keine Events gespeichert.</p>
+                  ) : (
+                    mergedConversationTimelineItems.map((timelineItem) => {
+                      if (timelineItem.kind === 'message') {
+                        const message = timelineItem.message
+                        const messageImageUrl = normalizeImageUrl(readMessageImageUrl(message))
+                        return (
+                          <div key={timelineItem.id} className="conversation-drawer-message">
+                            <p className="conversation-drawer-message-meta">
+                              <span>{formatConversationRoleLabel(message.role)}</span>
+                              <span>{formatTimestamp(message.createdAt)}</span>
+                            </p>
+                            <p className="conversation-drawer-message-content">{message.content}</p>
+                            {messageImageUrl && (
+                              <button
+                                type="button"
+                                className="conversation-drawer-image-button"
+                                onClick={() => transitionToHeroUrl(messageImageUrl)}
+                                aria-label="Bild als Szene anzeigen"
+                              >
+                                <ProgressiveImage
+                                  src={messageImageUrl}
+                                  alt="Generiertes Conversation-Bild"
+                                  className="conversation-drawer-image"
+                                  loading="lazy"
+                                  fetchPriority="low"
+                                />
+                              </button>
+                            )}
+                          </div>
+                        )
+                      }
+
+                      const activity = timelineItem.activity
+                      const subjectLabel = resolveActivitySubjectLabel(activity, character.name)
+                      const objectLabel = readActivityDisplayValue(activity.object) ?? 'Aktivitaet'
+                      const summary = normalizeConversationMessageSummary(
+                        activity,
+                        normalizeLegacyCharacterNamesInSummary({
+                          activity,
+                          summary:
+                            readCanonicalStoryText({
+                              activityType: activity.activityType,
+                              storySummary: activity.storySummary,
+                              metadata: activity.metadata,
+                            }) ?? buildActivitySummary(activity, character.name, subjectLabel, objectLabel),
+                          characterName: character.name,
+                          allCharactersById,
+                        }),
+                        character.name,
+                      )
+                      const traceInput = formatTracePayload(activity.metadata.input)
+                      const traceOutput = formatTracePayload(activity.metadata.output)
+                      const traceError = readTextValue(activity.metadata.error)
+                      const traceStage = readTextValue(activity.metadata.traceStage)
+                      const traceKind = readTextValue(activity.metadata.traceKind)
+                      const traceSource = readTextValue(activity.metadata.traceSource)
+                      const isTrace = activity.activityType.startsWith('trace.')
+                      return (
+                        <div key={timelineItem.id} className="conversation-drawer-message conversation-drawer-event">
+                          <p className="conversation-drawer-message-meta">
+                            <span>{activity.activityType}</span>
+                            <span>{formatTimestamp(activity.occurredAt || activity.createdAt)}</span>
+                          </p>
+                          <p className="conversation-drawer-message-content">{summary}</p>
+                          {isTrace ? (
+                            <p className="conversation-drawer-trace-meta">
+                              {traceStage ?? '-'} / {traceKind ?? '-'} / {traceSource ?? '-'}
+                            </p>
+                          ) : null}
+                          {traceInput ? (
+                            <div className="conversation-drawer-trace-block">
+                              <p className="conversation-drawer-trace-label">Input</p>
+                              <pre className="conversation-drawer-trace-pre">{traceInput}</pre>
+                            </div>
+                          ) : null}
+                          {traceOutput ? (
+                            <div className="conversation-drawer-trace-block">
+                              <p className="conversation-drawer-trace-label">Output</p>
+                              <pre className="conversation-drawer-trace-pre">{traceOutput}</pre>
+                            </div>
+                          ) : null}
+                          {traceError ? (
+                            <div className="conversation-drawer-trace-block">
+                              <p className="conversation-drawer-trace-label">Error</p>
+                              <pre className="conversation-drawer-trace-pre">{traceError}</pre>
+                            </div>
+                          ) : null}
+                        </div>
+                      )
+                    })
+                  )}
+                </div>
+              </div>
+            )}
+          </>
         )}
       </Drawer>
     </div>

@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
 
 const MODEL = 'gpt-5.4'
-const TEMPERATURE = 0.7
+const TEMPERATURE = 0.25
 const MAX_COMPLETION_TOKENS = 4096
 
 const stripMarkdownFences = (text: string): string => {

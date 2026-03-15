@@ -43,7 +43,6 @@ const recordForFailure = (job: ResolvedAssetJob, reason: string): AssetGeneratio
 const resolveReferenceImages = (
   job: ResolvedAssetJob,
   standardFigurePath: string | null,
-  styleReferencePaths: string[],
   characterReferencePaths: string[],
 ): string[] => {
   if (job.kind === 'standard_figur') {
@@ -57,7 +56,7 @@ const resolveReferenceImages = (
     return [...characterReferencePaths]
   }
 
-  return [standardFigurePath, ...characterReferencePaths, ...styleReferencePaths].filter(
+  return [standardFigurePath, ...characterReferencePaths].filter(
     (value): value is string => Boolean(value),
   )
 }
@@ -179,7 +178,6 @@ export const generateCharacterImages = async (
     const referenceImagePaths = resolveReferenceImages(
       job,
       standardFigureReferencePath,
-      options.styleReferencePaths,
       options.characterReferencePaths ?? [],
     )
 

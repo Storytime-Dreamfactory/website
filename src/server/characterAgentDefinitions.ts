@@ -12,12 +12,14 @@ export type CharacterAgentToolId =
   (typeof CHARACTER_AGENT_TOOLS)[keyof typeof CHARACTER_AGENT_TOOLS]
 
 export type CharacterAgentSkillPlaybookId =
+  | 'plan-and-act'
   | 'remember-something'
   | 'create_scene'
   | 'request-context'
   | 'evaluate-feedback'
-  | 'visual-expression'
   | 'run-quiz'
+  // Legacy aliases bleiben fuer Rueckwaertskompatibilitaet im Typ bestehen.
+  | 'visual-expression'
   | 'guided-explanation'
   | 'micro-reflection'
 
@@ -30,6 +32,22 @@ export type CharacterAgentSkillPlaybook = {
 }
 
 export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
+  {
+    id: 'plan-and-act',
+    name: 'Plan And Act',
+    purpose:
+      'Plant mehrschrittige Requests im Turn und fuehrt sie sequenziell ueber Runtime-Tools aus.',
+    toolIds: [
+      CHARACTER_AGENT_TOOLS.readActivities,
+      CHARACTER_AGENT_TOOLS.readConversationHistory,
+      CHARACTER_AGENT_TOOLS.readRelationships,
+      CHARACTER_AGENT_TOOLS.readRelatedObjects,
+      CHARACTER_AGENT_TOOLS.readRelatedObjectContexts,
+      CHARACTER_AGENT_TOOLS.showImage,
+      CHARACTER_AGENT_TOOLS.generateImage,
+    ],
+    promptPath: 'content/prompts/agent-skills/plan-and-act.md',
+  },
   {
     id: 'remember-something',
     name: 'Remember Something',
@@ -76,6 +94,13 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
       CHARACTER_AGENT_TOOLS.readConversationHistory,
     ],
     promptPath: 'content/prompts/agent-skills/evaluate-feedback.md',
+  },
+  {
+    id: 'run-quiz',
+    name: 'Run Quiz',
+    purpose: 'Startet einen Quiz-Durchlauf fuer die laufende Conversation.',
+    toolIds: [CHARACTER_AGENT_TOOLS.readActivities],
+    promptPath: 'content/prompts/agent-skills/create_scene.md',
   },
 ]
 

@@ -50,6 +50,10 @@ export type ConversationDetailsRecord = {
   messages: ConversationMessageRecord[]
 }
 
+type ConversationMessageWithRankRow = ConversationMessageRow & {
+  message_rank: number
+}
+
 type ConversationRow = {
   conversation_id: string
   user_id: string | null
@@ -67,6 +71,32 @@ type ConversationMessageRow = {
   event_type: string | null
   created_at: string
   metadata: ConversationMetadata | null
+}
+
+export type ConversationChangeEvent =
+  | { event: 'metadata.updated'; conversationId: string; metadata: ConversationMetadata }
+  | { event: 'message.created'; conversationId: string; message: ConversationMessageRecord }
+
+const conversationChangeSubscribers = new Set<(event: ConversationChangeEvent) => void>()
+
+const emitConversationChange = (event: ConversationChangeEvent): void => {
+  for (const handler of conversationChangeSubscribers) {
+    try {
+      handler(event)
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      console.warn(`Conversation change subscriber failed: ${message}`)
+    }
+  }
+}
+
+export const subscribeToConversationChanges = (
+  handler: (event: ConversationChangeEvent) => void,
+): (() => void) => {
+  conversationChangeSubscribers.add(handler)
+  return () => {
+    conversationChangeSubscribers.delete(handler)
+  }
 }
 
 let pool: Pool | null = null
@@ -196,7 +226,13 @@ export const appendConversationMessage = async (input: {
     [conversationId, role, content, eventType, JSON.stringify(metadata)],
   )
 
-  return toConversationMessageRecord(result.rows[0])
+  const messageRecord = toConversationMessageRecord(result.rows[0])
+  emitConversationChange({
+    event: 'message.created',
+    conversationId: messageRecord.conversationId,
+    message: messageRecord,
+  })
+  return messageRecord
 }
 
 export const endConversation = async (
@@ -254,7 +290,13 @@ export const mergeConversationMetadata = async (input: {
     throw new Error(`conversation ${normalizedConversationId} nicht gefunden.`)
   }
 
-  return toConversationRecord(result.rows[0])
+  const record = toConversationRecord(result.rows[0])
+  emitConversationChange({
+    event: 'metadata.updated',
+    conversationId: record.conversationId,
+    metadata: record.metadata ?? {},
+  })
+  return record
 }
 
 export const getConversationDetails = async (
@@ -444,4 +486,91 @@ export const getCharacterIdsWithConversations = async (): Promise<Set<string>> =
   )
 
   return new Set(result.rows.map((row) => row.character_id))
+}
+
+export const listRecentConversationDetailsForCharacter = async (input: {
+  characterId: string
+  limitConversations?: number
+  perConversationMessageLimit?: number
+  excludeConversationId?: string
+}): Promise<ConversationDetailsRecord[]> => {
+  await ensureSchemaReady()
+
+  const characterId = input.characterId.trim()
+  if (!characterId) return []
+
+  const limitConversations = Math.max(1, Math.min(24, Math.floor(input.limitConversations ?? 8)))
+  const perConversationMessageLimit = Math.max(
+    1,
+    Math.min(120, Math.floor(input.perConversationMessageLimit ?? 24)),
+  )
+  const excludeConversationId = input.excludeConversationId?.trim() || ''
+
+  const db = getPool()
+  const conversationResult = await db.query<ConversationRow>(
+    `
+    SELECT
+      conversation_id,
+      user_id,
+      character_id,
+      started_at::text,
+      ended_at::text,
+      metadata
+    FROM conversations
+    WHERE character_id = $1
+      AND ($2::text = '' OR conversation_id <> $2::text)
+    ORDER BY started_at DESC
+    LIMIT $3
+    `,
+    [characterId, excludeConversationId, limitConversations],
+  )
+  if (conversationResult.rowCount === 0) return []
+
+  const conversations = conversationResult.rows.map((row) => toConversationRecord(row))
+  const conversationIds = conversations.map((conversation) => conversation.conversationId)
+  const messageResult = await db.query<ConversationMessageWithRankRow>(
+    `
+    SELECT
+      ranked.message_id,
+      ranked.conversation_id,
+      ranked.role,
+      ranked.content,
+      ranked.event_type,
+      ranked.created_at::text,
+      ranked.metadata,
+      ranked.message_rank
+    FROM (
+      SELECT
+        message_id,
+        conversation_id,
+        role,
+        content,
+        event_type,
+        created_at,
+        metadata,
+        ROW_NUMBER() OVER (
+          PARTITION BY conversation_id
+          ORDER BY created_at DESC, message_id DESC
+        ) AS message_rank
+      FROM conversation_messages
+      WHERE conversation_id = ANY($1::text[])
+    ) AS ranked
+    WHERE ranked.message_rank <= $2
+    ORDER BY ranked.created_at ASC, ranked.message_id ASC
+    `,
+    [conversationIds, perConversationMessageLimit],
+  )
+
+  const messagesByConversation = new Map<string, ConversationMessageRecord[]>()
+  for (const row of messageResult.rows) {
+    const entry = toConversationMessageRecord(row)
+    const items = messagesByConversation.get(entry.conversationId) ?? []
+    items.push(entry)
+    messagesByConversation.set(entry.conversationId, items)
+  }
+
+  return conversations.map((conversation) => ({
+    conversation,
+    messages: messagesByConversation.get(conversation.conversationId) ?? [],
+  }))
 }

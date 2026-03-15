@@ -50,12 +50,29 @@ const parseYaml = (rawYaml: string, filePath: string): unknown => {
   }
 }
 
+const asRuntimeRecord = (rawObject: unknown, runtimePath: string): Record<string, unknown> => {
+  if (!rawObject || typeof rawObject !== 'object' || Array.isArray(rawObject)) {
+    throw new Error(`Invalid runtime object in ${runtimePath}`)
+  }
+  return rawObject as Record<string, unknown>
+}
+
+const assertRuntimeObjectType = (
+  objectRecord: Record<string, unknown>,
+  objectType: 'character' | 'place' | 'learning-goals' | 'artifact',
+  runtimePath: string,
+): void => {
+  if (objectRecord.type !== objectType) {
+    throw new Error(`Invalid "type" in ${runtimePath}`)
+  }
+}
+
 const normalizeRuntimeGameObject = (
   rawObject: unknown,
   objectType: 'character' | 'place' | 'learning-goals' | 'artifact',
   index: number,
 ): Character | Place | LearningGoal | Artifact => {
-  const objectRecord = rawObject as Record<string, unknown>
+  const objectRecord = asRuntimeRecord(rawObject, `runtime:${objectType}:${index + 1}`)
   const slugCandidate =
     typeof objectRecord?.slug === 'string' && objectRecord.slug.trim().length > 0
       ? objectRecord.slug.trim()
@@ -65,14 +82,38 @@ const normalizeRuntimeGameObject = (
   const runtimePath = `runtime:${objectType}:${slugCandidate}`
 
   switch (objectType) {
-    case 'character':
+    case 'character': {
+      assertRuntimeObjectType(objectRecord, objectType, runtimePath)
+      // Runtime API liefert bereits normalisierte Character-Objekte in camelCase.
+      if ('voiceProfile' in objectRecord) return objectRecord as Character
       return validateCharacter(rawObject, slugCandidate, runtimePath)
-    case 'place':
+    }
+    case 'place': {
+      assertRuntimeObjectType(objectRecord, objectType, runtimePath)
+      if ('description' in objectRecord && !('map_position' in objectRecord)) return objectRecord as Place
       return validatePlace(rawObject, slugCandidate, runtimePath)
-    case 'learning-goals':
+    }
+    case 'learning-goals': {
+      assertRuntimeObjectType(objectRecord, objectType, runtimePath)
+      if (
+        'topicGroup' in objectRecord ||
+        'learningObjectives' in objectRecord ||
+        'ageRange' in objectRecord ||
+        'exampleQuestions' in objectRecord ||
+        'practiceIdeas' in objectRecord ||
+        'domainTags' in objectRecord
+      ) {
+        return objectRecord as LearningGoal
+      }
       return validateLearningGoal(rawObject, slugCandidate, runtimePath)
-    case 'artifact':
+    }
+    case 'artifact': {
+      assertRuntimeObjectType(objectRecord, objectType, runtimePath)
+      if ('artifactType' in objectRecord && 'sensoryProfile' in objectRecord) {
+        return objectRecord as Artifact
+      }
       return validateArtifact(rawObject, slugCandidate, runtimePath)
+    }
   }
 }
 

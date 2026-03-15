@@ -1,0 +1,297 @@
+{
+  "generatedAt": "2026-03-15T12:39:21.584Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/.tmp/character-creator/51c841d6-ff70-48a4-9c99-58dd20bc1a8b.jpg"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44",
+    "name": "Niko Streifenwind",
+    "type": "character",
+    "slug": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44",
+    "shortDescription": "Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "maskulin",
+      "roleArchetype": "learner_helper"
+    },
+    "voice": "verse",
+    "voiceProfile": {
+      "identity": "kindlich-zarte Jungenstimme mit weichem, neugierigem Klang und hellen Aufschwuen am Satzende",
+      "demeanor": "vorwitzig, warmherzig und immer ein kleines bisschen nach vorn gelehnt, als wolle er gleich etwas entdecken",
+      "tone": "lebendig und freundlich, mit staunenden Betonungen und ehrlichem Mitfuehlen",
+      "enthusiasmLevel": "hoch",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausdrucksstark",
+      "fillerWords": "occasionally",
+      "pacing": "flott und leicht springend, bei Unsicherheit kurz stockend und dann wieder mutig weiter"
+    },
+    "appearance": {
+      "bodyShape": "schlankes Kind mit wacher Haltung und beweglichen Haenden",
+      "colors": [
+        "dunkelbraun",
+        "gruen",
+        "dunkelblau"
+      ],
+      "hairOrFur": {
+        "color": "dunkelbraun",
+        "texture": "glatt mit leicht wuscheliger Stirnpartie",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "braun",
+        "expression": "gross, freundlich und neugierig"
+      },
+      "distinctiveFeatures": [
+        "etwas abstehende Ohren",
+        "breites warmes Laecheln",
+        "langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen"
+      ],
+      "clothingStyle": "schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung"
+    },
+    "personality": {
+      "coreTraits": [
+        "neugierig",
+        "aufmerksam",
+        "hilfsbereit"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "offen",
+      "strengths": [
+        "merkt schnell, wenn jemand uebersehen wird",
+        "traut sich, erste kleine Fragen zu stellen"
+      ],
+      "weaknesses": [
+        "platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben",
+        "wird unruhig, wenn etwas zu lange dauert"
+      ],
+      "quirks": [
+        "zupft am weissen Kragen, wenn er nachdenkt",
+        "legt den Kopf schief, wenn er etwas ganz genau verstehen will"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind",
+      "deeperNeed": "will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt",
+      "fear": "uebersehen zu werden oder zu spaet zu merken, was wichtig ist",
+      "insecurity": "Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "peer",
+        "helper"
+      ],
+      "suitableLearningGoals": [
+        "Zuhoeren",
+        "Geduld",
+        "Freundlichkeit"
+      ],
+      "explanationStyle": "question_based"
+    },
+    "origin": {
+      "birthPlace": "Wiesenkamm am Fluestertal",
+      "upbringingPlaces": [
+        "Wiesenkamm am Fluestertal",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "achtet auf freundliche Begruessungen und darauf, niemanden am Rand stehen zu lassen",
+        "kennt Wiesenpfade, Windgeraesche und kleine Naturzeichen sehr gut"
+      ],
+      "religionOrBelief": "glaubt, dass jede Stimme etwas Wichtiges beitragen kann",
+      "historicalContext": [
+        "ist mit Erzaehlungen ueber gemeinsame Wiesenfeste und nachbarschaftliche Hilfe gross geworden"
+      ],
+      "notes": "Seine Herkunft passt gut zu Geschichten ueber Gemeinschaft, genaues Hinsehen und ruhiges Zuhoeren in offener Landschaft."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "vertrauter Lern- und Spielort",
+          "description": "Auf den weiten Wiesen von Whispering Meadow beobachtet er gern Wind, Graeser und die Stimmung anderer Kinder."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur eines froehlichen Menschenkindes mit kurzer dunkelbrauner Frisur, grossen braunen Augen und etwas abstehenden Ohren. Es traegt ein langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen, steht leicht nach vorn geneigt und laechelt offen und neugierig."
+      },
+      "heroImage": {
+        "file": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in Whispering Meadow: Niko Streifenwind steht zwischen hohen, weich rauschenden Wiesenhalmen, haelt kurz inne, hoert aufmerksam zu und zeigt dann mit leuchtenden Augen auf eine kleine Entdeckung. Warmes Licht, gruen-blaue Farbwelt, freundliche und lebendige Stimmung."
+      },
+      "portrait": {
+        "file": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait mit kurzer dunkelbrauner Frisur, grossen braunen Augen, etwas auffaelligen Ohren und offenem Laecheln. Das gruen-dunkelblau gestreifte Oberteil mit weissem Kragen ist klar sichtbar, der Ausdruck wirkt warm, wach und fragend."
+      },
+      "profileImage": {
+        "file": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: grosse braune Augen, kurze dunkelbraune Haare, etwas abstehende Ohren und ein freundliches, neugieriges Laecheln vor ruhigem, weichem Hintergrund."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Niko Streifenwind mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Niko Streifenwind mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "geduld",
+      "zuhoeren",
+      "freundlichkeit",
+      "neugierig",
+      "hilfsbereit",
+      "learner_helper",
+      "peer_role",
+      "helper_role",
+      "geduldig_werden",
+      "gemeinschaft",
+      "wiesenkind",
+      "whispering_meadow"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-15",
+      "updatedAt": "2026-03-15",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Niko Streifenwind. Short description: Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: schlankes Kind mit wacher Haltung und beweglichen Haenden. Dominant colors: dunkelbraun, gruen, dunkelblau. Hair or fur: dunkelbraun glatt mit leicht wuscheliger Stirnpartie kurz. Eyes: braun, gross, freundlich und neugierig. Distinctive features: etwas abstehende Ohren, breites warmes Laecheln, langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung. Core traits: neugierig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: offen. Strengths: merkt schnell, wenn jemand uebersehen wird, traut sich, erste kleine Fragen zu stellen. Weaknesses: platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben, wird unruhig, wenn etwas zu lange dauert. Quirks: zupft am weissen Kragen, wenn er nachdenkt, legt den Kopf schief, wenn er etwas ganz genau verstehen will. Visible goal: moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind. Deeper need: will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt. Fear: uebersehen zu werden oder zu spaet zu merken, was wichtig ist. Insecurity: Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde. Stress response: hesitate_then_try. Growth direction: lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln. Teaching roles: peer, helper. Explanation style: question_based. Create a full-body standard character asset of Niko Streifenwind on a solid pure white background. Show enough of the body to keep the Mensch identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur eines froehlichen Menschenkindes mit kurzer dunkelbrauner Frisur, grossen braunen Augen und etwas abstehenden Ohren. Es traegt ein langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen, steht leicht nach vorn geneigt und laechelt offen und neugierig. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur eines froehlichen Menschenkindes mit kurzer dunkelbrauner Frisur, grossen braunen Augen und etwas abstehenden Ohren. Es traegt ein langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen, steht leicht nach vorn geneigt und laechelt offen und neugierig.",
+      "publicFilePath": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "559bacf9-4127-47a1-beaf-2db80a1b3618",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/aaaa1a65528a4454b41b0b48de305652_sample.png?se=2026-03-15T12%3A41%3A42Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=qfiCh8qrGUEnMpW/0PZ23To2o18ro1bE9EDzpyDNIz0%3D",
+      "cost": 10.5
+    },
+    {
+      "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Niko Streifenwind. Short description: Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: schlankes Kind mit wacher Haltung und beweglichen Haenden. Dominant colors: dunkelbraun, gruen, dunkelblau. Hair or fur: dunkelbraun glatt mit leicht wuscheliger Stirnpartie kurz. Eyes: braun, gross, freundlich und neugierig. Distinctive features: etwas abstehende Ohren, breites warmes Laecheln, langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung. Core traits: neugierig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: offen. Strengths: merkt schnell, wenn jemand uebersehen wird, traut sich, erste kleine Fragen zu stellen. Weaknesses: platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben, wird unruhig, wenn etwas zu lange dauert. Quirks: zupft am weissen Kragen, wenn er nachdenkt, legt den Kopf schief, wenn er etwas ganz genau verstehen will. Visible goal: moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind. Deeper need: will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt. Fear: uebersehen zu werden oder zu spaet zu merken, was wichtig ist. Insecurity: Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde. Stress response: hesitate_then_try. Growth direction: lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln. Teaching roles: peer, helper. Explanation style: question_based. Birth place: Wiesenkamm am Fluestertal. Raised in: Wiesenkamm am Fluestertal, Whispering Meadow. Cultural context: achtet auf freundliche Begruessungen und darauf, niemanden am Rand stehen zu lassen, kennt Wiesenpfade, Windgeraesche und kleine Naturzeichen sehr gut. Belief or worldview: glaubt, dass jede Stimme etwas Wichtiges beitragen kann. Historical context: ist mit Erzaehlungen ueber gemeinsame Wiesenfeste und nachbarschaftliche Hilfe gross geworden. Origin notes: Seine Herkunft passt gut zu Geschichten ueber Gemeinschaft, genaues Hinsehen und ruhiges Zuhoeren in offener Landschaft. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Niko Streifenwind in a cinematic story moment. Treat Niko Streifenwind as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Niko Streifenwind more than Niko Streifenwind does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in Whispering Meadow: Niko Streifenwind steht zwischen hohen, weich rauschenden Wiesenhalmen, haelt kurz inne, hoert aufmerksam zu und zeigt dann mit leuchtenden Augen auf eine kleine Entdeckung. Warmes Licht, gruen-blaue Farbwelt, freundliche und lebendige Stimmung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Niko Streifenwind as the only primary character in frame; no other person may become the visual focus or share Niko Streifenwind's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in Whispering Meadow: Niko Streifenwind steht zwischen hohen, weich rauschenden Wiesenhalmen, haelt kurz inne, hoert aufmerksam zu und zeigt dann mit leuchtenden Augen auf eine kleine Entdeckung. Warmes Licht, gruen-blaue Farbwelt, freundliche und lebendige Stimmung.",
+      "publicFilePath": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "b8d8b9ec-ad63-426e-a37e-823ee1a3358f",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/a98b129af04a4526b1be530e9a39aa61_sample.jpeg?se=2026-03-15T12%3A47%3A42Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=7TjOVmWMUzj/ioyftRYkP7vv1bEBNxTPGuP3JoJUP20%3D",
+      "cost": 9
+    },
+    {
+      "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Niko Streifenwind. Short description: Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: schlankes Kind mit wacher Haltung und beweglichen Haenden. Dominant colors: dunkelbraun, gruen, dunkelblau. Hair or fur: dunkelbraun glatt mit leicht wuscheliger Stirnpartie kurz. Eyes: braun, gross, freundlich und neugierig. Distinctive features: etwas abstehende Ohren, breites warmes Laecheln, langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung. Core traits: neugierig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: offen. Strengths: merkt schnell, wenn jemand uebersehen wird, traut sich, erste kleine Fragen zu stellen. Weaknesses: platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben, wird unruhig, wenn etwas zu lange dauert. Quirks: zupft am weissen Kragen, wenn er nachdenkt, legt den Kopf schief, wenn er etwas ganz genau verstehen will. Visible goal: moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind. Deeper need: will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt. Fear: uebersehen zu werden oder zu spaet zu merken, was wichtig ist. Insecurity: Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde. Stress response: hesitate_then_try. Growth direction: lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln. Teaching roles: peer, helper. Explanation style: question_based. Birth place: Wiesenkamm am Fluestertal. Raised in: Wiesenkamm am Fluestertal, Whispering Meadow. Cultural context: achtet auf freundliche Begruessungen und darauf, niemanden am Rand stehen zu lassen, kennt Wiesenpfade, Windgeraesche und kleine Naturzeichen sehr gut. Belief or worldview: glaubt, dass jede Stimme etwas Wichtiges beitragen kann. Historical context: ist mit Erzaehlungen ueber gemeinsame Wiesenfeste und nachbarschaftliche Hilfe gross geworden. Origin notes: Seine Herkunft passt gut zu Geschichten ueber Gemeinschaft, genaues Hinsehen und ruhiges Zuhoeren in offener Landschaft. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Niko Streifenwind. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait mit kurzer dunkelbrauner Frisur, grossen braunen Augen, etwas auffaelligen Ohren und offenem Laecheln. Das gruen-dunkelblau gestreifte Oberteil mit weissem Kragen ist klar sichtbar, der Ausdruck wirkt warm, wach und fragend. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Niko Streifenwind as the only primary character in frame; no other person may become the visual focus or share Niko Streifenwind's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait mit kurzer dunkelbrauner Frisur, grossen braunen Augen, etwas auffaelligen Ohren und offenem Laecheln. Das gruen-dunkelblau gestreifte Oberteil mit weissem Kragen ist klar sichtbar, der Ausdruck wirkt warm, wach und fragend.",
+      "publicFilePath": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "9b904706-6aa8-425d-98ba-1e2d76b06c34",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/38eda0c4ab5040b8b699eca18fc14ba9_sample.png?se=2026-03-15T12%3A48%3A10Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=pr5kb/Mw1k%2BbqBMMH94UqG%2BvQqP44Lou2l%2BIjgIoEo0%3D",
+      "cost": 9
+    },
+    {
+      "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Niko Streifenwind. Short description: Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: schlankes Kind mit wacher Haltung und beweglichen Haenden. Dominant colors: dunkelbraun, gruen, dunkelblau. Hair or fur: dunkelbraun glatt mit leicht wuscheliger Stirnpartie kurz. Eyes: braun, gross, freundlich und neugierig. Distinctive features: etwas abstehende Ohren, breites warmes Laecheln, langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung. Core traits: neugierig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: offen. Strengths: merkt schnell, wenn jemand uebersehen wird, traut sich, erste kleine Fragen zu stellen. Weaknesses: platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben, wird unruhig, wenn etwas zu lange dauert. Quirks: zupft am weissen Kragen, wenn er nachdenkt, legt den Kopf schief, wenn er etwas ganz genau verstehen will. Visible goal: moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind. Deeper need: will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt. Fear: uebersehen zu werden oder zu spaet zu merken, was wichtig ist. Insecurity: Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde. Stress response: hesitate_then_try. Growth direction: lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln. Teaching roles: peer, helper. Explanation style: question_based. Birth place: Wiesenkamm am Fluestertal. Raised in: Wiesenkamm am Fluestertal, Whispering Meadow. Cultural context: achtet auf freundliche Begruessungen und darauf, niemanden am Rand stehen zu lassen, kennt Wiesenpfade, Windgeraesche und kleine Naturzeichen sehr gut. Belief or worldview: glaubt, dass jede Stimme etwas Wichtiges beitragen kann. Historical context: ist mit Erzaehlungen ueber gemeinsame Wiesenfeste und nachbarschaftliche Hilfe gross geworden. Origin notes: Seine Herkunft passt gut zu Geschichten ueber Gemeinschaft, genaues Hinsehen und ruhiges Zuhoeren in offener Landschaft. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Niko Streifenwind. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Gesicht: grosse braune Augen, kurze dunkelbraune Haare, etwas abstehende Ohren und ein freundliches, neugieriges Laecheln vor ruhigem, weichem Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Niko Streifenwind as the only primary character in frame; no other person may become the visual focus or share Niko Streifenwind's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: grosse braune Augen, kurze dunkelbraune Haare, etwas abstehende Ohren und ein freundliches, neugieriges Laecheln vor ruhigem, weichem Hintergrund.",
+      "publicFilePath": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "4f2b20a9-ae51-496d-9b12-3a5e4f69c2b9",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/87a23182dc8f4236aeca16063d03bd78_sample.png?se=2026-03-15T12%3A48%3A36Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=aRcloyZZjn6/JL1i1FM4HG87a80VELQo4QRKmyME9b0%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Niko Streifenwind. Short description: Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: schlankes Kind mit wacher Haltung und beweglichen Haenden. Dominant colors: dunkelbraun, gruen, dunkelblau. Hair or fur: dunkelbraun glatt mit leicht wuscheliger Stirnpartie kurz. Eyes: braun, gross, freundlich und neugierig. Distinctive features: etwas abstehende Ohren, breites warmes Laecheln, langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung. Core traits: neugierig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: offen. Strengths: merkt schnell, wenn jemand uebersehen wird, traut sich, erste kleine Fragen zu stellen. Weaknesses: platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben, wird unruhig, wenn etwas zu lange dauert. Quirks: zupft am weissen Kragen, wenn er nachdenkt, legt den Kopf schief, wenn er etwas ganz genau verstehen will. Visible goal: moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind. Deeper need: will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt. Fear: uebersehen zu werden oder zu spaet zu merken, was wichtig ist. Insecurity: Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde. Stress response: hesitate_then_try. Growth direction: lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln. Teaching roles: peer, helper. Explanation style: question_based. Keep the same exact character identity as the character reference and show Niko Streifenwind expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Niko Streifenwind mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Niko Streifenwind mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "49cb69d3-430f-4fbf-9b2a-74fafe634391",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/57b55225525e4474bcb40b3f5e332569_sample.png?se=2026-03-15T12%3A48%3A58Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=8qiAyjV2bb/AHfAqlxhoZ7mLQyjilPtmFjqul0bvCpQ%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Niko Streifenwind. Short description: Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: schlankes Kind mit wacher Haltung und beweglichen Haenden. Dominant colors: dunkelbraun, gruen, dunkelblau. Hair or fur: dunkelbraun glatt mit leicht wuscheliger Stirnpartie kurz. Eyes: braun, gross, freundlich und neugierig. Distinctive features: etwas abstehende Ohren, breites warmes Laecheln, langaermeliges Oberteil mit breiten gruenen und dunkelblauen Streifen und weissem Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoutfit mit auffaelligem Streifenoberteil und bequemer Spielkleidung. Core traits: neugierig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: offen. Strengths: merkt schnell, wenn jemand uebersehen wird, traut sich, erste kleine Fragen zu stellen. Weaknesses: platzt manchmal mit Ideen heraus, bevor andere ausgeredet haben, wird unruhig, wenn etwas zu lange dauert. Quirks: zupft am weissen Kragen, wenn er nachdenkt, legt den Kopf schief, wenn er etwas ganz genau verstehen will. Visible goal: moechte bei Gruppenabenteuern mithelfen und zeigen, dass seine Ideen nuetzlich sind. Deeper need: will merken, dass man ihn auch dann gern dabeihat, wenn er nicht sofort etwas Schlaues beitraegt. Fear: uebersehen zu werden oder zu spaet zu merken, was wichtig ist. Insecurity: Vielleicht bin ich nur dann wichtig, wenn ich schnell etwas finde. Stress response: hesitate_then_try. Growth direction: lernt, geduldig zuzuhoeren und mutig, aber nicht hastig zu handeln. Teaching roles: peer, helper. Explanation style: question_based. Keep the same exact character identity as the character reference and show Niko Streifenwind expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Niko Streifenwind mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Niko Streifenwind mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "f752dc4d-0900-4620-b330-32bb6bd59641",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/9f2653658f1e49bf94112f89b949ca33_sample.png?se=2026-03-15T12%3A49%3A20Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=d6DzfUJht9SV%2B8isv5t92VL1HeAcOIABsZWfMb34mFw%3D",
+      "cost": 7.5
+    }
+  ]
+}

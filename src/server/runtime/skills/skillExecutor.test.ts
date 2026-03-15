@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 const traceMock = vi.hoisted(() => vi.fn())
 const createActivityMock = vi.hoisted(() => vi.fn())
 const appendConversationMessageMock = vi.hoisted(() => vi.fn())
+const getConversationDetailsMock = vi.hoisted(() => vi.fn())
+const mergeConversationMetadataMock = vi.hoisted(() => vi.fn())
 const recallMock = vi.hoisted(() => vi.fn())
 const generateHeroMock = vi.hoisted(() => vi.fn())
 const runQuizMock = vi.hoisted(() => vi.fn())
@@ -23,6 +25,8 @@ vi.mock('../../activityStore.ts', () => ({
 
 vi.mock('../../conversationStore.ts', () => ({
   appendConversationMessage: appendConversationMessageMock,
+  getConversationDetails: getConversationDetailsMock,
+  mergeConversationMetadata: mergeConversationMetadataMock,
 }))
 
 vi.mock('../../conversationImageMemoryToolService.ts', () => ({
@@ -77,6 +81,19 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
       activityId: 'scene-1',
     })
     appendConversationMessageMock.mockResolvedValue(undefined)
+    getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: {},
+      },
+      messages: [],
+    })
+    mergeConversationMetadataMock.mockResolvedValue({
+      conversationId: 'conv-1',
+      characterId: '00000000-0000-4000-8000-000000000001',
+      metadata: {},
+    })
     recallMock.mockResolvedValue(null)
     generateHeroMock.mockResolvedValue({
       requestId: 'req-1',
@@ -695,6 +712,60 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
         activityType: 'trace.skill.execution.response',
         ok: false,
         error: 'scene-build-unavailable:missing-openai-api-key',
+      }),
+    )
+  })
+
+  it('fuehrt request-context mit Relationship- und Object-Reads aus und aktualisiert den Notepad', async () => {
+    await executeRoutedSkill({
+      conversationId: 'conv-ctx',
+      decision: { skillId: 'request-context', reason: 'context-request' },
+      assistantText: 'Ich schaue kurz auf die Verbindungen.',
+      lastUserText: 'Wer gehoert alles zum Kristallsee?',
+      characterId: '00000000-0000-4000-8000-000000000001',
+      characterName: 'Yoko',
+    })
+
+    expect(readRelationshipsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(readRelatedObjectsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(readRelatedObjectContextsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(mergeConversationMetadataMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-ctx',
+        metadata: expect.objectContaining({
+          runtime_notepad: expect.any(String),
+          runtime_notepad_updated_at: expect.any(String),
+        }),
+      }),
+    )
+  })
+
+  it('arbeitet bei plan-and-act Memory- und Scene-Schritte sequenziell ab und schreibt den Notepad', async () => {
+    await executeRoutedSkill({
+      conversationId: 'conv-plan',
+      decision: {
+        skillId: 'plan-and-act',
+        reason: 'memory-then-scene',
+        plan: [
+          { type: 'memory', intent: 'Erinnerung zum glitzernden Stein finden' },
+          { type: 'scene', intent: 'Die gleiche Szene nochmal zeigen' },
+        ],
+      },
+      assistantText: 'Ich plane das in zwei Schritten.',
+      lastUserText: 'Kannst du dich erinnern und mir das gleiche nochmal zeigen?',
+      characterId: '00000000-0000-4000-8000-000000000001',
+      characterName: 'Yoko',
+    })
+
+    expect(readActivitiesExecuteMock).toHaveBeenCalled()
+    expect(readConversationHistoryExecuteMock).toHaveBeenCalled()
+    expect(generateHeroMock).toHaveBeenCalled()
+    expect(mergeConversationMetadataMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-plan',
+        metadata: expect.objectContaining({
+          runtime_notepad: expect.stringContaining('Plan abgeschlossen'),
+        }),
       }),
     )
   })

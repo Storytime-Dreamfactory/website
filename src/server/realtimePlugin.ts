@@ -4,6 +4,12 @@ import type { Plugin } from 'vite'
 import { getConversationDetails, type ConversationDetailsRecord } from './conversationStore.ts'
 import { getOpenAiApiKey } from './openAiConfig.ts'
 import * as gameObjectService from './gameObjectService.ts'
+import { contextFromMetadata } from './conversationRuntimeContext.ts'
+import {
+  readActivitiesRuntimeTool,
+  readRelatedObjectsRuntimeTool,
+  readRelationshipsRuntimeTool,
+} from './runtime/tools/runtimeToolRegistry.ts'
 import {
   buildCharacterVoiceSessionContext,
   buildVoiceProfileInstructionsBlock,
@@ -105,6 +111,39 @@ const createEphemeralToken = async (
         additionalProperties: false,
       },
     },
+    {
+      type: 'function',
+      name: 'read_relationships',
+      description:
+        'Liest das aktuelle Beziehungsnetzwerk der Figur inklusive verknuepfter Charaktere fuer konsistente Antworten.',
+      parameters: {
+        type: 'object',
+        properties: {},
+        additionalProperties: false,
+      },
+    },
+    {
+      type: 'function',
+      name: 'read_activities',
+      description:
+        'Liest oeffentliche Activities und Story-Zusammenfassungen aus dem Verlauf, um Erinnerungsfragen belegbar zu beantworten.',
+      parameters: {
+        type: 'object',
+        properties: {
+          limit: {
+            type: 'number',
+            description: 'Maximale Anzahl von Eintraegen (1-50).',
+          },
+          scope: {
+            type: 'string',
+            enum: ['external', 'all'],
+            description:
+              'external = nur oeffentliche Story-Activities, all = inkl. technischer Activities.',
+          },
+        },
+        additionalProperties: false,
+      },
+    },
   ]
   const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
     method: 'POST',
@@ -139,6 +178,66 @@ const createEphemeralToken = async (
     token: data.client_secret.value,
     expiresAt: data.client_secret.expires_at,
   }
+}
+
+const runRealtimeToolCall = async (input: {
+  toolName: string
+  characterId: string
+  conversationId: string
+  args: Record<string, unknown>
+}): Promise<Record<string, unknown>> => {
+  const characterObject = await gameObjectService.get(input.characterId)
+  if (!characterObject || characterObject.type !== 'character') {
+    throw new Error('Character nicht gefunden.')
+  }
+  const details = await getConversationDetails(input.conversationId)
+  const runtimeContext = contextFromMetadata(details.conversation.metadata)
+  const toolContext = {
+    characterId: characterObject.id,
+    characterName: characterObject.name || characterObject.id,
+    conversationId: input.conversationId,
+    learningGoalIds: runtimeContext.learningGoalIds,
+  }
+
+  if (input.toolName === 'read_relationships') {
+    const relationshipResult = await readRelationshipsRuntimeTool().execute(toolContext, {})
+    const relatedObjectsResult = await readRelatedObjectsRuntimeTool().execute(toolContext, {
+      relatedCharacterIds: relationshipResult.relatedCharacterIds,
+      relationshipLinks: relationshipResult.relationshipLinks,
+    })
+    return {
+      relationshipCount: relationshipResult.relationshipCount,
+      relationshipLinks: relationshipResult.relationshipLinks,
+      relatedObjects: relatedObjectsResult.relatedObjects,
+    }
+  }
+
+  if (input.toolName === 'read_activities') {
+    const rawLimit = typeof input.args.limit === 'number' ? input.args.limit : 16
+    const limit = Math.max(1, Math.min(50, Math.floor(rawLimit)))
+    const scope = input.args.scope === 'all' ? 'all' : 'external'
+    const result = await readActivitiesRuntimeTool().execute(toolContext, {
+      limit,
+      offset: 0,
+      fetchAll: false,
+      scope,
+      conversationId: input.conversationId,
+    })
+    return {
+      activityCount: result.activityCount,
+      scope,
+      items: result.items.map((item) => ({
+        activityId: item.activityId,
+        activityType: item.activityType,
+        occurredAt: item.occurredAt,
+        summary: item.summary,
+        storySummary: item.storySummary,
+        imageRefs: item.imageRefs,
+      })),
+    }
+  }
+
+  throw new Error(`Unbekanntes Tool: ${input.toolName}`)
 }
 
 const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
@@ -214,6 +313,35 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
             eventId,
             correlationId,
           })
+          return
+        }
+
+        if (request.method === 'POST' && requestUrl.pathname === '/tool-call') {
+          const body = await readJsonBody(request)
+          const characterId = typeof body.characterId === 'string' ? body.characterId.trim() : ''
+          const conversationId = typeof body.conversationId === 'string' ? body.conversationId.trim() : ''
+          const toolName = typeof body.toolName === 'string' ? body.toolName.trim() : ''
+          const args = parsePayload(body.arguments)
+          if (!characterId) {
+            json(response, 400, { error: 'characterId ist erforderlich.' })
+            return
+          }
+          if (!conversationId) {
+            json(response, 400, { error: 'conversationId ist erforderlich.' })
+            return
+          }
+          if (!toolName) {
+            json(response, 400, { error: 'toolName ist erforderlich.' })
+            return
+          }
+
+          const result = await runRealtimeToolCall({
+            toolName,
+            characterId,
+            conversationId,
+            args,
+          })
+          json(response, 200, { ok: true, result })
           return
         }
 

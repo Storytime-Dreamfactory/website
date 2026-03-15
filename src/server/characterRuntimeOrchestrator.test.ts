@@ -275,6 +275,62 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     )
   })
 
+  it('fuehrt beim Self-Assistant auch eine offene plan-and-act Entscheidung aus', async () => {
+    const userPlanDecision = JSON.stringify({
+      skillId: 'plan-and-act',
+      reason: 'memory-then-scene',
+      activitiesRequested: true,
+      relationshipsRequested: false,
+      plan: [
+        { type: 'memory', intent: 'Erst Erinnerung laden' },
+        { type: 'scene', intent: 'Dann Szene erneut zeigen' },
+      ],
+    })
+    mocks.getConversationDetailsMock.mockResolvedValue({
+      conversation: {
+        conversationId: 'conv-1',
+        characterId: '00000000-0000-4000-8000-000000000001',
+        metadata: {
+          learningGoalIds: ['313ab6c5-0d07-48d6-aae6-458a0218c020'],
+        },
+      },
+      messages: [
+        {
+          role: 'user',
+          content: userPlanDecision,
+        },
+      ],
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'user',
+      content: userPlanDecision,
+      eventType: 'conversation.item.input_audio_transcription.completed',
+      messageId: 2201,
+    })
+
+    await orchestrateCharacterRuntimeTurn({
+      conversationId: 'conv-1',
+      role: 'assistant',
+      content: 'Ich plane das in zwei Schritten und setze es direkt um.',
+      eventType: 'response.audio_transcript.done',
+      messageId: 2202,
+      actorType: 'character',
+      actorId: '00000000-0000-4000-8000-000000000001',
+    })
+
+    expect(mocks.createActivityMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        activityType: 'runtime.skill.routed',
+        metadata: expect.objectContaining({
+          skillId: 'plan-and-act',
+          reason: 'memory-then-scene',
+        }),
+      }),
+    )
+  })
+
   it('verarbeitet dieselbe Assistant-Message-ID nur einmal (idempotent)', async () => {
     mocks.getConversationDetailsMock.mockResolvedValue({
       conversation: {

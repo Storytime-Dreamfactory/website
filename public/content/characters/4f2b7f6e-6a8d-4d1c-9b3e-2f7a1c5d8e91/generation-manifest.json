@@ -1,0 +1,299 @@
+{
+  "generatedAt": "2026-03-15T12:02:00.692Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/8eb40291-65ee-49b6-b826-d7c7e97404c0/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/3d1ad7b2-990f-4655-902c-e1baf8d87cbe/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/7d688ec8-6d27-43d1-9803-6b0d4448f10a/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/.tmp/character-creator/4c7ea682-8898-4197-90b3-41265aff0c72.jpg"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91",
+    "name": "Milo Sonnenbild",
+    "type": "character",
+    "slug": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91",
+    "shortDescription": "Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "maskulin",
+      "roleArchetype": "learner"
+    },
+    "voice": "ash",
+    "voiceProfile": {
+      "identity": "kindlich-zarte, leicht rauchige Jungenstimme mit weichem Klang und neugierigem Aufhellen am Satzende",
+      "demeanor": "vorsichtig offen, freundlich zugewandt und erst beobachtend, dann mutiger",
+      "tone": "warm, schlicht und staunend, mit kleinen lebendigen Betonungen bei neuen Ideen",
+      "enthusiasmLevel": "mittel",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "erst etwas zoegernd, dann flinker und lebhafter, wenn er sich sicher fuehlt"
+    },
+    "appearance": {
+      "bodyShape": "kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette",
+      "colors": [
+        "warmes weiss",
+        "dunkelbraun",
+        "bunt"
+      ],
+      "hairOrFur": {
+        "color": "dunkelbraun",
+        "texture": "leicht wuschelig und weich",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "braun",
+        "expression": "sanft, wach und neugierig"
+      },
+      "distinctiveFeatures": [
+        "dunkelbraune, leicht abstehende wuschelhaare",
+        "weisses Oberteil mit buntem Aufdruck als klarer Blickfang",
+        "freundliches, sanftes Laecheln"
+      ],
+      "clothingStyle": "bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben"
+    },
+    "personality": {
+      "coreTraits": [
+        "neugierig",
+        "einfuelsam",
+        "vorsichtig"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "kooperativ",
+      "strengths": [
+        "hoert aufmerksam zu",
+        "bemerkt schnell, wie es anderen geht"
+      ],
+      "weaknesses": [
+        "traut sich bei Neuem nicht sofort",
+        "denkt lange nach, bevor er etwas sagt"
+      ],
+      "quirks": [
+        "streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt",
+        "stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen",
+      "deeperNeed": "will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen",
+      "fear": "aus Versehen etwas falsch zu machen und dann ausgelacht zu werden",
+      "insecurity": "Vielleicht ist meine Idee zu klein.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "peer"
+      ],
+      "suitableLearningGoals": [
+        "mut",
+        "zuhoeren",
+        "frustationstoleranz"
+      ],
+      "explanationStyle": "question_based"
+    },
+    "origin": {
+      "birthPlace": "Sonnenhang bei Whispering Meadow",
+      "upbringingPlaces": [
+        "Sonnenhang bei Whispering Meadow",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "ruhige Wiesenfeste mit gemeinsamem Singen und Erzaehlen",
+        "alltagsnahe Hilfsbereitschaft unter Nachbarn"
+      ],
+      "religionOrBelief": "glaubt, dass jede kleine gute Tat den Tag heller machen kann",
+      "historicalContext": [
+        "aufgewachsen in einer friedlichen Wiesenregion, in der Kinder lernen, aufeinander zu achten"
+      ],
+      "notes": "Seine Herkunft passt zu warmen, alltagsnahen Geschichten ueber Mut, Zuhoeren und erste kleine Schritte."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "lebenswelt",
+          "description": "Die weiten Graeser und ruhigen Wege von Whispering Meadow geben ihm Sicherheit und wecken seine Neugier."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur eines kleinen Menschenjungen mit heller Haut, dunkelbraunen wuscheligen kurzen Haaren und braunen Augen. Er traegt ein weisses Oberteil mit buntem Aufdruck, einfache bequeme Kinderkleidung in warmen Farben und steht mit sanftem Laecheln leicht nach vorn geneigt, offen und neugierig. Klare Silhouette mit drei starken Ankern: wuschelhaare, weisses Shirt mit buntem Motiv, freundlicher wacher Blick."
+      },
+      "heroImage": {
+        "file": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in Whispering Meadow bei warmem Nachmittagslicht. Milo Sonnenbild steht zwischen hohen Wiesenblumen und schaut mit sanftem Mut nach vorn, eine Hand am bunten Aufdruck seines weissen Oberteils. Dunkelbraune wuschelhaare, braune Augen, freundliches Laecheln und warme Naturfarben schaffen eine ruhige, hoffnungsvolle Stimmung."
+      },
+      "portrait": {
+        "file": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait eines kleinen Menschenkindes mit heller Haut, dunkelbraunen leicht zerzausten Haaren und braunen Augen. Das Gesicht wirkt sanft, aufmerksam und freundlich, das weisse Oberteil mit buntem Aufdruck bleibt sichtbar als Wiedererkennungsmerkmal."
+      },
+      "profileImage": {
+        "file": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: braune Augen, dunkelbraune wuschelhaare, helles freundliches Gesicht und ein sanftes froehliches Laecheln. Der bunte Aufdruck des weissen Oberteils ist am Bildrand noch erkennbar."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Milo Sonnenbild mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Milo Sonnenbild mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "mut",
+      "zuhoeren",
+      "frustationstoleranz",
+      "vorsichtig",
+      "neugierig",
+      "learner",
+      "peer",
+      "kleine-schritte",
+      "selbstvertrauen",
+      "wiesenkind",
+      "whispering-meadow"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-15",
+      "updatedAt": "2026-03-15",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Milo Sonnenbild. Short description: Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette. Dominant colors: warmes weiss, dunkelbraun, bunt. Hair or fur: dunkelbraun leicht wuschelig und weich kurz. Eyes: braun, sanft, wach und neugierig. Distinctive features: dunkelbraune, leicht abstehende wuschelhaare, weisses Oberteil mit buntem Aufdruck als klarer Blickfang, freundliches, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben. Core traits: neugierig, einfuelsam, vorsichtig. Temperament: nachdenklich. Social style: kooperativ. Strengths: hoert aufmerksam zu, bemerkt schnell, wie es anderen geht. Weaknesses: traut sich bei Neuem nicht sofort, denkt lange nach, bevor er etwas sagt. Quirks: streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt, stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat. Visible goal: moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen. Deeper need: will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen. Fear: aus Versehen etwas falsch zu machen und dann ausgelacht zu werden. Insecurity: Vielleicht ist meine Idee zu klein. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen. Teaching roles: learner, peer. Explanation style: question_based. Create a full-body standard character asset of Milo Sonnenbild on a solid pure white background. Show enough of the body to keep the Mensch identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur eines kleinen Menschenjungen mit heller Haut, dunkelbraunen wuscheligen kurzen Haaren und braunen Augen. Er traegt ein weisses Oberteil mit buntem Aufdruck, einfache bequeme Kinderkleidung in warmen Farben und steht mit sanftem Laecheln leicht nach vorn geneigt, offen und neugierig. Klare Silhouette mit drei starken Ankern: wuschelhaare, weisses Shirt mit buntem Motiv, freundlicher wacher Blick. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur eines kleinen Menschenjungen mit heller Haut, dunkelbraunen wuscheligen kurzen Haaren und braunen Augen. Er traegt ein weisses Oberteil mit buntem Aufdruck, einfache bequeme Kinderkleidung in warmen Farben und steht mit sanftem Laecheln leicht nach vorn geneigt, offen und neugierig. Klare Silhouette mit drei starken Ankern: wuschelhaare, weisses Shirt mit buntem Motiv, freundlicher wacher Blick.",
+      "publicFilePath": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "d0ede258-9174-47f8-b785-0173d329cce7",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/180d08143c0847eaaa99e6bf19d539d3_sample.png?se=2026-03-15T12%3A08%3A56Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=nQXP%2BHs48pxDrkyZMpLY8oG7rrQUYv7toYnKiCe%2Bfb8%3D",
+      "cost": 10.5
+    },
+    {
+      "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Milo Sonnenbild. Short description: Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette. Dominant colors: warmes weiss, dunkelbraun, bunt. Hair or fur: dunkelbraun leicht wuschelig und weich kurz. Eyes: braun, sanft, wach und neugierig. Distinctive features: dunkelbraune, leicht abstehende wuschelhaare, weisses Oberteil mit buntem Aufdruck als klarer Blickfang, freundliches, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben. Core traits: neugierig, einfuelsam, vorsichtig. Temperament: nachdenklich. Social style: kooperativ. Strengths: hoert aufmerksam zu, bemerkt schnell, wie es anderen geht. Weaknesses: traut sich bei Neuem nicht sofort, denkt lange nach, bevor er etwas sagt. Quirks: streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt, stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat. Visible goal: moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen. Deeper need: will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen. Fear: aus Versehen etwas falsch zu machen und dann ausgelacht zu werden. Insecurity: Vielleicht ist meine Idee zu klein. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen. Teaching roles: learner, peer. Explanation style: question_based. Birth place: Sonnenhang bei Whispering Meadow. Raised in: Sonnenhang bei Whispering Meadow, Whispering Meadow. Cultural context: ruhige Wiesenfeste mit gemeinsamem Singen und Erzaehlen, alltagsnahe Hilfsbereitschaft unter Nachbarn. Belief or worldview: glaubt, dass jede kleine gute Tat den Tag heller machen kann. Historical context: aufgewachsen in einer friedlichen Wiesenregion, in der Kinder lernen, aufeinander zu achten. Origin notes: Seine Herkunft passt zu warmen, alltagsnahen Geschichten ueber Mut, Zuhoeren und erste kleine Schritte. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Milo Sonnenbild in a cinematic story moment. Treat Milo Sonnenbild as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Milo Sonnenbild more than Milo Sonnenbild does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in Whispering Meadow bei warmem Nachmittagslicht. Milo Sonnenbild steht zwischen hohen Wiesenblumen und schaut mit sanftem Mut nach vorn, eine Hand am bunten Aufdruck seines weissen Oberteils. Dunkelbraune wuschelhaare, braune Augen, freundliches Laecheln und warme Naturfarben schaffen eine ruhige, hoffnungsvolle Stimmung. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Milo Sonnenbild as the only primary character in frame; no other person may become the visual focus or share Milo Sonnenbild's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in Whispering Meadow bei warmem Nachmittagslicht. Milo Sonnenbild steht zwischen hohen Wiesenblumen und schaut mit sanftem Mut nach vorn, eine Hand am bunten Aufdruck seines weissen Oberteils. Dunkelbraune wuschelhaare, braune Augen, freundliches Laecheln und warme Naturfarben schaffen eine ruhige, hoffnungsvolle Stimmung.",
+      "publicFilePath": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "dbdb15e5-119b-455d-abad-4044895f29c8",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/6140543beae64a78a023c538e00b2e6f_sample.jpeg?se=2026-03-15T12%3A09%3A47Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=US7EYc8bc8mndkdmZbpQn2memTWMVwBZC%2BvZuUaOF9E%3D",
+      "cost": 13.5
+    },
+    {
+      "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Milo Sonnenbild. Short description: Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette. Dominant colors: warmes weiss, dunkelbraun, bunt. Hair or fur: dunkelbraun leicht wuschelig und weich kurz. Eyes: braun, sanft, wach und neugierig. Distinctive features: dunkelbraune, leicht abstehende wuschelhaare, weisses Oberteil mit buntem Aufdruck als klarer Blickfang, freundliches, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben. Core traits: neugierig, einfuelsam, vorsichtig. Temperament: nachdenklich. Social style: kooperativ. Strengths: hoert aufmerksam zu, bemerkt schnell, wie es anderen geht. Weaknesses: traut sich bei Neuem nicht sofort, denkt lange nach, bevor er etwas sagt. Quirks: streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt, stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat. Visible goal: moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen. Deeper need: will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen. Fear: aus Versehen etwas falsch zu machen und dann ausgelacht zu werden. Insecurity: Vielleicht ist meine Idee zu klein. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen. Teaching roles: learner, peer. Explanation style: question_based. Birth place: Sonnenhang bei Whispering Meadow. Raised in: Sonnenhang bei Whispering Meadow, Whispering Meadow. Cultural context: ruhige Wiesenfeste mit gemeinsamem Singen und Erzaehlen, alltagsnahe Hilfsbereitschaft unter Nachbarn. Belief or worldview: glaubt, dass jede kleine gute Tat den Tag heller machen kann. Historical context: aufgewachsen in einer friedlichen Wiesenregion, in der Kinder lernen, aufeinander zu achten. Origin notes: Seine Herkunft passt zu warmen, alltagsnahen Geschichten ueber Mut, Zuhoeren und erste kleine Schritte. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Milo Sonnenbild. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait eines kleinen Menschenkindes mit heller Haut, dunkelbraunen leicht zerzausten Haaren und braunen Augen. Das Gesicht wirkt sanft, aufmerksam und freundlich, das weisse Oberteil mit buntem Aufdruck bleibt sichtbar als Wiedererkennungsmerkmal. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Milo Sonnenbild as the only primary character in frame; no other person may become the visual focus or share Milo Sonnenbild's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait eines kleinen Menschenkindes mit heller Haut, dunkelbraunen leicht zerzausten Haaren und braunen Augen. Das Gesicht wirkt sanft, aufmerksam und freundlich, das weisse Oberteil mit buntem Aufdruck bleibt sichtbar als Wiedererkennungsmerkmal.",
+      "publicFilePath": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "35a659c6-a821-422a-904c-88681928a591",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/1dcba05ca95646e6b1eddb777cd86b3d_sample.png?se=2026-03-15T12%3A10%3A35Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=nNySc1laviQtRukKb5bKIViBx8wb8iWHpLXfQ4F6qIU%3D",
+      "cost": 13.5
+    },
+    {
+      "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Milo Sonnenbild. Short description: Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette. Dominant colors: warmes weiss, dunkelbraun, bunt. Hair or fur: dunkelbraun leicht wuschelig und weich kurz. Eyes: braun, sanft, wach und neugierig. Distinctive features: dunkelbraune, leicht abstehende wuschelhaare, weisses Oberteil mit buntem Aufdruck als klarer Blickfang, freundliches, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben. Core traits: neugierig, einfuelsam, vorsichtig. Temperament: nachdenklich. Social style: kooperativ. Strengths: hoert aufmerksam zu, bemerkt schnell, wie es anderen geht. Weaknesses: traut sich bei Neuem nicht sofort, denkt lange nach, bevor er etwas sagt. Quirks: streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt, stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat. Visible goal: moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen. Deeper need: will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen. Fear: aus Versehen etwas falsch zu machen und dann ausgelacht zu werden. Insecurity: Vielleicht ist meine Idee zu klein. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen. Teaching roles: learner, peer. Explanation style: question_based. Birth place: Sonnenhang bei Whispering Meadow. Raised in: Sonnenhang bei Whispering Meadow, Whispering Meadow. Cultural context: ruhige Wiesenfeste mit gemeinsamem Singen und Erzaehlen, alltagsnahe Hilfsbereitschaft unter Nachbarn. Belief or worldview: glaubt, dass jede kleine gute Tat den Tag heller machen kann. Historical context: aufgewachsen in einer friedlichen Wiesenregion, in der Kinder lernen, aufeinander zu achten. Origin notes: Seine Herkunft passt zu warmen, alltagsnahen Geschichten ueber Mut, Zuhoeren und erste kleine Schritte. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Milo Sonnenbild. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Gesicht: braune Augen, dunkelbraune wuschelhaare, helles freundliches Gesicht und ein sanftes froehliches Laecheln. Der bunte Aufdruck des weissen Oberteils ist am Bildrand noch erkennbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Milo Sonnenbild as the only primary character in frame; no other person may become the visual focus or share Milo Sonnenbild's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: braune Augen, dunkelbraune wuschelhaare, helles freundliches Gesicht und ein sanftes froehliches Laecheln. Der bunte Aufdruck des weissen Oberteils ist am Bildrand noch erkennbar.",
+      "publicFilePath": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "552bcd35-6a84-4c6d-9e50-992555c08b53",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/15/878acf7d582546d2b801eb84ac36970c_sample.png?se=2026-03-15T12%3A11%3A13Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=Amju6NnbyjMmszAPyLVWivWbpL6mqEmVB2AVOO22vYM%3D",
+      "cost": 12
+    },
+    {
+      "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Milo Sonnenbild. Short description: Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette. Dominant colors: warmes weiss, dunkelbraun, bunt. Hair or fur: dunkelbraun leicht wuschelig und weich kurz. Eyes: braun, sanft, wach und neugierig. Distinctive features: dunkelbraune, leicht abstehende wuschelhaare, weisses Oberteil mit buntem Aufdruck als klarer Blickfang, freundliches, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben. Core traits: neugierig, einfuelsam, vorsichtig. Temperament: nachdenklich. Social style: kooperativ. Strengths: hoert aufmerksam zu, bemerkt schnell, wie es anderen geht. Weaknesses: traut sich bei Neuem nicht sofort, denkt lange nach, bevor er etwas sagt. Quirks: streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt, stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat. Visible goal: moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen. Deeper need: will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen. Fear: aus Versehen etwas falsch zu machen und dann ausgelacht zu werden. Insecurity: Vielleicht ist meine Idee zu klein. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen. Teaching roles: learner, peer. Explanation style: question_based. Keep the same exact character identity as the character reference and show Milo Sonnenbild expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Milo Sonnenbild mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Milo Sonnenbild mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "30239fd5-e824-4312-89ae-c983ce9e7316",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/4a8add53da2844ca97cabdf5cbe0568a_sample.png?se=2026-03-15T12%3A11%3A35Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=G/rfkYrajIZy0WRF9Am2idxpGAZdd93LF/44hSXRsa0%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Milo Sonnenbild. Short description: Ein freundliches kleines Menschenkind mit heller Haut, dunkelbraunen wuscheligen Haaren und braunen Augen. Sein weisses Oberteil mit buntem Aufdruck und sein sanftes Laecheln machen ihn sofort warm, neugierig und nahbar. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, rundliches Menschenkind mit weicher, kindlicher Silhouette. Dominant colors: warmes weiss, dunkelbraun, bunt. Hair or fur: dunkelbraun leicht wuschelig und weich kurz. Eyes: braun, sanft, wach und neugierig. Distinctive features: dunkelbraune, leicht abstehende wuschelhaare, weisses Oberteil mit buntem Aufdruck als klarer Blickfang, freundliches, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: bequemes, kindliches Alltagsoutfit mit weissem Oberteil, buntem Motiv und warmen, einfachen Farben. Core traits: neugierig, einfuelsam, vorsichtig. Temperament: nachdenklich. Social style: kooperativ. Strengths: hoert aufmerksam zu, bemerkt schnell, wie es anderen geht. Weaknesses: traut sich bei Neuem nicht sofort, denkt lange nach, bevor er etwas sagt. Quirks: streicht ueber den bunten Aufdruck auf seinem Oberteil, wenn er nachdenkt, stellt oft leise eine zweite Frage, nachdem er erst zugehoert hat. Visible goal: moechte verstehen, wie Dinge funktionieren, und bei einer Gruppe mutig mitmachen. Deeper need: will spuern, dass seine ruhige Art genauso wertvoll ist wie laute Ideen. Fear: aus Versehen etwas falsch zu machen und dann ausgelacht zu werden. Insecurity: Vielleicht ist meine Idee zu klein. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und sich auch in neuen Situationen zu zeigen. Teaching roles: learner, peer. Explanation style: question_based. Keep the same exact character identity as the character reference and show Milo Sonnenbild expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Milo Sonnenbild mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Milo Sonnenbild mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/4f2b7f6e-6a8d-4d1c-9b3e-2f7a1c5d8e91/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "1b083ac2-78a2-470d-9eae-8949d111b355",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/33caf26fc71a4b96baa34ca9976dd471_sample.png?se=2026-03-15T12%3A11%3A58Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=0CJdHgZAOc149zvvFbO7bXQcGah3NxQnONCgQojuyJg%3D",
+      "cost": 7.5
+    }
+  ]
+}

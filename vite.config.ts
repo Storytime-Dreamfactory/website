@@ -15,10 +15,10 @@ import { evalProcessorPlugin } from './src/server/evalProcessorPlugin.ts'
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  // In local dev we want deterministic env resolution from .env files.
+  // This prevents stale shell exports from shadowing project config.
   for (const [key, value] of Object.entries(env)) {
-    if (process.env[key] === undefined) {
-      process.env[key] = value
-    }
+    process.env[key] = value
   }
 
   const useRemoteApis = env.STORYTIME_USE_REMOTE_APIS === 'true'

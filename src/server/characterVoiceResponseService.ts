@@ -6,7 +6,11 @@ import {
   listRelationshipsForCharacter,
   type CharacterRelationshipRecord,
 } from './relationshipStore.ts'
-import { getConversationDetails, type ConversationDetailsRecord } from './conversationStore.ts'
+import {
+  getConversationDetails,
+  listRecentConversationDetailsForCharacter,
+  type ConversationDetailsRecord,
+} from './conversationStore.ts'
 import { resolveCounterpartName, toPublicConversationHistory } from './conversationActivityHelpers.ts'
 import { getOpenAiApiKey, readServerEnv } from './openAiConfig.ts'
 import * as gameObjectService from './gameObjectService.ts'
@@ -16,6 +20,8 @@ import { loadLearningGoalRuntimeProfiles } from './runtimeContentStore.ts'
 
 const workspaceRoot = path.resolve(fileURLToPath(new URL('../../', import.meta.url)))
 const MAX_REALTIME_CONTEXT_MESSAGES = 12
+const MAX_MULTI_CONVERSATION_MESSAGES = 36
+const MAX_MULTI_CONVERSATIONS = 6
 const VOICE_CHAT_MODEL = readServerEnv('VOICE_CHAT_MODEL', 'gpt-5.4')
 const OPENAI_CHAT_COMPLETIONS_URL = 'https://api.openai.com/v1/chat/completions'
 const ALLOWED_VOICES = ['alloy', 'ash', 'ballad', 'coral', 'echo', 'sage', 'shimmer', 'verse', 'marin', 'cedar'] as const
@@ -337,17 +343,142 @@ const buildConversationContextBlock = (input: {
       const speakerName = message.role === 'assistant' ? input.characterName : counterpartName
       return `- ${speakerName}: ${normalizeInlineText(message.content)}`
     })
-  if (publicHistory.length === 0) return ''
+  if (publicHistory.length === 0) {
+    return [
+      '## Laufender Gespraechskontext',
+      `Wichtig: Das ist ein Gespraech zwischen dir (${input.characterName}) und ${counterpartName}.`,
+      '- Es liegt bisher kein oeffentlicher Verlauf aus frueheren Turns vor.',
+      '- Behaupte NICHT, dass ihr bereits ueber konkrete Themen gesprochen habt.',
+      '- Wenn nach frueheren Inhalten gefragt wird, antworte ehrlich, dass dir dafuer hier kein Verlauf vorliegt.',
+    ].join('\n')
+  }
   return [
     '## Laufender Gespraechskontext',
     `Wichtig: Das ist bereits ein laufendes Gespraech zwischen dir (${input.characterName}) und ${counterpartName}.`,
     '- Begruesse NICHT erneut.',
     '- Stelle dich NICHT erneut vor.',
     '- Antworte direkt auf den naechsten User-Turn und knuepfe an den Verlauf an.',
+    '- Du darfst NUR Inhalte aus der unten gelisteten Historie als "bereits besprochen" darstellen.',
+    '- Wenn etwas nicht in der Historie steht, sage offen, dass es im aktuellen Verlauf nicht vorkam.',
     '',
     'LETZTE OEFFENTLICHE NACHRICHTEN (aelteste zuerst):',
     ...publicHistory,
   ].join('\n')
+}
+
+const formatConversationDate = (isoTimestamp: string): string => {
+  const parsed = new Date(isoTimestamp)
+  if (Number.isNaN(parsed.getTime())) return isoTimestamp
+  return parsed.toISOString()
+}
+
+const buildStorytimeMissionBlock = (): string =>
+  [
+    '## Storytime-Rahmen',
+    '- Storytime ist ein kindgerechtes Story-Universum fuer gemeinsames Erzaehlen, Erkunden und Lernen.',
+    '- Deine Aufgabe ist ein sicherer, lebendiger Dialog in Character mit klarem roten Faden.',
+    '- Nutze verfuegbaren Kontext (Beziehungen, Activities, Verlauf, Bilder), statt Fakten zu raten.',
+  ].join('\n')
+
+const buildAvailableToolsBlock = (): string =>
+  [
+    '## Verfuegbare Runtime-Tools',
+    '- Du kannst Tools nutzen, wenn sie fuer den naechsten Turn helfen.',
+    '- `read_relationships`: Liest dein Beziehungsnetzwerk und verknuepfte Figuren.',
+    '- `read_activities`: Liest oeffentliche Activities und Zusammenfassungen aus Conversations.',
+    '- Nutze Tools besonders dann, wenn nach Erinnerungen, frueheren Gespraechen oder Beziehungen gefragt wird.',
+    '- Wenn Tool-Daten nichts belegen, sage ehrlich, dass der Kontext das nicht hergibt.',
+  ].join('\n')
+
+const buildCrossConversationHistoryBlock = (input: {
+  characterName: string
+  conversationDetails: ConversationDetailsRecord | null
+  priorConversationDetails: ConversationDetailsRecord[]
+}): string => {
+  const lines: string[] = [
+    '## Oeffentliche Verlaufshistorie (ueber mehrere Conversations)',
+    '- Diese Historie ist dein Beleg fuer Erinnerungsfragen ueber fruehere Gespraeche.',
+    '- Behaupte nur Dinge als "frueher besprochen", die hier sichtbar sind.',
+  ]
+  const buckets = [
+    ...(input.conversationDetails ? [input.conversationDetails] : []),
+    ...input.priorConversationDetails,
+  ]
+  const scopedBuckets = buckets.slice(0, MAX_MULTI_CONVERSATIONS)
+  const historyLines: string[] = []
+  for (const bucket of scopedBuckets) {
+    const counterpartName = resolveCounterpartName(bucket.conversation.metadata)
+    const publicHistory = toPublicConversationHistory(bucket.messages)
+      .slice(-MAX_REALTIME_CONTEXT_MESSAGES)
+      .map((message) => {
+        const speakerName = message.role === 'assistant' ? input.characterName : counterpartName
+        return `  - ${speakerName}: ${normalizeInlineText(message.content)}`
+      })
+    if (publicHistory.length === 0) continue
+    historyLines.push(
+      `- Conversation ${bucket.conversation.conversationId} (Start: ${formatConversationDate(
+        bucket.conversation.startedAt,
+      )})`,
+    )
+    historyLines.push(...publicHistory)
+    if (historyLines.length >= MAX_MULTI_CONVERSATION_MESSAGES) break
+  }
+  if (historyLines.length === 0) {
+    lines.push('- Keine belastbare oeffentliche Historie vorhanden.')
+  } else {
+    lines.push(...historyLines.slice(0, MAX_MULTI_CONVERSATION_MESSAGES))
+  }
+  return lines.join('\n')
+}
+
+const readUserAgeFromMetadata = (
+  metadata: Record<string, unknown> | undefined,
+): string | undefined => {
+  if (!metadata) return undefined
+  const candidates = [
+    metadata.userAge,
+    metadata.user_age,
+    metadata.childAge,
+    metadata.child_age,
+    metadata.counterpartAge,
+    metadata.counterpart_age,
+    metadata.age,
+  ]
+  for (const candidate of candidates) {
+    if (typeof candidate === 'number' && Number.isFinite(candidate)) {
+      const rounded = Math.max(0, Math.floor(candidate))
+      return String(rounded)
+    }
+    if (typeof candidate === 'string') {
+      const normalized = candidate.trim()
+      if (normalized.length > 0) return normalized
+    }
+  }
+  return undefined
+}
+
+const buildUserContextBlock = (details: ConversationDetailsRecord | null): string => {
+  if (!details) return ''
+  const metadata = details.conversation.metadata as Record<string, unknown> | undefined
+  const counterpartName = resolveCounterpartName(metadata)
+  const userAge = readUserAgeFromMetadata(metadata)
+  if (!userAge && !counterpartName) return ''
+
+  const lines = [
+    '## User-Kontext',
+    `Gespraechspartner: ${counterpartName || 'Kind'}`,
+  ]
+  if (userAge) {
+    lines.push(`Alter des Kindes: ${userAge}`)
+    lines.push(
+      'Passe Wortwahl, Satzlaenge, Tempo und Komplexitaet sichtbar an dieses Alter an.',
+    )
+  } else {
+    lines.push(
+      'Kein Alter hinterlegt. Falls fuer das Verstaendnis wichtig, frage kurz und kindgerecht nach der Altersstufe.',
+    )
+  }
+  return lines.join('\n')
 }
 
 const findLastSceneImageUrl = (details: ConversationDetailsRecord): {
@@ -468,16 +599,36 @@ export const buildCharacterVoiceSessionContext = async (input: {
   const relatedFactsByCharacterId = await loadRelatedCharacterFacts(relatedCharacterIds)
   const instructions = buildInstructions(templateData.text, yaml, dbRelationships, relatedFactsByCharacterId)
   const characterName = getString(yaml, 'name') || characterObject.name || input.characterId
+  const priorConversationDetails = await listRecentConversationDetailsForCharacter({
+    characterId: characterObject.id,
+    limitConversations: MAX_MULTI_CONVERSATIONS,
+    perConversationMessageLimit: MAX_REALTIME_CONTEXT_MESSAGES,
+    excludeConversationId: input.conversationDetails?.conversation.conversationId,
+  })
   const conversationContextBlock = input.conversationDetails
     ? buildConversationContextBlock({
         details: input.conversationDetails,
         characterName,
       })
     : ''
+  const storytimeMissionBlock = buildStorytimeMissionBlock()
+  const crossConversationHistoryBlock = buildCrossConversationHistoryBlock({
+    characterName,
+    conversationDetails: input.conversationDetails,
+    priorConversationDetails,
+  })
+  const availableToolsBlock = buildAvailableToolsBlock()
+  const userContextBlock = buildUserContextBlock(input.conversationDetails)
   const learningGoalContextBlock = await buildLearningGoalContextBlock(input.conversationDetails)
   const lastSceneImage = await resolveLastSceneImage(input.conversationDetails)
-  const instructionParts = [instructions]
+  const instructionParts = [
+    instructions,
+    storytimeMissionBlock,
+    crossConversationHistoryBlock,
+    availableToolsBlock,
+  ]
   if (conversationContextBlock) instructionParts.push(conversationContextBlock)
+  if (userContextBlock) instructionParts.push(userContextBlock)
   if (learningGoalContextBlock) instructionParts.push(learningGoalContextBlock)
   if (lastSceneImage) instructionParts.push(buildSceneImageContextBlock(lastSceneImage.sceneSummary))
   return {

@@ -1,6 +1,8 @@
 export type ConversationRuntimeContext = {
   placeId?: string
   learningGoalIds?: string[]
+  runtimeNotepad?: string
+  runtimeNotepadUpdatedAt?: string
 }
 
 const toStringArray = (value: unknown): string[] => {
@@ -38,8 +40,23 @@ export const contextFromMetadata = (
     ),
   )
 
+  const runtimeNotepad =
+    typeof metadata.runtime_notepad === 'string'
+      ? metadata.runtime_notepad.trim()
+      : typeof metadata.runtimeNotepad === 'string'
+        ? metadata.runtimeNotepad.trim()
+        : ''
+  const runtimeNotepadUpdatedAt =
+    typeof metadata.runtime_notepad_updated_at === 'string'
+      ? metadata.runtime_notepad_updated_at.trim()
+      : typeof metadata.runtimeNotepadUpdatedAt === 'string'
+        ? metadata.runtimeNotepadUpdatedAt.trim()
+        : ''
+
   return {
     placeId: placeId || undefined,
     learningGoalIds: combinedLearningGoals.length > 0 ? combinedLearningGoals : undefined,
+    runtimeNotepad: runtimeNotepad || undefined,
+    runtimeNotepadUpdatedAt: runtimeNotepadUpdatedAt || undefined,
   }
 }

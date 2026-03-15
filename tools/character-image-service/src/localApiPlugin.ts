@@ -24,11 +24,26 @@ const CHARACTER_CREATION_DEFAULT_MODEL = 'flux-2-pro'
 const CHARACTER_CREATION_HERO_MODEL = 'flux-2-pro'
 const CHARACTER_CREATOR_DEFAULT_POLL_INTERVAL_MS = 1000
 const CHARACTER_CREATOR_DEFAULT_MAX_POLL_ATTEMPTS = 300
-const DEFAULT_CHARACTER_REFERENCE_PATHS = [
-  path.resolve(workspaceRoot, 'public/content/characters/8eb40291-65ee-49b6-b826-d7c7e97404c0/standard-figur.png'),
-  path.resolve(workspaceRoot, 'public/content/characters/3d1ad7b2-990f-4655-902c-e1baf8d87cbe/standard-figur.png'),
-  path.resolve(workspaceRoot, 'public/content/characters/7d688ec8-6d27-43d1-9803-6b0d4448f10a/standard-figur.png'),
-]
+
+const isUsableOpenAiApiKey = (value: string | undefined): boolean => {
+  const key = value?.trim()
+  if (!key) return false
+  if (key.includes('your_openai_api_key_here')) return false
+  if (key.includes('your_ope************here')) return false
+  return key.startsWith('sk-')
+}
+
+const toUserSafeOpenAiError = (error: unknown): string => {
+  const raw = error instanceof Error ? error.message : String(error)
+  if (
+    raw.includes('Incorrect API key provided') ||
+    raw.includes('invalid_api_key') ||
+    raw.includes('401')
+  ) {
+    return 'OPENAI_API_KEY ist ungueltig. Bitte setze einen gueltigen OpenAI API Key in der Umgebung.'
+  }
+  return raw
+}
 
 type UploadedReferenceImage = {
   id: string
@@ -77,9 +92,22 @@ type ChatMessage = {
 }
 
 const json = (response: ServerResponse, statusCode: number, data: unknown): void => {
+  let payload = data
+  if (
+    data &&
+    typeof data === 'object' &&
+    'error' in data &&
+    typeof (data as { error?: unknown }).error === 'string' &&
+    (!('message' in data) || typeof (data as { message?: unknown }).message !== 'string')
+  ) {
+    payload = {
+      ...(data as Record<string, unknown>),
+      message: (data as { error: string }).error,
+    }
+  }
   response.statusCode = statusCode
   response.setHeader('Content-Type', 'application/json')
-  response.end(JSON.stringify(data))
+  response.end(JSON.stringify(payload))
 }
 
 const readJsonBody = async (request: IncomingMessage): Promise<Record<string, unknown>> => {
@@ -155,17 +183,6 @@ const resolveStyleReferencePaths = async (): Promise<string[]> => {
   return [...new Set(result)]
 }
 
-const resolveDefaultCharacterReferencePaths = async (): Promise<string[]> => {
-  const result: string[] = []
-  for (const candidate of DEFAULT_CHARACTER_REFERENCE_PATHS) {
-    if (await fileExists(candidate)) {
-      result.push(candidate)
-    }
-  }
-
-  return [...new Set(result)]
-}
-
 const readIntegerEnv = (name: string, fallback: number, min: number, max: number): number => {
   const raw = process.env[name]
   if (!raw) return fallback
@@ -182,9 +199,9 @@ const describeReferenceImageForCharacterCreation = async (
   fileName: string,
 ): Promise<{ summary: string; merlinReply: string }> => {
   const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) {
+  if (!isUsableOpenAiApiKey(apiKey)) {
     return {
-      summary: `Visuelle Referenz aus ${fileName}: Nutze dieses Bild als Hauptvorlage fuer Aussehen, Farben, Gesicht und Kleidung der Figur.`,
+      summary: `Visuelle Referenz aus ${fileName}: Dieses Bild ist die verbindliche Hauptvorlage fuer Gesicht, Farben, Kleidung und auffaellige Merkmale. Keine Abstraktion, keine Umdeutung, keine Identitaetsaenderung.`,
       merlinReply:
         'Ich habe dein Bild gespeichert und nutze es als Aussehens-Vorlage. Magst du mir jetzt noch sagen, wie dein Character heisst und wie er so ist? Zum Beispiel: mutig, vorsichtig oder lustig.',
     }
@@ -203,6 +220,8 @@ const describeReferenceImageForCharacterCreation = async (
           'Du analysierst ein Referenzbild fuer die Character-Erstellung.',
           'Antworte nur als JSON mit den Feldern summary und merlinReply.',
           'summary soll 2 bis 4 Saetze lang sein und nur kindgerechte sichtbare Merkmale beschreiben: Art/Spezies, Farben, Kleidung, Augen, auffaellige Merkmale, Grundstimmung.',
+          'Beschreibe nur direkt sichtbare Merkmale, keine erfundenen Details. Wenn etwas unklar ist, lasse es weg statt zu raten.',
+          'Formuliere die summary als klare Identitaetsanker fuer spaetere Prompts. Kein Stiltransfer, keine Verallgemeinerung, keine Umbenennung.',
           'merlinReply soll 1 bis 2 kurze deutsche Saetze fuer ein etwa 6-jaehriges Kind enthalten.',
           'Keine Warntexte, keine Markdown-Formatierung, keine technischen Details.',
         ].join(' '),
@@ -241,7 +260,7 @@ const describeReferenceImageForCharacterCreation = async (
   }
 
   return {
-    summary: `Visuelle Referenz aus ${fileName}: Nutze dieses Bild als Hauptvorlage fuer Aussehen, Farben, Gesicht und Kleidung der Figur.`,
+    summary: `Visuelle Referenz aus ${fileName}: Dieses Bild ist die verbindliche Hauptvorlage fuer Gesicht, Farben, Kleidung und auffaellige Merkmale. Keine Abstraktion, keine Umdeutung, keine Identitaetsaenderung.`,
     merlinReply:
       'Ich habe dein Bild als Vorlage verstanden. Erzaehl mir jetzt noch: Wie heisst dein Character und was macht ihn besonders?',
   }
@@ -268,7 +287,7 @@ const buildFallbackChatReply = (messages: ChatMessage[]) => {
 
 const getChatAgentReply = async (messages: ChatMessage[]) => {
   const apiKey = process.env.OPENAI_API_KEY
-  if (!apiKey) {
+  if (!isUsableOpenAiApiKey(apiKey)) {
     return buildFallbackChatReply(messages)
   }
 
@@ -278,9 +297,13 @@ const getChatAgentReply = async (messages: ChatMessage[]) => {
     'Fuehre eine warme, sehr einfache Chat-Konversation auf Deutsch fuer ein etwa 6-jaehriges Kind.',
     'Stelle pro Antwort nur eine kleine Hauptfrage und gib immer 1 oder 2 kurze Beispiele.',
     'Wichtige Character-Daten: Name, Spezies/Art, sichtbare Merkmale, Kleidung/Accessoires, core traits, Angst, Selbstbild/Selbstzweifel, Wunsch oder Ziel.',
+    'Wenn das Kind einen Namen nennt, uebernimm ihn exakt in gleicher Schreibweise. Niemals umbenennen, nie uebersetzen, keine Alternativnamen vorschlagen.',
+    'Wenn Bildreferenzen genannt wurden, behandle sie als verbindliche Identitaetsanker fuer Aussehen und zentrale Merkmale.',
     'Wenn schon genug Informationen da sind, bestaetige das freundlich und erlaube Erstellen oder Skip and create.',
     'Antwort immer als JSON-Objekt mit den Feldern reply (string), isReady (boolean), compiledPrompt (string).',
     'compiledPrompt soll eine strukturierte Zusammenfassung als kurze Character-Notizen sein und bekannte Felder explizit benennen.',
+    'compiledPrompt soll, falls vorhanden, mit diesen Zeilen beginnen: "NAME_EXAKT: ...", "SPEZIES_EXAKT: ...", "IDENTITAETSANKER: ...".',
+    'In IDENTITAETSANKER konkrete, sichtbare Merkmale sammeln (Gesichtsform, Augen, Farben, Kleidung, Accessoires, distinctive features).',
     'Wenn ein Bild bereits als Referenz im Chat genannt wurde, uebernimm diese sichtbaren Hinweise in compiledPrompt.',
     'reply soll maximal 3 kurze Saetze haben und keine YAML-Ausgabe enthalten.',
   ].join(' ')
@@ -383,7 +406,6 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
     })
 
     const styleReferencePaths = await resolveStyleReferencePaths()
-    const defaultCharacterReferencePaths = await resolveDefaultCharacterReferencePaths()
     const pollIntervalMs = readIntegerEnv(
       'CHARACTER_CREATOR_POLL_INTERVAL_MS',
       CHARACTER_CREATOR_DEFAULT_POLL_INTERVAL_MS,
@@ -401,10 +423,9 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
       characterPath: saved.contentPath,
       outputRoot: path.resolve(workspaceRoot, 'public/content/characters'),
       styleReferencePaths,
-      characterReferencePaths: [
-        ...defaultCharacterReferencePaths,
-        ...job.referenceImages.map((image) => image.tempFilePath),
-      ],
+      // Image-first: user uploads are the only identity source.
+      // Style references stay separate and should not override identity.
+      characterReferencePaths: job.referenceImages.map((image) => image.tempFilePath),
       defaultModel: CHARACTER_CREATION_DEFAULT_MODEL,
       heroModel: CHARACTER_CREATION_HERO_MODEL,
       dryRun: false,
@@ -475,7 +496,7 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
       manifestPath,
     })
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
+    const message = toUserSafeOpenAiError(error)
     updateJob(jobId, {
       phase: 'failed',
       message,
@@ -492,9 +513,10 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
       const requestUrl = new URL(request.url ?? '', 'http://localhost')
 
       if (request.method === 'POST' && requestUrl.pathname === '/draft') {
-        if (!process.env.OPENAI_API_KEY) {
+        if (!isUsableOpenAiApiKey(process.env.OPENAI_API_KEY)) {
           json(response, 400, {
-            error: 'OPENAI_API_KEY fehlt. Bitte setze den OpenAI API Key in der Umgebung.',
+            error:
+              'OPENAI_API_KEY fehlt oder ist ungueltig. Bitte setze einen gueltigen OpenAI API Key in der Umgebung.',
           })
           return
         }
@@ -632,10 +654,10 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
           })
           return
         }
-        if (!yamlText && !process.env.OPENAI_API_KEY) {
+        if (!yamlText && !isUsableOpenAiApiKey(process.env.OPENAI_API_KEY)) {
           json(response, 400, {
             error:
-              'OPENAI_API_KEY fehlt. Fuer Character-Draft ohne YAML wird ein OpenAI API Key benoetigt.',
+              'OPENAI_API_KEY fehlt oder ist ungueltig. Fuer Character-Draft ohne YAML wird ein gueltiger OpenAI API Key benoetigt.',
           })
           return
         }
@@ -677,7 +699,7 @@ const registerCharacterApi = (middlewares: MiddlewareStack): void => {
       next()
     } catch (error) {
       json(response, 500, {
-        error: error instanceof Error ? error.message : String(error),
+        error: toUserSafeOpenAiError(error),
       })
     }
   })

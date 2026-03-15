@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties, MouseEvent as ReactMouseEvent } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import type { StoryContent } from './content/types'
+import type { Character, StoryContent } from './content/types'
 import type { CharacterActivityItem } from './activityPanelTypes'
 import { readCanonicalStoryText } from './storyText'
 import { warmImageCacheInBackground } from './imageDeliveryService'
@@ -45,6 +45,19 @@ const DEFAULT_CONVERSATION_LINK_LABEL = 'View Full Conversation'
 const ACTIVITY_UI_PAGE_SIZE = 10
 const ACTIVITY_INITIAL_PREFETCH_PAGES = 2
 const ACTIVITY_FETCH_PAGE_SIZE = 500
+
+const readRelationshipLabel = (relationship: ApiRelationship): string => {
+  const directionalTitle =
+    relationship.direction === 'incoming' ? relationship.toTitle : relationship.fromTitle
+  const normalizedDirectionalTitle = directionalTitle?.trim()
+  if (normalizedDirectionalTitle) return normalizedDirectionalTitle
+  return (
+    relationship.relationshipTypeReadable?.trim() ||
+    relationship.relationship?.trim() ||
+    relationship.relationshipType?.trim() ||
+    'Beziehung'
+  )
+}
 
 const getHeroImageCacheKey = (characterId: string): string => `${HERO_IMAGE_CACHE_PREFIX}${characterId}`
 const getActivityCacheKey = (characterId: string): string => `${ACTIVITY_CACHE_PREFIX}${characterId}`
@@ -713,19 +726,35 @@ export default function useCharacterData({ content, loadActivities = false }: Us
   const relatedCharacters = useMemo(() => {
     if (!character) return []
 
+    const dedupedByTypeAndCounterpart = new Map<
+      string,
+      { char: Character; relationLabel: string; listKey: string }
+    >()
     const dbRelations = apiRelationships ?? []
-    return dbRelations.flatMap((relation) => {
+    for (const relation of dbRelations) {
       const relatedCharacterId =
         relation.direction === 'outgoing' ? relation.target.id : relation.source.id
       const relatedCharacter = content.characters.find((candidate) => candidate.id === relatedCharacterId)
-      if (!relatedCharacter) return []
-      return [
-        {
-          char: relatedCharacter,
-          relationLabel: relation.relationshipTypeReadable || relation.relationship || relation.relationshipType,
-        },
-      ]
-    })
+      if (!relatedCharacter) continue
+
+      const relationLabel = readRelationshipLabel(relation)
+      const dedupeKey = [relatedCharacter.id, relationLabel.trim().toLowerCase()].join('|')
+      if (dedupedByTypeAndCounterpart.has(dedupeKey)) {
+        continue
+      }
+
+      const listKey =
+        relation.relationshipId?.trim() ||
+        `${relatedCharacter.id}-${relation.relationshipType}-${relation.direction}`
+
+      dedupedByTypeAndCounterpart.set(dedupeKey, {
+        char: relatedCharacter,
+        relationLabel,
+        listKey,
+      })
+    }
+
+    return Array.from(dedupedByTypeAndCounterpart.values())
   }, [apiRelationships, character, content.characters])
 
   const allCharactersById = useMemo(

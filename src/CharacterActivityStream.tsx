@@ -75,8 +75,6 @@ export default function CharacterActivityStream({
     }
   }, [getScrollContainer, hasMoreItems, isLoadingMore, items.length, onLoadMore])
 
-  if (items.length === 0) return null
-
   const seenSummaryKeys = new Set<string>()
   const deduplicatedItems = items.map((item) => {
     const rawSummary = item.summary?.trim() ?? ''
@@ -105,16 +103,20 @@ export default function CharacterActivityStream({
           {isLive ? <span className="character-activity-live-indicator"> Live</span> : null}
         </p>
       </div>
-      <ol ref={listRef} className="character-activity-list">
-        {deduplicatedItems.map(({ item, hideSummary }) => (
-          <CharacterActivityRow
-            key={item.id}
-            item={item}
-            hideSummary={hideSummary}
-            onOpenConversation={onOpenConversation}
-          />
-        ))}
-      </ol>
+      {deduplicatedItems.length === 0 ? (
+        <p className="character-activity-empty">Noch keine Messages im Verlauf.</p>
+      ) : (
+        <ol ref={listRef} className="character-activity-list">
+          {deduplicatedItems.map(({ item, hideSummary }) => (
+            <CharacterActivityRow
+              key={item.id}
+              item={item}
+              hideSummary={hideSummary}
+              onOpenConversation={onOpenConversation}
+            />
+          ))}
+        </ol>
+      )}
       {isLoadingMore ? <p className="character-activity-pending">Lade weitere Events...</p> : null}
     </aside>
   )

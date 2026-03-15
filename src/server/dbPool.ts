@@ -20,6 +20,23 @@ const readIntegerEnv = (value: string | undefined, fallback: number): number => 
   return parsed
 }
 
+const resolveSslOption = (
+  connectionString: string,
+): false | { rejectUnauthorized: boolean } => {
+  const explicitSslMode = process.env.DB_SSL_MODE?.trim().toLowerCase()
+  if (explicitSslMode === 'require') {
+    return { rejectUnauthorized: false }
+  }
+  if (explicitSslMode === 'disable') {
+    return false
+  }
+
+  // Ignore PGSSLMODE side-effects from unrelated tooling by controlling SSL explicitly here.
+  return /(?:\?|&)sslmode=require(?:&|$)/i.test(connectionString)
+    ? { rejectUnauthorized: false }
+    : false
+}
+
 export const getStorytimeDbPool = (): Pool => {
   if (sharedPool) return sharedPool
 
@@ -33,12 +50,14 @@ export const getStorytimeDbPool = (): Pool => {
     1_000,
     readIntegerEnv(process.env.DB_POOL_CONNECTION_TIMEOUT_MS, DEFAULT_CONNECTION_TIMEOUT_MS),
   )
+  const ssl = resolveSslOption(connectionString)
 
   sharedPool = new Pool({
     connectionString,
     max,
     idleTimeoutMillis,
     connectionTimeoutMillis,
+    ssl,
   })
   ;(globalThis as GlobalWithStorytimePool)[GLOBAL_POOL_KEY] = sharedPool
 

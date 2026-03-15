@@ -8,6 +8,7 @@ Diese Datei beschreibt die technische Trennung zwischen Skills, Tools und Script
 - `Tool`: deterministische, testbare Runtime-Faehigkeit mit klarer Eingabe/Ausgabe
 - `Script`: CLI-/Ops-Helfer ausserhalb der Runtime
 - `LLM-Routing`: modellbasierte Entscheidung ueber Skill, Kontextflags und Toolbedarf
+- `Runtime Notepad`: freier, sichtbarer Conversation-State in `conversations.metadata.runtime_notepad`
 
 ## Verzeichnisstruktur
 
@@ -32,6 +33,7 @@ Diese Datei beschreibt die technische Trennung zwischen Skills, Tools und Script
 6. Skill-Ausfuehrung passiert via `runtime/skills/skillExecutor`.
 7. Der Agent waehlt aus dem Collated Context explizite `selectedReferences` fuer die Bildgenerierung.
 8. Activities und Conversation-Messages werden wie bisher in Store/DB geschrieben.
+9. Laufende Plan-/Zwischenergebnisse koennen im Runtime-Notepad persistiert werden.
 
 ## Routing-Prinzipien
 
@@ -39,6 +41,7 @@ Diese Datei beschreibt die technische Trennung zwischen Skills, Tools und Script
 - Regex/Keyword-Heuristiken sind fuer produktive Routing-Entscheidungen nicht erlaubt.
 - Fallbacks sind nur fuer Fehlerfaelle gedacht (Timeout, API-Fehler, invalides Modell-JSON) und muessen in Traces/Logs markiert sein.
 - Deterministische Logik bleibt fuer Guardrails, Validierung und sichere Tool-Ausfuehrung zustaendig.
+- Multi-Intent-Requests sollen bevorzugt ueber `plan-and-act` als sequenzielle Schrittkette laufen.
 
 ## Context-Collation Contract
 

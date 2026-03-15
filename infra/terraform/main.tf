@@ -40,6 +40,10 @@ locals {
     "POST /api/realtime/session",
     "POST /api/realtime/instructions",
     "POST /api/realtime/events",
+    "POST /api/character-creator/chat",
+    "POST /api/character-creator/reference-image",
+    "POST /api/character-creator/start",
+    "GET /api/character-creator/jobs/{id}",
     "GET /health",
     "GET /ready"
   ]

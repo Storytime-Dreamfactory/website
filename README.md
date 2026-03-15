@@ -16,6 +16,7 @@ Begriffslogik:
 - Content-Regeln: `docs/content-model.md`
 - Agent-Workflow: `docs/agent-guide.md`
 - Deploy-Workflow: `docs/deploy-workflow.md`
+- Local/Prod Runbook: `docs/local-prod-runbook.md`
 - Repo-Agent-Regeln: `AGENTS.md`
 - Visuelle Stilregeln: `docs/visual-style-guide.md`
 - Character Generator: `tools/character-image-service/README.md`
@@ -38,6 +39,21 @@ Begriffslogik:
 npm install
 npm run dev
 ```
+
+### Verbindliche Betriebsmodi
+
+- `local-full` (Standard fuer Feature-Entwicklung)
+  - Nutzt lokale Vite-API-Plugins.
+  - Pflicht-ENV: `OPENAI_API_KEY`, `BFL_API_KEY`, `DATABASE_URL`.
+  - Start: `npm run dev:local` (oder `npm run dev` bei `STORYTIME_USE_REMOTE_APIS=false`).
+- `local-remote-api` (Integration gegen echte AWS-API)
+  - Lokale UI, aber `/api`, `/health`, `/ready` werden auf AWS geproxyt.
+  - Pflicht-ENV: `STORYTIME_USE_REMOTE_APIS=true`, `STORYTIME_REMOTE_API_ORIGIN`.
+  - Start: `npm run dev:remote-api`.
+- `production`
+  - Frontend ueber Vercel, API ueber AWS API Gateway (siehe `vercel.json`).
+
+Wichtig: Moduswechsel nur mit Neustart des Dev-Servers.
 
 ### Lokal gegen echte APIs arbeiten (optional)
 
@@ -62,11 +78,13 @@ Wichtig: Das betrifft nur den lokalen Dev-Server. Das Production-Routing bleibt 
 
 ### Empfohlener Workflow (Local -> GitHub -> Vercel)
 
-1. Lokal entwickeln und testen (`npm run dev`, `npm run quality:local`)
-2. Aenderungen committen und nach GitHub pushen
-3. Vercel baut und deployt automatisch den aktuellen Branch/PR
-4. Nach Merge auf den Hauptbranch laeuft der Production-Deploy
-5. Nach Production-Deploy Smoke-Check ausfuehren (`npm run deploy:smoke -- https://<deine-vercel-domain>`, optional `200,401` bei geschuetzter Preview)
+1. Lokal im passenden Modus entwickeln und testen (`npm run dev:local` oder `npm run dev:remote-api`)
+2. Vor Push: `npm run quality:local`
+3. Optional vor Merge/Release: `npm run character-creation:smoke -- --base-url=http://localhost:5173` (oder gegen Remote-API)
+4. Aenderungen committen und nach GitHub pushen
+5. Vercel baut und deployt automatisch den aktuellen Branch/PR
+6. Nach Merge auf den Hauptbranch laeuft der Production-Deploy
+7. Nach Production-Deploy Smoke-Check ausfuehren (`npm run deploy:smoke -- https://<deine-vercel-domain>`, optional `200,401` bei geschuetzter Preview)
 
 ## Build und Qualität
 

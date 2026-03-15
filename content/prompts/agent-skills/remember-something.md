@@ -3,6 +3,7 @@
 ## Zweck
 
 Der Character erinnert sich an bereits Erlebtes und antwortet darauf mit einer Kombination aus Erinnerungstext und optionalem bestaetigendem Bild.
+In Multi-Intent-Anfragen laeuft `remember-something` als Schritt innerhalb von `plan-and-act`.
 
 ## Trigger
 

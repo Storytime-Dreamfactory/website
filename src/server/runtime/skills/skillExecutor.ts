@@ -2,7 +2,11 @@ import { trackTraceActivitySafely } from '../../traceActivity.ts'
 import { recallConversationImage } from '../../conversationImageMemoryToolService.ts'
 import { runConversationQuizSkill } from '../../conversationQuizToolService.ts'
 import { createActivity } from '../../activityStore.ts'
-import { appendConversationMessage } from '../../conversationStore.ts'
+import {
+  appendConversationMessage,
+  getConversationDetails,
+  mergeConversationMetadata,
+} from '../../conversationStore.ts'
 import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE, readServerEnv } from '../../openAiConfig.ts'
 import { loadLearningGoalRuntimeProfiles } from '../../runtimeContentStore.ts'
 import { resolveCharacterImageRefs } from '../context/contextCollationService.ts'
@@ -10,8 +14,12 @@ import { generateConversationHeroToolApi } from '../tools/toolApiService.ts'
 import {
   readActivitiesRuntimeTool,
   readConversationHistoryRuntimeTool,
+  readRelatedObjectContextsRuntimeTool,
+  readRelatedObjectsRuntimeTool,
+  readRelationshipsRuntimeTool,
   showImageRuntimeTool,
 } from '../tools/runtimeToolRegistry.ts'
+import type { RoutedSkillDecision, RoutedSkillPlanStep } from '../router/intentRouter.ts'
 import {
   buildPublicActivityStream,
   buildStoryHistoryContext,
@@ -39,6 +47,7 @@ const QUERY_STOPWORDS = new Set([
 ])
 const STORYBOOK_ACTIVITY_TYPES = new Set(['conversation.image.generated', 'conversation.image.recalled'])
 const TRACE_PREVIEW_MAX_LENGTH = 240
+const RUNTIME_NOTEPAD_MAX_LENGTH = 8_000
 
 const previewText = (value: string | undefined): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -81,6 +90,57 @@ const isExplicitImageReuseRequest = (value: string): boolean => {
   if (!normalized) return false
   if (!normalized.includes('bild')) return false
   return SIMPLE_REUSE_HINTS.some((hint) => normalized.includes(hint))
+}
+
+const clipNotepad = (value: string): string =>
+  value.length <= RUNTIME_NOTEPAD_MAX_LENGTH
+    ? value
+    : value.slice(value.length - RUNTIME_NOTEPAD_MAX_LENGTH)
+
+const mergeRuntimeNotepad = async (input: {
+  conversationId: string
+  previous: string
+  nextLine: string
+}): Promise<void> => {
+  const timestamp = new Date().toISOString()
+  const composed = input.previous
+    ? `${input.previous}\n${input.nextLine}`
+    : input.nextLine
+  await mergeConversationMetadata({
+    conversationId: input.conversationId,
+    metadata: {
+      runtime_notepad: clipNotepad(composed),
+      runtime_notepad_updated_at: timestamp,
+    },
+  })
+}
+
+const readRuntimeNotepad = async (conversationId: string): Promise<string> => {
+  try {
+    const details = await getConversationDetails(conversationId)
+    const raw = details.conversation.metadata?.runtime_notepad
+    return typeof raw === 'string' ? raw : ''
+  } catch {
+    return ''
+  }
+}
+
+const normalizePlanSteps = (
+  plan: RoutedSkillPlanStep[] | undefined,
+  lastUserText: string,
+): RoutedSkillPlanStep[] => {
+  if (Array.isArray(plan) && plan.length > 0) return plan.slice(0, 3)
+  const normalized = lastUserText.toLowerCase()
+  if (normalized.includes('erinner') && normalized.includes('nochmal')) {
+    return [
+      { type: 'memory', intent: 'Passende Erinnerung und Details aus dem Verlauf holen' },
+      { type: 'scene', intent: 'Die Szene mit den gefundenen Details erneut zeigen' },
+    ]
+  }
+  if (normalized.includes('erinner')) {
+    return [{ type: 'memory', intent: 'Passende Erinnerung aus dem Verlauf holen' }]
+  }
+  return [{ type: 'scene', intent: 'Nutzerwunsch als sichtbare Szene umsetzen' }]
 }
 
 
@@ -205,7 +265,7 @@ export const scheduleMemoryImageRecallFromUserTurn = async (input: {
 
 export const executeRoutedSkill = async (input: {
   conversationId: string
-  decision: { skillId: string; reason: string }
+  decision: RoutedSkillDecision
   assistantText: string
   lastUserText: string
   eventType?: string
@@ -235,16 +295,57 @@ export const executeRoutedSkill = async (input: {
   let toolExecutionError: string | null = null
 
   try {
+    const toolContext = {
+      characterId: input.characterId,
+      characterName: input.characterName,
+      conversationId: input.conversationId,
+      learningGoalIds: input.learningGoalIds,
+    }
+    let runtimeNotepad = await readRuntimeNotepad(input.conversationId)
+    const appendNotepad = async (line: string): Promise<void> => {
+      const timestamp = new Date().toISOString()
+      const nextLine = `- [${timestamp}] ${line.trim()}`
+      await mergeRuntimeNotepad({
+        conversationId: input.conversationId,
+        previous: runtimeNotepad,
+        nextLine,
+      })
+      runtimeNotepad = clipNotepad(runtimeNotepad ? `${runtimeNotepad}\n${nextLine}` : nextLine)
+    }
+
+    if (input.decision.skillId === 'plan-and-act') {
+      const plan = normalizePlanSteps(input.decision.plan, input.lastUserText)
+      await appendNotepad(
+        `Plan gestartet (${plan.length} Schritt(e)): ${plan.map((step) => step.type).join(' -> ')}`,
+      )
+      executedTools.push('runtime_notepad')
+      for (let index = 0; index < plan.length; index += 1) {
+        const step = plan[index]
+        await appendNotepad(`Schritt ${index + 1}/${plan.length} (${step.type}): ${step.intent}`)
+        if (step.type === 'note') {
+          continue
+        }
+        const nestedSkillId =
+          step.type === 'memory'
+            ? 'remember-something'
+            : step.type === 'scene'
+              ? 'create_scene'
+              : 'request-context'
+        await executeRoutedSkill({
+          ...input,
+          decision: {
+            skillId: nestedSkillId,
+            reason: `plan-step:${step.type}`,
+          },
+        })
+      }
+      await appendNotepad('Plan abgeschlossen.')
+    }
+
     if (input.decision.skillId === 'remember-something') {
       const scope: 'external' | 'all' = INTERNAL_SEARCH_RE.test(input.lastUserText)
         ? 'all'
         : 'external'
-      const toolContext = {
-        characterId: input.characterId,
-        characterName: input.characterName,
-        conversationId: input.conversationId,
-        learningGoalIds: input.learningGoalIds,
-      }
       const activityResult = await readActivitiesRuntimeTool().execute(toolContext, {
         scope,
         limit: 200,
@@ -289,12 +390,6 @@ export const executeRoutedSkill = async (input: {
     }
 
     if (input.decision.skillId === 'create_scene') {
-      const toolContext = {
-        characterId: input.characterId,
-        characterName: input.characterName,
-        conversationId: input.conversationId,
-        learningGoalIds: input.learningGoalIds,
-      }
       const recentActivities = await readActivitiesRuntimeTool().execute(toolContext, {
         scope: 'external',
         limit: 200,
@@ -530,6 +625,30 @@ export const executeRoutedSkill = async (input: {
         })
         executedTools.push('record_scene_activity')
       }
+    }
+
+    if (input.decision.skillId === 'request-context') {
+      const relationshipResult = await readRelationshipsRuntimeTool().execute(toolContext, {})
+      executedTools.push('read_relationships')
+      const relatedObjectsResult = await readRelatedObjectsRuntimeTool().execute(toolContext, {
+        relatedCharacterIds: relationshipResult.relatedCharacterIds,
+        relationshipLinks: relationshipResult.relationshipLinks,
+      })
+      executedTools.push('read_related_objects')
+      const firstLinkedObject = relationshipResult.relationshipLinks
+        .flatMap((item) => item.otherRelatedObjects)
+        .find((item) => typeof item.type === 'string' && typeof item.id === 'string')
+      if (firstLinkedObject) {
+        await readRelatedObjectContextsRuntimeTool().execute(toolContext, {
+          objectType: firstLinkedObject.type,
+          objectId: firstLinkedObject.id,
+        })
+        executedTools.push('read_related_object_contexts')
+      }
+      await appendNotepad(
+        `Kontext aktualisiert: ${relatedObjectsResult.relatedObjectCount} verknuepfte Objekte.`,
+      )
+      executedTools.push('runtime_notepad')
     }
 
     if (input.decision.skillId === 'evaluate-feedback') {

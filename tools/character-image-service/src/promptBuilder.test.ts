@@ -83,7 +83,7 @@ const sampleCharacter: Character = {
 }
 
 describe('buildCharacterAssetJobs', () => {
-  it('nutzt fuer die standard figur image-edit sobald Stil-Referenzen vorhanden sind', () => {
+  it('nutzt fuer die standard figur image-edit sobald Character-Referenzen vorhanden sind', () => {
     const jobs = buildCharacterAssetJobs({
       character: sampleCharacter,
       outputRoot: '/tmp/storytime',
@@ -91,7 +91,7 @@ describe('buildCharacterAssetJobs', () => {
       heroModel: 'flux-2-klein-4b',
       baseSeed: 4242,
       styleReferencePaths: ['/tmp/storytime-style.png'],
-      characterReferencePaths: [],
+      characterReferencePaths: ['/tmp/child-reference.png'],
     })
 
     expect(jobs.find((job) => job.type === 'standard-figur')?.mode).toBe('image-edit')

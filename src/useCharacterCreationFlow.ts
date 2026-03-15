@@ -63,6 +63,8 @@ export const buildLocalFallbackResponse = (
 }
 
 const fetchJson = async <T,>(input: RequestInfo, init?: RequestInit): Promise<T> => {
+  const requestMethod = (init?.method ?? 'GET').toUpperCase()
+  const requestUrl = typeof input === 'string' ? input : input instanceof Request ? input.url : String(input)
   const response = await fetch(input, {
     ...init,
     headers: {
@@ -71,12 +73,30 @@ const fetchJson = async <T,>(input: RequestInfo, init?: RequestInit): Promise<T>
     },
   })
 
-  const data = (await response.json()) as T & { error?: string }
-  if (!response.ok) {
-    throw new Error(data.error ?? 'Unbekannter API-Fehler')
+  let responsePreview = ''
+  try {
+    responsePreview = (await response.clone().text()).slice(0, 400)
+  } catch {
+    responsePreview = '<response-text-unavailable>'
+  }
+  let data: (T & { error?: string; message?: string }) | null = null
+  try {
+    data = (await response.json()) as T & { error?: string; message?: string }
+  } catch (parseError) {
+    throw new Error(
+      `API antwortet nicht als JSON (${requestMethod} ${requestUrl}, ${response.status}). ${responsePreview}`,
+    )
   }
 
-  return data
+  if (!response.ok) {
+    const errorMessage =
+      (typeof data?.error === 'string' && data.error.trim()) ||
+      (typeof data?.message === 'string' && data.message.trim()) ||
+      `API-Fehler ${response.status} bei ${requestMethod} ${requestUrl}`
+    throw new Error(errorMessage)
+  }
+
+  return data as T
 }
 
 export function useCharacterCreationFlow({
@@ -297,7 +317,8 @@ export function useCharacterCreationFlow({
         method: 'POST',
         body: JSON.stringify({
           prompt: nextCompiledPrompt,
-          fillMissingFieldsCreatively: skipAndCreate || !nextReady,
+          fillMissingFieldsCreatively:
+            skipAndCreate || (!nextReady && nextReferenceImages.length === 0),
           referenceImageIds: nextReferenceImages.map((image) => image.id),
         }),
       })

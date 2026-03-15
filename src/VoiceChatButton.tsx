@@ -86,6 +86,7 @@ const sendDebugLog = (
 
 export default function VoiceChatButton({
   character,
+  conversationId,
   selectedLearningGoalId,
   enableTextChat = false,
   textChatMountSelector,
@@ -186,6 +187,53 @@ export default function VoiceChatButton({
     },
     [character.id],
   )
+
+  const executeRealtimeToolCall = useCallback(
+    async (input: {
+      toolName: string
+      args: Record<string, unknown>
+    }): Promise<Record<string, unknown>> => {
+      const response = await fetch('/api/realtime/tool-call', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          characterId: character.id,
+          conversationId: conversationId ?? undefined,
+          toolName: input.toolName,
+          arguments: input.args,
+        }),
+      })
+      if (!response.ok) {
+        const body = (await response.json().catch(() => ({}))) as { error?: string }
+        throw new Error(body.error ?? `Tool call fehlgeschlagen (${response.status})`)
+      }
+      const payload = (await response.json().catch(() => ({}))) as {
+        ok?: boolean
+        result?: Record<string, unknown>
+      }
+      if (!payload.ok) {
+        throw new Error('Tool call ohne Ergebnis.')
+      }
+      return payload.result ?? {}
+    },
+    [character.id, conversationId],
+  )
+
+  const sendFunctionCallOutput = useCallback((callId: string, output: Record<string, unknown>) => {
+    if (!callId) return
+    const dc = dataChannelRef.current
+    if (dc?.readyState !== 'open') return
+    dc.send(
+      JSON.stringify({
+        type: 'conversation.item.create',
+        item: {
+          type: 'function_call_output',
+          call_id: callId,
+          output: JSON.stringify(output),
+        },
+      }),
+    )
+  }, [])
 
   const setCharacterSpeaking = useCallback((isSpeaking: boolean) => {
     if (characterSpeakingRef.current === isSpeaking) return
@@ -402,6 +450,7 @@ export default function VoiceChatButton({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
+          conversationId: conversationId ?? undefined,
           correlationId: fallbackCorrelationId,
         }),
       })
@@ -558,6 +607,12 @@ export default function VoiceChatButton({
 
           if (assistantSpeechStopped) {
             assistantAudioExpectedRef.current = false
+            setLocalMicEnabled(true, {
+              reason: 'assistant_response_stopped_fallback',
+              hypothesisId: 'H10',
+              eventType,
+            })
+            setIsMicMutedByAssistant(false)
             if (assistantStopFallbackTimerRef.current != null) {
               window.clearTimeout(assistantStopFallbackTimerRef.current)
             }
@@ -587,6 +642,32 @@ export default function VoiceChatButton({
                 transcript,
                 eventType,
               })
+              void fetch('/api/realtime/instructions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  characterId: character.id,
+                  conversationId: conversationId ?? undefined,
+                  correlationId: sessionCorrelationIdRef.current ?? undefined,
+                  payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
+                }),
+              })
+                .then(async (response) => {
+                  if (!response.ok) return
+                  const data = (await response.json().catch(() => ({}))) as { instructions?: string }
+                  const instructions =
+                    typeof data.instructions === 'string' ? data.instructions.trim() : ''
+                  if (!instructions) return
+                  const activeDc = dataChannelRef.current
+                  if (activeDc?.readyState !== 'open') return
+                  activeDc.send(
+                    JSON.stringify({
+                      type: 'session.update',
+                      session: { instructions },
+                    }),
+                  )
+                })
+                .catch(() => undefined)
             }
             return
           }
@@ -632,6 +713,46 @@ export default function VoiceChatButton({
             return
           }
 
+          if (eventType === 'response.function_call_arguments.done') {
+            const functionName = typeof payload.name === 'string' ? payload.name : ''
+            const callId = typeof payload.call_id === 'string' ? payload.call_id : ''
+            if (functionName === 'unmute_user_microphone') {
+              setLocalMicEnabled(true, {
+                reason: 'assistant_tool_unmute',
+                hypothesisId: 'H9',
+                eventType,
+              })
+              setIsMicMutedByAssistant(false)
+              emitSpeakerState('yoko', false)
+              setCharacterSpeaking(false)
+              sendFunctionCallOutput(callId, { ok: true })
+            } else if (functionName === 'read_relationships' || functionName === 'read_activities') {
+              const rawArguments =
+                typeof payload.arguments === 'string' ? payload.arguments : '{}'
+              let parsedArguments: Record<string, unknown> = {}
+              try {
+                const parsed = JSON.parse(rawArguments)
+                if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                  parsedArguments = parsed as Record<string, unknown>
+                }
+              } catch {
+                parsedArguments = {}
+              }
+              void executeRealtimeToolCall({
+                toolName: functionName,
+                args: parsedArguments,
+              })
+                .then((result) => {
+                  sendFunctionCallOutput(callId, { ok: true, result })
+                })
+                .catch((error) => {
+                  const message = error instanceof Error ? error.message : String(error)
+                  sendFunctionCallOutput(callId, { ok: false, error: message })
+                })
+            }
+            return
+          }
+
           if (
             eventType === 'response.audio_transcript.done' ||
             eventType === 'response.output_audio_transcript.done'
@@ -650,6 +771,32 @@ export default function VoiceChatButton({
                 transcript,
                 eventType,
               })
+              void fetch('/api/realtime/instructions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  characterId: character.id,
+                  conversationId: conversationId ?? undefined,
+                  correlationId: sessionCorrelationIdRef.current ?? undefined,
+                  payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
+                }),
+              })
+                .then(async (response) => {
+                  if (!response.ok) return
+                  const data = (await response.json().catch(() => ({}))) as { instructions?: string }
+                  const instructions =
+                    typeof data.instructions === 'string' ? data.instructions.trim() : ''
+                  if (!instructions) return
+                  const activeDc = dataChannelRef.current
+                  if (activeDc?.readyState !== 'open') return
+                  activeDc.send(
+                    JSON.stringify({
+                      type: 'session.update',
+                      session: { instructions },
+                    }),
+                  )
+                })
+                .catch(() => undefined)
               addChatMessage('assistant', transcript)
             }
           }
@@ -717,6 +864,10 @@ export default function VoiceChatButton({
     monitorRemoteAudio,
     flushQueuedTextMessages,
     publishRealtimeEvent,
+    executeRealtimeToolCall,
+    sendFunctionCallOutput,
+    conversationId,
+    activeLearningGoalId,
   ])
 
   useEffect(() => {
@@ -738,6 +889,7 @@ export default function VoiceChatButton({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
+          conversationId: conversationId ?? undefined,
           correlationId,
           payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
         }),
@@ -763,7 +915,7 @@ export default function VoiceChatButton({
     return () => {
       cancelled = true
     }
-  }, [state, character.id, activeLearningGoalId])
+  }, [state, character.id, conversationId, activeLearningGoalId])
 
   const handleClick = useCallback(() => {
     if (state === 'connected' && isMicMutedByAssistant) {

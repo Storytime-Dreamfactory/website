@@ -8,6 +8,7 @@ Diese Baseline friert den aktuellen Datenbankvertrag fuer die AWS-Migration ein.
 - `src/server/activityStore.ts`
 - `src/server/relationshipStore.ts`
 - SQL-Ausrollung: `infra/terraform/sql/001_schema.sql`
+- SQL-Ausrollung Character-Creation: `infra/terraform/sql/020_character_creation.sql`
 
 ## Erforderliche Tabellen
 
@@ -15,6 +16,10 @@ Diese Baseline friert den aktuellen Datenbankvertrag fuer die AWS-Migration ein.
 - `conversation_messages`
 - `character_activities`
 - `character_relationships`
+- `character_creation_jobs`
+- `character_creation_steps`
+- `character_creation_reference_images`
+- `event_outbox`
 
 ## Erforderliche Trigger/Funktionen
 

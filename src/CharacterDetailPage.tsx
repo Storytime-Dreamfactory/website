@@ -141,9 +141,9 @@ export default function CharacterDetailPage({ content }: Props) {
             <div className="character-detail-friends">
               <Text className="character-detail-friends-label">Beziehungen</Text>
               <div className="character-detail-friends-list">
-                {relatedCharacters.map(({ char, relationLabel }) => (
+                {relatedCharacters.map(({ char, relationLabel, listKey }) => (
                   <RelationshipPill
-                    key={`${char.id}-${relationLabel}`}
+                    key={listKey}
                     to={`/characters/${char.id}`}
                     name={char.name}
                     imageSrc={char.images.profileImage?.file}

@@ -2,10 +2,19 @@
 
 Dieser Ablauf ist der Standard fuer Storytime-Deployments.
 
+## Betriebsmodi (verbindlich)
+
+- `local-full`: lokale APIs + lokale DB fuer Feature-Entwicklung.
+- `local-remote-api`: lokale UI gegen echte AWS-API fuer Integrationschecks.
+- `production`: Vercel-Frontend + AWS-API + CloudFront-Content.
+
+Moduswechsel nur mit Dev-Server-Neustart.
+
 ## 1) Lokal validieren
 
 ```bash
 npm install
+npm run dev:local
 npm run quality:local
 ```
 
@@ -16,6 +25,12 @@ npm run dev
 ```
 
 Hinweis: Falls `quality:local` fehlschlaegt, vor dem Push fixen oder bewusst mit Team abstimmen.
+
+Optionaler Character-Flow-Gate vor Push/Release:
+
+```bash
+npm run character-creation:smoke -- --base-url=http://localhost:5173
+```
 
 ## 2) App ueber GitHub nach Vercel deployen
 
@@ -57,6 +72,12 @@ Falls die Vercel-URL durch Zugriffsschutz `401` liefern darf (z. B. geschuetzte 
 
 ```bash
 npm run deploy:smoke -- https://<deine-vercel-domain> 200,401
+```
+
+Zusatz-Gate fuer Character-Creation gegen aktive Runtime:
+
+```bash
+npm run character-creation:smoke -- --base-url=https://<deine-vercel-domain>
 ```
 
 Zusatzcheck im Browser:

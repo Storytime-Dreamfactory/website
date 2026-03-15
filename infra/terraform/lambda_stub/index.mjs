@@ -1,6 +1,7 @@
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3'
+import { S3Client, GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 import { EventBridgeClient, PutEventsCommand } from '@aws-sdk/client-eventbridge'
 import { SecretsManagerClient, GetSecretValueCommand } from '@aws-sdk/client-secrets-manager'
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs'
 import crypto from 'node:crypto'
 import { parse as parseYaml } from 'yaml'
 import pg from 'pg'
@@ -12,6 +13,7 @@ const secretsManager = new SecretsManagerClient({})
 const CONTENT_BUCKET = process.env.CONTENT_BUCKET || ''
 const RUNTIME_SECRET_ARN = process.env.RUNTIME_SECRET_ARN || ''
 const AWS_REGION = process.env.AWS_REGION || 'eu-central-1'
+const CHARACTER_CREATION_QUEUE_URL = process.env.CHARACTER_CREATION_QUEUE_URL || ''
 
 const REALTIME_EVENT_SCHEMA_VERSION = '1.0'
 const REALTIME_EVENT_TYPES = new Set([
@@ -28,15 +30,24 @@ let cachedAt = 0
 const CACHE_TTL_MS = 30_000
 let pool = null
 let eventBridgeClient = null
+let sqsClient = null
 let runtimeConfigPromise = null
 let runtimeConfigCachedAt = 0
 const RUNTIME_CONFIG_CACHE_TTL_MS = 60_000
 let cachedDatabaseUrl = process.env.DATABASE_URL || ''
+let characterCreationSchemaEnsured = false
 
 const json = (statusCode, data) => ({
   statusCode,
   headers: { 'content-type': 'application/json' },
-  body: JSON.stringify(data),
+  body: JSON.stringify(
+    data &&
+      typeof data === 'object' &&
+      typeof data.error === 'string' &&
+      typeof data.message !== 'string'
+      ? { ...data, message: data.error }
+      : data,
+  ),
 })
 
 const readBody = async (stream) => {
@@ -252,6 +263,182 @@ const getPool = () => {
     max: 4,
   })
   return pool
+}
+
+const getSqsClient = () => {
+  if (sqsClient) return sqsClient
+  sqsClient = new SQSClient({ region: AWS_REGION })
+  return sqsClient
+}
+
+const readHeader = (event, name) => {
+  const headers = event?.headers
+  if (!headers || typeof headers !== 'object') return ''
+  const normalized = name.toLowerCase()
+  for (const [key, value] of Object.entries(headers)) {
+    if (key.toLowerCase() !== normalized) continue
+    return typeof value === 'string' ? value.trim() : ''
+  }
+  return ''
+}
+
+const pickCharacterCreationPhase = (status) => {
+  if (status === 'completed') return 'completed'
+  if (status === 'failed') return 'failed'
+  if (status === 'running') return 'generating'
+  return 'draft'
+}
+
+const hashPayload = (payload) =>
+  crypto.createHash('sha256').update(JSON.stringify(payload)).digest('hex')
+
+const deriveCharacterCreationIdempotencyKey = (event, body) => {
+  const explicit =
+    readOptionalString(body.idempotencyKey) ||
+    readOptionalString(readHeader(event, 'x-idempotency-key'))
+  if (explicit) return explicit
+  const prompt = readOptionalString(body.prompt) || ''
+  const yamlText = readOptionalString(body.yamlText) || ''
+  const fillMissingFieldsCreatively = Boolean(body.fillMissingFieldsCreatively)
+  const referenceImageIds = Array.isArray(body.referenceImageIds)
+    ? body.referenceImageIds.filter((entry) => typeof entry === 'string').sort()
+    : []
+  return hashPayload({
+    prompt,
+    yamlText,
+    fillMissingFieldsCreatively,
+    referenceImageIds,
+  })
+}
+
+const ensureCharacterCreationSchema = async (db) => {
+  if (characterCreationSchemaEnsured) return
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS character_creation_jobs (
+      job_id TEXT PRIMARY KEY,
+      idempotency_key TEXT NOT NULL UNIQUE,
+      status TEXT NOT NULL CHECK (status IN ('accepted', 'queued', 'running', 'completed', 'failed')),
+      phase TEXT NOT NULL DEFAULT 'draft',
+      message TEXT NOT NULL,
+      prompt TEXT,
+      yaml_text TEXT,
+      character_id TEXT,
+      content_path TEXT,
+      manifest_path TEXT,
+      error TEXT,
+      fill_missing_fields_creatively BOOLEAN NOT NULL DEFAULT FALSE,
+      reference_images JSONB NOT NULL DEFAULT '[]'::jsonb,
+      assets JSONB NOT NULL DEFAULT '[]'::jsonb,
+      request_payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+      result_payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+      current_step TEXT,
+      attempt_count INTEGER NOT NULL DEFAULT 0,
+      queued_at TIMESTAMPTZ,
+      started_at TIMESTAMPTZ,
+      completed_at TIMESTAMPTZ,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_character_creation_jobs_status
+      ON character_creation_jobs (status, updated_at DESC);
+
+    CREATE TABLE IF NOT EXISTS character_creation_steps (
+      job_id TEXT NOT NULL REFERENCES character_creation_jobs(job_id) ON DELETE CASCADE,
+      step_name TEXT NOT NULL,
+      status TEXT NOT NULL CHECK (status IN ('started', 'completed', 'failed')),
+      metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+      error TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      PRIMARY KEY (job_id, step_name, created_at)
+    );
+
+    CREATE TABLE IF NOT EXISTS character_creation_reference_images (
+      reference_image_id TEXT PRIMARY KEY,
+      storage_bucket TEXT NOT NULL,
+      storage_key TEXT NOT NULL,
+      file_name TEXT NOT NULL,
+      mime_type TEXT NOT NULL,
+      summary TEXT NOT NULL,
+      metadata JSONB NOT NULL DEFAULT '{}'::jsonb,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE TABLE IF NOT EXISTS event_outbox (
+      outbox_id BIGSERIAL PRIMARY KEY,
+      aggregate_type TEXT NOT NULL,
+      aggregate_id TEXT NOT NULL,
+      event_type TEXT NOT NULL,
+      event_key TEXT,
+      payload JSONB NOT NULL DEFAULT '{}'::jsonb,
+      status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'sent', 'failed')),
+      attempt_count INTEGER NOT NULL DEFAULT 0,
+      next_attempt_at TIMESTAMPTZ,
+      sent_at TIMESTAMPTZ,
+      last_error TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    );
+
+    CREATE UNIQUE INDEX IF NOT EXISTS ux_event_outbox_event_key
+      ON event_outbox (event_key)
+      WHERE event_key IS NOT NULL;
+
+    CREATE INDEX IF NOT EXISTS idx_event_outbox_pending
+      ON event_outbox (status, next_attempt_at, created_at);
+  `)
+  characterCreationSchemaEnsured = true
+}
+
+const mapCharacterCreationJobRow = (row) => ({
+  id: row.job_id,
+  updatedAt: row.updated_at,
+  phase: pickCharacterCreationPhase(row.status),
+  message: row.message || 'Job angelegt.',
+  characterId: row.character_id || undefined,
+  error: row.error || undefined,
+  assets: Array.isArray(row.assets) ? row.assets : [],
+  status: row.status,
+})
+
+const safeFileName = (value) => {
+  const trimmed = typeof value === 'string' ? value.trim() : ''
+  const fallback = trimmed || 'reference-image.png'
+  return fallback.replace(/[^a-zA-Z0-9._-]+/g, '-')
+}
+
+const extensionForMimeType = (mimeType) => {
+  if (mimeType === 'image/jpeg') return '.jpg'
+  if (mimeType === 'image/webp') return '.webp'
+  if (mimeType === 'image/gif') return '.gif'
+  return '.png'
+}
+
+const parseImageDataUrl = (dataUrl) => {
+  const match = typeof dataUrl === 'string' ? dataUrl.match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/) : null
+  if (!match) {
+    throw new Error('Ungueltiges Bildformat. Bitte lade eine PNG-, JPG-, WEBP- oder GIF-Datei hoch.')
+  }
+  return {
+    mimeType: match[1],
+    buffer: Buffer.from(match[2], 'base64'),
+  }
+}
+
+const buildFallbackChatReply = (messages) => {
+  const userMessages = messages
+    .filter((message) => message.role === 'user')
+    .map((message) => (typeof message.content === 'string' ? message.content.trim() : ''))
+    .filter((value) => value.length > 0)
+  const compiledPrompt = userMessages.join('\n')
+  const isReady = compiledPrompt.length >= 80
+  return {
+    reply: isReady
+      ? 'Wunderbar, ich habe schon genug fuer deinen Character. Du kannst jetzt auf Erstellen klicken.'
+      : 'Ich bin Merlin. Erzaehl mir noch etwas mehr ueber deinen Character. Zum Beispiel: Name, Aussehen oder was ihn besonders macht.',
+    isReady,
+    compiledPrompt,
+  }
 }
 
 const normalizePathToKey = (pathValue) => pathValue.replace(/^\//, '')
@@ -874,6 +1061,292 @@ export const handler = async (event) => {
         },
         body: chunks.join('\n'),
       }
+    }
+
+    // Character Creator (Hybrid foundation: Postgres state + SQS delivery)
+    if (routeKey === 'GET /api/character-creator/jobs/{id}') {
+      const jobId = readOptionalString(event?.pathParameters?.id)
+      if (!jobId) return json(400, { error: 'jobId ist erforderlich.' })
+      const db = getPool()
+      if (!db) return json(503, { error: 'DATABASE_URL fehlt.' })
+      await ensureCharacterCreationSchema(db)
+      const result = await db.query(
+        `
+        SELECT
+          job_id,
+          status,
+          message,
+          character_id,
+          error,
+          assets,
+          updated_at::text
+        FROM character_creation_jobs
+        WHERE job_id = $1
+        LIMIT 1
+        `,
+        [jobId],
+      )
+      if (result.rowCount === 0) return json(404, { error: 'Job nicht gefunden.' })
+      return json(200, mapCharacterCreationJobRow(result.rows[0]))
+    }
+
+    if (routeKey === 'POST /api/character-creator/start') {
+      const body = readJsonBodyFromEvent(event)
+      const db = getPool()
+      if (!db) return json(503, { error: 'DATABASE_URL fehlt.' })
+      if (!CHARACTER_CREATION_QUEUE_URL) {
+        return json(503, { error: 'CHARACTER_CREATION_QUEUE_URL fehlt.' })
+      }
+
+      const yamlText = readOptionalString(body.yamlText) || ''
+      const prompt = readOptionalString(body.prompt) || ''
+      const fillMissingFieldsCreatively = body.fillMissingFieldsCreatively === true
+      const referenceImageIds = Array.isArray(body.referenceImageIds)
+        ? body.referenceImageIds.filter((entry) => typeof entry === 'string')
+        : []
+      if (!yamlText && !prompt && !fillMissingFieldsCreatively && referenceImageIds.length === 0) {
+        return json(400, {
+          error: 'Bitte gib YAML, eine Character-Beschreibung oder nutze Skip and create.',
+        })
+      }
+
+      await ensureCharacterCreationSchema(db)
+      const idempotencyKey = deriveCharacterCreationIdempotencyKey(event, body)
+      const existingResult = await db.query(
+        `
+        SELECT
+          job_id,
+          status,
+          message,
+          character_id,
+          error,
+          assets,
+          updated_at::text
+        FROM character_creation_jobs
+        WHERE idempotency_key = $1
+        LIMIT 1
+        `,
+        [idempotencyKey],
+      )
+      if (existingResult.rowCount > 0) {
+        const existingJob = mapCharacterCreationJobRow(existingResult.rows[0])
+        return json(202, {
+          jobId: existingJob.id,
+          reused: true,
+          status: existingJob.status,
+        })
+      }
+
+      const jobId = crypto.randomUUID()
+      const nowIso = new Date().toISOString()
+      const selectedReferenceImages = referenceImageIds.length
+        ? (
+            await db.query(
+              `
+              SELECT
+                reference_image_id,
+                storage_bucket,
+                storage_key,
+                file_name,
+                mime_type,
+                summary
+              FROM character_creation_reference_images
+              WHERE reference_image_id = ANY($1::text[])
+              `,
+              [referenceImageIds],
+            )
+          ).rows.map((row) => ({
+            id: row.reference_image_id,
+            bucket: row.storage_bucket,
+            key: row.storage_key,
+            fileName: row.file_name,
+            mimeType: row.mime_type,
+            summary: row.summary,
+          }))
+        : []
+      const requestPayload = {
+        prompt: prompt || undefined,
+        yamlText: yamlText || undefined,
+        fillMissingFieldsCreatively,
+        referenceImageIds,
+        referenceImages: selectedReferenceImages,
+      }
+
+      const client = await db.connect()
+      try {
+        await client.query('BEGIN')
+        await client.query(
+          `
+          INSERT INTO character_creation_jobs (
+            job_id,
+            idempotency_key,
+            status,
+            phase,
+            message,
+            prompt,
+            yaml_text,
+            fill_missing_fields_creatively,
+            reference_images,
+            request_payload,
+            created_at,
+            updated_at
+          ) VALUES (
+            $1, $2, 'accepted', 'draft', $3, $4, $5, $6, $7::jsonb, $8::jsonb, $9::timestamptz, $9::timestamptz
+          )
+          `,
+          [
+            jobId,
+            idempotencyKey,
+            'Job angelegt.',
+            prompt || null,
+            yamlText || null,
+            fillMissingFieldsCreatively,
+            JSON.stringify(selectedReferenceImages),
+            JSON.stringify(requestPayload),
+            nowIso,
+          ],
+        )
+        await client.query(
+          `
+          INSERT INTO event_outbox (
+            aggregate_type,
+            aggregate_id,
+            event_type,
+            event_key,
+            payload
+          ) VALUES ($1, $2, $3, $4, $5::jsonb)
+          `,
+          [
+            'character_creation_job',
+            jobId,
+            'job.accepted',
+            `character_creation_job:${jobId}:job.accepted`,
+            JSON.stringify({ jobId, status: 'accepted', createdAt: nowIso }),
+          ],
+        )
+        await client.query('COMMIT')
+      } catch (error) {
+        await client.query('ROLLBACK').catch(() => undefined)
+        throw error
+      } finally {
+        client.release()
+      }
+
+      const sqs = getSqsClient()
+      const sendResult = await sqs.send(
+        new SendMessageCommand({
+          QueueUrl: CHARACTER_CREATION_QUEUE_URL,
+          MessageBody: JSON.stringify({ jobId, queuedAt: nowIso }),
+        }),
+      )
+      await db.query(
+        `
+        UPDATE character_creation_jobs
+        SET
+          status = 'queued',
+          message = $2,
+          queued_at = NOW(),
+          updated_at = NOW(),
+          result_payload = jsonb_set(
+            COALESCE(result_payload, '{}'::jsonb),
+            '{queueMessageId}',
+            to_jsonb($3::text),
+            true
+          )
+        WHERE job_id = $1
+        `,
+        [jobId, 'Job in die Queue eingestellt.', sendResult.MessageId || null],
+      )
+      return json(202, { jobId, reused: false, status: 'queued' })
+    }
+
+    if (routeKey === 'POST /api/character-creator/chat') {
+      const body = readJsonBodyFromEvent(event)
+      const incomingMessages = Array.isArray(body.messages) ? body.messages : []
+      const messages = incomingMessages
+        .filter(
+          (entry) =>
+            entry &&
+            typeof entry === 'object' &&
+            typeof entry.role === 'string' &&
+            typeof entry.content === 'string',
+        )
+        .map((entry) => ({
+          role: entry.role === 'assistant' ? 'assistant' : 'user',
+          content: entry.content.trim(),
+        }))
+        .filter((entry) => entry.content.length > 0)
+      if (messages.length === 0) {
+        return json(400, { error: 'Bitte sende mindestens eine Chat-Nachricht.' })
+      }
+      return json(200, buildFallbackChatReply(messages))
+    }
+
+    if (routeKey === 'POST /api/character-creator/reference-image') {
+      if (!CONTENT_BUCKET) return json(503, { error: 'CONTENT_BUCKET fehlt.' })
+      const db = getPool()
+      if (!db) return json(503, { error: 'DATABASE_URL fehlt.' })
+      await ensureCharacterCreationSchema(db)
+
+      const body = readJsonBodyFromEvent(event)
+      const dataUrl = readOptionalString(body.dataUrl) || ''
+      const incomingFileName = readOptionalString(body.fileName) || 'reference-image.png'
+      if (!dataUrl) {
+        return json(400, { error: 'Bitte sende ein Bild zum Hochladen.' })
+      }
+
+      const { mimeType, buffer } = parseImageDataUrl(dataUrl)
+      if (buffer.byteLength > 10 * 1024 * 1024) {
+        return json(400, { error: 'Das Bild ist zu gross. Bitte waehle eine Datei unter 10 MB.' })
+      }
+
+      const referenceId = crypto.randomUUID()
+      const safeName = safeFileName(incomingFileName)
+      const storageKey = `tmp/character-creator/references/${referenceId}${extensionForMimeType(mimeType)}`
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: CONTENT_BUCKET,
+          Key: storageKey,
+          Body: buffer,
+          ContentType: mimeType,
+        }),
+      )
+
+      const summary = `Visuelle Referenz aus ${safeName}: Nutze dieses Bild als Hauptvorlage fuer Aussehen, Farben, Gesicht und Kleidung der Figur.`
+      await db.query(
+        `
+        INSERT INTO character_creation_reference_images (
+          reference_image_id,
+          storage_bucket,
+          storage_key,
+          file_name,
+          mime_type,
+          summary,
+          metadata
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb)
+        `,
+        [
+          referenceId,
+          CONTENT_BUCKET,
+          storageKey,
+          safeName,
+          mimeType,
+          summary,
+          JSON.stringify({ uploadedAt: new Date().toISOString() }),
+        ],
+      )
+
+      return json(200, {
+        referenceImage: {
+          id: referenceId,
+          fileName: safeName,
+          mimeType,
+          previewDataUrl: dataUrl,
+          summary,
+        },
+        reply:
+          'Ich habe dein Bild gespeichert und nutze es als Aussehens-Vorlage. Magst du mir jetzt noch sagen, wie dein Character heisst und wie er so ist?',
+      })
     }
 
     // Realtime (event-driven, ohne Conversations)

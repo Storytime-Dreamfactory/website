@@ -270,6 +270,7 @@ function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
     type === 'artifacts' ? PAGE_BACKGROUND_ASSETS.learningGoals : PAGE_BACKGROUND_ASSETS[type]
   const charactersWithConversations = useCharactersWithConversations()
   const isLearningGoalsType = type === 'learningGoals'
+  const hideOverlayTextForType = type === 'artifacts'
 
   return (
     <section className="content-section">
@@ -288,6 +289,7 @@ function ContentCarousel({ title, content, type, ids }: ContentCarouselProps) {
                 relationships={item.relationships}
                 showImage
                 showKicker={false}
+                showName={!hideOverlayTextForType}
                 showProperties={isLearningGoalsType}
                 showRelationships={false}
               />

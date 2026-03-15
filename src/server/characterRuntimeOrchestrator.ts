@@ -10,7 +10,7 @@ import {
 } from './conversationSceneImageService.ts'
 import { appendConversationMessage, getConversationDetails } from './conversationStore.ts'
 import { toPublicConversationHistory } from './conversationActivityHelpers.ts'
-import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE } from './openAiConfig.ts'
+import { RUNTIME_TEMPORARY_UNAVAILABLE_MESSAGE, readServerEnv } from './openAiConfig.ts'
 import {
   loadCharacterRuntimeProfile,
   loadLearningGoalRuntimeProfiles,
@@ -21,6 +21,7 @@ import {
   readRelationshipsRuntimeTool,
 } from './runtime/tools/runtimeToolRegistry.ts'
 import { detectRuntimeIntentModelDecision } from './runtime/router/intentRouter.ts'
+import { runAutonomousRuntimePipeline } from './runtime/autonomy/autonomousRuntimePipeline.ts'
 import {
   executeRoutedSkill,
   scheduleMemoryImageRecallFromUserTurn,
@@ -48,6 +49,9 @@ const pendingSelfAssistantSceneDecisions = new Map<
   { decision: RoutedSkillDecision; lastUserText: string; userMessageId?: number }
 >()
 const pendingOpenTopicHints = new Map<string, string>()
+const RUNTIME_AUTONOMOUS_PIPELINE_ENABLED =
+  readServerEnv('RUNTIME_AUTONOMOUS_PIPELINE_ENABLED', 'false').toLowerCase() === 'true' &&
+  (process.env.NODE_ENV !== 'test' || process.env.RUNTIME_AUTONOMOUS_PIPELINE_ALLOW_TEST === 'true')
 
 const hasProcessedAssistantMessage = (conversationId: string, messageId: number | undefined): boolean => {
   if (!Number.isFinite(messageId)) return false
@@ -105,6 +109,21 @@ export const orchestrateCharacterRuntimeTurn = async (
   if (!conversationId || !content || input.role === 'system') return
   if (input.role === 'assistant' && hasProcessedAssistantMessage(conversationId, input.messageId)) {
     return
+  }
+  if (RUNTIME_AUTONOMOUS_PIPELINE_ENABLED) {
+    const autonomousResult = await runAutonomousRuntimePipeline({
+      conversationId,
+      role: input.role,
+      content,
+      eventType: input.eventType,
+      messageId: input.messageId,
+    })
+    if (autonomousResult.handled) {
+      if (input.role === 'assistant') {
+        markAssistantMessageProcessed(conversationId, input.messageId)
+      }
+      return
+    }
   }
   // #region agent log
   fetch('http://127.0.0.1:7409/ingest/c7f5298f-6222-4a70-b3da-ad14507ad4e6',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1ef0fd'},body:JSON.stringify({sessionId:'1ef0fd',runId:'initial',hypothesisId:'N1',location:'characterRuntimeOrchestrator.ts:orchestrate:start',message:'Runtime-Orchestrierung gestartet',data:{conversationId,role:input.role,eventType:input.eventType ?? null,contentPreview:content.slice(0,120)},timestamp:Date.now()})}).catch(()=>{})
@@ -190,6 +209,12 @@ export const orchestrateCharacterRuntimeTurn = async (
         lastUserText: content,
         userMessageId: input.messageId,
       })
+    } else if (userTurnDecision.decision?.skillId === 'plan-and-act') {
+      pendingSelfAssistantSceneDecisions.set(conversationId, {
+        decision: userTurnDecision.decision,
+        lastUserText: content,
+        userMessageId: input.messageId,
+      })
     } else {
       pendingSelfAssistantSceneDecisions.delete(conversationId)
     }
@@ -230,7 +255,8 @@ export const orchestrateCharacterRuntimeTurn = async (
   if (
     isSelfAssistantTurn &&
     (!pendingSelfSceneDecision ||
-      pendingSelfSceneDecision.decision.skillId !== 'create_scene' ||
+      (pendingSelfSceneDecision.decision.skillId !== 'create_scene' &&
+        pendingSelfSceneDecision.decision.skillId !== 'plan-and-act') ||
       pendingSelfSceneDecision.lastUserText.length === 0)
   ) {
     markAssistantMessageProcessed(conversationId, input.messageId)
@@ -276,12 +302,17 @@ export const orchestrateCharacterRuntimeTurn = async (
       }
     : undefined
   const lastUserText =
-    isSelfAssistantTurn && pendingSelfSceneDecision?.decision.skillId === 'create_scene'
+    isSelfAssistantTurn &&
+    (pendingSelfSceneDecision?.decision.skillId === 'create_scene' ||
+      pendingSelfSceneDecision?.decision.skillId === 'plan-and-act')
       ? pendingSelfSceneDecision.lastUserText
       : ([...details.messages].reverse().find((item) => item.role === 'user')?.content?.trim() ?? '')
   publicConversationHistory = toPublicConversationHistory(details.messages)
   const pendingOpenTopicHint = pendingOpenTopicHints.get(conversationId)
-  const runtimeIntentDecision = isSelfAssistantTurn && pendingSelfSceneDecision?.decision.skillId === 'create_scene'
+  const runtimeIntentDecision =
+    isSelfAssistantTurn &&
+    (pendingSelfSceneDecision?.decision.skillId === 'create_scene' ||
+      pendingSelfSceneDecision?.decision.skillId === 'plan-and-act')
     ? {
         decision: pendingSelfSceneDecision.decision,
         flags: { relationshipsRequested: false, activitiesRequested: false },
@@ -477,7 +508,11 @@ export const orchestrateCharacterRuntimeTurn = async (
     },
     ok: true,
   })
-  if (isSelfAssistantTurn && pendingSelfSceneDecision?.decision.skillId === 'create_scene') {
+  if (
+    isSelfAssistantTurn &&
+    (pendingSelfSceneDecision?.decision.skillId === 'create_scene' ||
+      pendingSelfSceneDecision?.decision.skillId === 'plan-and-act')
+  ) {
     pendingSelfAssistantSceneDecisions.delete(conversationId)
   }
   if (!resolvedOpenTopicHint) {

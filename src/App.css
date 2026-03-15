@@ -1906,6 +1906,74 @@
   color: #ff9a9a;
 }
 
+.conversation-drawer-extra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conversation-drawer-live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #52c41a;
+  box-shadow: 0 0 6px rgba(82, 196, 26, 0.6);
+  animation: conversation-drawer-live-pulse 2s ease-in-out infinite;
+}
+
+@keyframes conversation-drawer-live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.conversation-drawer-tabs {
+  margin-bottom: 14px;
+}
+
+.conversation-drawer-tabs.ant-segmented {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+.conversation-drawer-tabs .ant-segmented-item {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.conversation-drawer-tabs .ant-segmented-item-selected {
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #fff !important;
+}
+
+.conversation-drawer-notepad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.conversation-drawer-notepad-content {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 14px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.conversation-drawer-notepad-updated {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: right;
+}
+
 .content-card-link {
   text-decoration: none;
 }
@@ -3166,12 +3234,19 @@
   position: static;
   width: 100%;
   max-height: none;
+  min-height: 126px;
   padding: 14px 16px;
   margin-left: 0;
   background: transparent;
   border-radius: 0;
   -webkit-mask-image: linear-gradient(to bottom, black 62%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 62%, transparent 100%);
+}
+
+.character-story-activity-overlay .character-activity-empty {
+  margin: 2px 0 12px;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 13px;
 }
 
 .character-story-activity-chat-slot {

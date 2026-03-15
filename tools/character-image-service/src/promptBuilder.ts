@@ -311,7 +311,7 @@ const buildPrompt = (
       ? emotionInstruction(character, type, description)
       : assetInstruction(character, kind, description),
     isWhiteBackgroundAsset(kind, type) ? whiteBackgroundStyleAnchor() : styleAnchor(),
-    `Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. ${
+    `Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. ${
       kind === 'hero_image' || kind === 'portrait' || kind === 'profilbild'
         ? `Render ${character.name} as the only primary character in frame; no other person may become the visual focus or share ${character.name}'s defining facial identity.`
         : ''
@@ -392,8 +392,7 @@ export const buildCharacterAssetJobs = ({
   characterReferencePaths?: string[]
 }): ResolvedAssetJob[] => {
   const jobs: ResolvedAssetJob[] = []
-  const hasInitialReferenceImages =
-    characterReferencePaths.length > 0 || styleReferencePaths.length > 0
+  const hasReferenceImages = characterReferencePaths.length > 0 || styleReferencePaths.length > 0
   const orderedSpecs = [
     {
       spec: CHARACTER_ASSET_SPECS.standard_figur,
@@ -442,7 +441,7 @@ export const buildCharacterAssetJobs = ({
         height: spec.height,
         outputFormat: spec.outputFormat,
         mode:
-          spec.kind === 'standard_figur' && hasInitialReferenceImages
+          spec.kind === 'standard_figur' && hasReferenceImages
             ? 'image-edit'
             : spec.mode,
         model: spec.useHeroModel ? heroModel : defaultModel,

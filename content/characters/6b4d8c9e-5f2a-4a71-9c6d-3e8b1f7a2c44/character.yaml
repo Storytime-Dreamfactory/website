@@ -1,0 +1,130 @@
+id: 6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44
+name: Falk Felsenpfote
+kurzbeschreibung: |
+  Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen.
+basis:
+  age_hint: kindlich
+  species: Rotfuchs
+  gender_expression: maskulin
+  role_archetype: hero
+voice: verse
+voice_profile:
+  identity: Helle, flinke Jungenstimme mit leicht rauem Waldklang, als waere sie vom Rennen durch Tannennadeln und Wind ueber Felsen gepraegt
+  demeanor: Tritt mutig vor, spricht aber nicht grossspurig, sondern mit gespannter Wachheit und echtem Herz
+  tone: Federnd, klar und ein wenig frech, mit kurzen entschlossenen Saetzen und warmem Aufmuntern in schwierigen Momenten
+  enthusiasm_level: hoch
+  formality_level: locker
+  emotion_level: ausdrucksstark
+  filler_words: occasionally
+  pacing: trippelnd flott, bei heiklen Momenten kurz stockend und dann wieder entschlossen
+erscheinung:
+  body_shape: schlank, wendig und langbeinig mit buschigem Schweif
+  colors:
+    - kupferrot
+    - cremeweiss
+    - moosgruen
+  hair_or_fur:
+    color: kupferrot mit cremeweisser Brust und dunkleren Pfoten
+    texture: weich und dicht
+    length: mittellang
+  eyes:
+    color: bernstein
+    expression: wach, mutig und manchmal kurz unsicher
+  distinctive_features:
+    - kleine Kerbe im linken Ohr
+    - sehr buschiger Schweif mit heller Spitze
+    - moosgruenes Halstuch mit geknotetem Zipfel
+  clothing_style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich
+persoenlichkeit:
+  core_traits:
+    - mutig
+    - aufmerksam
+    - hilfsbereit
+  temperament: lebhaft
+  social_style: kooperativ
+  strengths:
+    - geht voran, wenn andere zoegern
+    - bemerkt schnell Gefahren und sichere Wege
+  weaknesses:
+    - springt manchmal los, bevor er alles durchdacht hat
+    - will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat
+  quirks:
+    - tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst
+    - richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht
+story_psychology:
+  visible_goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann
+  deeper_need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein
+  fear: im entscheidenden Moment alle im Stich zu lassen
+  insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig.
+  stress_response: hesitate_then_try
+  growth_direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln
+learning_function:
+  teaching_roles:
+    - model
+    - learner
+  suitable_learning_goals:
+    - mut
+    - selbstregulation
+    - ehrlichkeit
+  explanation_style: example_based
+herkunft:
+  geburtsort: Felsenfarnwald
+  aufgewachsen_in:
+    - Felsenfarnwald
+    - Whispering Meadow
+  kulturelle_praegung:
+    - achtet auf Spuren, Wind und leise Waldbotschaften
+    - lernt frueh, dass Mut und Vorsicht zusammengehoeren
+  religion_oder_weltbild: Glaubt daran, dass jeder Weg leichter wird, wenn man ihn nicht allein geht
+  historische_praegung:
+    - aufgewachsen mit Erzaehlungen ueber sichere Pfade durch dichtes Waldland
+  notizen: Waldfigur mit klarer Verankerung zwischen Farnhaengen, Felsenpfaden und Wiesenrand
+relationships:
+  characters:
+    - character_id: 8c42a128-bffd-4ea7-ab96-9d3c84b34f2a
+      typ: freundschaftliche Abenteuerbekanntschaft
+      beschreibung: Mit Tilda Tannenzapfen teilt Falk Freude an versteckten Waldpfaden und lernt, genauer hinzuschauen
+  places:
+    - place_id: ce0cc7ef-99e8-4138-a3ac-a6255e891532
+      typ: Randwiese
+      beschreibung: Am Whispering Meadow uebt Falk, offen ueber seine Sorgen zu sprechen, bevor er losrennt
+bilder:
+  standard_figur:
+    datei: /content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/standard-figur.png
+    beschreibung: |
+      Freigestellte Ganzkoerperfigur eines kindlichen Rotfuchses mit schlanker, wendiger Silhouette, kupferrotem Fell, cremeweisser Brust, dunkleren Pfoten, kleiner Kerbe im linken Ohr und sehr buschigem Schweif mit heller Spitze. Er traegt ein moosgruenes Halstuch, steht leicht nach vorn gelehnt und wirkt mutig, wach und bereit zum Aufbruch.
+  hero_image:
+    datei: /content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/hero-image.jpg
+    beschreibung: |
+      Cinematische Storytime-Szene im warmen Waldlicht am Rand von Whispering Meadow: Falk Felsenpfote steht auf einem kleinen Felsen zwischen Farnen, kupferrotes Fell leuchtet, moosgruenes Halstuch flattert leicht im Wind, bernsteinfarbene Augen blicken entschlossen nach vorn. Die Szene wirkt warm, mutig und abenteuerlich, mit klar lesbarer Waldatmosphaere.
+  portrait:
+    datei: /content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/portrait.png
+    beschreibung: |
+      Halbnahes Character-Card-Portrait eines jungen Rotfuchses mit bernstein- farbenen Augen, kleiner Kerbe im linken Ohr, cremeweisser Brust und moosgruenem Halstuch. Freundlicher, gespannter Ausdruck, als wolle er gleich etwas Mutiges sagen.
+  profilbild:
+    datei: /content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/profilbild.png
+    beschreibung: |
+      Quadratisches Profilbild mit stark lesbarem Fuchsgesicht: kupferrotes Fell, bernsteinfarbene Augen, helle Schnauze, kleine Ohrkerbe links und sichtbarer Zipfel des moosgruenen Halstuchs. Ausdruck wach, tapfer und nahbar.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-happy.png
+      beschreibung: Freigestellte Emotionsfigur von Falk Felsenpfote mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+    - typ: emotion_sad
+      datei: /content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-sad.png
+      beschreibung: Freigestellte Emotionsfigur von Falk Felsenpfote mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+tags:
+  - mut
+  - selbstregulation
+  - ehrlichkeit
+  - mutig-aber-nicht-furchtlos
+  - geht-voran
+  - model
+  - learner
+  - mut-lernen
+  - waldfigur
+  - whispering-meadow
+metadata:
+  active: true
+  created_at: 2026-03-15
+  updated_at: 2026-03-15
+  version: 1

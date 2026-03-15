@@ -10,6 +10,8 @@ export type ApiRelationship = {
   source: ApiRelationshipObject
   target: ApiRelationshipObject
   relationshipType: string
+  fromTitle?: string
+  toTitle?: string
   relationshipTypeReadable?: string
   relationship: string
   direction: 'outgoing' | 'incoming'

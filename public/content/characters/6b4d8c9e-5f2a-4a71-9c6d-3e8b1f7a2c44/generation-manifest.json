@@ -1,0 +1,303 @@
+{
+  "generatedAt": "2026-03-15T12:01:18.307Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/8eb40291-65ee-49b6-b826-d7c7e97404c0/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/3d1ad7b2-990f-4655-902c-e1baf8d87cbe/standard-figur.png",
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/7d688ec8-6d27-43d1-9803-6b0d4448f10a/standard-figur.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44",
+    "name": "Falk Felsenpfote",
+    "type": "character",
+    "slug": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44",
+    "shortDescription": "Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Rotfuchs",
+      "genderExpression": "maskulin",
+      "roleArchetype": "hero"
+    },
+    "voice": "verse",
+    "voiceProfile": {
+      "identity": "Helle, flinke Jungenstimme mit leicht rauem Waldklang, als waere sie vom Rennen durch Tannennadeln und Wind ueber Felsen gepraegt",
+      "demeanor": "Tritt mutig vor, spricht aber nicht grossspurig, sondern mit gespannter Wachheit und echtem Herz",
+      "tone": "Federnd, klar und ein wenig frech, mit kurzen entschlossenen Saetzen und warmem Aufmuntern in schwierigen Momenten",
+      "enthusiasmLevel": "hoch",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausdrucksstark",
+      "fillerWords": "occasionally",
+      "pacing": "trippelnd flott, bei heiklen Momenten kurz stockend und dann wieder entschlossen"
+    },
+    "appearance": {
+      "bodyShape": "schlank, wendig und langbeinig mit buschigem Schweif",
+      "colors": [
+        "kupferrot",
+        "cremeweiss",
+        "moosgruen"
+      ],
+      "hairOrFur": {
+        "color": "kupferrot mit cremeweisser Brust und dunkleren Pfoten",
+        "texture": "weich und dicht",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "bernstein",
+        "expression": "wach, mutig und manchmal kurz unsicher"
+      },
+      "distinctiveFeatures": [
+        "kleine Kerbe im linken Ohr",
+        "sehr buschiger Schweif mit heller Spitze",
+        "moosgruenes Halstuch mit geknotetem Zipfel"
+      ],
+      "clothingStyle": "schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich"
+    },
+    "personality": {
+      "coreTraits": [
+        "mutig",
+        "aufmerksam",
+        "hilfsbereit"
+      ],
+      "temperament": "lebhaft",
+      "socialStyle": "kooperativ",
+      "strengths": [
+        "geht voran, wenn andere zoegern",
+        "bemerkt schnell Gefahren und sichere Wege"
+      ],
+      "weaknesses": [
+        "springt manchmal los, bevor er alles durchdacht hat",
+        "will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat"
+      ],
+      "quirks": [
+        "tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst",
+        "richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann",
+      "deeperNeed": "Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein",
+      "fear": "im entscheidenden Moment alle im Stich zu lassen",
+      "insecurity": "Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "model",
+        "learner"
+      ],
+      "suitableLearningGoals": [
+        "mut",
+        "selbstregulation",
+        "ehrlichkeit"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Felsenfarnwald",
+      "upbringingPlaces": [
+        "Felsenfarnwald",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "achtet auf Spuren, Wind und leise Waldbotschaften",
+        "lernt frueh, dass Mut und Vorsicht zusammengehoeren"
+      ],
+      "religionOrBelief": "Glaubt daran, dass jeder Weg leichter wird, wenn man ihn nicht allein geht",
+      "historicalContext": [
+        "aufgewachsen mit Erzaehlungen ueber sichere Pfade durch dichtes Waldland"
+      ],
+      "notes": "Waldfigur mit klarer Verankerung zwischen Farnhaengen, Felsenpfaden und Wiesenrand"
+    },
+    "relationships": {
+      "characters": [
+        {
+          "characterId": "8c42a128-bffd-4ea7-ab96-9d3c84b34f2a",
+          "type": "freundschaftliche Abenteuerbekanntschaft",
+          "description": "Mit Tilda Tannenzapfen teilt Falk Freude an versteckten Waldpfaden und lernt, genauer hinzuschauen"
+        }
+      ],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "Randwiese",
+          "description": "Am Whispering Meadow uebt Falk, offen ueber seine Sorgen zu sprechen, bevor er losrennt"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur eines kindlichen Rotfuchses mit schlanker, wendiger Silhouette, kupferrotem Fell, cremeweisser Brust, dunkleren Pfoten, kleiner Kerbe im linken Ohr und sehr buschigem Schweif mit heller Spitze. Er traegt ein moosgruenes Halstuch, steht leicht nach vorn gelehnt und wirkt mutig, wach und bereit zum Aufbruch."
+      },
+      "heroImage": {
+        "file": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene im warmen Waldlicht am Rand von Whispering Meadow: Falk Felsenpfote steht auf einem kleinen Felsen zwischen Farnen, kupferrotes Fell leuchtet, moosgruenes Halstuch flattert leicht im Wind, bernsteinfarbene Augen blicken entschlossen nach vorn. Die Szene wirkt warm, mutig und abenteuerlich, mit klar lesbarer Waldatmosphaere."
+      },
+      "portrait": {
+        "file": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait eines jungen Rotfuchses mit bernstein- farbenen Augen, kleiner Kerbe im linken Ohr, cremeweisser Brust und moosgruenem Halstuch. Freundlicher, gespannter Ausdruck, als wolle er gleich etwas Mutiges sagen."
+      },
+      "profileImage": {
+        "file": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Fuchsgesicht: kupferrotes Fell, bernsteinfarbene Augen, helle Schnauze, kleine Ohrkerbe links und sichtbarer Zipfel des moosgruenen Halstuchs. Ausdruck wach, tapfer und nahbar."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Falk Felsenpfote mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Falk Felsenpfote mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "mut",
+      "selbstregulation",
+      "ehrlichkeit",
+      "mutig-aber-nicht-furchtlos",
+      "geht-voran",
+      "model",
+      "learner",
+      "mut-lernen",
+      "waldfigur",
+      "whispering-meadow"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-15",
+      "updatedAt": "2026-03-15",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Falk Felsenpfote. Short description: Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen. Species: Rotfuchs. The character must read unmistakably as a Rotfuchs at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: hero. Body shape: schlank, wendig und langbeinig mit buschigem Schweif. Dominant colors: kupferrot, cremeweiss, moosgruen. Hair or fur: kupferrot mit cremeweisser Brust und dunkleren Pfoten weich und dicht mittellang. Eyes: bernstein, wach, mutig und manchmal kurz unsicher. Distinctive features: kleine Kerbe im linken Ohr, sehr buschiger Schweif mit heller Spitze, moosgruenes Halstuch mit geknotetem Zipfel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich. Core traits: mutig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: kooperativ. Strengths: geht voran, wenn andere zoegern, bemerkt schnell Gefahren und sichere Wege. Weaknesses: springt manchmal los, bevor er alles durchdacht hat, will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat. Quirks: tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst, richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht. Visible goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann. Deeper need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein. Fear: im entscheidenden Moment alle im Stich zu lassen. Insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln. Teaching roles: model, learner. Explanation style: example_based. Create a full-body standard character asset of Falk Felsenpfote on a solid pure white background. Show enough of the body to keep the Rotfuchs identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur eines kindlichen Rotfuchses mit schlanker, wendiger Silhouette, kupferrotem Fell, cremeweisser Brust, dunkleren Pfoten, kleiner Kerbe im linken Ohr und sehr buschigem Schweif mit heller Spitze. Er traegt ein moosgruenes Halstuch, steht leicht nach vorn gelehnt und wirkt mutig, wach und bereit zum Aufbruch. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur eines kindlichen Rotfuchses mit schlanker, wendiger Silhouette, kupferrotem Fell, cremeweisser Brust, dunkleren Pfoten, kleiner Kerbe im linken Ohr und sehr buschigem Schweif mit heller Spitze. Er traegt ein moosgruenes Halstuch, steht leicht nach vorn gelehnt und wirkt mutig, wach und bereit zum Aufbruch.",
+      "publicFilePath": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "fac13a8e-1f59-46e0-967a-107e8324549b",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/e1922ea474dc41c5a32f9376511090e4_sample.png?se=2026-03-15T12%3A08%3A14Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=6uImjgKNP04%2B7IixMSvkefNzLyBW3M7FlsOeHzLVxUw%3D",
+      "cost": 9
+    },
+    {
+      "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Falk Felsenpfote. Short description: Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen. Species: Rotfuchs. The character must read unmistakably as a Rotfuchs at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: hero. Body shape: schlank, wendig und langbeinig mit buschigem Schweif. Dominant colors: kupferrot, cremeweiss, moosgruen. Hair or fur: kupferrot mit cremeweisser Brust und dunkleren Pfoten weich und dicht mittellang. Eyes: bernstein, wach, mutig und manchmal kurz unsicher. Distinctive features: kleine Kerbe im linken Ohr, sehr buschiger Schweif mit heller Spitze, moosgruenes Halstuch mit geknotetem Zipfel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich. Core traits: mutig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: kooperativ. Strengths: geht voran, wenn andere zoegern, bemerkt schnell Gefahren und sichere Wege. Weaknesses: springt manchmal los, bevor er alles durchdacht hat, will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat. Quirks: tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst, richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht. Visible goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann. Deeper need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein. Fear: im entscheidenden Moment alle im Stich zu lassen. Insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln. Teaching roles: model, learner. Explanation style: example_based. Birth place: Felsenfarnwald. Raised in: Felsenfarnwald, Whispering Meadow. Cultural context: achtet auf Spuren, Wind und leise Waldbotschaften, lernt frueh, dass Mut und Vorsicht zusammengehoeren. Belief or worldview: Glaubt daran, dass jeder Weg leichter wird, wenn man ihn nicht allein geht. Historical context: aufgewachsen mit Erzaehlungen ueber sichere Pfade durch dichtes Waldland. Origin notes: Waldfigur mit klarer Verankerung zwischen Farnhaengen, Felsenpfaden und Wiesenrand. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Falk Felsenpfote in a cinematic story moment. Treat Falk Felsenpfote as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Falk Felsenpfote more than Falk Felsenpfote does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene im warmen Waldlicht am Rand von Whispering Meadow: Falk Felsenpfote steht auf einem kleinen Felsen zwischen Farnen, kupferrotes Fell leuchtet, moosgruenes Halstuch flattert leicht im Wind, bernsteinfarbene Augen blicken entschlossen nach vorn. Die Szene wirkt warm, mutig und abenteuerlich, mit klar lesbarer Waldatmosphaere. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Falk Felsenpfote as the only primary character in frame; no other person may become the visual focus or share Falk Felsenpfote's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene im warmen Waldlicht am Rand von Whispering Meadow: Falk Felsenpfote steht auf einem kleinen Felsen zwischen Farnen, kupferrotes Fell leuchtet, moosgruenes Halstuch flattert leicht im Wind, bernsteinfarbene Augen blicken entschlossen nach vorn. Die Szene wirkt warm, mutig und abenteuerlich, mit klar lesbarer Waldatmosphaere.",
+      "publicFilePath": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "b93da343-e534-4947-b8ca-2c051850ecf9",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/cba9a65d202642a89466f458d7e5e87a_sample.jpeg?se=2026-03-15T12%3A09%3A10Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=udPJsBw/Miw1c9f7X5CK/veYHsQKRK6/HLCmo4kqsFI%3D",
+      "cost": 12
+    },
+    {
+      "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Falk Felsenpfote. Short description: Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen. Species: Rotfuchs. The character must read unmistakably as a Rotfuchs at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: hero. Body shape: schlank, wendig und langbeinig mit buschigem Schweif. Dominant colors: kupferrot, cremeweiss, moosgruen. Hair or fur: kupferrot mit cremeweisser Brust und dunkleren Pfoten weich und dicht mittellang. Eyes: bernstein, wach, mutig und manchmal kurz unsicher. Distinctive features: kleine Kerbe im linken Ohr, sehr buschiger Schweif mit heller Spitze, moosgruenes Halstuch mit geknotetem Zipfel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich. Core traits: mutig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: kooperativ. Strengths: geht voran, wenn andere zoegern, bemerkt schnell Gefahren und sichere Wege. Weaknesses: springt manchmal los, bevor er alles durchdacht hat, will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat. Quirks: tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst, richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht. Visible goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann. Deeper need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein. Fear: im entscheidenden Moment alle im Stich zu lassen. Insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln. Teaching roles: model, learner. Explanation style: example_based. Birth place: Felsenfarnwald. Raised in: Felsenfarnwald, Whispering Meadow. Cultural context: achtet auf Spuren, Wind und leise Waldbotschaften, lernt frueh, dass Mut und Vorsicht zusammengehoeren. Belief or worldview: Glaubt daran, dass jeder Weg leichter wird, wenn man ihn nicht allein geht. Historical context: aufgewachsen mit Erzaehlungen ueber sichere Pfade durch dichtes Waldland. Origin notes: Waldfigur mit klarer Verankerung zwischen Farnhaengen, Felsenpfaden und Wiesenrand. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Falk Felsenpfote. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait eines jungen Rotfuchses mit bernstein- farbenen Augen, kleiner Kerbe im linken Ohr, cremeweisser Brust und moosgruenem Halstuch. Freundlicher, gespannter Ausdruck, als wolle er gleich etwas Mutiges sagen. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Falk Felsenpfote as the only primary character in frame; no other person may become the visual focus or share Falk Felsenpfote's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait eines jungen Rotfuchses mit bernstein- farbenen Augen, kleiner Kerbe im linken Ohr, cremeweisser Brust und moosgruenem Halstuch. Freundlicher, gespannter Ausdruck, als wolle er gleich etwas Mutiges sagen.",
+      "publicFilePath": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "4818ea79-01e8-4af4-83d4-5b3e082730b0",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/15/ba6eb79cc89a457aa3b1ec255feac621_sample.png?se=2026-03-15T12%3A09%3A51Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=vyDO973uQL2CvhvvPHfJgHXEq/FEdqgZEv1KVLvme8A%3D",
+      "cost": 12
+    },
+    {
+      "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Falk Felsenpfote. Short description: Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen. Species: Rotfuchs. The character must read unmistakably as a Rotfuchs at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: hero. Body shape: schlank, wendig und langbeinig mit buschigem Schweif. Dominant colors: kupferrot, cremeweiss, moosgruen. Hair or fur: kupferrot mit cremeweisser Brust und dunkleren Pfoten weich und dicht mittellang. Eyes: bernstein, wach, mutig und manchmal kurz unsicher. Distinctive features: kleine Kerbe im linken Ohr, sehr buschiger Schweif mit heller Spitze, moosgruenes Halstuch mit geknotetem Zipfel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich. Core traits: mutig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: kooperativ. Strengths: geht voran, wenn andere zoegern, bemerkt schnell Gefahren und sichere Wege. Weaknesses: springt manchmal los, bevor er alles durchdacht hat, will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat. Quirks: tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst, richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht. Visible goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann. Deeper need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein. Fear: im entscheidenden Moment alle im Stich zu lassen. Insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln. Teaching roles: model, learner. Explanation style: example_based. Birth place: Felsenfarnwald. Raised in: Felsenfarnwald, Whispering Meadow. Cultural context: achtet auf Spuren, Wind und leise Waldbotschaften, lernt frueh, dass Mut und Vorsicht zusammengehoeren. Belief or worldview: Glaubt daran, dass jeder Weg leichter wird, wenn man ihn nicht allein geht. Historical context: aufgewachsen mit Erzaehlungen ueber sichere Pfade durch dichtes Waldland. Origin notes: Waldfigur mit klarer Verankerung zwischen Farnhaengen, Felsenpfaden und Wiesenrand. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Falk Felsenpfote. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Fuchsgesicht: kupferrotes Fell, bernsteinfarbene Augen, helle Schnauze, kleine Ohrkerbe links und sichtbarer Zipfel des moosgruenen Halstuchs. Ausdruck wach, tapfer und nahbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character. Render Falk Felsenpfote as the only primary character in frame; no other person may become the visual focus or share Falk Felsenpfote's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Fuchsgesicht: kupferrotes Fell, bernsteinfarbene Augen, helle Schnauze, kleine Ohrkerbe links und sichtbarer Zipfel des moosgruenen Halstuchs. Ausdruck wach, tapfer und nahbar.",
+      "publicFilePath": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "0d87dfbd-2235-4fbd-b604-7076bbc0cab4",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/fca039e621ed4d29a4f9ad972f1385fb_sample.png?se=2026-03-15T12%3A10%3A32Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=xXazUqneyCwULNKx3%2BGDNbDkhRMxJMH1Dmt6B6P19l8%3D",
+      "cost": 10.5
+    },
+    {
+      "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Falk Felsenpfote. Short description: Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen. Species: Rotfuchs. The character must read unmistakably as a Rotfuchs at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: hero. Body shape: schlank, wendig und langbeinig mit buschigem Schweif. Dominant colors: kupferrot, cremeweiss, moosgruen. Hair or fur: kupferrot mit cremeweisser Brust und dunkleren Pfoten weich und dicht mittellang. Eyes: bernstein, wach, mutig und manchmal kurz unsicher. Distinctive features: kleine Kerbe im linken Ohr, sehr buschiger Schweif mit heller Spitze, moosgruenes Halstuch mit geknotetem Zipfel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich. Core traits: mutig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: kooperativ. Strengths: geht voran, wenn andere zoegern, bemerkt schnell Gefahren und sichere Wege. Weaknesses: springt manchmal los, bevor er alles durchdacht hat, will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat. Quirks: tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst, richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht. Visible goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann. Deeper need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein. Fear: im entscheidenden Moment alle im Stich zu lassen. Insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln. Teaching roles: model, learner. Explanation style: example_based. Keep the same exact character identity as the character reference and show Falk Felsenpfote expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Rotfuchs identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Falk Felsenpfote mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Falk Felsenpfote mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "8bbb8c6b-58d5-481e-b579-6d5e991d9858",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/4fd1d6f5f48749339321d9597de6b9e7_sample.png?se=2026-03-15T12%3A10%3A55Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=cqVKTiT5k4fSVRuAC3AtMYIggV2J%2BDvDM1voE5WCKZc%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Falk Felsenpfote. Short description: Ein mutiger Rotfuchs mit kupferrotem Fell, heller Brust und einer kleinen Kerbe am linken Ohr. Falk geht voran, auch wenn ihm dabei manchmal das Herz klopft, und traegt ein moosgruenes Halstuch, an dem Kinder ihn sofort erkennen. Species: Rotfuchs. The character must read unmistakably as a Rotfuchs at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: hero. Body shape: schlank, wendig und langbeinig mit buschigem Schweif. Dominant colors: kupferrot, cremeweiss, moosgruen. Hair or fur: kupferrot mit cremeweisser Brust und dunkleren Pfoten weich und dicht mittellang. Eyes: bernstein, wach, mutig und manchmal kurz unsicher. Distinctive features: kleine Kerbe im linken Ohr, sehr buschiger Schweif mit heller Spitze, moosgruenes Halstuch mit geknotetem Zipfel. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes Waldabenteuer-Halstuch, sonst natuerlich und beweglich. Core traits: mutig, aufmerksam, hilfsbereit. Temperament: lebhaft. Social style: kooperativ. Strengths: geht voran, wenn andere zoegern, bemerkt schnell Gefahren und sichere Wege. Weaknesses: springt manchmal los, bevor er alles durchdacht hat, will tapfer wirken und sagt zu spaet, wenn er selbst Angst hat. Quirks: tippt mit der Vorderpfote auf den Boden, wenn er einen Plan fasst, richtet sein Halstuch gerade, bevor er etwas Schwieriges versucht. Visible goal: Er will anderen zeigen, dass man auch an kniffligen Stellen einen Weg finden kann. Deeper need: Er moechte merken, dass Mut nicht heisst, immer furchtlos zu sein. Fear: im entscheidenden Moment alle im Stich zu lassen. Insecurity: Wenn ich kurz zaudere, denken bestimmt alle, ich bin gar nicht mutig. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Angst auszusprechen, Hilfe anzunehmen und trotzdem mutig zu handeln. Teaching roles: model, learner. Explanation style: example_based. Keep the same exact character identity as the character reference and show Falk Felsenpfote expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Rotfuchs identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Falk Felsenpfote mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: the character must strictly follow the YAML description, keep child-friendly proportions, preserve the same face shape, eyes, colors, species identity, and distinctive features in every generation. Never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Falk Felsenpfote mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6b4d8c9e-5f2a-4a71-9c6d-3e8b1f7a2c44/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "18aa294b-5b38-42da-8a0e-49275e6766aa",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/6c472b6814d147bda5ed1c53c18a8a38_sample.png?se=2026-03-15T12%3A11%3A16Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=%2BEdBn5%2BWbCSy%2BwJy9Rk0dx8bCriKEledHTib8Y8OxBY%3D",
+      "cost": 7.5
+    }
+  ]
+}

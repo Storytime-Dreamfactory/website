@@ -43,6 +43,16 @@ output "realtime_activity_projection_dlq_name" {
   value       = aws_sqs_queue.realtime_activity_projection_dlq.name
 }
 
+output "character_creation_jobs_queue_name" {
+  description = "SQS Queue Name fuer Character-Creation Jobs."
+  value       = aws_sqs_queue.character_creation_jobs.name
+}
+
+output "character_creation_jobs_dlq_name" {
+  description = "SQS DLQ Name fuer Character-Creation Jobs."
+  value       = aws_sqs_queue.character_creation_jobs_dlq.name
+}
+
 output "content_bucket" {
   description = "S3 Bucket fuer Content."
   value       = aws_s3_bucket.content.bucket

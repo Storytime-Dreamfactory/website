@@ -19,6 +19,14 @@ export type RoutedSkillDecision = {
   reason: string
   selectedLearningGoalId?: string
   openTopicHint?: string
+  plan?: RoutedSkillPlanStep[]
+}
+
+export type RoutedSkillPlanStepType = 'memory' | 'scene' | 'context' | 'note'
+
+export type RoutedSkillPlanStep = {
+  type: RoutedSkillPlanStepType
+  intent: string
 }
 
 export type RuntimeIntentContextFlags = {
@@ -66,15 +74,43 @@ type RuntimeIntentLlmAttemptResult = {
 const toNormalizedSkillId = (value: unknown): CharacterAgentSkillPlaybookId | null => {
   if (typeof value !== 'string') return null
   const normalized = value.trim().toLowerCase()
+  if (normalized === 'plan-and-act') return 'plan-and-act'
   if (normalized === 'remember-something') return 'remember-something'
   if (normalized === 'create_scene') return 'create_scene'
   if (normalized === 'request-context') return 'request-context'
   if (normalized === 'evaluate-feedback') return 'evaluate-feedback'
-  if (normalized === 'guided-explanation') return 'remember-something'
+  if (normalized === 'guided-explanation') return 'plan-and-act'
   if (normalized === 'visual-expression') return 'create_scene'
   if (normalized === 'run-quiz') return 'create_scene'
   if (normalized === 'micro-reflection') return 'request-context'
   return null
+}
+
+const parsePlanSteps = (value: unknown): RoutedSkillPlanStep[] => {
+  if (!Array.isArray(value)) return []
+  const items: RoutedSkillPlanStep[] = []
+  for (const item of value) {
+    if (!item || typeof item !== 'object' || Array.isArray(item)) continue
+    const record = item as Record<string, unknown>
+    const typeCandidate = typeof record.type === 'string' ? record.type.trim().toLowerCase() : ''
+    const intentCandidate = typeof record.intent === 'string' ? record.intent.trim() : ''
+    if (
+      !typeCandidate ||
+      (typeCandidate !== 'memory' &&
+        typeCandidate !== 'scene' &&
+        typeCandidate !== 'context' &&
+        typeCandidate !== 'note')
+    ) {
+      continue
+    }
+    if (!intentCandidate) continue
+    items.push({
+      type: typeCandidate as RoutedSkillPlanStepType,
+      intent: intentCandidate.slice(0, 240),
+    })
+    if (items.length >= 3) break
+  }
+  return items
 }
 
 const parseJsonObject = (raw: string): Record<string, unknown> | null => {
@@ -120,6 +156,7 @@ const parseDecisionFromJsonObject = (
     typeof parsed.openTopicHint === 'string' && parsed.openTopicHint.trim()
       ? parsed.openTopicHint.trim()
       : undefined
+  const plan = parsePlanSteps(parsed.plan)
   return {
     decision: skillId
       ? {
@@ -127,6 +164,7 @@ const parseDecisionFromJsonObject = (
           reason,
           ...(selectedLearningGoalId ? { selectedLearningGoalId } : {}),
           ...(openTopicHint ? { openTopicHint } : {}),
+          ...(plan.length > 0 ? { plan } : {}),
         }
       : null,
     flags: {
@@ -152,13 +190,25 @@ const responseSchema = (forceSkillChoice: boolean): Record<string, unknown> => (
     skillId: forceSkillChoice
       ? {
           type: 'string',
-          enum: ['remember-something', 'create_scene', 'request-context', 'evaluate-feedback'],
+          enum: [
+            'plan-and-act',
+            'remember-something',
+            'create_scene',
+            'request-context',
+            'evaluate-feedback',
+          ],
         }
       : {
           anyOf: [
             {
               type: 'string',
-              enum: ['remember-something', 'create_scene', 'request-context', 'evaluate-feedback'],
+              enum: [
+                'plan-and-act',
+                'remember-something',
+                'create_scene',
+                'request-context',
+                'evaluate-feedback',
+              ],
             },
             { type: 'null' },
           ],
@@ -170,6 +220,24 @@ const responseSchema = (forceSkillChoice: boolean): Record<string, unknown> => (
     openTopicHint: {
       anyOf: [{ type: 'string' }, { type: 'null' }],
     },
+    plan: {
+      anyOf: [
+        {
+          type: 'array',
+          maxItems: 3,
+          items: {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+              type: { type: 'string', enum: ['memory', 'scene', 'context', 'note'] },
+              intent: { type: 'string' },
+            },
+            required: ['type', 'intent'],
+          },
+        },
+        { type: 'null' },
+      ],
+    },
   },
   required: [
     'activitiesRequested',
@@ -178,6 +246,7 @@ const responseSchema = (forceSkillChoice: boolean): Record<string, unknown> => (
     'reason',
     'selectedLearningGoalId',
     'openTopicHint',
+    'plan',
   ],
 })
 
@@ -230,6 +299,7 @@ const requestRuntimeIntentFromLlm = async (
                 assistantText,
                 publicConversationHistory,
                 allowedSkillIds: [
+                  'plan-and-act',
                   'remember-something',
                   'create_scene',
                   'request-context',
@@ -243,6 +313,7 @@ const requestRuntimeIntentFromLlm = async (
                   reason: 'string',
                   selectedLearningGoalId: 'string (optional)',
                   openTopicHint: 'string (optional)',
+                  plan: 'array (optional, max 3)',
                 },
               }),
             },

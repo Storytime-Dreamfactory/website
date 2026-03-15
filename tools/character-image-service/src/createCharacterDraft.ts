@@ -47,11 +47,20 @@ const buildUserMessage = (
         'Wenn nur wenig oder gar keine Nutzereingaben vorliegen, erfinde einen vollstaendigen neuen Character, der klar, warm und visuell lesbar ist.',
       ].join(' ')
     : 'Nutze nur das, was aus den Notizen sinnvoll ableitbar ist, und bleibe streng schema-treu.'
+  const identityLockRules = [
+    'Identitaets-Lock (verbindlich):',
+    '- Wenn in den Notizen ein Name vorkommt, uebernimm ihn exakt (keine Umbenennung, keine Uebersetzung, keine kreative Alternative).',
+    '- Wenn Spezies/Art genannt oder ueber die visuelle Referenz klar ist, halte sie stabil.',
+    '- Uebernimm sichtbare Merkmale aus den Notizen/Referenz so konkret wie moeglich (Farben, Kleidung, Accessoires, Augen, auffaellige Merkmale).',
+    '- Ergaenze fehlende Details nur dann kreativ, wenn sie nicht im Widerspruch zu den vorhandenen Identitaetsankern stehen.',
+  ].join('\n')
 
   return [
     'Erstelle einen neuen Charakter basierend auf folgenden Character-Notizen.',
     '',
     creationMode,
+    '',
+    identityLockRules,
     '',
     '## Character-Notizen',
     '',

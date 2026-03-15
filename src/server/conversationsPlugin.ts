@@ -4,8 +4,10 @@ import {
   getConversationDetails,
   getCharacterIdsWithConversations,
   getLatestConversationForCharacter,
+  subscribeToConversationChanges,
   type ConversationMetadata,
 } from './conversationStore.ts'
+import { subscribeToActivityChanges, getActivityById } from './activityStore.ts'
 import {
   inspectLatestConversation,
   inspectConversation,
@@ -15,6 +17,7 @@ import {
   endConversationFlow,
   mergeConversationFlowMetadata,
   startConversationFlow,
+  readRuntimeNotepadFromMetadata,
 } from './conversationFlowService.ts'
 
 type MiddlewareStack = {
@@ -161,6 +164,78 @@ const registerConversationsApi = (middlewares: MiddlewareStack): void => {
           return
         }
         json(response, 200, result)
+        return
+      }
+
+      if (request.method === 'GET' && requestUrl.pathname === '/stream') {
+        const conversationId = requestUrl.searchParams.get('conversationId')?.trim() || ''
+        if (!conversationId) {
+          json(response, 400, { error: 'conversationId query parameter ist erforderlich.' })
+          return
+        }
+
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/event-stream')
+        response.setHeader('Cache-Control', 'no-cache, no-transform')
+        response.setHeader('Connection', 'keep-alive')
+        response.write('retry: 3000\n')
+
+        try {
+          const details = await getConversationDetails(conversationId)
+          const notepad = readRuntimeNotepadFromMetadata(details.conversation.metadata)
+          response.write('event: ready\n')
+          response.write(
+            `data: ${JSON.stringify({
+              status: 'connected',
+              conversationId,
+              notepad: notepad.text || '',
+              notepadUpdatedAt: notepad.updatedAt || null,
+            })}\n\n`,
+          )
+        } catch {
+          response.write('event: ready\n')
+          response.write(
+            `data: ${JSON.stringify({ status: 'connected', conversationId, notepad: '', notepadUpdatedAt: null })}\n\n`,
+          )
+        }
+
+        const heartbeat = setInterval(() => {
+          response.write(': keepalive\n\n')
+        }, 25_000)
+
+        const unsubConversation = subscribeToConversationChanges((changeEvent) => {
+          if (changeEvent.conversationId !== conversationId) return
+          if (changeEvent.event === 'metadata.updated') {
+            const notepad = readRuntimeNotepadFromMetadata(changeEvent.metadata)
+            response.write('event: notepad.updated\n')
+            response.write(
+              `data: ${JSON.stringify({
+                text: notepad.text || '',
+                updatedAt: notepad.updatedAt || null,
+              })}\n\n`,
+            )
+          } else if (changeEvent.event === 'message.created') {
+            response.write('event: message.created\n')
+            response.write(`data: ${JSON.stringify(changeEvent.message)}\n\n`)
+          }
+        })
+
+        const unsubActivity = await subscribeToActivityChanges((changeEvent) => {
+          void (async () => {
+            const activity = await getActivityById(changeEvent.activityId)
+            if (!activity) return
+            if (activity.conversationId !== conversationId) return
+            response.write('event: activity.created\n')
+            response.write(`data: ${JSON.stringify(activity)}\n\n`)
+          })()
+        })
+
+        request.on('close', () => {
+          clearInterval(heartbeat)
+          unsubConversation()
+          unsubActivity()
+          response.end()
+        })
         return
       }
 

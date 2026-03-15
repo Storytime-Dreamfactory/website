@@ -3,6 +3,7 @@
 ## Zweck
 
 Der Character fuehrt die Geschichte immer um genau eine neue sichtbare Szene weiter und macht diesen naechsten Schritt sprachlich und visuell nachvollziehbar.
+In Multi-Intent-Anfragen laeuft `create_scene` als Schritt innerhalb von `plan-and-act`.
 
 ## Trigger
 
