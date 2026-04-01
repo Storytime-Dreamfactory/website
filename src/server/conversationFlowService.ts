@@ -251,7 +251,7 @@ export const startConversationFlow = async (input: {
   const context = contextFromMetadata(conversation.metadata)
   await trackActivitySafely({
     activityType: 'conversation.started',
-    isPublic: false,
+    isPublic: true,
     characterId: conversation.characterId,
     placeId: context.placeId,
     learningGoalIds: context.learningGoalIds,

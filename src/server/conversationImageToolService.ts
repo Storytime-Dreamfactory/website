@@ -251,6 +251,15 @@ const takeTop = (input: string[] | undefined, limit: number): string =>
         .join(', ')
     : ''
 
+const resolveReferenceStyleMode = (input: {
+  latestConversationReferenceCount: number
+  identityReferenceCount: number
+}): 'scene-reference-edit' | 'identity-reference-grounded' | 'text-only-fallback' => {
+  if (input.latestConversationReferenceCount > 0) return 'scene-reference-edit'
+  if (input.identityReferenceCount > 0) return 'identity-reference-grounded'
+  return 'text-only-fallback'
+}
+
 const buildHeroPrompt = (
   characterId: string,
   sceneSummary: string,
@@ -270,9 +279,9 @@ const buildHeroPrompt = (
 
   return [
     'Hero-Hintergrund im Storytime-Stil, Querformat 4:3, fuer Vollbild-Background.',
-    'PRIORITAET 1: Rendere die Szene aus dem Image Prompt klar, sichtbar und eindeutig.',
-    'PRIORITAET 2: Fuehre die visuelle Kontinuitaet der letzten zwei Szenenbilder glaubwuerdig weiter.',
-    'Die letzten zwei Szenenbilder sind die primaeren Grounding-Quellen fuer Ort, Licht, Farben, Raum und Bildsprache.',
+    'PRIORITAET 1: Rendere die neue Szene aus Scene Summary und Image Prompt klar, sichtbar und eindeutig.',
+    'PRIORITAET 2: Halte Charakteridentitaet, sichtbare Merkmale und wichtige Farben stabil.',
+    'PRIORITAET 3: Nutze fruehere Szenenbilder nur als Kontinuitaetshilfe fuer Ort, Licht, Farben und Raumlogik, niemals als Vorgabe fuer eine fast identische Wiederholung.',
     sceneSummary ? `VERBINDLICHE SZENENBESCHREIBUNG: ${sceneSummary}.` : '',
     `HAUPTFIGUR: ${name} (${species}).`,
     shortDescription ? `Charakterkontext: ${shortDescription}` : '',
@@ -281,6 +290,7 @@ const buildHeroPrompt = (
     '',
     imagePrompt,
     '',
+    'Wenn die neue Szene einen Orts-, Positions- oder Fokuswechsel beschreibt, muss dieser Wechsel in der Komposition sofort lesbar sein.',
     'Kontinuitaet ist wichtig, aber die neue Szene darf nicht wie eine unveraenderte Kopie der letzten Einstellung wirken.',
     'Die Hauptaktion muss auf den ersten Blick lesbar sein.',
     styleLine,
@@ -364,6 +374,10 @@ export const generateConversationHeroToolApi = async (
     .map((item) => path.resolve(workspaceRoot, 'public', item.replace(/^\/+/, '')))
     .filter((item, index, all) => all.indexOf(item) === index)
     .slice(0, 6)
+  const styleMode = resolveReferenceStyleMode({
+    latestConversationReferenceCount: latestConversationReferencePaths.length,
+    identityReferenceCount: primaryReferencePaths.length,
+  })
 
   try {
     await trackImageActivitySafely({
@@ -426,7 +440,7 @@ export const generateConversationHeroToolApi = async (
         sceneSummary: sceneSummary || undefined,
         imageGenerationPrompt: prompt,
         model,
-        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        styleMode,
         ...interactionMetadata,
       },
     })
@@ -511,7 +525,7 @@ export const generateConversationHeroToolApi = async (
         height,
         seed,
         requestId: requestResult.requestId,
-        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        styleMode,
         relatedCharacterIds,
         relatedCharacterNames,
         ...interactionMetadata,
@@ -535,7 +549,7 @@ export const generateConversationHeroToolApi = async (
         imagePrompt,
         sceneSummary: sceneSummary || undefined,
         imageVisualSummary: imageVisualSummary || undefined,
-        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        styleMode,
         relatedCharacterIds,
         relatedCharacterNames,
         ...interactionMetadata,
@@ -584,7 +598,7 @@ export const generateConversationHeroToolApi = async (
         height,
         requestId: requestResult.requestId,
         seed,
-        styleMode: referenceImagePaths.length > 0 ? 'hero-reference-image-edit' : 'text-only-fallback',
+        styleMode,
         relatedCharacterIds,
         relatedCharacterNames,
         ...interactionMetadata,

@@ -1,0 +1,298 @@
+{
+  "generatedAt": "2026-03-15T14:53:53.119Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03",
+    "name": "Elmar Eulenflaum",
+    "type": "character",
+    "slug": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03",
+    "shortDescription": "Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Waldohreule",
+      "genderExpression": "maskulin",
+      "roleArchetype": "learner_helper"
+    },
+    "voice": "sage",
+    "voiceProfile": {
+      "identity": "Ruhig-erdige, leicht heisere Kinderstimme mit weichem Eulenklang, als wuerde jedes Wort erst kurz im Kopf landen und dann sanft hinausflattern",
+      "demeanor": "Bedacht und aufmerksam, mit einem kleinen Hauch von Nachtwache und vorsichtiger Neugier",
+      "tone": "Leise rund, nachdenklich und warm, mit kurzen Pausen vor wichtigen Gedanken und einem sanften \"hm\" wenn er etwas beobachtet",
+      "enthusiasmLevel": "ruhig",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "Bedaechtig und federleicht, eher langsam beginnend und etwas flotter, wenn er eine gute Idee gefunden hat"
+    },
+    "appearance": {
+      "bodyShape": "Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen",
+      "colors": [
+        "graubraun",
+        "creme",
+        "moosgruen"
+      ],
+      "hairOrFur": {
+        "color": "graubraun und creme",
+        "texture": "weich und flaumig",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "bernstein",
+        "expression": "wach, vorsichtig und freundlich"
+      },
+      "distinctiveFeatures": [
+        "lange Ohrfederbueschel, die bei Aufregung steiler stehen",
+        "runde Mooskappe mit schief angenaehter Eichel",
+        "cremefarbener Brustflaum in Tropfenform"
+      ],
+      "clothingStyle": "Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden"
+    },
+    "personality": {
+      "coreTraits": [
+        "aufmerksam",
+        "vorsichtig",
+        "einfallsreich"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "kooperativ",
+      "strengths": [
+        "merkt sich Wege, Geraeusche und kleine Details sehr genau",
+        "findet ruhige Loesungen, wenn andere durcheinander sind"
+      ],
+      "weaknesses": [
+        "zoegert lange, bevor er etwas Neues ausprobiert",
+        "spricht seine guten Ideen manchmal zu spaet aus"
+      ],
+      "quirks": [
+        "ordnet gefundene Federn und Blaetter nach Groesse",
+        "klappt vor dem Antworten einmal langsam mit den Augen"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann",
+      "deeperNeed": "Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist",
+      "fear": "ploetzlich ausgelacht zu werden, wenn er sich irrt",
+      "insecurity": "Vielleicht bin ich zu langsam, bis ich etwas sage.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "peer",
+        "helper"
+      ],
+      "suitableLearningGoals": [
+        "mut",
+        "zuhoeren",
+        "geduld",
+        "selbstvertrauen"
+      ],
+      "explanationStyle": "question_based"
+    },
+    "origin": {
+      "birthPlace": "Mondfarnforst",
+      "upbringingPlaces": [
+        "Mondfarnforst",
+        "Eichelhang am Fluestertal"
+      ],
+      "culturalContext": [
+        "stilles Beobachten vor dem Handeln",
+        "achtsamer Umgang mit Nacht, Wind und Waldgeraeuschen"
+      ],
+      "religionOrBelief": "Er glaubt, dass jede Kreatur ihren eigenen richtigen Zeitpunkt zum Sprechen hat",
+      "historicalContext": [
+        "aufgewachsen mit alten Waldpfaden und Geschichten ueber Nachtwachen im Geaest"
+      ],
+      "notes": "Elmar passt besonders gut in Wald-, Abend- und Zuhoer-Geschichten mit sanfter Spannung"
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "naher Wiesenrand",
+          "description": "Am Rand der Whispering Meadow sammelt Elmar in der Daemmerung Federn, Samen und leise Geschichten"
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur einer kleinen Waldohreule mit rundlicher Silhouette, graubraunem und cremefarbenem Federkleid, langen Ohrfederbuescheln, bernsteinfarbenen Augen, cremefarbener Brust in Tropfenform, runder Mooskappe mit schiefer Eichel und kleiner moosgruener Umhaengetasche. Die Haltung ist leicht vorsichtig, aber aufmerksam und freundlich."
+      },
+      "heroImage": {
+        "file": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene in warmer Abenddaemmerung am Waldrand nahe der Whispering Meadow: Elmar Eulenflaum sitzt auf einem niedrigen Ast, die Mooskappe mit Eichel leicht schief, bernsteinfarbene Augen wach auf eine kleine Gruppe gerichtet, als er gerade seinen Mut sammelt, etwas Wichtiges zu sagen. Weiches Waldlicht, Farn, Samenflug und eine ruhige, warme Atmosphaere."
+      },
+      "portrait": {
+        "file": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait einer kleinen Waldohreule mit grossen bernsteinfarbenen Augen, weichem graubraunem Flaum, langen Ohrfederbuescheln, cremefarbener Brustzeichnung und schiefer Mooskappe mit Eichel. Freundlich, nachdenklich und gut wiedererkennbar."
+      },
+      "profileImage": {
+        "file": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Eulengesicht: bernsteinfarbene Augen, graubrauner Flaum, aufrechte Ohrfederbueschel und die kleine moosgruene Kappe mit Eichel als klarer Wiedererkennungsanker."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Elmar Eulenflaum mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Elmar Eulenflaum mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "mut",
+      "geduld",
+      "zuhoeren",
+      "selbstvertrauen",
+      "vorsichtig",
+      "beobachter",
+      "helper",
+      "peer",
+      "leise-stimme",
+      "growth-arc",
+      "wald",
+      "daemmerung",
+      "whispering-meadow",
+      "nachtpfad"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-15",
+      "updatedAt": "2026-03-15",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "text-to-image",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Elmar Eulenflaum. Short description: Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen. Species: Waldohreule. The character must read unmistakably as a Waldohreule at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen. Dominant colors: graubraun, creme, moosgruen. Hair or fur: graubraun und creme weich und flaumig mittellang. Eyes: bernstein, wach, vorsichtig und freundlich. Distinctive features: lange Ohrfederbueschel, die bei Aufregung steiler stehen, runde Mooskappe mit schief angenaehter Eichel, cremefarbener Brustflaum in Tropfenform. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden. Core traits: aufmerksam, vorsichtig, einfallsreich. Temperament: nachdenklich. Social style: kooperativ. Strengths: merkt sich Wege, Geraeusche und kleine Details sehr genau, findet ruhige Loesungen, wenn andere durcheinander sind. Weaknesses: zoegert lange, bevor er etwas Neues ausprobiert, spricht seine guten Ideen manchmal zu spaet aus. Quirks: ordnet gefundene Federn und Blaetter nach Groesse, klappt vor dem Antworten einmal langsam mit den Augen. Visible goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann. Deeper need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist. Fear: ploetzlich ausgelacht zu werden, wenn er sich irrt. Insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen. Teaching roles: peer, helper. Explanation style: question_based. Create a full-body standard character asset of Elmar Eulenflaum on a solid pure white background. Show enough of the body to keep the Waldohreule identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur einer kleinen Waldohreule mit rundlicher Silhouette, graubraunem und cremefarbenem Federkleid, langen Ohrfederbuescheln, bernsteinfarbenen Augen, cremefarbener Brust in Tropfenform, runder Mooskappe mit schiefer Eichel und kleiner moosgruener Umhaengetasche. Die Haltung ist leicht vorsichtig, aber aufmerksam und freundlich. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur einer kleinen Waldohreule mit rundlicher Silhouette, graubraunem und cremefarbenem Federkleid, langen Ohrfederbuescheln, bernsteinfarbenen Augen, cremefarbener Brust in Tropfenform, runder Mooskappe mit schiefer Eichel und kleiner moosgruener Umhaengetasche. Die Haltung ist leicht vorsichtig, aber aufmerksam und freundlich.",
+      "publicFilePath": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "17d97865-e6df-49a5-b557-618d5186ff5f",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/ddf11320ffe54ee1b2f3c5530564a4bc_sample.png?se=2026-03-15T15%3A01%3A37Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=RUFpDpBYMg4AsSsGUfACFonu4unwLq6UUjA2ww5%2B/Rc%3D",
+      "cost": 4.5
+    },
+    {
+      "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Elmar Eulenflaum. Short description: Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen. Species: Waldohreule. The character must read unmistakably as a Waldohreule at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen. Dominant colors: graubraun, creme, moosgruen. Hair or fur: graubraun und creme weich und flaumig mittellang. Eyes: bernstein, wach, vorsichtig und freundlich. Distinctive features: lange Ohrfederbueschel, die bei Aufregung steiler stehen, runde Mooskappe mit schief angenaehter Eichel, cremefarbener Brustflaum in Tropfenform. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden. Core traits: aufmerksam, vorsichtig, einfallsreich. Temperament: nachdenklich. Social style: kooperativ. Strengths: merkt sich Wege, Geraeusche und kleine Details sehr genau, findet ruhige Loesungen, wenn andere durcheinander sind. Weaknesses: zoegert lange, bevor er etwas Neues ausprobiert, spricht seine guten Ideen manchmal zu spaet aus. Quirks: ordnet gefundene Federn und Blaetter nach Groesse, klappt vor dem Antworten einmal langsam mit den Augen. Visible goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann. Deeper need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist. Fear: ploetzlich ausgelacht zu werden, wenn er sich irrt. Insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen. Teaching roles: peer, helper. Explanation style: question_based. Birth place: Mondfarnforst. Raised in: Mondfarnforst, Eichelhang am Fluestertal. Cultural context: stilles Beobachten vor dem Handeln, achtsamer Umgang mit Nacht, Wind und Waldgeraeuschen. Belief or worldview: Er glaubt, dass jede Kreatur ihren eigenen richtigen Zeitpunkt zum Sprechen hat. Historical context: aufgewachsen mit alten Waldpfaden und Geschichten ueber Nachtwachen im Geaest. Origin notes: Elmar passt besonders gut in Wald-, Abend- und Zuhoer-Geschichten mit sanfter Spannung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Elmar Eulenflaum in a cinematic story moment. Treat Elmar Eulenflaum as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Elmar Eulenflaum more than Elmar Eulenflaum does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene in warmer Abenddaemmerung am Waldrand nahe der Whispering Meadow: Elmar Eulenflaum sitzt auf einem niedrigen Ast, die Mooskappe mit Eichel leicht schief, bernsteinfarbene Augen wach auf eine kleine Gruppe gerichtet, als er gerade seinen Mut sammelt, etwas Wichtiges zu sagen. Weiches Waldlicht, Farn, Samenflug und eine ruhige, warme Atmosphaere. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Elmar Eulenflaum as the only primary character in frame; no other person may become the visual focus or share Elmar Eulenflaum's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene in warmer Abenddaemmerung am Waldrand nahe der Whispering Meadow: Elmar Eulenflaum sitzt auf einem niedrigen Ast, die Mooskappe mit Eichel leicht schief, bernsteinfarbene Augen wach auf eine kleine Gruppe gerichtet, als er gerade seinen Mut sammelt, etwas Wichtiges zu sagen. Weiches Waldlicht, Farn, Samenflug und eine ruhige, warme Atmosphaere.",
+      "publicFilePath": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "80b42291-6461-476f-b521-8099bb8effdf",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/0987553180ba406aa3327781be701362_sample.jpeg?se=2026-03-15T15%3A02%3A17Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=F/UOhWPLbhDRvL4CJt87QGQniCDjq3IlP21%2B02J3NiY%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Elmar Eulenflaum. Short description: Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen. Species: Waldohreule. The character must read unmistakably as a Waldohreule at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen. Dominant colors: graubraun, creme, moosgruen. Hair or fur: graubraun und creme weich und flaumig mittellang. Eyes: bernstein, wach, vorsichtig und freundlich. Distinctive features: lange Ohrfederbueschel, die bei Aufregung steiler stehen, runde Mooskappe mit schief angenaehter Eichel, cremefarbener Brustflaum in Tropfenform. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden. Core traits: aufmerksam, vorsichtig, einfallsreich. Temperament: nachdenklich. Social style: kooperativ. Strengths: merkt sich Wege, Geraeusche und kleine Details sehr genau, findet ruhige Loesungen, wenn andere durcheinander sind. Weaknesses: zoegert lange, bevor er etwas Neues ausprobiert, spricht seine guten Ideen manchmal zu spaet aus. Quirks: ordnet gefundene Federn und Blaetter nach Groesse, klappt vor dem Antworten einmal langsam mit den Augen. Visible goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann. Deeper need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist. Fear: ploetzlich ausgelacht zu werden, wenn er sich irrt. Insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen. Teaching roles: peer, helper. Explanation style: question_based. Birth place: Mondfarnforst. Raised in: Mondfarnforst, Eichelhang am Fluestertal. Cultural context: stilles Beobachten vor dem Handeln, achtsamer Umgang mit Nacht, Wind und Waldgeraeuschen. Belief or worldview: Er glaubt, dass jede Kreatur ihren eigenen richtigen Zeitpunkt zum Sprechen hat. Historical context: aufgewachsen mit alten Waldpfaden und Geschichten ueber Nachtwachen im Geaest. Origin notes: Elmar passt besonders gut in Wald-, Abend- und Zuhoer-Geschichten mit sanfter Spannung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Elmar Eulenflaum. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait einer kleinen Waldohreule mit grossen bernsteinfarbenen Augen, weichem graubraunem Flaum, langen Ohrfederbuescheln, cremefarbener Brustzeichnung und schiefer Mooskappe mit Eichel. Freundlich, nachdenklich und gut wiedererkennbar. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Elmar Eulenflaum as the only primary character in frame; no other person may become the visual focus or share Elmar Eulenflaum's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait einer kleinen Waldohreule mit grossen bernsteinfarbenen Augen, weichem graubraunem Flaum, langen Ohrfederbuescheln, cremefarbener Brustzeichnung und schiefer Mooskappe mit Eichel. Freundlich, nachdenklich und gut wiedererkennbar.",
+      "publicFilePath": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "684a771b-9e1b-42c3-8b68-2a168214084e",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/7cbcbab0b7654fa5a01ea2d7a0cdc767_sample.png?se=2026-03-15T15%3A02%3A40Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=VUw%2BTxh%2BXz0p3Y/Y/gGIgt9lGufIQ6COhQmJOt2JLYw%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Elmar Eulenflaum. Short description: Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen. Species: Waldohreule. The character must read unmistakably as a Waldohreule at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen. Dominant colors: graubraun, creme, moosgruen. Hair or fur: graubraun und creme weich und flaumig mittellang. Eyes: bernstein, wach, vorsichtig und freundlich. Distinctive features: lange Ohrfederbueschel, die bei Aufregung steiler stehen, runde Mooskappe mit schief angenaehter Eichel, cremefarbener Brustflaum in Tropfenform. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden. Core traits: aufmerksam, vorsichtig, einfallsreich. Temperament: nachdenklich. Social style: kooperativ. Strengths: merkt sich Wege, Geraeusche und kleine Details sehr genau, findet ruhige Loesungen, wenn andere durcheinander sind. Weaknesses: zoegert lange, bevor er etwas Neues ausprobiert, spricht seine guten Ideen manchmal zu spaet aus. Quirks: ordnet gefundene Federn und Blaetter nach Groesse, klappt vor dem Antworten einmal langsam mit den Augen. Visible goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann. Deeper need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist. Fear: ploetzlich ausgelacht zu werden, wenn er sich irrt. Insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen. Teaching roles: peer, helper. Explanation style: question_based. Birth place: Mondfarnforst. Raised in: Mondfarnforst, Eichelhang am Fluestertal. Cultural context: stilles Beobachten vor dem Handeln, achtsamer Umgang mit Nacht, Wind und Waldgeraeuschen. Belief or worldview: Er glaubt, dass jede Kreatur ihren eigenen richtigen Zeitpunkt zum Sprechen hat. Historical context: aufgewachsen mit alten Waldpfaden und Geschichten ueber Nachtwachen im Geaest. Origin notes: Elmar passt besonders gut in Wald-, Abend- und Zuhoer-Geschichten mit sanfter Spannung. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Elmar Eulenflaum. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Eulengesicht: bernsteinfarbene Augen, graubrauner Flaum, aufrechte Ohrfederbueschel und die kleine moosgruene Kappe mit Eichel als klarer Wiedererkennungsanker. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Elmar Eulenflaum as the only primary character in frame; no other person may become the visual focus or share Elmar Eulenflaum's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Eulengesicht: bernsteinfarbene Augen, graubrauner Flaum, aufrechte Ohrfederbueschel und die kleine moosgruene Kappe mit Eichel als klarer Wiedererkennungsanker.",
+      "publicFilePath": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "27ebc669-225d-4e1b-bd5a-2c9afe19ab99",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/81ba541df5614cd6a07edabf8e629f49_sample.png?se=2026-03-15T15%3A03%3A04Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=UX0Ur2zBx0yQhA0jeWcIGmZCFaEbe1E0FwgT7VIZ5iM%3D",
+      "cost": 6
+    },
+    {
+      "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Elmar Eulenflaum. Short description: Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen. Species: Waldohreule. The character must read unmistakably as a Waldohreule at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen. Dominant colors: graubraun, creme, moosgruen. Hair or fur: graubraun und creme weich und flaumig mittellang. Eyes: bernstein, wach, vorsichtig und freundlich. Distinctive features: lange Ohrfederbueschel, die bei Aufregung steiler stehen, runde Mooskappe mit schief angenaehter Eichel, cremefarbener Brustflaum in Tropfenform. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden. Core traits: aufmerksam, vorsichtig, einfallsreich. Temperament: nachdenklich. Social style: kooperativ. Strengths: merkt sich Wege, Geraeusche und kleine Details sehr genau, findet ruhige Loesungen, wenn andere durcheinander sind. Weaknesses: zoegert lange, bevor er etwas Neues ausprobiert, spricht seine guten Ideen manchmal zu spaet aus. Quirks: ordnet gefundene Federn und Blaetter nach Groesse, klappt vor dem Antworten einmal langsam mit den Augen. Visible goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann. Deeper need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist. Fear: ploetzlich ausgelacht zu werden, wenn er sich irrt. Insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen. Teaching roles: peer, helper. Explanation style: question_based. Keep the same exact character identity as the character reference and show Elmar Eulenflaum expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Waldohreule identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Elmar Eulenflaum mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Elmar Eulenflaum mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "fabb673d-f304-42db-8f63-4c70c77776ff",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/5b2c5ef013874cecb03f37c19abf2a3d_sample.png?se=2026-03-15T15%3A03%3A27Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=TR8LBUdtFcPS1wjqYuk%2BFsAtTwt4RyYcjq9kRysImX8%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Elmar Eulenflaum. Short description: Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen. Species: Waldohreule. The character must read unmistakably as a Waldohreule at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner_helper. Body shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen. Dominant colors: graubraun, creme, moosgruen. Hair or fur: graubraun und creme weich und flaumig mittellang. Eyes: bernstein, wach, vorsichtig und freundlich. Distinctive features: lange Ohrfederbueschel, die bei Aufregung steiler stehen, runde Mooskappe mit schief angenaehter Eichel, cremefarbener Brustflaum in Tropfenform. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden. Core traits: aufmerksam, vorsichtig, einfallsreich. Temperament: nachdenklich. Social style: kooperativ. Strengths: merkt sich Wege, Geraeusche und kleine Details sehr genau, findet ruhige Loesungen, wenn andere durcheinander sind. Weaknesses: zoegert lange, bevor er etwas Neues ausprobiert, spricht seine guten Ideen manchmal zu spaet aus. Quirks: ordnet gefundene Federn und Blaetter nach Groesse, klappt vor dem Antworten einmal langsam mit den Augen. Visible goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann. Deeper need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist. Fear: ploetzlich ausgelacht zu werden, wenn er sich irrt. Insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage. Stress response: hesitate_then_try. Growth direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen. Teaching roles: peer, helper. Explanation style: question_based. Keep the same exact character identity as the character reference and show Elmar Eulenflaum expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Waldohreule identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Elmar Eulenflaum mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Elmar Eulenflaum mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "234ff085-1733-4315-bdd3-054aa19cfd9c",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/b35925a271bf44d7aa1249be736a0008_sample.png?se=2026-03-15T15%3A03%3A51Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=eiHyXEskyyTWbB4VxZ1nBRCuavWcv6VlXN12F/ZwUx0%3D",
+      "cost": 7.5
+    }
+  ]
+}

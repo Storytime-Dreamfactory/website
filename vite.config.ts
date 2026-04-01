@@ -25,10 +25,13 @@ export default defineConfig(({ mode }) => {
   const remoteApiOrigin =
     env.STORYTIME_REMOTE_API_ORIGIN ??
     'https://da64uvv5aj.execute-api.eu-central-1.amazonaws.com'
+  const remoteContentOrigin =
+    env.STORYTIME_REMOTE_CONTENT_ORIGIN ??
+    'https://d3fanezyptletr.cloudfront.net'
 
   const plugins = [
     react(),
-    contentYamlPlugin(),
+    ...(useRemoteApis ? [] : [contentYamlPlugin()]),
     ...(useRemoteApis
       ? []
       : [
@@ -47,6 +50,11 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins,
+    define: {
+      __STORYTIME_USE_REMOTE_APIS__: JSON.stringify(useRemoteApis),
+      __STORYTIME_REMOTE_API_ORIGIN__: JSON.stringify(remoteApiOrigin),
+      __STORYTIME_REMOTE_CONTENT_ORIGIN__: JSON.stringify(remoteContentOrigin),
+    },
     server: {
       proxy: {
         '/__debug_ingest': {
@@ -65,6 +73,14 @@ export default defineConfig(({ mode }) => {
               },
               '/ready': {
                 target: remoteApiOrigin,
+                changeOrigin: true,
+              },
+              '/content': {
+                target: remoteContentOrigin,
+                changeOrigin: true,
+              },
+              '/content-manifest.json': {
+                target: remoteContentOrigin,
                 changeOrigin: true,
               },
             }

@@ -61,6 +61,7 @@ export default function CharacterStoryPage({ content }: Props) {
     activityLoadMorePending,
     loadMoreActivities,
     selectedConversationId,
+    activateConversation,
     isConversationPanelOpen,
     openConversationPanel,
     closeConversationPanel,
@@ -245,6 +246,9 @@ export default function CharacterStoryPage({ content }: Props) {
           <VoiceChatButton
             character={character}
             conversationId={selectedConversationId}
+            onConversationActivated={(conversationId) =>
+              activateConversation(conversationId, { openPanel: false, syncUrl: false })
+            }
             selectedLearningGoalId={selectedLearningGoalId}
             enableTextChat
             textChatMountSelector="#activity-panel-chat-composer"

@@ -1,0 +1,295 @@
+{
+  "generatedAt": "2026-03-22T09:47:36.868Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/.tmp/character-creator/b04b92b4-71f0-4614-9184-74a3b1e083d0.png"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90",
+    "name": "Nilo",
+    "type": "character",
+    "slug": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90",
+    "shortDescription": "Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "androgyn",
+      "roleArchetype": "learner"
+    },
+    "voice": "cedar",
+    "voiceProfile": {
+      "identity": "Kindlich-zarte, weiche Stimme mit ruhigem Atem und sanftem Klang, als wuerde jedes Wort erst kurz im Herzen landen",
+      "demeanor": "Zurueckhaltend, aufmerksam und still freundlich, ohne sich in den Vordergrund zu draengen",
+      "tone": "Leise, rund und behutsam, mit kleinen Pausen und vorsichtigen Formulierungen",
+      "enthusiasmLevel": "ruhig",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "langsam und bedacht, mit kurzen stillen Momenten zwischen den Saetzen"
+    },
+    "appearance": {
+      "bodyShape": "kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf",
+      "colors": [
+        "gruen",
+        "weiss",
+        "hellbraun"
+      ],
+      "hairOrFur": {
+        "color": "hellbraun",
+        "texture": "glatt und fein",
+        "length": "kurz"
+      },
+      "eyes": {
+        "color": "dunkelbraun",
+        "expression": "ruhig, sanft und nach innen gewandt"
+      },
+      "distinctiveFeatures": [
+        "heller Teint",
+        "gruen-weiss gestreiftes Oberteil",
+        "heller, runder Kragen"
+      ],
+      "clothingStyle": "schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung"
+    },
+    "personality": {
+      "coreTraits": [
+        "beobachtend",
+        "sanft",
+        "gewissenhaft"
+      ],
+      "temperament": "nachdenklich",
+      "socialStyle": "schuechtern",
+      "strengths": [
+        "hoert genau zu",
+        "bemerkt kleine Gefuehle bei anderen"
+      ],
+      "weaknesses": [
+        "sagt eigene Wuensche oft zu spaet",
+        "zoegert in neuen Gruppen"
+      ],
+      "quirks": [
+        "schaut beim Nachdenken auf seine Haende",
+        "streicht den Kragen glatt, wenn es unsicher ist"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "moechte mitmachen, ohne etwas falsch zu machen",
+      "deeperNeed": "braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden",
+      "fear": "andere zu stoeren oder ausgelacht zu werden",
+      "insecurity": "Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "peer"
+      ],
+      "suitableLearningGoals": [
+        "mut",
+        "zuhoeren",
+        "selbstregulation"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Wiesenrand am Fluestertal",
+      "upbringingPlaces": [
+        "Wiesenrand am Fluestertal",
+        "Whispering Meadow"
+      ],
+      "culturalContext": [
+        "ruhige Gespraechskultur mit viel Zuhoeren",
+        "Wertschaetzung fuer kleine, sorgfaeltige Gesten"
+      ],
+      "religionOrBelief": "Glaubt, dass leise Dinge oft wichtig sind, wenn man gut hinhoert",
+      "historicalContext": [
+        "aufgewachsen zwischen stillen Wiesenpfaden und windbewegtem Gras"
+      ],
+      "notes": "Die Herkunft unterstuetzt Geschichten ueber stille Beobachtung, Zugehoerigkeit und sanften Mut."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "naeheort",
+          "description": "Fuehlt sich auf den stillen Wiesenpfaden wohl und kommt dort leichter ins Nachdenken und Zuhoren."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen, haelt die Arme nah am Koerper und schaut leicht nach unten. Die Silhouette ist klein, weich und ruhig lesbar."
+      },
+      "heroImage": {
+        "file": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene auf einer stillen Wiese nahe Whispering Meadow. Nilo steht im sanften Licht zwischen hohem Gras, blickt nachdenklich nach unten und haelt den hellen Kragen des gruen-weiss gestreiften Oberteils leicht fest. Die Stimmung ist warm, ruhig und hoffnungsvoll."
+      },
+      "portrait": {
+        "file": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait mit hellem Gesicht, kurzen hellbraunen Haaren, dunklen sanften Augen und leicht gesenktem Blick. Das gruen-weiss gestreifte Oberteil mit hellem Kragen ist klar sichtbar, der Ausdruck ist ruhig und freundlich."
+      },
+      "profileImage": {
+        "file": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem, sanftem Kindergesicht, kurzen hellbraunen Haaren, dunklen Augen und ruhigem Blick nach unten. Der helle Kragen und gruene Streifen setzen klare Wiedererkennungsmerkmale."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Nilo mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Nilo mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "mut",
+      "zuhoeren",
+      "selbstregulation",
+      "schuechtern",
+      "beobachtend",
+      "learner",
+      "peer",
+      "leise-stimme",
+      "gehoert-werden",
+      "whispering-meadow"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-22",
+      "updatedAt": "2026-03-22",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Nilo. Short description: Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf. Dominant colors: gruen, weiss, hellbraun. Hair or fur: hellbraun glatt und fein kurz. Eyes: dunkelbraun, ruhig, sanft und nach innen gewandt. Distinctive features: heller Teint, gruen-weiss gestreiftes Oberteil, heller, runder Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung. Core traits: beobachtend, sanft, gewissenhaft. Temperament: nachdenklich. Social style: schuechtern. Strengths: hoert genau zu, bemerkt kleine Gefuehle bei anderen. Weaknesses: sagt eigene Wuensche oft zu spaet, zoegert in neuen Gruppen. Quirks: schaut beim Nachdenken auf seine Haende, streicht den Kragen glatt, wenn es unsicher ist. Visible goal: moechte mitmachen, ohne etwas falsch zu machen. Deeper need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden. Fear: andere zu stoeren oder ausgelacht zu werden. Insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein. Teaching roles: learner, peer. Explanation style: example_based. Create a full-body standard character asset of Nilo on a solid pure white background. Show enough of the body to keep the Mensch identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen, haelt die Arme nah am Koerper und schaut leicht nach unten. Die Silhouette ist klein, weich und ruhig lesbar. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen, haelt die Arme nah am Koerper und schaut leicht nach unten. Die Silhouette ist klein, weich und ruhig lesbar.",
+      "publicFilePath": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "2c285201-1b2e-4a1e-b5c2-cb79a8496990",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/22/7a601b20edf140808106a8e7944aaf88_sample.png?se=2026-03-22T09%3A54%3A58Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=6I8io80p9jyUz%2BaNIKWCsWCyYb6EieoWNRRCkEjdsj8%3D",
+      "cost": 9
+    },
+    {
+      "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Nilo. Short description: Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf. Dominant colors: gruen, weiss, hellbraun. Hair or fur: hellbraun glatt und fein kurz. Eyes: dunkelbraun, ruhig, sanft und nach innen gewandt. Distinctive features: heller Teint, gruen-weiss gestreiftes Oberteil, heller, runder Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung. Core traits: beobachtend, sanft, gewissenhaft. Temperament: nachdenklich. Social style: schuechtern. Strengths: hoert genau zu, bemerkt kleine Gefuehle bei anderen. Weaknesses: sagt eigene Wuensche oft zu spaet, zoegert in neuen Gruppen. Quirks: schaut beim Nachdenken auf seine Haende, streicht den Kragen glatt, wenn es unsicher ist. Visible goal: moechte mitmachen, ohne etwas falsch zu machen. Deeper need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden. Fear: andere zu stoeren oder ausgelacht zu werden. Insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein. Teaching roles: learner, peer. Explanation style: example_based. Birth place: Wiesenrand am Fluestertal. Raised in: Wiesenrand am Fluestertal, Whispering Meadow. Cultural context: ruhige Gespraechskultur mit viel Zuhoeren, Wertschaetzung fuer kleine, sorgfaeltige Gesten. Belief or worldview: Glaubt, dass leise Dinge oft wichtig sind, wenn man gut hinhoert. Historical context: aufgewachsen zwischen stillen Wiesenpfaden und windbewegtem Gras. Origin notes: Die Herkunft unterstuetzt Geschichten ueber stille Beobachtung, Zugehoerigkeit und sanften Mut. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Nilo in a cinematic story moment. Treat Nilo as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Nilo more than Nilo does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene auf einer stillen Wiese nahe Whispering Meadow. Nilo steht im sanften Licht zwischen hohem Gras, blickt nachdenklich nach unten und haelt den hellen Kragen des gruen-weiss gestreiften Oberteils leicht fest. Die Stimmung ist warm, ruhig und hoffnungsvoll. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Nilo as the only primary character in frame; no other person may become the visual focus or share Nilo's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene auf einer stillen Wiese nahe Whispering Meadow. Nilo steht im sanften Licht zwischen hohem Gras, blickt nachdenklich nach unten und haelt den hellen Kragen des gruen-weiss gestreiften Oberteils leicht fest. Die Stimmung ist warm, ruhig und hoffnungsvoll.",
+      "publicFilePath": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "cd0d8c1c-e2d7-413e-87d6-0bce151c5adf",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/22/ad83b9a7a5314a539a145cc518fe6a72_sample.jpeg?se=2026-03-22T09%3A55%3A53Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=NT3L0YXNFzWk441GbsT1W9i6q7fT/edNBvd2HwGnk8U%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Nilo. Short description: Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf. Dominant colors: gruen, weiss, hellbraun. Hair or fur: hellbraun glatt und fein kurz. Eyes: dunkelbraun, ruhig, sanft und nach innen gewandt. Distinctive features: heller Teint, gruen-weiss gestreiftes Oberteil, heller, runder Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung. Core traits: beobachtend, sanft, gewissenhaft. Temperament: nachdenklich. Social style: schuechtern. Strengths: hoert genau zu, bemerkt kleine Gefuehle bei anderen. Weaknesses: sagt eigene Wuensche oft zu spaet, zoegert in neuen Gruppen. Quirks: schaut beim Nachdenken auf seine Haende, streicht den Kragen glatt, wenn es unsicher ist. Visible goal: moechte mitmachen, ohne etwas falsch zu machen. Deeper need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden. Fear: andere zu stoeren oder ausgelacht zu werden. Insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein. Teaching roles: learner, peer. Explanation style: example_based. Birth place: Wiesenrand am Fluestertal. Raised in: Wiesenrand am Fluestertal, Whispering Meadow. Cultural context: ruhige Gespraechskultur mit viel Zuhoeren, Wertschaetzung fuer kleine, sorgfaeltige Gesten. Belief or worldview: Glaubt, dass leise Dinge oft wichtig sind, wenn man gut hinhoert. Historical context: aufgewachsen zwischen stillen Wiesenpfaden und windbewegtem Gras. Origin notes: Die Herkunft unterstuetzt Geschichten ueber stille Beobachtung, Zugehoerigkeit und sanften Mut. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Nilo. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait mit hellem Gesicht, kurzen hellbraunen Haaren, dunklen sanften Augen und leicht gesenktem Blick. Das gruen-weiss gestreifte Oberteil mit hellem Kragen ist klar sichtbar, der Ausdruck ist ruhig und freundlich. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Nilo as the only primary character in frame; no other person may become the visual focus or share Nilo's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait mit hellem Gesicht, kurzen hellbraunen Haaren, dunklen sanften Augen und leicht gesenktem Blick. Das gruen-weiss gestreifte Oberteil mit hellem Kragen ist klar sichtbar, der Ausdruck ist ruhig und freundlich.",
+      "publicFilePath": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "8bf467ec-3785-4edd-9b5d-f828bd75b6a7",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/22/37797f7bb2954f64ace7031299f9009d_sample.png?se=2026-03-22T09%3A56%3A18Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=5Zkt/byhqzq%2BR4HOG/W1W63dX%2BgujOY6Lg7yk/NxEZA%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Nilo. Short description: Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf. Dominant colors: gruen, weiss, hellbraun. Hair or fur: hellbraun glatt und fein kurz. Eyes: dunkelbraun, ruhig, sanft und nach innen gewandt. Distinctive features: heller Teint, gruen-weiss gestreiftes Oberteil, heller, runder Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung. Core traits: beobachtend, sanft, gewissenhaft. Temperament: nachdenklich. Social style: schuechtern. Strengths: hoert genau zu, bemerkt kleine Gefuehle bei anderen. Weaknesses: sagt eigene Wuensche oft zu spaet, zoegert in neuen Gruppen. Quirks: schaut beim Nachdenken auf seine Haende, streicht den Kragen glatt, wenn es unsicher ist. Visible goal: moechte mitmachen, ohne etwas falsch zu machen. Deeper need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden. Fear: andere zu stoeren oder ausgelacht zu werden. Insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein. Teaching roles: learner, peer. Explanation style: example_based. Birth place: Wiesenrand am Fluestertal. Raised in: Wiesenrand am Fluestertal, Whispering Meadow. Cultural context: ruhige Gespraechskultur mit viel Zuhoeren, Wertschaetzung fuer kleine, sorgfaeltige Gesten. Belief or worldview: Glaubt, dass leise Dinge oft wichtig sind, wenn man gut hinhoert. Historical context: aufgewachsen zwischen stillen Wiesenpfaden und windbewegtem Gras. Origin notes: Die Herkunft unterstuetzt Geschichten ueber stille Beobachtung, Zugehoerigkeit und sanften Mut. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Nilo. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem, sanftem Kindergesicht, kurzen hellbraunen Haaren, dunklen Augen und ruhigem Blick nach unten. Der helle Kragen und gruene Streifen setzen klare Wiedererkennungsmerkmale. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Nilo as the only primary character in frame; no other person may become the visual focus or share Nilo's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem, sanftem Kindergesicht, kurzen hellbraunen Haaren, dunklen Augen und ruhigem Blick nach unten. Der helle Kragen und gruene Streifen setzen klare Wiedererkennungsmerkmale.",
+      "publicFilePath": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "d879fde4-c57c-4df8-ba02-f52bd176dbdb",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/22/df6e9fca53934907988bbe9aa1e72c57_sample.png?se=2026-03-22T09%3A56%3A38Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=BZaVS28YSyBFiwxSnao%2BdwTQzIGSk1pGx%2BkcXc%2BP0tc%3D",
+      "cost": 6
+    },
+    {
+      "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Nilo. Short description: Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf. Dominant colors: gruen, weiss, hellbraun. Hair or fur: hellbraun glatt und fein kurz. Eyes: dunkelbraun, ruhig, sanft und nach innen gewandt. Distinctive features: heller Teint, gruen-weiss gestreiftes Oberteil, heller, runder Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung. Core traits: beobachtend, sanft, gewissenhaft. Temperament: nachdenklich. Social style: schuechtern. Strengths: hoert genau zu, bemerkt kleine Gefuehle bei anderen. Weaknesses: sagt eigene Wuensche oft zu spaet, zoegert in neuen Gruppen. Quirks: schaut beim Nachdenken auf seine Haende, streicht den Kragen glatt, wenn es unsicher ist. Visible goal: moechte mitmachen, ohne etwas falsch zu machen. Deeper need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden. Fear: andere zu stoeren oder ausgelacht zu werden. Insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein. Teaching roles: learner, peer. Explanation style: example_based. Keep the same exact character identity as the character reference and show Nilo expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Nilo mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Nilo mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "37976eb5-e3a1-4acd-b1f5-b9a4c1adfa92",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/22/ad5d4b83bb6443d89b98c86b50828b88_sample.png?se=2026-03-22T09%3A57%3A01Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=LZBUADRcCOqpnL3aihOyfPSGVUmn1EFitUyjn9INJbI%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Nilo. Short description: Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf. Dominant colors: gruen, weiss, hellbraun. Hair or fur: hellbraun glatt und fein kurz. Eyes: dunkelbraun, ruhig, sanft und nach innen gewandt. Distinctive features: heller Teint, gruen-weiss gestreiftes Oberteil, heller, runder Kragen. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung. Core traits: beobachtend, sanft, gewissenhaft. Temperament: nachdenklich. Social style: schuechtern. Strengths: hoert genau zu, bemerkt kleine Gefuehle bei anderen. Weaknesses: sagt eigene Wuensche oft zu spaet, zoegert in neuen Gruppen. Quirks: schaut beim Nachdenken auf seine Haende, streicht den Kragen glatt, wenn es unsicher ist. Visible goal: moechte mitmachen, ohne etwas falsch zu machen. Deeper need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden. Fear: andere zu stoeren oder ausgelacht zu werden. Insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu. Stress response: hesitate_then_try. Growth direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein. Teaching roles: learner, peer. Explanation style: example_based. Keep the same exact character identity as the character reference and show Nilo expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Nilo mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Nilo mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "7bfe0eab-1fd6-4808-bb79-6503bb7d23c9",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/22/bb4f257a33ac4b7b92e4ea987e136dd4_sample.png?se=2026-03-22T09%3A57%3A35Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=vGIzmoGJcB4M32%2BlLTK1pMm/FRMDhbVT16DiSETk6oU%3D",
+      "cost": 7.5
+    }
+  ]
+}

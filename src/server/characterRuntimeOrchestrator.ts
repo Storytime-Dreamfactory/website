@@ -16,7 +16,6 @@ import {
   loadLearningGoalRuntimeProfiles,
 } from './runtimeContentStore.ts'
 import {
-  readActivitiesRuntimeTool,
   readRelatedObjectsRuntimeTool,
   readRelationshipsRuntimeTool,
 } from './runtime/tools/runtimeToolRegistry.ts'
@@ -363,17 +362,7 @@ export const orchestrateCharacterRuntimeTurn = async (
     }
   }
 
-  let recentActivityCount = 0
-  if (activitiesRequested) {
-    const runtimeToolContext = {
-      characterId,
-      characterName,
-      conversationId,
-      learningGoalIds: runtimeContext.learningGoalIds,
-    }
-    const activityResult = await readActivitiesRuntimeTool().execute(runtimeToolContext, { limit: 12 })
-    recentActivityCount = activityResult.activityCount
-  }
+  const recentActivityCount: number | null = null
 
   const decision = runtimeIntentDecision.decision
   const decisionFailureReason =

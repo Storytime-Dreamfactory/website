@@ -5,6 +5,7 @@ import type { Character, StoryContent } from './content/types'
 import type { CharacterActivityItem } from './activityPanelTypes'
 import { readCanonicalStoryText } from './storyText'
 import { warmImageCacheInBackground } from './imageDeliveryService'
+import { runtimeConfig } from './runtimeConfig'
 import {
   type ApiRelationship,
   type ApiActivityRecord,
@@ -59,9 +60,12 @@ const readRelationshipLabel = (relationship: ApiRelationship): string => {
   )
 }
 
-const getHeroImageCacheKey = (characterId: string): string => `${HERO_IMAGE_CACHE_PREFIX}${characterId}`
-const getActivityCacheKey = (characterId: string): string => `${ACTIVITY_CACHE_PREFIX}${characterId}`
-const getConversationCacheKey = (conversationId: string): string => `${CONVERSATION_CACHE_PREFIX}${conversationId}`
+const getHeroImageCacheKey = (characterId: string): string =>
+  `${HERO_IMAGE_CACHE_PREFIX}${runtimeConfig.cacheNamespace}:${characterId}`
+const getActivityCacheKey = (characterId: string): string =>
+  `${ACTIVITY_CACHE_PREFIX}${runtimeConfig.cacheNamespace}:${characterId}`
+const getConversationCacheKey = (conversationId: string): string =>
+  `${CONVERSATION_CACHE_PREFIX}${runtimeConfig.cacheNamespace}:${conversationId}`
 const buildConversationUrl = (characterId: string, conversationId: string): string =>
   `/characters/${encodeURIComponent(characterId)}/story?conversationId=${encodeURIComponent(conversationId)}`
 
@@ -405,6 +409,23 @@ export default function useCharacterData({ content, loadActivities = false }: Us
     setSelectedConversationId(conversationId)
     setIsConversationPanelOpen(true)
   }, [searchParams])
+
+  const activateConversation = useCallback(
+    (conversationId: string, options?: { openPanel?: boolean; syncUrl?: boolean }) => {
+      const normalized = conversationId.trim()
+      if (!normalized) return
+      setSelectedConversationId(normalized)
+      setIsConversationPanelOpen(options?.openPanel === true)
+      if (options?.syncUrl !== false) {
+        setSearchParams((current) => {
+          const next = new URLSearchParams(current)
+          next.set('conversationId', normalized)
+          return next
+        })
+      }
+    },
+    [setSearchParams],
+  )
 
   useEffect(() => {
     if (!loadActivities) return
@@ -846,17 +867,9 @@ export default function useCharacterData({ content, loadActivities = false }: Us
 
   const openConversationPanel = useCallback(
     (conversationId: string) => {
-      const normalized = conversationId.trim()
-      if (!normalized) return
-      setSelectedConversationId(normalized)
-      setIsConversationPanelOpen(true)
-      setSearchParams((current) => {
-        const next = new URLSearchParams(current)
-        next.set('conversationId', normalized)
-        return next
-      })
+      activateConversation(conversationId, { openPanel: true })
     },
-    [setSearchParams],
+    [activateConversation],
   )
 
   const closeConversationPanel = useCallback(() => {
@@ -1066,6 +1079,7 @@ export default function useCharacterData({ content, loadActivities = false }: Us
     apiActivities,
 
     selectedConversationId,
+    activateConversation,
     isConversationPanelOpen,
     openConversationPanel,
     closeConversationPanel,

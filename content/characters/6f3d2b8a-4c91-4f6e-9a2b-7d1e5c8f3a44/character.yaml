@@ -1,0 +1,126 @@
+id: 6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44
+name: Millie
+kurzbeschreibung: |
+  Ein kleines Maedchen mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Millie traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich.
+basis:
+  age_hint: kindlich
+  species: Mensch
+  gender_expression: feminin
+  role_archetype: learner
+voice: marin
+voice_profile:
+  identity: kindlich-zarte, weiche Stimme mit ruhigem Atem und hellem, sanftem Klang
+  demeanor: vorsichtig offen, freundlich zugewandt und still aufmerksam
+  tone: weich und warm, mit kleinen froehlichen Aufhellungen am Satzende
+  enthusiasm_level: mittel
+  formality_level: locker
+  emotion_level: ausgewogen
+  filler_words: occasionally
+  pacing: ruhig und leicht zoegernd, dann klar und freundlich
+erscheinung:
+  body_shape: kleines Kind mit zarter, runder Koerperform
+  colors:
+    - weiss
+    - rosa
+    - dunkelbraun
+  hair_or_fur:
+    color: dunkelbraun
+    texture: glatt
+    length: mittellang
+  eyes:
+    color: dunkelbraun
+    expression: freundlich und ruhig
+  distinctive_features:
+    - helle Haut
+    - leicht abstehende Ohren
+    - sanftes Laecheln
+  clothing_style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich
+persoenlichkeit:
+  core_traits:
+    - aufmerksam
+    - sanft
+    - beharrlich
+  temperament: ruhig
+  social_style: kooperativ
+  strengths:
+    - hoert genau zu
+    - bleibt auch in stillen Momenten freundlich dabei
+  weaknesses:
+    - braucht etwas Zeit, bis sie sich traut
+    - sagt ihre eigenen Wuensche nicht sofort
+  quirks:
+    - streicht beim Nachdenken ueber den Saum ihres Oberteils
+    - laechelt erst leise, bevor sie etwas sagt
+story_psychology:
+  visible_goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann
+  deeper_need: sie moechte sich sicher fuehlen und ernst genommen werden
+  fear: ausgelacht zu werden oder etwas vor allen falsch zu machen
+  insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken.
+  stress_response: hesitate_then_try
+  growth_direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen
+learning_function:
+  teaching_roles:
+    - learner
+    - peer
+  suitable_learning_goals:
+    - mut
+    - zuhoeren
+  explanation_style: example_based
+herkunft:
+  geburtsort: Sonnenhang am Fluesterfeld
+  aufgewachsen_in:
+    - Sonnenhang am Fluesterfeld
+    - Morgenpfad bei den Wiesen
+  kulturelle_praegung:
+    - ruhige Familiennaehe
+    - Freude an kleinen Alltagsritualen
+  religion_oder_weltbild: vertraut darauf, dass freundliche Worte vieles leichter machen
+  historische_praegung:
+    - aufgewachsen in einer friedlichen Wiesenregion mit viel Gemeinschaft
+  notizen: Ihre Herkunft passt gut zu stillen, warmen Geschichten ueber Mitmachen, Zuhoeren und leisen Mut.
+relationships:
+  characters: []
+  places:
+    - place_id: ce0cc7ef-99e8-4138-a3ac-a6255e891532
+      typ: nahe Wiesenlandschaft
+      beschreibung: Millie fuehlt sich in der ruhigen, warmen Weite des Whispering Meadow besonders wohl.
+bilder:
+  standard_figur:
+    datei: /content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/standard-figur.png
+    beschreibung: |
+      Freigestellte Ganzkoerperfigur eines kleinen Maedchens mit heller Haut, dunkelbraunen mittellangen Haaren, dunkelbraunen Augen und leicht abstehenden Ohren. Weisses Oberteil mit rosa Bild und etwas Schrift, sanftes Laecheln, ruhige offene Haltung, klare kindliche Silhouette.
+  hero_image:
+    datei: /content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/hero-image.jpg
+    beschreibung: |
+      Cinematische Storytime-Szene mit Millie in einer warmen Wiesenlandschaft nahe dem Whispering Meadow. Sie steht ruhig im goldenen Licht, traegt ihr weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt still mutig und froehlich.
+  portrait:
+    datei: /content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/portrait.png
+    beschreibung: |
+      Halbnahes Character-Card-Portrait eines kleinen Kindes mit heller Haut, dunkelbraunen Haaren, dunkelbraunen Augen, leicht abstehenden Ohren und sanftem Laecheln. Das weisse Oberteil mit rosa Bild ist gut sichtbar, die Ausstrahlung ist warm, ruhig und freundlich.
+  profilbild:
+    datei: /content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/profilbild.png
+    beschreibung: |
+      Quadratisches Profilbild mit stark lesbarem Gesicht: dunkelbraune Haare, dunkle freundliche Augen, helle Haut, leicht abstehende Ohren und ein sanftes Laecheln vor warmem, einfachem Hintergrund.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-happy.png
+      beschreibung: Freigestellte Emotionsfigur von Millie mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+    - typ: emotion_sad
+      datei: /content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-sad.png
+      beschreibung: Freigestellte Emotionsfigur von Millie mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+tags:
+  - mut
+  - zuhoeren
+  - leiser-mut
+  - learner
+  - peer
+  - mitmachen
+  - schuechterner-start
+  - selbstvertrauen
+  - wiesenkind
+  - whispering-meadow
+metadata:
+  active: true
+  created_at: 2026-03-15
+  updated_at: 2026-03-15
+  version: 1

@@ -7,6 +7,7 @@ REGELN:
 - Verwende die SCENE SUMMARY als verbindlichen Soll-Zustand.
 - Nutze die bisherige Geschichte nur als Kontext und Kontinuitaetsanker.
 - Fuehre die letzten zwei Szenenbilder glaubwuerdig weiter, ohne sie unveraendert zu kopieren.
+- Wenn USER REQUEST, ASSISTANT TEXT HINT oder SCENE SUMMARY einen sichtbaren Szenenwechsel verlangen, dann muss dieser Wechsel im Bild auf den ersten Blick lesbar sein.
 - Beschreibe klar Figur, Ort, Aktion, Stimmung, Licht, Farben und wichtige sichtbare Details.
 - Keine Ueberschriften, keine Aufzaehlung, kein JSON, kein Markdown.
 - Schreibe einen zusammenhaengenden natuerlichen Prompttext.
@@ -32,3 +33,8 @@ EINFACHE BILDANFRAGEN:
 - Hauptobjekte, Stimmung und sichtbare Details muessen direkt aus User-Wunsch und Scene Summary stammen.
 - Do-not-add: keine neuen Nebenfiguren, keine ungefragten Geruchs-/Geheimnis-Metaphern, keine Plot-Andeutungen, die das Motiv aus dem Zentrum druecken.
 - Do-not-add (Sicherheit): keine unheimlichen Marker, keine bedrohlichen Verben oder negativen Kontrastformulierungen, wenn die Anfrage freundlich/ruhig ist.
+
+SZENENWECHSEL IM BILD:
+- Wenn die letzte Szene am selben Ort spielte, darf das neue Bild den Raum weiterfuehren, aber nicht wie dieselbe Kameraeinstellung mit leicht verschobenen Haenden wirken.
+- Bei Bewegungs-, Orts- oder Fokuswechseln muss die Bildkomposition den Wechsel klar lesbar machen: andere Position im Raum, andere Blickachse, anderer Bildmittelpunkt oder deutlich neue Handlung.
+- Fruehere Bilder sind nur Kontinuitaet, nicht die Bildvorlage fuer eine unveraenderte Wiederholung.

@@ -47,9 +47,11 @@ npm run dev
   - Pflicht-ENV: `OPENAI_API_KEY`, `BFL_API_KEY`, `DATABASE_URL`.
   - Start: `npm run dev:local` (oder `npm run dev` bei `STORYTIME_USE_REMOTE_APIS=false`).
 - `local-remote-api` (Integration gegen echte AWS-API)
-  - Lokale UI, aber `/api`, `/health`, `/ready` werden auf AWS geproxyt.
+  - Lokale UI, aber `/api`, `/health`, `/ready` werden auf AWS geproxyt und `/content` plus `content-manifest.json` auf CloudFront.
+  - Lokale Content-Fallbacks sind in diesem Modus deaktiviert, damit nichts zwischen lokal und online gemischt wird.
   - Pflicht-ENV: `STORYTIME_USE_REMOTE_APIS=true`, `STORYTIME_REMOTE_API_ORIGIN`.
-  - Start: `npm run dev:remote-api`.
+  - Optional: `STORYTIME_REMOTE_CONTENT_ORIGIN`.
+  - Start: `npm run dev:online` oder `npm run dev:remote-api`.
 - `production`
   - Frontend ueber Vercel, API ueber AWS API Gateway (siehe `vercel.json`).
 
@@ -73,8 +75,10 @@ Dann proxyt Vite lokal folgende Routen auf die echte API:
 - `/api/*`
 - `/health`
 - `/ready`
+- `/content/*`
+- `/content-manifest.json`
 
-Wichtig: Das betrifft nur den lokalen Dev-Server. Das Production-Routing bleibt in `vercel.json`.
+Wichtig: In diesem Modus faellt die App bei Runtime-Fehlern nicht mehr auf lokale YAMLs zurueck. Das verhindert Mischbetrieb. Das betrifft nur den lokalen Dev-Server. Das Production-Routing bleibt in `vercel.json`.
 
 ### Empfohlener Workflow (Local -> GitHub -> Vercel)
 

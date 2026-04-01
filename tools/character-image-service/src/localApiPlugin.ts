@@ -419,7 +419,7 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
       1_000,
     )
 
-    const { manifestPath } = await generateCharacterImages({
+    const { manifestPath, manifest } = await generateCharacterImages({
       characterPath: saved.contentPath,
       outputRoot: path.resolve(workspaceRoot, 'public/content/characters'),
       styleReferencePaths,
@@ -472,11 +472,19 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
         }
 
         if (event.type === 'completed') {
+          const failedAssetCount = event.manifest.assets.filter((asset) => asset.status === 'failed').length
           updateJob(jobId, {
-            phase: 'completed',
-            message: 'Alle Bilder wurden erfolgreich erzeugt.',
+            phase: failedAssetCount > 0 ? 'failed' : 'completed',
+            message:
+              failedAssetCount > 0
+                ? `${failedAssetCount} Asset(s) konnten nicht erzeugt werden.`
+                : 'Alle Bilder wurden erfolgreich erzeugt.',
             manifestPath: event.manifestPath,
             assets: event.manifest.assets,
+            error:
+              failedAssetCount > 0
+                ? `${failedAssetCount} Asset(s) konnten nicht erzeugt werden.`
+                : undefined,
           })
           return
         }
@@ -490,10 +498,19 @@ const startGenerationJob = async (jobId: string): Promise<void> => {
       },
     })
 
+    const failedAssetCount = manifest.assets.filter((asset) => asset.status === 'failed').length
     updateJob(jobId, {
-      phase: 'completed',
-      message: 'Character und Bilder sind fertig.',
+      phase: failedAssetCount > 0 ? 'failed' : 'completed',
+      message:
+        failedAssetCount > 0
+          ? `${failedAssetCount} Asset(s) konnten nicht erzeugt werden.`
+          : 'Character und Bilder sind fertig.',
       manifestPath,
+      assets: manifest.assets,
+      error:
+        failedAssetCount > 0
+          ? `${failedAssetCount} Asset(s) konnten nicht erzeugt werden.`
+          : undefined,
     })
   } catch (error) {
     const message = toUserSafeOpenAiError(error)

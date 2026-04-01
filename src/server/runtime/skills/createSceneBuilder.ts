@@ -184,6 +184,29 @@ const readText = (value: unknown): string => (typeof value === 'string' ? value.
 
 const normalizeWhitespace = (value: string): string => value.replace(/\s+/g, ' ').trim()
 
+const MOVEMENT_CHANGE_PATTERNS: Array<{ label: string; patterns: RegExp[] }> = [
+  {
+    label: 'Die Hauptfigur befindet sich sichtbar weiter vorn oder an einem neuen Punkt im Raum als in der letzten Szene.',
+    patterns: [/\bgeh(?:e| mal|)\b/i, /\blauf(?:e| mal|)\b/i, /\brenn(?:e| mal|)\b/i, /\bkomm(?:e| mal|)\b/i, /\bweiter\b/i],
+  },
+  {
+    label: 'Die Hauptfigur ist sichtbar ins Wasser, ans Ufer oder in einen neuen Bereich gewechselt.',
+    patterns: [/\bschwimm(?:e| mal|)\b/i, /\bins wasser\b/i, /\bans ufer\b/i, /\bwat(?:e|e mal|et)\b/i],
+  },
+  {
+    label: 'Die Hauptfigur befindet sich sichtbar auf einer hoeheren oder anderen Ebene als zuvor.',
+    patterns: [/\bkletter(?:e| mal|)\b/i, /\bhinauf\b/i, /\bhoch\b/i, /\btreppe\b/i],
+  },
+  {
+    label: 'Das Bild zeigt eine neue Hauptaktion statt derselben Such- oder Wartehaltung wie zuvor.',
+    patterns: [/\bnimm\b/i, /\boeffn(?:e|e mal|et)\b/i, /\bhol\b/i, /\btrag\b/i, /\bspring\b/i, /\btauch\b/i, /\bfahr\b/i],
+  },
+  {
+    label: 'Das gewuenschte Motiv oder Zielobjekt ist jetzt der sichtbare Hauptfokus des Bildes.',
+    patterns: [/\bzeig\b/i, /\bvorne\b/i, /\bhinten\b/i, /\bdort\b/i, /\bdahin\b/i, /\bda vorne\b/i, /\bda hinten\b/i],
+  },
+]
+
 const normalizeText = (value: string): string =>
   normalizeWhitespace(value)
     .toLowerCase()
@@ -420,6 +443,35 @@ const formatGroundedSceneCharactersText = (characters: GroundedSceneCharacter[] 
       ].join('\n')
     : 'GROUNDED SCENE CHARACTERS:\n- Keine zusaetzlichen Figuren geerdet.'
 
+const deriveRequiredVisibleChange = (input: {
+  userRequest: string
+  assistantText?: string
+  history: StoryHistoryContext
+}): string => {
+  const signals = `${input.userRequest} ${input.assistantText ?? ''}`.trim()
+  if (!signals) return ''
+
+  const matchedLabels = MOVEMENT_CHANGE_PATTERNS
+    .filter((entry) => entry.patterns.some((pattern) => pattern.test(signals)))
+    .map((entry) => entry.label)
+
+  const changeLines: string[] = []
+  if (matchedLabels.length > 0) {
+    changeLines.push(...matchedLabels)
+  }
+
+  if (input.history.latestScene?.summary) {
+    changeLines.push(
+      `Verlasse den bisherigen Hauptfokus der letzten Szene, falls noetig: ${normalizeWhitespace(
+        input.history.latestScene.summary,
+      )}`,
+    )
+  }
+
+  const uniqueLines = Array.from(new Set(changeLines.map((line) => normalizeWhitespace(line)))).filter(Boolean)
+  return uniqueLines.length > 0 ? `REQUIRED VISIBLE CHANGE:\n- ${uniqueLines.join('\n- ')}` : ''
+}
+
 export const buildStoryHistoryContextText = (history: StoryHistoryContext): string =>
   [
     'WHAT HAPPENED SO FAR:',
@@ -619,6 +671,11 @@ export const generateSceneSummaryAndImagePrompt = async (input: {
     const imagePromptInstructions = await loadImagePromptPrompt()
     const characterContextText = formatCharacterContextText(input.characterContext)
     const learningGoalContextText = formatLearningGoalContextText(input.learningGoalContexts)
+    const requiredVisibleChangeText = deriveRequiredVisibleChange({
+      userRequest: input.userRequest,
+      assistantText: input.assistantText,
+      history: input.history,
+    })
     const combinedText = [
       `HAUPTFIGUR: ${input.characterName}`,
       '',
@@ -636,6 +693,8 @@ export const generateSceneSummaryAndImagePrompt = async (input: {
       normalizeWhitespace(input.userRequest),
       '',
       input.assistantText ? `ASSISTANT TEXT HINT:\n${normalizeWhitespace(input.assistantText)}` : '',
+      '',
+      requiredVisibleChangeText,
       '',
       'WICHTIGER ARBEITSMODUS:',
       '- Erzeuge zuerst intern eine kindgerechte Scene Summary (2-4 kurze deutsche Saetze).',

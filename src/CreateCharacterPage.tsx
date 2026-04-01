@@ -4,13 +4,13 @@ import {
   InboxOutlined,
   LoadingOutlined,
   PictureOutlined,
-  SendOutlined,
   UploadOutlined,
 } from '@ant-design/icons'
-import { Alert, Button, Card, Input, Progress, Space, Tag, Typography } from 'antd'
+import { Alert, Button, Card, Progress, Space, Tag, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 import type { StoryContent } from './content/types'
 import { useCharacterCreationFlow } from './useCharacterCreationFlow'
+import ChatPanel from './ChatPanel'
 import './CreateCharacterPage.css'
 
 const { Text, Title, Paragraph } = Typography
@@ -22,18 +22,12 @@ type Props = {
 
 export default function CreateCharacterPage({ content, onCharacterCreated }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
-  const bottomAnchorRef = useRef<HTMLDivElement | null>(null)
   const selectedInputPreviewRef = useRef<string | null>(null)
-  const [inputText, setInputText] = useState('')
   const [isDragActive, setIsDragActive] = useState(false)
   const [selectedInputImageUrl, setSelectedInputImageUrl] = useState<string | null>(null)
   const [selectedInputFileName, setSelectedInputFileName] = useState<string | null>(null)
   const [loadedFinalProfileImageUrl, setLoadedFinalProfileImageUrl] = useState<string | null>(null)
   const flow = useCharacterCreationFlow({ onCharacterCreated })
-
-  useEffect(() => {
-    bottomAnchorRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
-  }, [flow.messages])
 
   useEffect(
     () => () => {
@@ -99,22 +93,6 @@ export default function CreateCharacterPage({ content, onCharacterCreated }: Pro
             </Text>
           </div>
 
-          <div className="create-character-chat-log">
-            {flow.messages.map((message) => (
-              <div
-                key={message.id}
-                className={`create-character-message ${
-                  message.role === 'assistant'
-                    ? 'create-character-message-assistant'
-                    : 'create-character-message-user'
-                }`}
-              >
-                {message.text}
-              </div>
-            ))}
-            <div ref={bottomAnchorRef} />
-          </div>
-
           {flow.error && (
             <Alert
               type="error"
@@ -125,19 +103,26 @@ export default function CreateCharacterPage({ content, onCharacterCreated }: Pro
             />
           )}
 
-          <div className="create-character-controls">
-            <div className="create-character-input-row">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/png,image/jpeg,image/webp,image/gif"
-                style={{ display: 'none' }}
-                onChange={(event) => {
-                  const file = event.target.files?.[0]
-                  if (file) queueFileForCreation(file)
-                  event.currentTarget.value = ''
-                }}
-              />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            style={{ display: 'none' }}
+            onChange={(event) => {
+              const file = event.target.files?.[0]
+              if (file) queueFileForCreation(file)
+              event.currentTarget.value = ''
+            }}
+          />
+
+          <ChatPanel
+            messages={flow.messages}
+            onSendMessage={(text) => void flow.sendMessage(text)}
+            placeholder="Beschreibe deinen Character..."
+            emptyText="Ich bin Merlin. Wir erfinden zusammen deinen Character."
+            disabled={flow.uploadLoading || flow.generateLoading}
+            className="create-character-chat-body"
+            inputPrefix={
               <Button
                 icon={flow.uploadLoading ? <LoadingOutlined /> : <PictureOutlined />}
                 onClick={() => fileInputRef.current?.click()}
@@ -146,48 +131,27 @@ export default function CreateCharacterPage({ content, onCharacterCreated }: Pro
               >
                 {selectedInputFileName ? 'Bild ersetzen' : 'Bild hochladen'}
               </Button>
-              <Input
-                value={inputText}
-                onChange={(event) => setInputText(event.target.value)}
-                placeholder="Beschreibe deinen Character..."
-                onPressEnter={(event) => {
-                  event.preventDefault()
-                  if (!inputText.trim()) return
-                  void flow.sendMessage(inputText)
-                  setInputText('')
-                }}
-                className="create-character-input"
-              />
-              <Button
-                icon={flow.chatLoading ? <LoadingOutlined /> : <SendOutlined />}
-                onClick={() => {
-                  if (!inputText.trim()) return
-                  void flow.sendMessage(inputText)
-                  setInputText('')
-                }}
-                disabled={flow.uploadLoading || flow.generateLoading}
-                className="create-character-send-btn"
-              />
-            </div>
-
-            <div className="create-character-actions">
-              <Button
-                onClick={() => void flow.startCharacterCreation(true)}
-                loading={flow.generateLoading && !flow.isReady}
-                disabled={Boolean(flow.job)}
-              >
-                Skip and create
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => void flow.startCharacterCreation(false)}
-                loading={flow.generateLoading}
-                disabled={!canCreate}
-              >
-                Character jetzt erstellen
-              </Button>
-            </div>
-          </div>
+            }
+            footerSlot={
+              <div className="create-character-actions">
+                <Button
+                  onClick={() => void flow.startCharacterCreation(true)}
+                  loading={flow.generateLoading && !flow.isReady}
+                  disabled={Boolean(flow.job)}
+                >
+                  Skip and create
+                </Button>
+                <Button
+                  type="primary"
+                  onClick={() => void flow.startCharacterCreation(false)}
+                  loading={flow.generateLoading}
+                  disabled={!canCreate}
+                >
+                  Character jetzt erstellen
+                </Button>
+              </div>
+            }
+          />
         </section>
 
         <aside className="create-character-side-panel">

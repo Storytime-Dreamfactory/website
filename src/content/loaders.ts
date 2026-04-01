@@ -8,6 +8,7 @@ import type {
   StoryContent,
 } from './types'
 import { validateArtifact, validateCharacter, validateLearningGoal, validatePlace } from './validators'
+import { runtimeConfig } from '../runtimeConfig'
 
 const fallbackCharacterFiles = import.meta.glob('../../content/characters/*/character.yaml', {
   query: '?raw',
@@ -254,6 +255,9 @@ export const loadStoryContent = async (): Promise<StoryContent> => {
   try {
     return await loadFromRuntime()
   } catch (error) {
+    if (runtimeConfig.useRemoteApis) {
+      throw new Error(`Online-Runtime konnte nicht geladen werden: ${String(error)}`)
+    }
     const fallback = loadFromFallback(String(error))
     const merged = await mergeRelationshipsFromDatabase(fallback.characters)
     return {

@@ -16,9 +16,14 @@
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
   padding: 16px;
   min-height: min(74vh, 820px);
-  display: grid;
-  grid-template-rows: auto minmax(260px, 1fr) auto auto;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
+}
+
+.create-character-chat-body {
+  flex: 1;
+  min-height: 0;
 }
 
 .create-character-chat-header .ant-typography {
@@ -45,67 +50,13 @@
   color: #fff;
 }
 
-.create-character-chat-log {
-  min-height: 0;
-  overflow-y: auto;
-  border: 1px solid rgba(156, 211, 255, 0.18);
-  border-radius: 14px;
-  background: rgba(8, 15, 36, 0.72);
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.create-character-message {
-  max-width: 85%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  color: #fff;
-  line-height: 1.35;
-}
-
-.create-character-message-assistant {
-  align-self: flex-start;
-  border: 1px solid rgba(181, 222, 255, 0.3);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.create-character-message-user {
-  align-self: flex-end;
-  border: 1px solid rgba(145, 208, 255, 0.9);
-  background: rgba(60, 161, 254, 0.38);
-}
-
 .create-character-error {
   margin-bottom: 0 !important;
 }
 
-.create-character-controls {
-  display: grid;
-  gap: 10px;
-}
-
-.create-character-input-row {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 8px;
-}
-
-.create-character-upload-btn.ant-btn,
-.create-character-send-btn.ant-btn,
-.create-character-input.ant-input {
-  height: 40px;
-}
-
 .create-character-upload-btn.ant-btn {
+  height: 36px;
   min-width: 136px;
-}
-
-.create-character-send-btn.ant-btn {
-  width: 40px;
-  min-width: 40px;
-  padding: 0;
 }
 
 .create-character-actions {
@@ -346,12 +297,12 @@
     min-height: min(80vh, 760px);
   }
 
-  .create-character-input-row {
-    grid-template-columns: 1fr auto;
+  .create-character-chat-body .chat-panel-input-row {
+    flex-wrap: wrap;
   }
 
-  .create-character-upload-btn.ant-btn {
-    grid-column: 1 / -1;
+  .create-character-chat-body .create-character-upload-btn.ant-btn {
+    width: 100%;
   }
 
   .create-character-actions {

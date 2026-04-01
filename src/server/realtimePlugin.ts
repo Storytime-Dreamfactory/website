@@ -21,6 +21,7 @@ import {
   parseRealtimeEventType,
   type RealtimeEventType,
 } from './realtimeEventContract.ts'
+import { appendConversationFlowMessage } from './conversationFlowService.ts'
 
 const REALTIME_VAD_SILENCE_DURATION_MS = 900
 
@@ -126,7 +127,7 @@ const createEphemeralToken = async (
       type: 'function',
       name: 'read_activities',
       description:
-        'Liest oeffentliche Activities und Story-Zusammenfassungen aus dem Verlauf, um Erinnerungsfragen belegbar zu beantworten.',
+        'Liest oeffentliche Activities und Story-Zusammenfassungen aus dem bisherigen Verlauf der Figur, um Erinnerungsfragen belegbar zu beantworten.',
       parameters: {
         type: 'object',
         properties: {
@@ -221,7 +222,6 @@ const runRealtimeToolCall = async (input: {
       offset: 0,
       fetchAll: false,
       scope,
-      conversationId: input.conversationId,
     })
     return {
       activityCount: result.activityCount,
@@ -229,6 +229,7 @@ const runRealtimeToolCall = async (input: {
       items: result.items.map((item) => ({
         activityId: item.activityId,
         activityType: item.activityType,
+        conversationId: item.conversationId,
         occurredAt: item.occurredAt,
         summary: item.summary,
         storySummary: item.storySummary,
@@ -251,6 +252,7 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
           const characterId = typeof body.characterId === 'string' ? body.characterId.trim() : ''
           const correlationId = readOptionalString(body.correlationId) ?? randomUUID()
           const conversationKey = readOptionalString(body.conversationKey)
+          const conversationId = readOptionalString(body.conversationId)
           const eventType = parseRealtimeEventType(body.eventType)
           const payload = parsePayload(body.payload)
           const occurredAt = readOptionalString(body.occurredAt)
@@ -268,6 +270,32 @@ const registerRealtimeApi = (middlewares: MiddlewareStack): void => {
             payload,
             occurredAt,
           })
+
+          if (
+            (eventType === 'voice.user.transcript.received' ||
+              eventType === 'voice.assistant.transcript.received') &&
+            conversationId
+          ) {
+            const transcript =
+              typeof payload.transcript === 'string' ? payload.transcript.trim() : ''
+            if (transcript) {
+              void appendConversationFlowMessage({
+                conversationId,
+                role:
+                  eventType === 'voice.assistant.transcript.received' ? 'assistant' : 'user',
+                content: transcript,
+                eventType:
+                  typeof payload.eventType === 'string' ? payload.eventType : undefined,
+                metadata: { source: 'realtime' },
+              }).catch((err) => {
+                console.warn(
+                  '[realtimePlugin] Failed to persist transcript activity:',
+                  err instanceof Error ? err.message : String(err),
+                )
+              })
+            }
+          }
+
           json(response, 202, {
             accepted: true,
             eventId,

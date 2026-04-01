@@ -12,6 +12,7 @@
     "dev": "npm run preflight:env:dev && vite",
     "dev:local": "npm run preflight:env:local-full && vite",
     "dev:remote-api": "npm run preflight:env:local-remote-api && vite",
+    "dev:online": "npm run preflight:env:local-remote-api && vite",
     "dev:lan": "vite --host",
     "quality:local": "npm run preflight:env:dev && npm run lint && npm run test && npm run build",
     "build": "tsc -b && vite build",

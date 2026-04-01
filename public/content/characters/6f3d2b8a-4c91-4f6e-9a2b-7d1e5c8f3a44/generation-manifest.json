@@ -1,0 +1,294 @@
+{
+  "generatedAt": "2026-03-15T14:56:56.483Z",
+  "generatorVersion": 1,
+  "styleProfileId": "storytime-adventure-3d-v1",
+  "sourceCharacterPath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/character.yaml",
+  "outputDirectory": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44",
+  "styleReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/generated/storytime-backgrounds/storytime-background-twilight-forest-close-4x3-hd.jpg"
+  ],
+  "characterReferencePaths": [
+    "/Users/fabianmaximilianjakobi/Development/Storytime/website/.tmp/character-creator/afa8bae7-0d93-42fd-aeb2-919b736380bc.jpg"
+  ],
+  "models": {
+    "defaultModel": "flux-2-pro",
+    "heroModel": "flux-2-pro"
+  },
+  "character": {
+    "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44",
+    "name": "Mina",
+    "type": "character",
+    "slug": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44",
+    "shortDescription": "Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich.",
+    "basis": {
+      "ageHint": "kindlich",
+      "species": "Mensch",
+      "genderExpression": "feminin",
+      "roleArchetype": "learner"
+    },
+    "voice": "marin",
+    "voiceProfile": {
+      "identity": "kindlich-zarte, weiche Stimme mit ruhigem Atem und hellem, sanftem Klang",
+      "demeanor": "vorsichtig offen, freundlich zugewandt und still aufmerksam",
+      "tone": "weich und warm, mit kleinen froehlichen Aufhellungen am Satzende",
+      "enthusiasmLevel": "mittel",
+      "formalityLevel": "locker",
+      "emotionLevel": "ausgewogen",
+      "fillerWords": "occasionally",
+      "pacing": "ruhig und leicht zoegernd, dann klar und freundlich"
+    },
+    "appearance": {
+      "bodyShape": "kleines Kind mit zarter, runder Koerperform",
+      "colors": [
+        "weiss",
+        "rosa",
+        "dunkelbraun"
+      ],
+      "hairOrFur": {
+        "color": "dunkelbraun",
+        "texture": "glatt",
+        "length": "mittellang"
+      },
+      "eyes": {
+        "color": "dunkelbraun",
+        "expression": "freundlich und ruhig"
+      },
+      "distinctiveFeatures": [
+        "helle Haut",
+        "leicht abstehende Ohren",
+        "sanftes Laecheln"
+      ],
+      "clothingStyle": "schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich"
+    },
+    "personality": {
+      "coreTraits": [
+        "aufmerksam",
+        "sanft",
+        "beharrlich"
+      ],
+      "temperament": "ruhig",
+      "socialStyle": "kooperativ",
+      "strengths": [
+        "hoert genau zu",
+        "bleibt auch in stillen Momenten freundlich dabei"
+      ],
+      "weaknesses": [
+        "braucht etwas Zeit, bis sie sich traut",
+        "sagt ihre eigenen Wuensche nicht sofort"
+      ],
+      "quirks": [
+        "streicht beim Nachdenken ueber den Saum ihres Oberteils",
+        "laechelt erst leise, bevor sie etwas sagt"
+      ]
+    },
+    "storyPsychology": {
+      "visibleGoal": "moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann",
+      "deeperNeed": "sie moechte sich sicher fuehlen und ernst genommen werden",
+      "fear": "ausgelacht zu werden oder etwas vor allen falsch zu machen",
+      "insecurity": "Vielleicht bin ich zu leise, damit mich die anderen bemerken.",
+      "stressResponse": "hesitate_then_try",
+      "growthDirection": "lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen"
+    },
+    "learningFunction": {
+      "teachingRoles": [
+        "learner",
+        "peer"
+      ],
+      "suitableLearningGoals": [
+        "mut",
+        "zuhoeren"
+      ],
+      "explanationStyle": "example_based"
+    },
+    "origin": {
+      "birthPlace": "Sonnenhang am Fluesterfeld",
+      "upbringingPlaces": [
+        "Sonnenhang am Fluesterfeld",
+        "Morgenpfad bei den Wiesen"
+      ],
+      "culturalContext": [
+        "ruhige Familiennaehe",
+        "Freude an kleinen Alltagsritualen"
+      ],
+      "religionOrBelief": "vertraut darauf, dass freundliche Worte vieles leichter machen",
+      "historicalContext": [
+        "aufgewachsen in einer friedlichen Wiesenregion mit viel Gemeinschaft"
+      ],
+      "notes": "Ihre Herkunft passt gut zu stillen, warmen Geschichten ueber Mitmachen, Zuhoeren und leisen Mut."
+    },
+    "relationships": {
+      "characters": [],
+      "places": [
+        {
+          "placeId": "ce0cc7ef-99e8-4138-a3ac-a6255e891532",
+          "type": "nahe Wiesenlandschaft",
+          "description": "Mina fuehlt sich in der ruhigen, warmen Weite des Whispering Meadow besonders wohl."
+        }
+      ]
+    },
+    "images": {
+      "standardFigure": {
+        "file": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/standard-figur.png",
+        "description": "Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, dunkelbraunen mittellangen Haaren, dunkelbraunen Augen und leicht abstehenden Ohren. Weisses Oberteil mit rosa Bild und etwas Schrift, sanftes Laecheln, ruhige offene Haltung, klare kindliche Silhouette."
+      },
+      "heroImage": {
+        "file": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/hero-image.jpg",
+        "description": "Cinematische Storytime-Szene mit Mina in einer warmen Wiesenlandschaft nahe dem Whispering Meadow. Sie steht ruhig im goldenen Licht, traegt ihr weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt still mutig und froehlich."
+      },
+      "portrait": {
+        "file": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/portrait.png",
+        "description": "Halbnahes Character-Card-Portrait eines kleinen Kindes mit heller Haut, dunkelbraunen Haaren, dunkelbraunen Augen, leicht abstehenden Ohren und sanftem Laecheln. Das weisse Oberteil mit rosa Bild ist gut sichtbar, die Ausstrahlung ist warm, ruhig und freundlich."
+      },
+      "profileImage": {
+        "file": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/profilbild.png",
+        "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: dunkelbraune Haare, dunkle freundliche Augen, helle Haut, leicht abstehende Ohren und ein sanftes Laecheln vor warmem, einfachem Hintergrund."
+      },
+      "additionalImages": [
+        {
+          "type": "emotion_happy",
+          "file": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-happy.png",
+          "description": "Freigestellte Emotionsfigur von Mina mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund."
+        },
+        {
+          "type": "emotion_sad",
+          "file": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-sad.png",
+          "description": "Freigestellte Emotionsfigur von Mina mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund."
+        }
+      ]
+    },
+    "tags": [
+      "mut",
+      "zuhoeren",
+      "leiser-mut",
+      "learner",
+      "peer",
+      "mitmachen",
+      "schuechterner-start",
+      "selbstvertrauen",
+      "wiesenkind",
+      "whispering-meadow"
+    ],
+    "metadata": {
+      "active": true,
+      "createdAt": "2026-03-15",
+      "updatedAt": "2026-03-15",
+      "version": 1
+    }
+  },
+  "assets": [
+    {
+      "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44:standard-figur",
+      "type": "standard-figur",
+      "kind": "standard_figur",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Mina. Short description: Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines Kind mit zarter, runder Koerperform. Dominant colors: weiss, rosa, dunkelbraun. Hair or fur: dunkelbraun glatt mittellang. Eyes: dunkelbraun, freundlich und ruhig. Distinctive features: helle Haut, leicht abstehende Ohren, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich. Core traits: aufmerksam, sanft, beharrlich. Temperament: ruhig. Social style: kooperativ. Strengths: hoert genau zu, bleibt auch in stillen Momenten freundlich dabei. Weaknesses: braucht etwas Zeit, bis sie sich traut, sagt ihre eigenen Wuensche nicht sofort. Quirks: streicht beim Nachdenken ueber den Saum ihres Oberteils, laechelt erst leise, bevor sie etwas sagt. Visible goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann. Deeper need: sie moechte sich sicher fuehlen und ernst genommen werden. Fear: ausgelacht zu werden oder etwas vor allen falsch zu machen. Insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken. Stress response: hesitate_then_try. Growth direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen. Teaching roles: learner, peer. Explanation style: example_based. Create a full-body standard character asset of Mina on a solid pure white background. Show enough of the body to keep the Mensch identity unmistakable, including species-specific markings and tail silhouette where applicable. The pose should feel natural, slightly dynamic, and immediately readable for compositing. Do not show a scene, props, horizon, colored backdrop, gradient, or transparent background; the background must stay clean white only. Target brief: Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, dunkelbraunen mittellangen Haaren, dunkelbraunen Augen und leicht abstehenden Ohren. Weisses Oberteil mit rosa Bild und etwas Schrift, sanftes Laecheln, ruhige offene Haltung, klare kindliche Silhouette. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, dunkelbraunen mittellangen Haaren, dunkelbraunen Augen und leicht abstehenden Ohren. Weisses Oberteil mit rosa Bild und etwas Schrift, sanftes Laecheln, ruhige offene Haltung, klare kindliche Silhouette.",
+      "publicFilePath": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/standard-figur.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/standard-figur.png",
+      "width": 1024,
+      "height": 1536,
+      "outputFormat": "png",
+      "seed": 4242,
+      "requestId": "87b320f3-4fa4-4755-8a82-84cc2f5d30b5",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/82bca09cdd6a4ed3b114f9cd4187a1ae_sample.png?se=2026-03-15T15%3A04%3A48Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=qNz717gmI66o881jMeoJK0LeZivwFBzE/XzGH0lHJi4%3D",
+      "cost": 10.5
+    },
+    {
+      "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44:hero-image",
+      "type": "hero-image",
+      "kind": "hero_image",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Mina. Short description: Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines Kind mit zarter, runder Koerperform. Dominant colors: weiss, rosa, dunkelbraun. Hair or fur: dunkelbraun glatt mittellang. Eyes: dunkelbraun, freundlich und ruhig. Distinctive features: helle Haut, leicht abstehende Ohren, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich. Core traits: aufmerksam, sanft, beharrlich. Temperament: ruhig. Social style: kooperativ. Strengths: hoert genau zu, bleibt auch in stillen Momenten freundlich dabei. Weaknesses: braucht etwas Zeit, bis sie sich traut, sagt ihre eigenen Wuensche nicht sofort. Quirks: streicht beim Nachdenken ueber den Saum ihres Oberteils, laechelt erst leise, bevor sie etwas sagt. Visible goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann. Deeper need: sie moechte sich sicher fuehlen und ernst genommen werden. Fear: ausgelacht zu werden oder etwas vor allen falsch zu machen. Insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken. Stress response: hesitate_then_try. Growth direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen. Teaching roles: learner, peer. Explanation style: example_based. Birth place: Sonnenhang am Fluesterfeld. Raised in: Sonnenhang am Fluesterfeld, Morgenpfad bei den Wiesen. Cultural context: ruhige Familiennaehe, Freude an kleinen Alltagsritualen. Belief or worldview: vertraut darauf, dass freundliche Worte vieles leichter machen. Historical context: aufgewachsen in einer friedlichen Wiesenregion mit viel Gemeinschaft. Origin notes: Ihre Herkunft passt gut zu stillen, warmen Geschichten ueber Mitmachen, Zuhoeren und leisen Mut. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and place Mina in a cinematic story moment. Treat Mina as the single canonical protagonist: keep the exact same face, hair, colors, outfit cues, and distinctive features as the standard figure. If the target brief includes other people, they must stay clearly secondary and must never resemble Mina more than Mina does. Use an immersive fantasy environment with clear foreground, midground, and background separation. Target brief: Cinematische Storytime-Szene mit Mina in einer warmen Wiesenlandschaft nahe dem Whispering Meadow. Sie steht ruhig im goldenen Licht, traegt ihr weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt still mutig und froehlich. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Mina as the only primary character in frame; no other person may become the visual focus or share Mina's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Cinematische Storytime-Szene mit Mina in einer warmen Wiesenlandschaft nahe dem Whispering Meadow. Sie steht ruhig im goldenen Licht, traegt ihr weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt still mutig und froehlich.",
+      "publicFilePath": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/hero-image.jpg",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/hero-image.jpg",
+      "width": 1920,
+      "height": 1088,
+      "outputFormat": "jpeg",
+      "seed": 4243,
+      "requestId": "8b8b721b-0806-4c58-99dd-6b5325a7203e",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/10b77e28e61344d9aa71a20fc161cf5a_sample.jpeg?se=2026-03-15T15%3A05%3A12Z&sp=r&sv=2024-11-04&sr=b&rsct=image/jpeg&sig=6Cyyz8quCjXqis5nd71bFh2Je6pGj3Axn%2BPZuB4bvYs%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44:portrait",
+      "type": "portrait",
+      "kind": "portrait",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Mina. Short description: Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines Kind mit zarter, runder Koerperform. Dominant colors: weiss, rosa, dunkelbraun. Hair or fur: dunkelbraun glatt mittellang. Eyes: dunkelbraun, freundlich und ruhig. Distinctive features: helle Haut, leicht abstehende Ohren, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich. Core traits: aufmerksam, sanft, beharrlich. Temperament: ruhig. Social style: kooperativ. Strengths: hoert genau zu, bleibt auch in stillen Momenten freundlich dabei. Weaknesses: braucht etwas Zeit, bis sie sich traut, sagt ihre eigenen Wuensche nicht sofort. Quirks: streicht beim Nachdenken ueber den Saum ihres Oberteils, laechelt erst leise, bevor sie etwas sagt. Visible goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann. Deeper need: sie moechte sich sicher fuehlen und ernst genommen werden. Fear: ausgelacht zu werden oder etwas vor allen falsch zu machen. Insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken. Stress response: hesitate_then_try. Growth direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen. Teaching roles: learner, peer. Explanation style: example_based. Birth place: Sonnenhang am Fluesterfeld. Raised in: Sonnenhang am Fluesterfeld, Morgenpfad bei den Wiesen. Cultural context: ruhige Familiennaehe, Freude an kleinen Alltagsritualen. Belief or worldview: vertraut darauf, dass freundliche Worte vieles leichter machen. Historical context: aufgewachsen in einer friedlichen Wiesenregion mit viel Gemeinschaft. Origin notes: Ihre Herkunft passt gut zu stillen, warmen Geschichten ueber Mitmachen, Zuhoeren und leisen Mut. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a portrait or character card image of Mina. Frame the face and upper body for strong emotional readability and a clean UI-friendly crop. Target brief: Halbnahes Character-Card-Portrait eines kleinen Kindes mit heller Haut, dunkelbraunen Haaren, dunkelbraunen Augen, leicht abstehenden Ohren und sanftem Laecheln. Das weisse Oberteil mit rosa Bild ist gut sichtbar, die Ausstrahlung ist warm, ruhig und freundlich. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Mina as the only primary character in frame; no other person may become the visual focus or share Mina's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Halbnahes Character-Card-Portrait eines kleinen Kindes mit heller Haut, dunkelbraunen Haaren, dunkelbraunen Augen, leicht abstehenden Ohren und sanftem Laecheln. Das weisse Oberteil mit rosa Bild ist gut sichtbar, die Ausstrahlung ist warm, ruhig und freundlich.",
+      "publicFilePath": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/portrait.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/portrait.png",
+      "width": 896,
+      "height": 1200,
+      "outputFormat": "png",
+      "seed": 4244,
+      "requestId": "955aabc6-e513-4df5-9695-9d897acee0d8",
+      "sampleUrl": "https://bfldeliveryscus.blob.core.windows.net/results/2026/03/15/ff7529d45a1c4e5cbbce3a2ca948091c_sample.png?se=2026-03-15T15%3A05%3A36Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=gotP%2BZEx%2B9ufEGQHKmZg/%2B2XuUGdqFeRBgK%2BMKnKfic%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44:profilbild",
+      "type": "profilbild",
+      "kind": "profilbild",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Mina. Short description: Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines Kind mit zarter, runder Koerperform. Dominant colors: weiss, rosa, dunkelbraun. Hair or fur: dunkelbraun glatt mittellang. Eyes: dunkelbraun, freundlich und ruhig. Distinctive features: helle Haut, leicht abstehende Ohren, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich. Core traits: aufmerksam, sanft, beharrlich. Temperament: ruhig. Social style: kooperativ. Strengths: hoert genau zu, bleibt auch in stillen Momenten freundlich dabei. Weaknesses: braucht etwas Zeit, bis sie sich traut, sagt ihre eigenen Wuensche nicht sofort. Quirks: streicht beim Nachdenken ueber den Saum ihres Oberteils, laechelt erst leise, bevor sie etwas sagt. Visible goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann. Deeper need: sie moechte sich sicher fuehlen und ernst genommen werden. Fear: ausgelacht zu werden oder etwas vor allen falsch zu machen. Insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken. Stress response: hesitate_then_try. Growth direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen. Teaching roles: learner, peer. Explanation style: example_based. Birth place: Sonnenhang am Fluesterfeld. Raised in: Sonnenhang am Fluesterfeld, Morgenpfad bei den Wiesen. Cultural context: ruhige Familiennaehe, Freude an kleinen Alltagsritualen. Belief or worldview: vertraut darauf, dass freundliche Worte vieles leichter machen. Historical context: aufgewachsen in einer friedlichen Wiesenregion mit viel Gemeinschaft. Origin notes: Ihre Herkunft passt gut zu stillen, warmen Geschichten ueber Mitmachen, Zuhoeren und leisen Mut. Use origin details as nuanced character-shaping influences, never as crude stereotypes or caricatures. Keep the same exact character identity as the character reference and create a square profile image for Mina. The face must read instantly at small sizes with a clean silhouette and direct emotional clarity. Target brief: Quadratisches Profilbild mit stark lesbarem Gesicht: dunkelbraune Haare, dunkle freundliche Augen, helle Haut, leicht abstehende Ohren und ein sanftes Laecheln vor warmem, einfachem Hintergrund. Follow the storytime-adventure-3d-v1 style profile. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Grounding reference: Dichtes tropisches Fantasiewald-Setting mit sattem Blattwerk, kuehlem Nebel in der Tiefe, warmen Lichtakzenten, sanfter volumetrischer Beleuchtung, charmanten Figuren mit grossen emotionalen Augen, runden weichen Formen und detailreichen aber kindgerechten Oberflaechen. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. Environment: storybook fantasy naturalism, rich foliage or textured fantasy environments, subtle magical atmosphere, never horror-coded. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character. Render Mina as the only primary character in frame; no other person may become the visual focus or share Mina's defining facial identity.  Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Quadratisches Profilbild mit stark lesbarem Gesicht: dunkelbraune Haare, dunkle freundliche Augen, helle Haut, leicht abstehende Ohren und ein sanftes Laecheln vor warmem, einfachem Hintergrund.",
+      "publicFilePath": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/profilbild.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/profilbild.png",
+      "width": 512,
+      "height": 512,
+      "outputFormat": "png",
+      "seed": 4245,
+      "requestId": "b3315699-2fb4-4410-8be2-b1faae71e3cf",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/48e80bfb5e1a43789b27366276eef5ee_sample.png?se=2026-03-15T15%3A05%3A56Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=9cgQqjpnHJ2sF88Gtduz4nb9ynZE//NmRSQe2PA8QKY%3D",
+      "cost": 6
+    },
+    {
+      "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44:emotion_happy",
+      "type": "emotion_happy",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Mina. Short description: Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines Kind mit zarter, runder Koerperform. Dominant colors: weiss, rosa, dunkelbraun. Hair or fur: dunkelbraun glatt mittellang. Eyes: dunkelbraun, freundlich und ruhig. Distinctive features: helle Haut, leicht abstehende Ohren, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich. Core traits: aufmerksam, sanft, beharrlich. Temperament: ruhig. Social style: kooperativ. Strengths: hoert genau zu, bleibt auch in stillen Momenten freundlich dabei. Weaknesses: braucht etwas Zeit, bis sie sich traut, sagt ihre eigenen Wuensche nicht sofort. Quirks: streicht beim Nachdenken ueber den Saum ihres Oberteils, laechelt erst leise, bevor sie etwas sagt. Visible goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann. Deeper need: sie moechte sich sicher fuehlen und ernst genommen werden. Fear: ausgelacht zu werden oder etwas vor allen falsch zu machen. Insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken. Stress response: hesitate_then_try. Growth direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen. Teaching roles: learner, peer. Explanation style: example_based. Keep the same exact character identity as the character reference and show Mina expressing happy. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable joy with a wide smile, bright eyes, lifted cheeks, open arms or a small jump, and energetic positive body language. This must not read as neutral. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize open cheerful energy, lifted posture, and clear delight. Target brief: Freigestellte Emotionsfigur von Mina mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Mina mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-happy.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-happy.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4246,
+      "requestId": "4d7d4f17-8a6f-4a49-9dbe-9e1a6df636be",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/088b69d38e364d59a2a459f5558afc76_sample.png?se=2026-03-15T15%3A06%3A17Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=IZ8UxpT948eUPdv70ftzLT2nov3kqJTp17dfMViamnY%3D",
+      "cost": 7.5
+    },
+    {
+      "id": "6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44:emotion_sad",
+      "type": "emotion_sad",
+      "kind": "additional",
+      "status": "generated",
+      "mode": "image-edit",
+      "model": "flux-2-pro",
+      "prompt": "Character name: Mina. Short description: Ein kleines Menschenkind mit heller Haut, dunkelbraunen Haaren und leicht abstehenden Ohren. Mina traegt ein weisses Oberteil mit rosa Bild und Schrift, schaut freundlich und wirkt warm, ruhig und froehlich. Species: Mensch. The character must read unmistakably as a Mensch at first glance and must never be mistaken for another species. Age feel: kindlich. Archetype: learner. Body shape: kleines Kind mit zarter, runder Koerperform. Dominant colors: weiss, rosa, dunkelbraun. Hair or fur: dunkelbraun glatt mittellang. Eyes: dunkelbraun, freundlich und ruhig. Distinctive features: helle Haut, leicht abstehende Ohren, sanftes Laecheln. Keep species-defining face shape, ears, tail, paw shape, and silhouette visible whenever the crop allows it. Clothing style: schlichtes weisses Oberteil mit rosa Bild und etwas Schrift, bequem und alltagstauglich. Core traits: aufmerksam, sanft, beharrlich. Temperament: ruhig. Social style: kooperativ. Strengths: hoert genau zu, bleibt auch in stillen Momenten freundlich dabei. Weaknesses: braucht etwas Zeit, bis sie sich traut, sagt ihre eigenen Wuensche nicht sofort. Quirks: streicht beim Nachdenken ueber den Saum ihres Oberteils, laechelt erst leise, bevor sie etwas sagt. Visible goal: moechte mitmachen und zeigen, dass sie etwas selbst schaffen kann. Deeper need: sie moechte sich sicher fuehlen und ernst genommen werden. Fear: ausgelacht zu werden oder etwas vor allen falsch zu machen. Insecurity: Vielleicht bin ich zu leise, damit mich die anderen bemerken. Stress response: hesitate_then_try. Growth direction: lernt, ihre Stimme frueher zu nutzen und sich auch in kleinen Gruppen mutig einzubringen. Teaching roles: learner, peer. Explanation style: example_based. Keep the same exact character identity as the character reference and show Mina expressing sad. Create a full-body or three-quarter character emotion asset on a solid pure white background with no environment props, no scene elements, no floor styling, and no gradient. The silhouette, hands, face, and pose must be clear, anatomically clean, child-friendly, and immediately readable in the UI. Show unmistakable sadness with lowered gaze, softened brows, slightly drooped shoulders, slower heavier body language, hands held closer to the body, and a clearly different pose from happy. Even in the emotion pose, the Mensch identity must stay obvious through face, ears, tail, paw shape, and silhouette. This emotion asset must look clearly different from the other emotion assets and must not reuse a neutral expression or the same body pose. Use a clean studio-like white background only, keep exactly one character visible, and do not blend in scenic lighting or environmental storytelling. Prioritize quieter posture, visible vulnerability, lowered energy, and clear sadness. Target brief: Freigestellte Emotionsfigur von Mina mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund. Follow the storytime-adventure-3d-v1 style profile for character rendering quality. Familienfreundliche hochwertige Adventure-Animation mit warmem Herz, lesbaren Silhouetten und cinematic fantasy lighting. Core style: high-end family adventure animation, cinematic composition, large expressive eyes, soft rounded forms, tactile stylized surfaces, child-friendly proportions, lush atmospheric lighting, readable silhouette, emotionally warm storytelling. Lighting: soft volumetric light, warm key light, cool ambient haze, believable depth layering, gentle contrast, polished cinematic shading. For this white-background UI asset, keep the rendering premium and child-friendly, but do not introduce scene composition, environmental storytelling, fantasy landscape grounding, or scenic background elements. Guardrails: Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy. Hard rules: when reference images are provided, they are the absolute source of truth for character identity. Preserve face structure, species markers, dominant colors, clothing cues, and distinctive features from the reference images exactly; if text conflicts with reference images, follow the reference images. Apply Storytime as a style transfer only and do not abstract or reinterpret identity-defining details. Keep the exact same character identity and name intent from the character data. The character must keep child-friendly proportions and never drift into another species. Never swap identity with any reference character.  This asset must use a solid white background only with no scenery, no transparent background, no gradient, and no environmental props. Ignore birthplace, habitat, forest, meadow, lake, weather, and story-scene details for the background. Do not show trees, leaves, paths, rocks, sky, fog, or any environmental backdrop. Avoid photorealism, horror, uncanny faces, harsh realism, gritty violence, adult sensuality, anime linework, comic-book ink rendering, oversharpened textures, floating limbs, extra fingers, broken anatomy.",
+      "description": "Freigestellte Emotionsfigur von Mina mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.",
+      "publicFilePath": "/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-sad.png",
+      "outputFilePath": "/Users/fabianmaximilianjakobi/Development/Storytime/website/public/content/characters/6f3d2b8a-4c91-4f6e-9a2b-7d1e5c8f3a44/emotion-sad.png",
+      "width": 1024,
+      "height": 1408,
+      "outputFormat": "png",
+      "seed": 4247,
+      "requestId": "1ea857f2-6f75-4fc7-94c1-c93180baad20",
+      "sampleUrl": "https://bfldeliveryprodeu4.blob.core.windows.net/results/2026/03/15/d333e2e1a534491294abb98cd0275281_sample.png?se=2026-03-15T15%3A06%3A55Z&sp=r&sv=2024-11-04&sr=b&rsct=image/png&sig=2XS0ytqjpgMh%2B/iODuhMp13/XVAruF3CwNm6EEooK3M%3D",
+      "cost": 7.5
+    }
+  ]
+}

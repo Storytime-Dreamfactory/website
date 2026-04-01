@@ -1,4 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { ChatMessage } from './ChatPanel'
+
+export type { ChatMessage }
 
 export type AssetJob = {
   id: string
@@ -14,12 +17,6 @@ export type CharacterCreationJob = {
   characterId?: string
   error?: string
   assets: AssetJob[]
-}
-
-export type ChatMessage = {
-  id: string
-  role: 'assistant' | 'user'
-  text: string
 }
 
 type ChatResponse = {

@@ -48,6 +48,7 @@ const QUERY_STOPWORDS = new Set([
 const STORYBOOK_ACTIVITY_TYPES = new Set(['conversation.image.generated', 'conversation.image.recalled'])
 const TRACE_PREVIEW_MAX_LENGTH = 240
 const RUNTIME_NOTEPAD_MAX_LENGTH = 8_000
+const MAX_RELATED_OBJECT_CONTEXT_LOOKUPS = 3
 
 const previewText = (value: string | undefined): string | undefined => {
   if (typeof value !== 'string') return undefined
@@ -84,6 +85,61 @@ const SIMPLE_REUSE_HINTS = [
   'letzte bild',
   'vorige bild',
 ] as const
+
+type SceneReferenceStrategy = 'minor-continuation' | 'scene-shift'
+
+const normalizeSceneText = (value: string): string =>
+  value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+const SCENE_SHIFT_PATTERNS = [
+  /\bgeh\b/i,
+  /\blauf\b/i,
+  /\brenn\b/i,
+  /\bschwimm\b/i,
+  /\bwat(?:e|et)\b/i,
+  /\bkletter\b/i,
+  /\bspring\b/i,
+  /\bkomm\b/i,
+  /\bhinauf\b/i,
+  /\bhinunter\b/i,
+  /\bvorne\b/i,
+  /\bhinten\b/i,
+  /\bdahin\b/i,
+  /\bdort\b/i,
+  /\bins wasser\b/i,
+  /\bans ufer\b/i,
+  /\bauf den\b/i,
+  /\bzu dem\b/i,
+  /\bzu der\b/i,
+] as const
+
+const resolveSceneReferenceStrategy = (input: {
+  lastUserText: string
+  assistantText: string
+  nextSceneSummary: string
+  latestSceneSummary?: string
+}): SceneReferenceStrategy => {
+  if (!input.latestSceneSummary?.trim()) return 'minor-continuation'
+
+  const combined = normalizeSceneText(
+    `${input.lastUserText} ${input.assistantText} ${input.nextSceneSummary}`,
+  )
+  if (!combined) return 'minor-continuation'
+  if (SCENE_SHIFT_PATTERNS.some((pattern) => pattern.test(combined))) return 'scene-shift'
+
+  const latestSceneSummary = normalizeSceneText(input.latestSceneSummary)
+  if (!latestSceneSummary) return 'minor-continuation'
+
+  const strongOverlapMarkers = ['wieder', 'weiter', 'noch immer', 'erneut', 'gleich dort', 'am selben ort']
+  if (strongOverlapMarkers.some((marker) => combined.includes(marker))) return 'minor-continuation'
+
+  return 'minor-continuation'
+}
 
 const isExplicitImageReuseRequest = (value: string): boolean => {
   const normalized = value.trim().toLowerCase()
@@ -122,6 +178,121 @@ const readRuntimeNotepad = async (conversationId: string): Promise<string> => {
     return typeof raw === 'string' ? raw : ''
   } catch {
     return ''
+  }
+}
+
+type SkillExecutionResult = {
+  relationshipContext?: SceneRelationshipContext | null
+}
+
+const collectLinkedObjects = (
+  relationshipLinks: SceneRelationshipContext['relationshipLinks'],
+): Array<{ type: string; id: string }> => {
+  const unique = new Map<string, { type: string; id: string }>()
+  for (const linkedObject of relationshipLinks.flatMap((item) => item.otherRelatedObjects ?? [])) {
+    const type = typeof linkedObject.type === 'string' ? linkedObject.type.trim() : ''
+    const id = typeof linkedObject.id === 'string' ? linkedObject.id.trim() : ''
+    if (!type || !id) continue
+    unique.set(`${type}:${id}`, { type, id })
+  }
+  return Array.from(unique.values()).slice(0, MAX_RELATED_OBJECT_CONTEXT_LOOKUPS)
+}
+
+const buildContextualRelatedObjects = (
+  contextResults: Array<
+    Awaited<ReturnType<ReturnType<typeof readRelatedObjectContextsRuntimeTool>['execute']>>
+  >,
+): Array<SceneRelationshipContext['contextualRelatedObjects'] extends Array<infer T> ? T : never> => {
+  const merged = new Map<
+    string,
+    SceneRelationshipContext['contextualRelatedObjects'] extends Array<infer T> ? T : never
+  >()
+  for (const result of contextResults) {
+    const evidence = Array.from(
+      new Set(
+        result.matchedContexts
+          .map((match) => {
+            const label = match.matchedObject.label?.trim() || match.matchedObject.type
+            const relationshipLabel = match.relationshipTypeReadable || match.relationshipType || match.relationship
+            return relationshipLabel ? `${relationshipLabel} bei ${label}` : label
+          })
+          .filter((entry) => entry.length > 0),
+      ),
+    )
+    for (const relatedObject of result.relatedObjects) {
+      const key = `${relatedObject.objectType}:${relatedObject.objectId}`
+      const existing = merged.get(key)
+      if (existing) {
+        existing.evidence = Array.from(
+          new Set([...(existing.evidence ?? []), ...evidence]),
+        )
+        continue
+      }
+      merged.set(key, {
+        ...relatedObject,
+        evidence,
+      })
+    }
+  }
+  return Array.from(merged.values())
+}
+
+const loadRelationshipContext = async (input: {
+  toolContext: {
+    characterId: string
+    characterName: string
+    conversationId: string
+    learningGoalIds?: string[]
+  }
+  executedTools: string[]
+  relationshipContext?: SceneRelationshipContext | null
+  includeContextualObjects?: boolean
+}): Promise<SceneRelationshipContext> => {
+  let relationshipLinks = input.relationshipContext?.relationshipLinks
+  let directRelatedObjects = input.relationshipContext?.directRelatedObjects
+  let relatedCharacterIds =
+    relationshipLinks?.map((link) => link.relatedCharacterId).filter((item) => item.length > 0) ?? []
+
+  if (!relationshipLinks) {
+    const relationshipResult = await readRelationshipsRuntimeTool().execute(input.toolContext, {})
+    relationshipLinks = relationshipResult.relationshipLinks
+    relatedCharacterIds = relationshipResult.relatedCharacterIds
+    input.executedTools.push('read_relationships')
+  }
+
+  if (!directRelatedObjects) {
+    const relatedObjectsResult = await readRelatedObjectsRuntimeTool().execute(input.toolContext, {
+      relatedCharacterIds,
+      relationshipLinks,
+    })
+    directRelatedObjects = relatedObjectsResult.relatedObjects
+    input.executedTools.push('read_related_objects')
+  }
+
+  let contextualRelatedObjects = input.relationshipContext?.contextualRelatedObjects
+  if (input.includeContextualObjects && contextualRelatedObjects == null) {
+    const linkedObjects = collectLinkedObjects(relationshipLinks)
+    const contextualResults: Array<
+      Awaited<ReturnType<ReturnType<typeof readRelatedObjectContextsRuntimeTool>['execute']>>
+    > = []
+    for (const linkedObject of linkedObjects) {
+      const relatedObjectContextResult = await readRelatedObjectContextsRuntimeTool().execute(
+        input.toolContext,
+        {
+          objectType: linkedObject.type,
+          objectId: linkedObject.id,
+        },
+      )
+      contextualResults.push(relatedObjectContextResult)
+      input.executedTools.push('read_related_object_contexts')
+    }
+    contextualRelatedObjects = buildContextualRelatedObjects(contextualResults)
+  }
+
+  return {
+    relationshipLinks,
+    directRelatedObjects,
+    ...(contextualRelatedObjects != null ? { contextualRelatedObjects } : {}),
   }
 }
 
@@ -274,7 +445,7 @@ export const executeRoutedSkill = async (input: {
   characterContext?: SceneCharacterContext
   learningGoalIds?: string[]
   relationshipContext?: SceneRelationshipContext | null
-}): Promise<void> => {
+}): Promise<SkillExecutionResult> => {
   await trackTraceActivitySafely({
     activityType: 'trace.skill.execution.request',
     summary: `Skill-Ausfuehrung gestartet (${input.decision.skillId})`,
@@ -293,6 +464,7 @@ export const executeRoutedSkill = async (input: {
   })
   const executedTools: string[] = []
   let toolExecutionError: string | null = null
+  let currentRelationshipContext = input.relationshipContext ?? null
 
   try {
     const toolContext = {
@@ -331,13 +503,17 @@ export const executeRoutedSkill = async (input: {
             : step.type === 'scene'
               ? 'create_scene'
               : 'request-context'
-        await executeRoutedSkill({
+        const nestedResult = await executeRoutedSkill({
           ...input,
+          relationshipContext: currentRelationshipContext,
           decision: {
             skillId: nestedSkillId,
             reason: `plan-step:${step.type}`,
           },
         })
+        if (nestedResult.relationshipContext !== undefined) {
+          currentRelationshipContext = nestedResult.relationshipContext
+        }
       }
       await appendNotepad('Plan abgeschlossen.')
     }
@@ -390,6 +566,12 @@ export const executeRoutedSkill = async (input: {
     }
 
     if (input.decision.skillId === 'create_scene') {
+      currentRelationshipContext = await loadRelationshipContext({
+        toolContext,
+        executedTools,
+        relationshipContext: currentRelationshipContext,
+        includeContextualObjects: true,
+      })
       const recentActivities = await readActivitiesRuntimeTool().execute(toolContext, {
         scope: 'external',
         limit: 200,
@@ -415,8 +597,8 @@ export const executeRoutedSkill = async (input: {
         assessmentTargets: goal.assessmentTargets,
       }))
       const mainCharacterImageRefs = await resolveCharacterImageRefs(input.characterId)
-      const directRelatedObjects = input.relationshipContext?.directRelatedObjects ?? []
-      const contextualRelatedObjects = input.relationshipContext?.contextualRelatedObjects ?? []
+      const directRelatedObjects = currentRelationshipContext.directRelatedObjects
+      const contextualRelatedObjects = currentRelationshipContext.contextualRelatedObjects ?? []
       const provisionalGroundedSceneCharacters = selectGroundedSceneCharacters({
         mainCharacterId: input.characterId,
         mainCharacterName: input.characterName,
@@ -504,14 +686,24 @@ export const executeRoutedSkill = async (input: {
         directRelatedObjects,
         contextualRelatedObjects,
       })
+      const sceneReferenceStrategy = resolveSceneReferenceStrategy({
+        lastUserText: input.lastUserText,
+        assistantText: input.assistantText,
+        nextSceneSummary,
+        latestSceneSummary: storyHistory.latestScene?.summary,
+      })
+      const sceneReferenceImagePaths =
+        sceneReferenceStrategy === 'minor-continuation'
+          ? Array.from(
+              new Set(
+                [storyHistory.previousScene?.imageUrl, storyHistory.latestScene?.imageUrl].filter(
+                  (item): item is string => typeof item === 'string' && item.trim().length > 0,
+                ),
+              ),
+            ).slice(0, 2)
+          : []
       const forceReferenceImagePaths = [
-        ...Array.from(
-          new Set(
-            [storyHistory.previousScene?.imageUrl, storyHistory.latestScene?.imageUrl].filter(
-              (item): item is string => typeof item === 'string' && item.trim().length > 0,
-            ),
-          ),
-        ).slice(0, 2),
+        ...sceneReferenceImagePaths,
         ...Array.from(
           new Set(
             groundedSceneCharacters
@@ -554,6 +746,10 @@ export const executeRoutedSkill = async (input: {
           sceneSummary: nextSceneSummary,
           imagePrompt,
           forceReferenceImagePaths,
+          styleHint:
+            sceneReferenceStrategy === 'scene-shift'
+              ? 'Klarer neuer Szenenwechsel. Halte die Figurenidentitaet stabil, aber vermeide dieselbe Kameraeinstellung oder fast identische Bildkomposition wie in der letzten Szene.'
+              : undefined,
           ...(relatedSceneCharacters.length > 0
             ? {
                 relatedCharacterIds: relatedSceneCharacters.map((character) => character.characterId),
@@ -580,6 +776,9 @@ export const executeRoutedSkill = async (input: {
         output: {
           imageSelectionMode,
           reason: prefersImageReuse ? 'simple-reuse-request' : 'default-generate',
+          referenceStrategy: sceneReferenceStrategy,
+          forcedSceneReferenceCount: sceneReferenceImagePaths.length,
+          forcedIdentityReferenceCount: forceReferenceImagePaths.length - sceneReferenceImagePaths.length,
         },
         ok: true,
       })
@@ -628,25 +827,16 @@ export const executeRoutedSkill = async (input: {
     }
 
     if (input.decision.skillId === 'request-context') {
-      const relationshipResult = await readRelationshipsRuntimeTool().execute(toolContext, {})
-      executedTools.push('read_relationships')
-      const relatedObjectsResult = await readRelatedObjectsRuntimeTool().execute(toolContext, {
-        relatedCharacterIds: relationshipResult.relatedCharacterIds,
-        relationshipLinks: relationshipResult.relationshipLinks,
+      currentRelationshipContext = await loadRelationshipContext({
+        toolContext,
+        executedTools,
+        relationshipContext: currentRelationshipContext,
+        includeContextualObjects: true,
       })
-      executedTools.push('read_related_objects')
-      const firstLinkedObject = relationshipResult.relationshipLinks
-        .flatMap((item) => item.otherRelatedObjects)
-        .find((item) => typeof item.type === 'string' && typeof item.id === 'string')
-      if (firstLinkedObject) {
-        await readRelatedObjectContextsRuntimeTool().execute(toolContext, {
-          objectType: firstLinkedObject.type,
-          objectId: firstLinkedObject.id,
-        })
-        executedTools.push('read_related_object_contexts')
-      }
       await appendNotepad(
-        `Kontext aktualisiert: ${relatedObjectsResult.relatedObjectCount} verknuepfte Objekte.`,
+        `Kontext aktualisiert: ${currentRelationshipContext.directRelatedObjects.length} direkte und ${
+          currentRelationshipContext.contextualRelatedObjects?.length ?? 0
+        } kontextuelle Objekte.`,
       )
       executedTools.push('runtime_notepad')
     }
@@ -729,4 +919,7 @@ export const executeRoutedSkill = async (input: {
     ok: toolExecutionError == null,
     error: toolExecutionError ?? undefined,
   })
+  return {
+    relationshipContext: toolExecutionError == null ? currentRelationshipContext ?? null : undefined,
+  }
 }

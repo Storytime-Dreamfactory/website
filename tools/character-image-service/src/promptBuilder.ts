@@ -380,7 +380,6 @@ export const buildCharacterAssetJobs = ({
   defaultModel,
   heroModel,
   baseSeed,
-  styleReferencePaths = [],
   characterReferencePaths = [],
 }: {
   character: Character
@@ -392,7 +391,7 @@ export const buildCharacterAssetJobs = ({
   characterReferencePaths?: string[]
 }): ResolvedAssetJob[] => {
   const jobs: ResolvedAssetJob[] = []
-  const hasReferenceImages = characterReferencePaths.length > 0 || styleReferencePaths.length > 0
+  const hasIdentityReferenceImages = characterReferencePaths.length > 0
   const orderedSpecs = [
     {
       spec: CHARACTER_ASSET_SPECS.standard_figur,
@@ -441,7 +440,7 @@ export const buildCharacterAssetJobs = ({
         height: spec.height,
         outputFormat: spec.outputFormat,
         mode:
-          spec.kind === 'standard_figur' && hasReferenceImages
+          spec.kind === 'standard_figur' && hasIdentityReferenceImages
             ? 'image-edit'
             : spec.mode,
         model: spec.useHeroModel ? heroModel : defaultModel,

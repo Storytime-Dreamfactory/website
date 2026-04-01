@@ -1,0 +1,127 @@
+id: d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90
+name: Nilo
+kurzbeschreibung: |
+  Ein kleines Menschenkind mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen und wirkt ruhig, sanft und in sich gekehrt.
+basis:
+  age_hint: kindlich
+  species: Mensch
+  gender_expression: androgyn
+  role_archetype: learner
+voice: cedar
+voice_profile:
+  identity: Kindlich-zarte, weiche Stimme mit ruhigem Atem und sanftem Klang, als wuerde jedes Wort erst kurz im Herzen landen
+  demeanor: Zurueckhaltend, aufmerksam und still freundlich, ohne sich in den Vordergrund zu draengen
+  tone: Leise, rund und behutsam, mit kleinen Pausen und vorsichtigen Formulierungen
+  enthusiasm_level: ruhig
+  formality_level: locker
+  emotion_level: ausgewogen
+  filler_words: occasionally
+  pacing: langsam und bedacht, mit kurzen stillen Momenten zwischen den Saetzen
+erscheinung:
+  body_shape: kleines, zartes Kind mit weicher Haltung und leicht gesenktem Kopf
+  colors:
+    - gruen
+    - weiss
+    - hellbraun
+  hair_or_fur:
+    color: hellbraun
+    texture: glatt und fein
+    length: kurz
+  eyes:
+    color: dunkelbraun
+    expression: ruhig, sanft und nach innen gewandt
+  distinctive_features:
+    - heller Teint
+    - gruen-weiss gestreiftes Oberteil
+    - heller, runder Kragen
+  clothing_style: schlichtes, ordentliches Kinderoberteil mit weichen Farben und ruhiger Ausstrahlung
+persoenlichkeit:
+  core_traits:
+    - beobachtend
+    - sanft
+    - gewissenhaft
+  temperament: nachdenklich
+  social_style: schuechtern
+  strengths:
+    - hoert genau zu
+    - bemerkt kleine Gefuehle bei anderen
+  weaknesses:
+    - sagt eigene Wuensche oft zu spaet
+    - zoegert in neuen Gruppen
+  quirks:
+    - schaut beim Nachdenken auf seine Haende
+    - streicht den Kragen glatt, wenn es unsicher ist
+story_psychology:
+  visible_goal: moechte mitmachen, ohne etwas falsch zu machen
+  deeper_need: braucht das Gefuehl, auch mit leiser Art gesehen und angenommen zu werden
+  fear: andere zu stoeren oder ausgelacht zu werden
+  insecurity: Wenn ich nicht gleich etwas sagen kann, denken die anderen vielleicht, ich gehoere nicht dazu.
+  stress_response: hesitate_then_try
+  growth_direction: lernt, seine Gedanken frueher auszusprechen und leise mutig zu sein
+learning_function:
+  teaching_roles:
+    - learner
+    - peer
+  suitable_learning_goals:
+    - mut
+    - zuhoeren
+    - selbstregulation
+  explanation_style: example_based
+herkunft:
+  geburtsort: Wiesenrand am Fluestertal
+  aufgewachsen_in:
+    - Wiesenrand am Fluestertal
+    - Whispering Meadow
+  kulturelle_praegung:
+    - ruhige Gespraechskultur mit viel Zuhoeren
+    - Wertschaetzung fuer kleine, sorgfaeltige Gesten
+  religion_oder_weltbild: Glaubt, dass leise Dinge oft wichtig sind, wenn man gut hinhoert
+  historische_praegung:
+    - aufgewachsen zwischen stillen Wiesenpfaden und windbewegtem Gras
+  notizen: Die Herkunft unterstuetzt Geschichten ueber stille Beobachtung, Zugehoerigkeit und sanften Mut.
+relationships:
+  characters: []
+  places:
+    - place_id: ce0cc7ef-99e8-4138-a3ac-a6255e891532
+      typ: naeheort
+      beschreibung: Fuehlt sich auf den stillen Wiesenpfaden wohl und kommt dort leichter ins Nachdenken und Zuhoren.
+bilder:
+  standard_figur:
+    datei: /content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/standard-figur.png
+    beschreibung: |
+      Freigestellte Ganzkoerperfigur eines kleinen Menschenkindes mit heller Haut, kurzen hellbraunen Haaren und dunklen Augen. Nilo traegt ein gruen-weiss gestreiftes Oberteil mit hellem Kragen, haelt die Arme nah am Koerper und schaut leicht nach unten. Die Silhouette ist klein, weich und ruhig lesbar.
+  hero_image:
+    datei: /content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/hero-image.jpg
+    beschreibung: |
+      Cinematische Storytime-Szene auf einer stillen Wiese nahe Whispering Meadow. Nilo steht im sanften Licht zwischen hohem Gras, blickt nachdenklich nach unten und haelt den hellen Kragen des gruen-weiss gestreiften Oberteils leicht fest. Die Stimmung ist warm, ruhig und hoffnungsvoll.
+  portrait:
+    datei: /content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/portrait.png
+    beschreibung: |
+      Halbnahes Character-Card-Portrait mit hellem Gesicht, kurzen hellbraunen Haaren, dunklen sanften Augen und leicht gesenktem Blick. Das gruen-weiss gestreifte Oberteil mit hellem Kragen ist klar sichtbar, der Ausdruck ist ruhig und freundlich.
+  profilbild:
+    datei: /content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/profilbild.png
+    beschreibung: |
+      Quadratisches Profilbild mit stark lesbarem, sanftem Kindergesicht, kurzen hellbraunen Haaren, dunklen Augen und ruhigem Blick nach unten. Der helle Kragen und gruene Streifen setzen klare Wiedererkennungsmerkmale.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-happy.png
+      beschreibung: Freigestellte Emotionsfigur von Nilo mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+    - typ: emotion_sad
+      datei: /content/characters/d4b6f2a1-7c3e-4f8b-9a2d-5e1c7b3f6a90/emotion-sad.png
+      beschreibung: Freigestellte Emotionsfigur von Nilo mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+tags:
+  - mut
+  - zuhoeren
+  - selbstregulation
+  - schuechtern
+  - beobachtend
+  - learner
+  - peer
+  - leise-stimme
+  - gehoert-werden
+  - whispering-meadow
+metadata:
+  active: true
+  created_at: 2026-03-22
+  updated_at: 2026-03-22
+  version: 1

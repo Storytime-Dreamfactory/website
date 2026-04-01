@@ -67,6 +67,7 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
     purpose: 'Fuehrt eine angefragte Aktion aus und erzeugt bei Bedarf neue Szenen.',
     toolIds: [
       CHARACTER_AGENT_TOOLS.readActivities,
+      CHARACTER_AGENT_TOOLS.readRelationships,
       CHARACTER_AGENT_TOOLS.showImage,
       CHARACTER_AGENT_TOOLS.generateImage,
       CHARACTER_AGENT_TOOLS.readRelatedObjects,
@@ -89,10 +90,7 @@ export const CHARACTER_AGENT_SKILL_PLAYBOOKS: CharacterAgentSkillPlaybook[] = [
     id: 'evaluate-feedback',
     name: 'Evaluate Feedback',
     purpose: 'Nimmt Meta-Feedback zur Qualitaet entgegen und startet einen asynchronen Verbesserungs-Flow.',
-    toolIds: [
-      CHARACTER_AGENT_TOOLS.readActivities,
-      CHARACTER_AGENT_TOOLS.readConversationHistory,
-    ],
+    toolIds: [],
     promptPath: 'content/prompts/agent-skills/evaluate-feedback.md',
   },
   {

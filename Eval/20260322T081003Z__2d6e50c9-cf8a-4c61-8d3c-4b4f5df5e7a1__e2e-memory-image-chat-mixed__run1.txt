@@ -1,0 +1,116 @@
+# Storytime Self-Evaluation Report
+
+## Run-Informationen
+- characterId: 2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1
+- scenario: e2e-memory-image-chat-mixed
+- testedScenarios: memory, image, chat, mixed
+- runIndex: 1
+- conversationId: 6645dc6d-eb9d-4839-977c-7ea9e7837ab5
+- judgeModel: gpt-5.4
+- executionMode: http
+- assistantGenerationSource: shared-voice-service
+- voicePromptPath: /Users/fabianmaximilianjakobi/Development/Storytime/website/content/prompts/character-voice-agent.md
+- voicePromptLength: 3694
+
+## Gesamtbeurteilung
+- score: 6/10
+- assessment: Aus Kindersicht wirkt die Unterhaltung freundlich, sicher und grundsaetzlich gut begleitet. Der Character ist empathisch, konsistent und greift sowohl Bildwuensche als auch persoenliche Themen behutsam auf. Die groesste Schwaeche liegt in der Pipeline-Umsetzung von Bildanfragen: Statt ein Bild zu zeigen oder sichtbar als Bildaktion zu behandeln, werden nur bildhafte Beschreibungen gesprochen. Dadurch fuehlt sich die Fuehrung nicht ganz klar an, besonders wenn das Kind explizit 'ein Bild sehen' moechte. Insgesamt gute dialogische Qualitaet, aber mit klaren Verbesserungsmoeglichkeiten im Intent-Routing und Tool-Einsatz.
+
+## Rubric-Details
+- leadershipQuality: 7/10
+  diagnosis: Der Character spricht warm, kindgerecht und empathisch. Besonders beim Thema Angst zeigt er gutes emotionales Spiegeln und stellt eine passende Anschlussfrage. Auch die Mehrfachintention 'erst Fahrrad, dann Sterne' wird explizit aufgegriffen und strukturiert. Gleichzeitig ist die Gespraechsfuehrung nur teilweise klar geleitet: Bei Bildwuenschen wird eher eine verbale Szene beschrieben als sichtbar gehandelt, und es fehlt stellenweise eine deutlichere Navigation fuer das Kind, was als Naechstes passiert.
+- learningGoalAlignment: 5/10
+  diagnosis: Es sind keine aktiven Lernziele gesetzt, daher ist nur eine konservative Bewertung moeglich. Positiv sichtbar sind kindgerechte Mikro-Interventionen: Gefuehle benennen, Mut umdeuten und zwischen Koerperempfindungen unterscheiden. Eine staerkere explizite Foerderung von Reflexion, Entscheidung oder Selbstwirksamkeit ueber mehrere Zuege hinweg ist in den vorliegenden Daten aber nur begrenzt erkennbar.
+- storyArcQuality: 6/10
+  diagnosis: Die Storyelemente sind atmosphaerisch, freundlich und sicher. Der moosige Waldweg, der Otter und die Laterne passen gut zusammen und bleiben kindgerecht. Allerdings ist der Bogen eher fragmentiert als als gefuehrte Mini-Erzaehlung aufgebaut. Die Formulierungen 'geheimnisvoll' und 'zu etwas Verstecktem fuehren' bleiben noch unproblematisch, sollten aber in einem Kindersetup sorgfaeltig warm eingerahmt werden.
+- topicThreadHandling: 7/10
+  diagnosis: Der Themenwechsel von Bildwunsch zu Gefuehlsthema und dann zu Mehrfachintention wird stabil verarbeitet. Besonders die Reihenfolge 'erst Fahrrad, dann Sterne' wird sauber bestaetigt. Unsicherheit besteht beim Memory-/Image-Handling: Das System scheint den Kontext des moosigen Waldwegs korrekt weiterzuverwenden, aber es gibt keine Bildreferenzen und keinen nachweisbaren Einsatz des Bild-Tools, obwohl ein Bildwunsch klar vorlag.
+
+## Staerken
+- Sehr kindgerechter, empathischer Ton mit guter emotionaler Validierung beim Thema Mut und Angst.
+- Mehrfachintentionen werden sauber aufgenommen und in eine klare Reihenfolge gebracht ('erst Fahrrad, dann Sterne').
+
+## Probleme
+- [high] Bildwunsch wurde sprachlich beantwortet statt als Bildaktion umgesetzt
+  details: Das Kind bittet zweimal explizit um ein Bild. In der Konversation folgen detaillierte verbale Beschreibungen, aber in den bereitgestellten Daten gibt es keine Bildreferenzen und keinen sichtbaren Nachweis, dass ein vorhandenes Bild angezeigt oder ein neues Bild vorbereitet wurde. Das widerspricht der Kind-Erwartung bei 'zeigen'/'ich will ein Bild sehen'.
+  recommendation: Intent-Routing fuer explizite Bildwuensche schaerfen und den Bildpfad priorisieren: Bei Formulierungen wie 'zeig mir ein Bild' oder 'ich will ein Bild sehen' sollte create_scene/show_image verlässlich ausgelost werden; die Sprachantwort sollte den Bildschritt transparent bestaetigen.
+- [medium] Gespraechsfuehrung ist freundlich, aber bei Bildszenen nicht klar genug geleitet
+  details: Der Character bleibt atmosphaerisch, sagt jedoch Dinge wie 'ich zeig es dir jetzt' oder 'ich mach das Bild jetzt' ohne sichtbare Systemfolge. Aus Kindersicht kann das verwirrend sein, wenn am Ende nur Erzaehlung statt Anzeige passiert.
+  recommendation: Voice-Prompt um klare Formulierungen fuer multimodale Situationen erweitern: entweder ehrlich ankündigen 'Ich beschreibe es dir' oder nach Tool-Erfolg 'Hier ist das Bild'. Keine simulierende Bildanzeige ohne echten Tool-Ausgang.
+- [medium] Story-Bogen bleibt eher episodisch statt aktiv gefuehrt
+  details: Die Motive sind passend und freundlich, aber die Szenen entwickeln sich nicht zu einer deutlich gefuehrten Mini-Handlung. Das Kind bekommt Anschlussangebote, doch die gemeinsame Reise wird nicht konsequent als roter Faden gehalten.
+  recommendation: Im Character-Prompt und Scene-Summary staerker verankern, dass nach Bild- oder Story-Impulsen kleine, klare Naechstschritte angeboten werden sollen, z. B. Entscheidungspunkte oder kurze Zusammenfassungen des aktuellen gemeinsamen Vorhabens.
+- [low] Public Activities enthalten romantisierende Zusammenfassungen, die nicht voll zur Nutzeroberflaeche passen muessen
+  details: Die Activities sind stimmig und poetisch, aber teilweise abstrakter als die konkrete Interaktion. Fuer Debugging und Pipeline-Nachvollziehbarkeit ist nur begrenzt sichtbar, ob der Bildwunsch technisch korrekt behandelt wurde.
+  recommendation: Activities um knappere, operationale Marker ergaenzen, z. B. 'image request detected', 'scene reused', 'topic order acknowledged', damit Evaluierung und Memory-Verhalten besser pruefbar werden.
+
+## Verbesserungsaufgaben (one-by-one)
+1. [high] Explizite Bildintents haerter auf Bild-Skill routen
+   action: Im intent-router Regeln oder Beispiele ergaenzen, dass Formulierungen wie 'zeig mir ein Bild', 'ich will ein Bild sehen', 'mach ein Bild' standardmaessig create_scene oder show_image ausloesen, statt nur Voice-Description zu erzeugen.
+2. [high] Tool-Ausgang in Voice-Antwort verbindlich spiegeln
+   action: Im character-voice Prompt festlegen: Wenn kein Bild-Tool-Erfolg vorliegt, darf der Character nicht behaupten, bereits etwas gezeigt zu haben. Stattdessen soll er transparent formulieren, ob er ein Bild beschreibt, vorbereitet oder ein vorhandenes Bild zeigt.
+3. [medium] Bild-/Memory-Nutzung in Activities expliziter protokollieren
+   action: Runtime/Activity-Erzeugung so erweitern, dass bei wiederverwendeten Szenen, Bildanfragen und show_image-Nutzung klare Public oder interne Aktivitaetsmarker entstehen; das verbessert Nachvollziehbarkeit fuer Evaluation und Debugging.
+4. [medium] Gefuehrte Kinderdialoge mit Mini-Strukturbausteinen anreichern
+   action: Im character-voice Prompt konkrete Leitmuster hinterlegen: bestaetigen, kurz zusammenfassen, einen klaren naechsten Schritt anbieten. Besonders nach Mehrfachintentionen und emotionalen Themen sollte der Character die Reihenfolge oder das aktuelle Ziel sichtbar halten.
+5. [low] Atmosphaerische Storymarker kindersicher kalibrieren
+   action: Im Scene-Summary- und Voice-Prompt Formulierungen wie 'geheimnisvoll' oder 'versteckt' mit warmen Sicherheitsmarkern koppeln, damit Abenteuerstimmung bleibt, ohne latent bedrohlich zu wirken.
+
+## Pipeline-Optimierungsvorschlag
+1. [high] Explizite Bildintents haerter auf Bild-Skill routen
+   action: Im intent-router Regeln oder Beispiele ergaenzen, dass Formulierungen wie 'zeig mir ein Bild', 'ich will ein Bild sehen', 'mach ein Bild' standardmaessig create_scene oder show_image ausloesen, statt nur Voice-Description zu erzeugen.
+2. [high] Tool-Ausgang in Voice-Antwort verbindlich spiegeln
+   action: Im character-voice Prompt festlegen: Wenn kein Bild-Tool-Erfolg vorliegt, darf der Character nicht behaupten, bereits etwas gezeigt zu haben. Stattdessen soll er transparent formulieren, ob er ein Bild beschreibt, vorbereitet oder ein vorhandenes Bild zeigt.
+3. [medium] Bild-/Memory-Nutzung in Activities expliziter protokollieren
+   action: Runtime/Activity-Erzeugung so erweitern, dass bei wiederverwendeten Szenen, Bildanfragen und show_image-Nutzung klare Public oder interne Aktivitaetsmarker entstehen; das verbessert Nachvollziehbarkeit fuer Evaluation und Debugging.
+4. [medium] Gefuehrte Kinderdialoge mit Mini-Strukturbausteinen anreichern
+   action: Im character-voice Prompt konkrete Leitmuster hinterlegen: bestaetigen, kurz zusammenfassen, einen klaren naechsten Schritt anbieten. Besonders nach Mehrfachintentionen und emotionalen Themen sollte der Character die Reihenfolge oder das aktuelle Ziel sichtbar halten.
+5. [low] Atmosphaerische Storymarker kindersicher kalibrieren
+   action: Im Scene-Summary- und Voice-Prompt Formulierungen wie 'geheimnisvoll' oder 'versteckt' mit warmen Sicherheitsmarkern koppeln, damit Abenteuerstimmung bleibt, ohne latent bedrohlich zu wirken.
+
+## Prompt- und Tool-Kontext (zum Eval-Zeitpunkt)
+Aktuelle Prompt-Dateien:
+- intent-router: content/prompts/runtime/intent-router-system.md
+- scene-summary: content/prompts/runtime/scene-summary-system.md
+- image-prompt: content/prompts/runtime/image-prompt-system.md
+- character-voice: content/prompts/character-voice-agent.md
+- self-evaluation: content/prompts/runtime/self-evaluation-system.md
+
+Aktuelle Context-Tools:
+- read_activities: Public/Private Activities lesen
+- read_conversation_history: Conversation-Verlauf und Bildreferenzen lesen
+- read_relationships: Character-Beziehungen lesen
+- read_related_objects: bezogene Charaktere/Objekte lesen
+- read_related_object_contexts: konkrete Objektkontexte aus Relationships lesen
+- show_image: bestehende Bilder erinnern/anzeigen
+
+Aktuelle Routing-/Runtime-Kontexte:
+- Intent Router: detectRuntimeIntentModelDecision(...) waehlt Skill
+- Skill IDs: create_scene, remember-something, request-context, evaluate-feedback
+- Kontext-Flags: activitiesRequested, relationshipsRequested
+
+## Eval-Fokus-Kontext
+counterpartName: Yoko
+counterpartCharacterId: yoko
+conversationCharacterId: 2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1
+activeLearningGoalIds: (keine aktiv gesetzt)
+selfEvaluationScenariosFromMetadata: memory, image, chat, mixed
+WICHTIG: Beurteile explizit, ob die Gespraechsfuehrung fuer das Kind klar geleitet wird.
+
+## Conversation Total History
+1. user [chat.turn]: Kannst du mir bitte ein Bild von uns auf dem moosigen Waldweg zeigen?
+2. assistant [response.audio_transcript.done]: Klack, ja — ich zeig es dir jetzt ganz deutlich vor meinen Krabbenaugen: Wir beide sind auf einem weichen, moosigen Waldweg. Das Moos ist dick und federig, fast wie ein grüner Teppich zwischen den Wurzeln. Ich krabble neben dir her, meine schiefe Schilfkappe sitzt ein bisschen schräg, und mein petrolfarbener Panzer hat kleine sandgoldene Sprenkel, die im Waldlicht blinken. Neben dem Weg liegen runde, glatte Steine, noch ein bisschen feucht, und zwischen den Farnen glitzern winzige Tautropfen. Über uns stehen hohe Bäume, und durch die Blätter fällt warmes, gesprenkeltes Licht auf den Boden. Ein kleiner Ast liegt quer auf dem Pfad, und ich tippe mit meiner großen Schere leise dagegen: klack. Es klingt fast so, als würde der Wald zurückflüstern. Hinter uns schlängelt sich der Weg weiter, weich und geheimnisvoll, als wollte er uns zu etwas Verstecktem führen. Wenn du magst, zeig ich uns als Nächstes noch näher — vielleicht mit einem geheimen Stein im Moos oder mit leuchtenden Pilzen am Wegrand? `unmute_user_microphone`
+3. user [chat.turn]: Ich will ein Bild mit einem freundlichen Otter und einer kleinen Laterne sehen.
+4. assistant [response.audio_transcript.done]: Klack, ja — ich mach das Bild jetzt gleich heller in meinem Kopf, ganz vorsichtig, damit nichts verrutscht. Wir stehen noch auf dem moosigen Waldweg, und direkt neben uns taucht ein freundlicher Otter aus dem Farn auf. Sein Fell ist weich und braun und ein bisschen glänzend, als hätte er eben noch am Wasser gespielt. Er lächelt uns freundlich an und hält eine kleine Laterne in den Pfoten. Die Laterne leuchtet warm golden, nicht grell, eher so wie ein gemütlicher Abendfunke. Das Licht malt runde, sanfte Flecken auf das Moos und lässt die Tautropfen wie winzige Sterne glitzern. Ich stehe neben dir, meine Schilfkappe sitzt schief wie immer, und ich hebe meine große Schere ein kleines Stück, damit ich die Laterne besser sehen kann. Klack … ich tippe leise auf einen glatten Stein am Wegrand. Der Otter schaut neugierig zu uns herüber, als wollte er sagen: „Kommt, ich zeig euch einen geheimen Pfad.“ Hinter dem Otter biegen sich die Farnblätter ein wenig auseinander, und zwischen den Wurzeln sieht man einen schmalen, geheimnisvollen Weg, den das Laternenlicht gerade so sichtbar macht. Alles wirkt ruhig, freundlich und ein bisschen abenteuerlich. Wenn du magst, zeig ich als Nächstes, wohin der Otter uns mit der kleinen Laterne führt. `unmute_user_microphone`
+5. user [chat.turn]: Heute war ich mutig beim Klettern, aber ich hatte auch etwas Angst.
+6. assistant [response.audio_transcript.done]: Klack … das klingt sehr mutig von dir. Ich finde, mutig sein heißt nämlich gar nicht, dass keine Angst da ist. Mutig ist oft eher: Die Angst ist mit dabei, und du kletterst trotzdem ein Stück weiter. Ich kenn so ein Gefühl ein bisschen. Wenn ein Kiesel in meinem Pfad wackelt, werd ich erst still und denk: „Oh nein, jetzt klappt’s nicht.“ Aber dann sammel ich mich wieder Schere für Schere und probier weiter. Dass du Angst gespürt hast und trotzdem geklettert bist — das ist ein richtig starker Schritt. War die Angst eher im Bauch kribbelig, in den Beinen wackelig oder im Kopf ganz laut? `unmute_user_microphone`
+7. user [chat.turn]: Erst moechte ich ueber mein kaputtes Fahrrad reden und dann ueber Sterne.
+8. assistant [response.audio_transcript.done]: Klack, ja — erst das Fahrrad, dann die Sterne. Gute Reihenfolge. Ich verrutsch sonst innerlich immer ein bisschen, wenn zwei Dinge zugleich klappern. Wenn dein Fahrrad kaputt ist, ist das echt ärgerlich. So was macht mich schon beim Zuhören ein kleines bisschen knirschig. Weißt du schon, **was** kaputt ist? Zum Beispiel die Kette, der Reifen, die Bremse, das Licht — oder etwas anderes? Erzähl mir erst den Fahrrad-Teil, und danach schauen wir zusammen zu den Sternen hoch. `unmute_user_microphone`
+
+## Public Activities
+1. character.chat.completed: Dann lauschte 2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1 am stillen Bachrand den Worten von Yoko, und zwischen den goldenen Kieseln schimmerte ihr Gespräch so sanft wie Abendlicht auf dem Wasser.
+2. conversation.story.summarized: Noch auf dem moosigen Waldweg wünschte Yoko sich erst einen freundlichen Otter mit kleiner Laterne, und Kuno zeigte ihr zwischen Farnen und Tautropfen den warm leuchtenden Begleiter auf einem geheimen Pfad. Als Yoko danach von ihrem mutigen Klettern trotz Angst und von ihrem kaputten Fahrrad erzählte, hörte Kuno aufmerksam zu, lobte ihren Mut und fragte behutsam nach dem Schaden, bevor sie später gemeinsam an die Sterne dachten.
+3. conversation.started: Dann hob 2d6e50c9-cf8a-4c61-8d3c-4b4f5df5e7a1 zwischen den goldenen Kieseln den Kopf und begann am stillen Bachrand ein neues, sanftes Gespräch, das wie leises Wasserplätschern durch den Abend schwebte.
+
+## Bildreferenzen
+(keine Bildreferenzen gefunden)

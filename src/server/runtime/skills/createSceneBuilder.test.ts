@@ -188,6 +188,10 @@ describe('createSceneBuilder', () => {
         expect.objectContaining({ type: 'input_text' }),
         expect.objectContaining({
           type: 'input_text',
+          text: expect.stringContaining('REQUIRED VISIBLE CHANGE:'),
+        }),
+        expect.objectContaining({
+          type: 'input_text',
           text: expect.stringContaining('SCENE BEFORE THAT'),
         }),
         expect.objectContaining({
@@ -201,6 +205,53 @@ describe('createSceneBuilder', () => {
       ]),
     )
     expect(request.input[0].content.filter((item: { type: string }) => item.type === 'input_image')).toHaveLength(2)
+  })
+
+  it('gibt bei Bewegungswuenschen einen verbindlichen sichtbaren Szenenwechsel in den LLM-Kontext', async () => {
+    process.env.NODE_ENV = 'development'
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          output_text: JSON.stringify({
+            sceneSummary: 'Danach hatte Yoko den Steg verlassen und stand schon weiter vorne im Wasser.',
+            imagePrompt: 'Yoko stands farther out in the water with a clearly changed position and calm golden light.',
+          }),
+        }),
+        {
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+        },
+      ),
+    )
+    vi.stubGlobal('fetch', fetchMock)
+
+    await generateSceneSummaryAndImagePrompt({
+      characterName: 'Yoko',
+      userRequest: 'Geh mal da vorne ins Wasser.',
+      assistantText: 'Okay, ich gehe jetzt vorsichtig nach vorn ins Wasser.',
+      history: {
+        allSummaries: [],
+        whatHappenedSoFar: [],
+        previousScene: null,
+        latestScene: {
+          timestamp: '2026-03-09T11:00:00.000Z',
+          summary: 'Yoko stand noch am Ufer und sah auf die Steine.',
+          imageUrl: '/content/conversations/conv-1/latest.jpg',
+        },
+      },
+      publicActivityStream: [],
+    })
+
+    const request = JSON.parse(fetchMock.mock.calls[0][1].body as string)
+    const promptText = request.input[0].content
+      .filter((item: { type: string }) => item.type === 'input_text')
+      .map((item: { text?: string }) => item.text ?? '')
+      .join('\n')
+
+    expect(promptText).toContain('REQUIRED VISIBLE CHANGE:')
+    expect(promptText).toContain('sichtbar weiter vorn')
+    expect(promptText).toContain('sichtbar ins Wasser')
+    expect(promptText).toContain('Verlasse den bisherigen Hauptfokus der letzten Szene')
   })
 
   it('liefert bei Netzwerkfehlern eine kompakte Fetch-Diagnose', async () => {

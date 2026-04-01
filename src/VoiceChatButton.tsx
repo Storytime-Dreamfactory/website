@@ -9,20 +9,18 @@ import {
   SendOutlined,
 } from '@ant-design/icons'
 import type { Character } from './content/types'
+import ChatPanel from './ChatPanel'
+import type { ChatMessage } from './ChatPanel'
 
 type ConnectionState = 'idle' | 'connecting' | 'connected' | 'error'
 
 type Props = {
   character: Character
   conversationId?: string | null
+  onConversationActivated?: (conversationId: string) => void
   selectedLearningGoalId?: string | null
   enableTextChat?: boolean
   textChatMountSelector?: string
-}
-type ChatMessage = {
-  id: string
-  role: 'user' | 'assistant'
-  text: string
 }
 const VOICE_SPEAKER_EVENT = 'storytime:voice-speaker'
 
@@ -87,6 +85,7 @@ const sendDebugLog = (
 export default function VoiceChatButton({
   character,
   conversationId,
+  onConversationActivated,
   selectedLearningGoalId,
   enableTextChat = false,
   textChatMountSelector,
@@ -97,8 +96,15 @@ export default function VoiceChatButton({
   const [isTextChatOpen, setIsTextChatOpen] = useState(false)
   const [textInputValue, setTextInputValue] = useState('')
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
+  const [localConversationId, setLocalConversationId] = useState<string | null>(
+    conversationId?.trim() || null,
+  )
   const [resolvedTextChatMountNode, setResolvedTextChatMountNode] = useState<Element | null>(null)
   const selectedVoice = useMemo(() => character.voice, [character.voice])
+  const resolvedConversationId = useMemo(
+    () => conversationId?.trim() || localConversationId,
+    [conversationId, localConversationId],
+  )
   const activeLearningGoalId = useMemo(() => {
     const trimmed = selectedLearningGoalId?.trim() ?? ''
     return UUID_LIKE_RE.test(trimmed) ? trimmed : null
@@ -137,6 +143,8 @@ export default function VoiceChatButton({
   const silenceCandidateStartedAtRef = useRef<number | null>(null)
   const lastRemoteSpeechAtRef = useRef<number>(0)
   const sessionCorrelationIdRef = useRef<string | null>(null)
+  const activeConversationIdRef = useRef<string | null>(resolvedConversationId)
+  const creatingConversationPromiseRef = useRef<Promise<string> | null>(null)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
   const recoverySentForCurrentTurnRef = useRef(false)
   const queuedTextMessagesRef = useRef<string[]>([])
@@ -150,6 +158,13 @@ export default function VoiceChatButton({
     if (!trimmed) return
     setChatMessages((prev) => [...prev, { id: makeChatMessageId(), role, text: trimmed }])
   }, [makeChatMessageId])
+
+  useEffect(() => {
+    activeConversationIdRef.current = resolvedConversationId
+    if (resolvedConversationId) {
+      setLocalConversationId((current) => (current === resolvedConversationId ? current : resolvedConversationId))
+    }
+  }, [resolvedConversationId])
   const emitSpeakerState = useCallback((speaker: 'yoko' | 'character', isSpeaking: boolean) => {
     if (typeof window === 'undefined') return
     window.dispatchEvent(
@@ -180,6 +195,7 @@ export default function VoiceChatButton({
         body: JSON.stringify({
           characterId: character.id,
           correlationId,
+          conversationId: activeConversationIdRef.current ?? undefined,
           eventType,
           payload,
         }),
@@ -198,7 +214,7 @@ export default function VoiceChatButton({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          conversationId: conversationId ?? undefined,
+          conversationId: activeConversationIdRef.current ?? undefined,
           toolName: input.toolName,
           arguments: input.args,
         }),
@@ -216,8 +232,48 @@ export default function VoiceChatButton({
       }
       return payload.result ?? {}
     },
-    [character.id, conversationId],
+    [character.id],
   )
+
+  const ensureConversationId = useCallback(async (): Promise<string> => {
+    const currentConversationId = activeConversationIdRef.current?.trim() ?? ''
+    if (currentConversationId) return currentConversationId
+    if (creatingConversationPromiseRef.current) {
+      return creatingConversationPromiseRef.current
+    }
+
+    const promise = fetch('/api/conversations/start', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        characterId: character.id,
+        metadata: activeLearningGoalId ? { learningGoalIds: [activeLearningGoalId] } : undefined,
+      }),
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          const body = (await response.json().catch(() => ({}))) as { error?: string }
+          throw new Error(body.error ?? `Conversation konnte nicht gestartet werden (${response.status})`)
+        }
+        const payload = (await response.json()) as {
+          conversation?: { conversationId?: string }
+        }
+        const createdConversationId = payload.conversation?.conversationId?.trim() ?? ''
+        if (!createdConversationId) {
+          throw new Error('Conversation API lieferte keine conversationId.')
+        }
+        activeConversationIdRef.current = createdConversationId
+        setLocalConversationId(createdConversationId)
+        onConversationActivated?.(createdConversationId)
+        return createdConversationId
+      })
+      .finally(() => {
+        creatingConversationPromiseRef.current = null
+      })
+
+    creatingConversationPromiseRef.current = promise
+    return promise
+  }, [activeLearningGoalId, character.id, onConversationActivated])
 
   const sendFunctionCallOutput = useCallback((callId: string, output: Record<string, unknown>) => {
     if (!callId) return
@@ -235,10 +291,53 @@ export default function VoiceChatButton({
     )
   }, [])
 
+  const setLocalMicEnabled = useCallback((
+    enabled: boolean,
+    context: { reason: string; hypothesisId: string; eventType?: string },
+  ) => {
+    const stream = localStreamRef.current
+    const tracks = stream?.getAudioTracks() ?? []
+    const before = tracks.map((track) => ({
+      id: track.id,
+      enabled: track.enabled,
+      readyState: track.readyState,
+    }))
+    if (!stream || tracks.length === 0) {
+      // #region agent log
+      sendDebugLog(context.hypothesisId, 'VoiceChatButton.tsx:setLocalMicEnabled', 'No local audio tracks available', {
+        requestedEnabled: enabled,
+        reason: context.reason,
+        eventType: context.eventType ?? '',
+      })
+      // #endregion
+      return
+    }
+    tracks.forEach((track) => {
+      track.enabled = enabled
+    })
+    const after = tracks.map((track) => ({
+      id: track.id,
+      enabled: track.enabled,
+      readyState: track.readyState,
+    }))
+    // #region agent log
+    sendDebugLog(context.hypothesisId, 'VoiceChatButton.tsx:setLocalMicEnabled', 'Updated local audio tracks', {
+      requestedEnabled: enabled,
+      reason: context.reason,
+      eventType: context.eventType ?? '',
+      before,
+      after,
+    })
+    // #endregion
+  }, [])
+
   const setCharacterSpeaking = useCallback((isSpeaking: boolean) => {
     if (characterSpeakingRef.current === isSpeaking) return
     characterSpeakingRef.current = isSpeaking
     emitSpeakerState('character', isSpeaking)
+    if (isSpeaking) {
+      silenceCandidateStartedAtRef.current = null
+    }
   }, [emitSpeakerState])
 
   const cleanup = useCallback(() => {
@@ -349,46 +448,6 @@ export default function VoiceChatButton({
     remoteRafRef.current = requestAnimationFrame(tick)
   }, [setCharacterSpeaking])
 
-  const setLocalMicEnabled = useCallback((
-    enabled: boolean,
-    context: { reason: string; hypothesisId: string; eventType?: string },
-  ) => {
-    const stream = localStreamRef.current
-    const tracks = stream?.getAudioTracks() ?? []
-    const before = tracks.map((track) => ({
-      id: track.id,
-      enabled: track.enabled,
-      readyState: track.readyState,
-    }))
-    if (!stream || tracks.length === 0) {
-      // #region agent log
-      sendDebugLog(context.hypothesisId, 'VoiceChatButton.tsx:setLocalMicEnabled', 'No local audio tracks available', {
-        requestedEnabled: enabled,
-        reason: context.reason,
-        eventType: context.eventType ?? '',
-      })
-      // #endregion
-      return
-    }
-    tracks.forEach((track) => {
-      track.enabled = enabled
-    })
-    const after = tracks.map((track) => ({
-      id: track.id,
-      enabled: track.enabled,
-      readyState: track.readyState,
-    }))
-    // #region agent log
-    sendDebugLog(context.hypothesisId, 'VoiceChatButton.tsx:setLocalMicEnabled', 'Updated local audio tracks', {
-      requestedEnabled: enabled,
-      reason: context.reason,
-      eventType: context.eventType ?? '',
-      before,
-      after,
-    })
-    // #endregion
-  }, [])
-
   const sendTextMessageToRealtime = useCallback((text: string) => {
     const dc = dataChannelRef.current
     const trimmed = text.trim()
@@ -442,6 +501,7 @@ export default function VoiceChatButton({
     setState('connecting')
 
     try {
+      const activeConversationId = await ensureConversationId()
       const fallbackCorrelationId = crypto.randomUUID()
       sessionCorrelationIdRef.current = fallbackCorrelationId
 
@@ -450,7 +510,7 @@ export default function VoiceChatButton({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          conversationId: conversationId ?? undefined,
+          conversationId: activeConversationId,
           correlationId: fallbackCorrelationId,
         }),
       })
@@ -607,12 +667,6 @@ export default function VoiceChatButton({
 
           if (assistantSpeechStopped) {
             assistantAudioExpectedRef.current = false
-            setLocalMicEnabled(true, {
-              reason: 'assistant_response_stopped_fallback',
-              hypothesisId: 'H10',
-              eventType,
-            })
-            setIsMicMutedByAssistant(false)
             if (assistantStopFallbackTimerRef.current != null) {
               window.clearTimeout(assistantStopFallbackTimerRef.current)
             }
@@ -622,6 +676,15 @@ export default function VoiceChatButton({
                 setCharacterSpeaking(false)
               }
             }, ASSISTANT_STOP_FALLBACK_MS)
+          }
+
+          if (eventType === 'output_audio_buffer.stopped') {
+            setLocalMicEnabled(true, {
+              reason: 'playback_finished',
+              hypothesisId: 'H10',
+              eventType,
+            })
+            setIsMicMutedByAssistant(false)
           }
 
           if (eventType === 'input_audio_buffer.speech_started') {
@@ -638,6 +701,7 @@ export default function VoiceChatButton({
           if (eventType === 'conversation.item.input_audio_transcription.completed') {
             const transcript = typeof payload.transcript === 'string' ? payload.transcript : ''
             if (transcript) {
+              addChatMessage('user', transcript)
               void publishRealtimeEvent('voice.user.transcript.received', {
                 transcript,
                 eventType,
@@ -647,7 +711,7 @@ export default function VoiceChatButton({
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   characterId: character.id,
-                  conversationId: conversationId ?? undefined,
+                  conversationId: activeConversationIdRef.current ?? undefined,
                   correlationId: sessionCorrelationIdRef.current ?? undefined,
                   payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
                 }),
@@ -776,7 +840,7 @@ export default function VoiceChatButton({
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   characterId: character.id,
-                  conversationId: conversationId ?? undefined,
+                  conversationId: activeConversationIdRef.current ?? undefined,
                   correlationId: sessionCorrelationIdRef.current ?? undefined,
                   payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
                 }),
@@ -866,8 +930,8 @@ export default function VoiceChatButton({
     publishRealtimeEvent,
     executeRealtimeToolCall,
     sendFunctionCallOutput,
-    conversationId,
     activeLearningGoalId,
+    ensureConversationId,
   ])
 
   useEffect(() => {
@@ -889,7 +953,7 @@ export default function VoiceChatButton({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           characterId: character.id,
-          conversationId: conversationId ?? undefined,
+          conversationId: activeConversationIdRef.current ?? undefined,
           correlationId,
           payload: activeLearningGoalId ? { learningGoalId: activeLearningGoalId } : undefined,
         }),
@@ -915,7 +979,7 @@ export default function VoiceChatButton({
     return () => {
       cancelled = true
     }
-  }, [state, character.id, conversationId, activeLearningGoalId])
+  }, [state, character.id, activeLearningGoalId])
 
   const handleClick = useCallback(() => {
     if (state === 'connected' && isMicMutedByAssistant) {
@@ -1057,27 +1121,12 @@ export default function VoiceChatButton({
                   <CloseOutlined />
                 </button>
               </div>
-              <div className="vcb-text-chat-log">
-                {chatMessages.length === 0 ? (
-                  <p className="vcb-text-chat-empty">
-                    Schreibe eine Nachricht, um die Conversation automatisch zu starten.
-                  </p>
-                ) : (
-                  chatMessages.map((message) => (
-                    <p
-                      key={message.id}
-                      className={`vcb-text-chat-message ${
-                        message.role === 'assistant'
-                          ? 'vcb-text-chat-message-assistant'
-                          : 'vcb-text-chat-message-user'
-                      }`}
-                    >
-                      {message.text}
-                    </p>
-                  ))
-                )}
-              </div>
-              {textChatComposer}
+              <ChatPanel
+                messages={chatMessages}
+                onSendMessage={sendTextMessage}
+                emptyText="Schreibe eine Nachricht, um die Conversation automatisch zu starten."
+                className="vcb-text-chat-panel-body"
+              />
             </div>
           )}
           <button

@@ -19,8 +19,7 @@ Der Character holt gezielt fehlenden Welt- und Objektkontext, damit anschliessen
 
 1. `read_relationships` fuer direkte Beziehungsstruktur.
 2. `read_related_objects` fuer verknuepfte Entities.
-3. `read_related_object_contexts` fuer verdichteten situativen Kontext.
-4. Optional `read_activities`, wenn zeitlicher Verlauf fuer die Einordnung notwendig ist.
+3. `read_related_object_contexts` fuer die wichtigsten verknuepften Orte und Objekte, nicht nur fuer einen einzelnen Treffer.
 
 ## Antwortverhalten in Character-Stimme
 

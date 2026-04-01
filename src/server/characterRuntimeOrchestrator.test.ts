@@ -555,7 +555,7 @@ describe('orchestrateCharacterRuntimeTurn', () => {
     expect(mocks.listActivitiesMock).toHaveBeenCalledWith(
       expect.objectContaining({
         characterId: '00000000-0000-4000-8000-000000000001',
-        limit: 12,
+        limit: 200,
       }),
     )
     expect(mocks.createActivityMock).toHaveBeenCalledWith(

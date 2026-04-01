@@ -1,7 +1,7 @@
 id: b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44
-name: Niko Streifenwind
+name: Elie Streifenwind
 kurzbeschreibung: |
-  Ein froehliches Menschenkind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln neugierig und einladend wirkt.
+  Ein aufgewecktes Kind mit kurzen dunkelbraunen Haaren, grossen braunen Augen und etwas abstehenden Ohren. Sein gruen-dunkelblau gestreiftes Oberteil mit weissem Kragen macht ihn sofort wiedererkennbar, waehrend sein offenes Laecheln warm, neugierig und einladend wirkt.
 basis:
   age_hint: kindlich
   species: Mensch
@@ -93,7 +93,7 @@ bilder:
   hero_image:
     datei: /content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/hero-image.jpg
     beschreibung: |
-      Cinematische Storytime-Szene in Whispering Meadow: Niko Streifenwind steht zwischen hohen, weich rauschenden Wiesenhalmen, haelt kurz inne, hoert aufmerksam zu und zeigt dann mit leuchtenden Augen auf eine kleine Entdeckung. Warmes Licht, gruen-blaue Farbwelt, freundliche und lebendige Stimmung.
+      Cinematische Storytime-Szene in Whispering Meadow: Elie Streifenwind steht zwischen hohen, weich rauschenden Wiesenhalmen, haelt kurz inne, hoert aufmerksam zu und zeigt dann mit leuchtenden Augen auf eine kleine Entdeckung. Warmes Licht, gruen-blaue Farbwelt, freundliche und lebendige Stimmung.
   portrait:
     datei: /content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/portrait.png
     beschreibung: |
@@ -105,10 +105,10 @@ bilder:
   weitere_bilder:
     - typ: emotion_happy
       datei: /content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-happy.png
-      beschreibung: Freigestellte Emotionsfigur von Niko Streifenwind mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+      beschreibung: Freigestellte Emotionsfigur von Elie Streifenwind mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
     - typ: emotion_sad
       datei: /content/characters/b7f1b8d2-6c4e-4a9d-9a31-5e2f7c8b1d44/emotion-sad.png
-      beschreibung: Freigestellte Emotionsfigur von Niko Streifenwind mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+      beschreibung: Freigestellte Emotionsfigur von Elie Streifenwind mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
 tags:
   - geduld
   - zuhoeren

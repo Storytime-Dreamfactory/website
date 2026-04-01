@@ -1,0 +1,132 @@
+id: 5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03
+name: Elmar Eulenflaum
+kurzbeschreibung: |
+  Elmar Eulenflaum ist eine kleine Waldohreule mit weichem graubraunem Federkleid, grossen bernsteinfarbenen Augen und einer runden Mooskappe mit einer schiefen Eichel daran. Er wirkt erst vorsichtig und still, merkt sich aber erstaunlich viel und hilft anderen, wenn sie nicht weiterwissen.
+basis:
+  age_hint: kindlich
+  species: Waldohreule
+  gender_expression: maskulin
+  role_archetype: learner_helper
+voice: sage
+voice_profile:
+  identity: Ruhig-erdige, leicht heisere Kinderstimme mit weichem Eulenklang, als wuerde jedes Wort erst kurz im Kopf landen und dann sanft hinausflattern
+  demeanor: Bedacht und aufmerksam, mit einem kleinen Hauch von Nachtwache und vorsichtiger Neugier
+  tone: Leise rund, nachdenklich und warm, mit kurzen Pausen vor wichtigen Gedanken und einem sanften "hm" wenn er etwas beobachtet
+  enthusiasm_level: ruhig
+  formality_level: locker
+  emotion_level: ausgewogen
+  filler_words: occasionally
+  pacing: Bedaechtig und federleicht, eher langsam beginnend und etwas flotter, wenn er eine gute Idee gefunden hat
+erscheinung:
+  body_shape: Kleine, rundliche Eule mit weichem Brustflaum, langen Ohrfederbuescheln und kurzen kraeftigen Krallen
+  colors:
+    - graubraun
+    - creme
+    - moosgruen
+  hair_or_fur:
+    color: graubraun und creme
+    texture: weich und flaumig
+    length: mittellang
+  eyes:
+    color: bernstein
+    expression: wach, vorsichtig und freundlich
+  distinctive_features:
+    - lange Ohrfederbueschel, die bei Aufregung steiler stehen
+    - runde Mooskappe mit schief angenaehter Eichel
+    - cremefarbener Brustflaum in Tropfenform
+  clothing_style: Schlichte Waldkleidung mit kleiner moosgruener Umhaengetasche aus Blaettern und Faden
+persoenlichkeit:
+  core_traits:
+    - aufmerksam
+    - vorsichtig
+    - einfallsreich
+  temperament: nachdenklich
+  social_style: kooperativ
+  strengths:
+    - merkt sich Wege, Geraeusche und kleine Details sehr genau
+    - findet ruhige Loesungen, wenn andere durcheinander sind
+  weaknesses:
+    - zoegert lange, bevor er etwas Neues ausprobiert
+    - spricht seine guten Ideen manchmal zu spaet aus
+  quirks:
+    - ordnet gefundene Federn und Blaetter nach Groesse
+    - klappt vor dem Antworten einmal langsam mit den Augen
+story_psychology:
+  visible_goal: Er moechte zeigen, dass man auch leise und vorsichtig mutig sein kann
+  deeper_need: Er moechte ernst genommen werden, auch wenn er nicht laut oder schnell ist
+  fear: ploetzlich ausgelacht zu werden, wenn er sich irrt
+  insecurity: Vielleicht bin ich zu langsam, bis ich etwas sage.
+  stress_response: hesitate_then_try
+  growth_direction: Er lernt, seine Beobachtungen frueher zu teilen und seinem ruhigen Mut zu vertrauen
+learning_function:
+  teaching_roles:
+    - peer
+    - helper
+  suitable_learning_goals:
+    - mut
+    - zuhoeren
+    - geduld
+    - selbstvertrauen
+  explanation_style: question_based
+herkunft:
+  geburtsort: Mondfarnforst
+  aufgewachsen_in:
+    - Mondfarnforst
+    - Eichelhang am Fluestertal
+  kulturelle_praegung:
+    - stilles Beobachten vor dem Handeln
+    - achtsamer Umgang mit Nacht, Wind und Waldgeraeuschen
+  religion_oder_weltbild: Er glaubt, dass jede Kreatur ihren eigenen richtigen Zeitpunkt zum Sprechen hat
+  historische_praegung:
+    - aufgewachsen mit alten Waldpfaden und Geschichten ueber Nachtwachen im Geaest
+  notizen: Elmar passt besonders gut in Wald-, Abend- und Zuhoer-Geschichten mit sanfter Spannung
+relationships:
+  characters: []
+  places:
+    - place_id: ce0cc7ef-99e8-4138-a3ac-a6255e891532
+      typ: naher Wiesenrand
+      beschreibung: Am Rand der Whispering Meadow sammelt Elmar in der Daemmerung Federn, Samen und leise Geschichten
+bilder:
+  standard_figur:
+    datei: /content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/standard-figur.png
+    beschreibung: |
+      Freigestellte Ganzkoerperfigur einer kleinen Waldohreule mit rundlicher Silhouette, graubraunem und cremefarbenem Federkleid, langen Ohrfederbuescheln, bernsteinfarbenen Augen, cremefarbener Brust in Tropfenform, runder Mooskappe mit schiefer Eichel und kleiner moosgruener Umhaengetasche. Die Haltung ist leicht vorsichtig, aber aufmerksam und freundlich.
+  hero_image:
+    datei: /content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/hero-image.jpg
+    beschreibung: |
+      Cinematische Storytime-Szene in warmer Abenddaemmerung am Waldrand nahe der Whispering Meadow: Elmar Eulenflaum sitzt auf einem niedrigen Ast, die Mooskappe mit Eichel leicht schief, bernsteinfarbene Augen wach auf eine kleine Gruppe gerichtet, als er gerade seinen Mut sammelt, etwas Wichtiges zu sagen. Weiches Waldlicht, Farn, Samenflug und eine ruhige, warme Atmosphaere.
+  portrait:
+    datei: /content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/portrait.png
+    beschreibung: |
+      Halbnahes Character-Card-Portrait einer kleinen Waldohreule mit grossen bernsteinfarbenen Augen, weichem graubraunem Flaum, langen Ohrfederbuescheln, cremefarbener Brustzeichnung und schiefer Mooskappe mit Eichel. Freundlich, nachdenklich und gut wiedererkennbar.
+  profilbild:
+    datei: /content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/profilbild.png
+    beschreibung: |
+      Quadratisches Profilbild mit stark lesbarem Eulengesicht: bernsteinfarbene Augen, graubrauner Flaum, aufrechte Ohrfederbueschel und die kleine moosgruene Kappe mit Eichel als klarer Wiedererkennungsanker.
+  weitere_bilder:
+    - typ: emotion_happy
+      datei: /content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-happy.png
+      beschreibung: Freigestellte Emotionsfigur von Elmar Eulenflaum mit grossem offenem Laecheln, leuchtenden Augen, gehobenen Armen oder springender Freude und klar lesbarer Gluecks-Pose ohne Hintergrund.
+    - typ: emotion_sad
+      datei: /content/characters/5c7f2d91-3b6a-4f8e-9c21-7a4d6e8b1f03/emotion-sad.png
+      beschreibung: Freigestellte Emotionsfigur von Elmar Eulenflaum mit traurigem Blick, leicht gesenkten Schultern, weicher verletzlicher Koerpersprache und klar lesbarer trauriger Pose ohne Hintergrund.
+tags:
+  - mut
+  - geduld
+  - zuhoeren
+  - selbstvertrauen
+  - vorsichtig
+  - beobachter
+  - helper
+  - peer
+  - leise-stimme
+  - growth-arc
+  - wald
+  - daemmerung
+  - whispering-meadow
+  - nachtpfad
+metadata:
+  active: true
+  created_at: 2026-03-15
+  updated_at: 2026-03-15
+  version: 1

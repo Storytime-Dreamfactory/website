@@ -24,15 +24,17 @@ npm run dev:local
 
 Nutzen fuer:
 - Integrationschecks gegen echte AWS-API (Routing, Infra, Auth/Runtime-Verhalten).
+- Vollstaendig online testen, ohne lokale Content-/API-Mischung.
 
 Voraussetzungen:
 - `STORYTIME_USE_REMOTE_APIS=true`
 - `STORYTIME_REMOTE_API_ORIGIN=<api-gateway-origin>`
+- optional `STORYTIME_REMOTE_CONTENT_ORIGIN=<cloudfront-origin>`
 
 Start:
 
 ```bash
-npm run dev:remote-api
+npm run dev:online
 ```
 
 ### C) `production`
@@ -70,6 +72,7 @@ npm run character-creation:smoke -- --base-url=https://<deine-vercel-domain>
 
 - Neue Features oder Bugfixes zuerst in `local-full`.
 - Wenn Verhalten API/Infra-abhaengig ist, gezielt in `local-remote-api` reproduzieren.
+- In `local-remote-api` gibt es keinen lokalen YAML-Fallback mehr; Fehler sind damit echte Online-Fehler.
 - Erst nach bestandenen Gates pushen/deployen.
 - Moduswechsel nur mit Neustart des Dev-Servers.
 

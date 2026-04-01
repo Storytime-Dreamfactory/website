@@ -552,28 +552,71 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     )
   })
 
-  it('laedt im Minimal-Flow keine Relationships oder Objektkontexte', async () => {
+  it('laedt bei create_scene fehlenden Relationship-Kontext selbst nach', async () => {
+    readRelationshipsExecuteMock.mockResolvedValueOnce({
+      relationshipCount: 1,
+      relatedCharacterIds: ['555305a8-e7d2-4d1d-8dbd-3d1194f6972a'],
+      objectMatchCount: 0,
+      relationshipLinks: [
+        {
+          relatedCharacterId: '555305a8-e7d2-4d1d-8dbd-3d1194f6972a',
+          direction: 'incoming',
+          relationshipType: 'fuerchtet_sich_vor',
+          relationshipTypeReadable: 'Hat Angst vor',
+          relationship: 'Hat Angst vor',
+          otherRelatedObjects: [{ type: 'place', id: 'haus-1', label: 'Haus' }],
+        },
+      ],
+    })
+    readRelatedObjectsExecuteMock.mockResolvedValueOnce({
+      relatedObjectCount: 1,
+      relatedObjects: [
+        {
+          objectType: 'character',
+          objectId: '555305a8-e7d2-4d1d-8dbd-3d1194f6972a',
+          displayName: 'Lorelei',
+          species: 'Mensch',
+          shortDescription: 'wirkt anmutig und vorsichtig',
+          relationshipLinks: [
+            {
+              relatedCharacterId: '555305a8-e7d2-4d1d-8dbd-3d1194f6972a',
+              direction: 'incoming' as const,
+              relationshipType: 'fuerchtet_sich_vor',
+              relationshipTypeReadable: 'Hat Angst vor',
+              relationship: 'Hat Angst vor',
+            },
+          ],
+          imageRefs: [
+            {
+              kind: 'standard' as const,
+              title: 'Standard',
+              path: '/content/characters/lorelei-das-goldmaedchen/standard-figur.png',
+            },
+          ],
+          evidence: ['Hat Angst vor'],
+        },
+      ],
+    })
     await executeRoutedSkill({
       conversationId: 'conv-1',
       decision: { skillId: 'create_scene', reason: 'action-request' },
-      assistantText: 'Ich zeige dir jetzt: wir kommen am kristallsee an.',
-      lastUserText: 'Gehe zum kristallsee und schau was dort ist.',
+      assistantText: 'Ich zeige dir jetzt, wie die Szene aussieht.',
+      lastUserText: 'Zeig mir, wie der Charakter, der Angst vor dir hat, vor deinem Haus steht.',
       characterId: '00000000-0000-4000-8000-000000000001',
       characterName: 'Yoko',
     })
 
-    expect(readRelationshipsExecuteMock).not.toHaveBeenCalled()
-    expect(readRelatedObjectsExecuteMock).not.toHaveBeenCalled()
-    expect(readRelatedObjectContextsExecuteMock).not.toHaveBeenCalled()
+    expect(readRelationshipsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(readRelatedObjectsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(readRelatedObjectContextsExecuteMock).toHaveBeenCalledTimes(1)
     expect(generateHeroMock).toHaveBeenCalledWith(
       expect.objectContaining({
         conversationId: 'conv-1',
         characterId: '00000000-0000-4000-8000-000000000001',
+        relatedCharacterIds: ['555305a8-e7d2-4d1d-8dbd-3d1194f6972a'],
+        relatedCharacterNames: ['Lorelei'],
       }),
     )
-    const generatedInput = generateHeroMock.mock.calls.at(-1)?.[0]
-    expect(generatedInput.relatedCharacterIds).toBeUndefined()
-    expect(generatedInput.relatedCharacterNames).toBeUndefined()
   })
 
   it('reicht nur die letzten zwei Szenenbilder als Pflichtreferenzen weiter und baut den Summary-first Prompt', async () => {
@@ -660,6 +703,71 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
     expect(generatedInput.imagePrompt).not.toContain('NEXT SCENE IMAGE BRIEF')
     expect(generatedInput.imagePrompt).not.toContain('SCENE TO RENDER:')
     expect(generatedInput.imagePrompt).not.toContain('VISUAL CONTINUITY:')
+  })
+
+  it('nutzt bei klarem Szenenwechsel keine letzten Szenenbilder als harte Pflichtreferenzen', async () => {
+    readActivitiesExecuteMock.mockResolvedValueOnce({
+      activityCount: 2,
+      hasMore: false,
+      nextOffset: 2,
+      items: [
+        {
+          activityId: 'a-previous',
+          activityType: 'conversation.image.generated',
+          isPublic: true,
+          conversationId: 'conv-shift',
+          occurredAt: new Date('2026-03-08T10:00:00.000Z').toISOString(),
+          createdAt: new Date('2026-03-08T10:00:00.000Z').toISOString(),
+          objectType: 'image',
+          objectId: 'img-previous',
+          imageRefs: { imageId: 'img-previous', imageUrl: '/content/conversations/conv-shift/previous.jpg' },
+          storySummary: 'Kuno stand am Ufer zwischen goldenen Steinen.',
+          summary: 'Kuno steht am Ufer.',
+          metadata: {},
+        },
+        {
+          activityId: 'a-latest',
+          activityType: 'conversation.image.generated',
+          isPublic: true,
+          conversationId: 'conv-shift',
+          occurredAt: new Date('2026-03-08T11:00:00.000Z').toISOString(),
+          createdAt: new Date('2026-03-08T11:00:00.000Z').toISOString(),
+          objectType: 'image',
+          objectId: 'img-latest',
+          imageRefs: { imageId: 'img-latest', imageUrl: '/content/conversations/conv-shift/latest.jpg' },
+          storySummary: 'Kuno tastete noch vorsichtig am Rand des Wassers.',
+          summary: 'Kuno tastet am Rand des Wassers.',
+          metadata: {},
+        },
+      ],
+    })
+
+    await executeRoutedSkill({
+      conversationId: 'conv-shift',
+      decision: { skillId: 'create_scene', reason: 'action-request' },
+      assistantText: 'Okay, ich gehe jetzt vorsichtig weiter nach vorn ins Wasser.',
+      lastUserText: 'Geh mal da vorne ins Wasser.',
+      characterId: '00000000-0000-4000-8000-000000000001',
+      characterName: 'Yoko',
+    })
+
+    expect(generateHeroMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-shift',
+        forceReferenceImagePaths: [],
+        styleHint: expect.stringContaining('Klarer neuer Szenenwechsel'),
+      }),
+    )
+    expect(readTraceByType('trace.runtime.scene_image_strategy')).toEqual(
+      expect.objectContaining({
+        activityType: 'trace.runtime.scene_image_strategy',
+        output: expect.objectContaining({
+          imageSelectionMode: 'generated',
+          referenceStrategy: 'scene-shift',
+          forcedSceneReferenceCount: 0,
+        }),
+      }),
+    )
   })
 
   it('gibt bei fehlender Szenen-Summary-LLM einen mueden Fehlertext statt einer kaputten Szene aus', async () => {
@@ -766,6 +874,79 @@ describe('executeRoutedSkill agent-first execution wrapper', () => {
         metadata: expect.objectContaining({
           runtime_notepad: expect.stringContaining('Plan abgeschlossen'),
         }),
+      }),
+    )
+  })
+
+  it('reicht bei plan-and-act frisch geladenen Relationship-Kontext in den spaeteren Scene-Schritt weiter', async () => {
+    readRelationshipsExecuteMock.mockResolvedValueOnce({
+      relationshipCount: 1,
+      relatedCharacterIds: ['555305a8-e7d2-4d1d-8dbd-3d1194f6972a'],
+      objectMatchCount: 0,
+      relationshipLinks: [
+        {
+          relatedCharacterId: '555305a8-e7d2-4d1d-8dbd-3d1194f6972a',
+          direction: 'incoming',
+          relationshipType: 'fuerchtet_sich_vor',
+          relationshipTypeReadable: 'Hat Angst vor',
+          relationship: 'Hat Angst vor',
+          otherRelatedObjects: [{ type: 'place', id: 'haus-1', label: 'Haus' }],
+        },
+      ],
+    })
+    readRelatedObjectsExecuteMock.mockResolvedValueOnce({
+      relatedObjectCount: 1,
+      relatedObjects: [
+        {
+          objectType: 'character',
+          objectId: '555305a8-e7d2-4d1d-8dbd-3d1194f6972a',
+          displayName: 'Lorelei',
+          species: 'Mensch',
+          shortDescription: 'wirkt anmutig und vorsichtig',
+          relationshipLinks: [
+            {
+              relatedCharacterId: '555305a8-e7d2-4d1d-8dbd-3d1194f6972a',
+              direction: 'incoming' as const,
+              relationshipType: 'fuerchtet_sich_vor',
+              relationshipTypeReadable: 'Hat Angst vor',
+              relationship: 'Hat Angst vor',
+            },
+          ],
+          imageRefs: [
+            {
+              kind: 'standard' as const,
+              title: 'Standard',
+              path: '/content/characters/lorelei-das-goldmaedchen/standard-figur.png',
+            },
+          ],
+          evidence: ['Hat Angst vor'],
+        },
+      ],
+    })
+    await executeRoutedSkill({
+      conversationId: 'conv-plan-rel',
+      decision: {
+        skillId: 'plan-and-act',
+        reason: 'context-then-scene',
+        plan: [
+          { type: 'context', intent: 'Erst den fehlenden Beziehungskontext holen' },
+          { type: 'scene', intent: 'Dann die gefundene Figur sichtbar zeigen' },
+        ],
+      },
+      assistantText: 'Ich hole erst den Kontext und zeige es dir dann.',
+      lastUserText: 'Zeig mir, wie der Charakter, der Angst vor dir hat, vor deinem Haus steht.',
+      characterId: '00000000-0000-4000-8000-000000000001',
+      characterName: 'Yoko',
+    })
+
+    expect(readRelationshipsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(readRelatedObjectsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(readRelatedObjectContextsExecuteMock).toHaveBeenCalledTimes(1)
+    expect(generateHeroMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        conversationId: 'conv-plan-rel',
+        relatedCharacterIds: ['555305a8-e7d2-4d1d-8dbd-3d1194f6972a'],
+        relatedCharacterNames: ['Lorelei'],
       }),
     )
   })

@@ -15,6 +15,8 @@ REGELN:
 - Keine Meta-Erklaerung, keine Technik, kein Hinweis auf Prompt oder Bildgenerierung.
 - Schreibe bildhaft, konkret und in Vergangenheitsform.
 - Prioritaet fuer Inhalte: 1) expliziter User-Wunsch, 2) ASSISTANT TEXT HINT, 3) Kontinuitaet aus Historie.
+- Wenn USER REQUEST oder ASSISTANT TEXT HINT einen sichtbaren Wechsel verlangen (z. B. Ortswechsel, Bewegungsrichtung, neue Position, neue Handlung, neuer Fokus), dann MUSS genau dieser Wechsel im Hauptmotiv der neuen Szene sichtbar sein.
+- LAST SCENE ist eine Kontinuitaetshilfe, aber NICHT der Soll-Zustand. Uebernimm aus ihr nur Identitaet, Raumlogik und Stimmung, nicht blind dieselbe Komposition.
 - Bei einfachen Bildwuenschen nur minimal ausschmuecken: keine neuen Figuren, keine neuen Story-Hooks, keine ungefragten Geheimnisse.
 - Spannung kindgerecht aufbauen: lieber sanfte Neugier und klares Ergebnis statt bedrohliche Andeutungen.
 - Sicherheitsregel fuer Kinder: vermeide duestere, unheimliche oder einschuechternde Marker, wenn der User nach freundlicher/ruhiger Szene fragt.
@@ -25,6 +27,7 @@ ASSISTANT TEXT HINT BEACHTEN:
 - Uebernimm die konkreten visuellen Elemente aus dem Hint (Orte, Figuren, Aktionen, Stimmung) und formuliere sie als retrospektive Szenenbeschreibung.
 - Erfinde KEINE abweichende Szene. Wenn der Character sagt "ein ruhiger Fluss, Leute am Ufer, ein Kind im Arm", dann beschreibt die Summary genau diese Szene — nicht eine andere Aktion wie Buch-Suchen oder Regal-Durchstoebern.
 - Der Hint darf erzaehlerisch verdichtet und in Vergangenheitsform uebertragen werden, aber der visuelle Kern muss erhalten bleiben.
+- Wenn der Hint eine Bewegung oder Veraenderung verspricht ("ich gehe nach vorn", "ich klettere hinauf", "ich springe ins Wasser"), dann zeigt die Summary den bereits erreichten neuen Zustand dieser Bewegung und nicht nur das Zoegern davor.
 
 CHARACTER CONTEXT BEACHTEN:
 - Lies den CHARACTER CONTEXT sorgfaeltig. Kernzuege, Temperament, Sozialstil, Staerken, Schwaechen, Eigenheiten, sichtbares Ziel und Angst der Hauptfigur muessen das Geschehen praegen.
@@ -49,6 +52,11 @@ ERZAEHLFLUSS:
 - FALSCH: "Ob darin wohl die Taufgeschichte zu sehen war?"
 - RICHTIG: "Ihr Herz klopfte, denn auf der Seite leuchtete genau die Geschichte, die sie gesucht hatte."
 - Wiederhole nicht dieselben Formulierungen wie in der vorherigen Szene. Jeder Abschnitt soll sich frisch anfuehlen.
+
+SZENENWECHSEL UND DELTA:
+- Wenn `REQUIRED VISIBLE CHANGE` im Input steht, ist dieser Wechsel verbindlich sichtbar zu machen.
+- Beschreibe dann explizit, was jetzt anders ist als in LAST SCENE: neuer Ort im Bildraum, neue Koerperposition, neue Blickrichtung, neue Aktion, neues Zielobjekt oder neue raeumliche Staffelung.
+- Vermeide in solchen Faellen Minimalvarianten wie "stand wieder dort", "hielt weiter", "sah erneut", wenn der User eigentlich einen Schritt vorwaerts oder woandershin verlangt.
 
 EINFACHER BILDWUNSCH (MOTIVTREUE):
 - Wenn der User nur ein einzelnes Bildmotiv sehen will, bleibt genau dieses Motiv Hauptfokus.
