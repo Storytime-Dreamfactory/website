@@ -642,6 +642,13 @@ export default function useCharacterData({ content, loadActivities = false }: Us
     const handleActivityCreated = (event: MessageEvent<string>) => {
       try {
         const activity = JSON.parse(event.data) as ApiActivityRecord
+        if (activity.activityType === 'conversation.scene.generating') {
+          window.dispatchEvent(
+            new CustomEvent('storytime:scene-generating', {
+              detail: { conversationId: activity.conversationId },
+            }),
+          )
+        }
         if (
           activity.activityType === 'conversation.image.generated' ||
           activity.activityType === 'conversation.image.recalled'
@@ -654,6 +661,14 @@ export default function useCharacterData({ content, loadActivities = false }: Us
           transitionToHeroUrl(activityImageUrl ?? undefined, {
             memoryOverlay: activity.activityType === 'conversation.image.recalled',
           })
+          window.dispatchEvent(
+            new CustomEvent('storytime:scene-ready', {
+              detail: {
+                conversationId: activity.conversationId,
+                imageUrl: activityImageUrl,
+              },
+            }),
+          )
         }
         mergeActivities([activity])
       } catch {

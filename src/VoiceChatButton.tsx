@@ -54,6 +54,43 @@ const REMOTE_SPEECH_STOP_THRESHOLD = 0.015
 const REMOTE_MIN_SPEAK_MS = 120
 const REMOTE_MIN_SILENCE_MS = 320
 const ASSISTANT_STOP_FALLBACK_MS = 900
+const SCENE_GATE_TIMEOUT_MS = 30_000
+
+const REALTIME_TOOL_UNMUTE = {
+  type: 'function' as const,
+  name: 'unmute_user_microphone',
+  description:
+    'Entstummt das Mikrofon des Kindes nach deiner Antwort, damit es wieder sprechen kann.',
+  parameters: { type: 'object', properties: {}, additionalProperties: false },
+}
+const REALTIME_TOOL_READ_RELATIONSHIPS = {
+  type: 'function' as const,
+  name: 'read_relationships',
+  description:
+    'Liest das aktuelle Beziehungsnetzwerk der Figur inklusive verknuepfter Charaktere fuer konsistente Antworten.',
+  parameters: { type: 'object', properties: {}, additionalProperties: false },
+}
+const REALTIME_TOOL_READ_ACTIVITIES = {
+  type: 'function' as const,
+  name: 'read_activities',
+  description:
+    'Liest oeffentliche Activities und Story-Zusammenfassungen aus dem bisherigen Verlauf der Figur, um Erinnerungsfragen belegbar zu beantworten.',
+  parameters: {
+    type: 'object',
+    properties: {
+      limit: { type: 'number', description: 'Maximale Anzahl von Eintraegen (1-50).' },
+      scope: {
+        type: 'string',
+        enum: ['external', 'all'],
+        description: 'external = nur oeffentliche Story-Activities, all = inkl. technischer Activities.',
+      },
+    },
+    additionalProperties: false,
+  },
+}
+const REALTIME_TOOLS_ALL = [REALTIME_TOOL_UNMUTE, REALTIME_TOOL_READ_RELATIONSHIPS, REALTIME_TOOL_READ_ACTIVITIES]
+const REALTIME_TOOLS_WITHOUT_UNMUTE = [REALTIME_TOOL_READ_RELATIONSHIPS, REALTIME_TOOL_READ_ACTIVITIES]
+
 const UUID_LIKE_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 const sendDebugLog = (
@@ -147,6 +184,9 @@ export default function VoiceChatButton({
   const creatingConversationPromiseRef = useRef<Promise<string> | null>(null)
   const knownEventIdsRef = useRef<Set<string>>(new Set())
   const recoverySentForCurrentTurnRef = useRef(false)
+  const sceneGeneratingRef = useRef(false)
+  const pendingUnmuteRef = useRef(false)
+  const sceneGateTimeoutRef = useRef<number | null>(null)
   const queuedTextMessagesRef = useRef<string[]>([])
   const nextChatMessageIdRef = useRef(0)
   const makeChatMessageId = useCallback(() => {
@@ -165,6 +205,7 @@ export default function VoiceChatButton({
       setLocalConversationId((current) => (current === resolvedConversationId ? current : resolvedConversationId))
     }
   }, [resolvedConversationId])
+
   const emitSpeakerState = useCallback((speaker: 'yoko' | 'character', isSpeaking: boolean) => {
     if (typeof window === 'undefined') return
     window.dispatchEvent(
@@ -291,6 +332,12 @@ export default function VoiceChatButton({
     )
   }, [])
 
+  const updateSessionTools = useCallback((tools: typeof REALTIME_TOOLS_ALL) => {
+    const dc = dataChannelRef.current
+    if (dc?.readyState !== 'open') return
+    dc.send(JSON.stringify({ type: 'session.update', session: { tools } }))
+  }, [])
+
   const setLocalMicEnabled = useCallback((
     enabled: boolean,
     context: { reason: string; hypothesisId: string; eventType?: string },
@@ -331,6 +378,47 @@ export default function VoiceChatButton({
     // #endregion
   }, [])
 
+  const executeSceneReadyUnmute = useCallback(() => {
+    pendingUnmuteRef.current = false
+    sceneGeneratingRef.current = false
+    if (sceneGateTimeoutRef.current != null) {
+      window.clearTimeout(sceneGateTimeoutRef.current)
+      sceneGateTimeoutRef.current = null
+    }
+    updateSessionTools(REALTIME_TOOLS_ALL)
+    setLocalMicEnabled(true, {
+      reason: 'scene_ready_unmute',
+      hypothesisId: 'H11',
+    })
+    setIsMicMutedByAssistant(false)
+  }, [setLocalMicEnabled, updateSessionTools])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleSceneGenerating = () => {
+      sceneGeneratingRef.current = true
+      updateSessionTools(REALTIME_TOOLS_WITHOUT_UNMUTE)
+      sceneGateTimeoutRef.current = window.setTimeout(() => {
+        sceneGateTimeoutRef.current = null
+        if (sceneGeneratingRef.current) {
+          executeSceneReadyUnmute()
+        }
+      }, SCENE_GATE_TIMEOUT_MS)
+    }
+
+    const handleSceneReady = () => {
+      executeSceneReadyUnmute()
+    }
+
+    window.addEventListener('storytime:scene-generating', handleSceneGenerating)
+    window.addEventListener('storytime:scene-ready', handleSceneReady)
+    return () => {
+      window.removeEventListener('storytime:scene-generating', handleSceneGenerating)
+      window.removeEventListener('storytime:scene-ready', handleSceneReady)
+    }
+  }, [executeSceneReadyUnmute, updateSessionTools])
+
   const setCharacterSpeaking = useCallback((isSpeaking: boolean) => {
     if (characterSpeakingRef.current === isSpeaking) return
     characterSpeakingRef.current = isSpeaking
@@ -366,6 +454,12 @@ export default function VoiceChatButton({
     speechCandidateStartedAtRef.current = null
     silenceCandidateStartedAtRef.current = null
     lastRemoteSpeechAtRef.current = 0
+    sceneGeneratingRef.current = false
+    pendingUnmuteRef.current = false
+    if (sceneGateTimeoutRef.current != null) {
+      window.clearTimeout(sceneGateTimeoutRef.current)
+      sceneGateTimeoutRef.current = null
+    }
     emitSpeakerState('yoko', false)
     setCharacterSpeaking(false)
     setIsMicMutedByAssistant(false)
@@ -781,15 +875,19 @@ export default function VoiceChatButton({
             const functionName = typeof payload.name === 'string' ? payload.name : ''
             const callId = typeof payload.call_id === 'string' ? payload.call_id : ''
             if (functionName === 'unmute_user_microphone') {
+              emitSpeakerState('yoko', false)
+              setCharacterSpeaking(false)
+              sendFunctionCallOutput(callId, { ok: true })
+              if (sceneGeneratingRef.current) {
+                pendingUnmuteRef.current = true
+                return
+              }
               setLocalMicEnabled(true, {
                 reason: 'assistant_tool_unmute',
                 hypothesisId: 'H9',
                 eventType,
               })
               setIsMicMutedByAssistant(false)
-              emitSpeakerState('yoko', false)
-              setCharacterSpeaking(false)
-              sendFunctionCallOutput(callId, { ok: true })
             } else if (functionName === 'read_relationships' || functionName === 'read_activities') {
               const rawArguments =
                 typeof payload.arguments === 'string' ? payload.arguments : '{}'

@@ -28,7 +28,7 @@ Wenn eine Frage nach vergangenem Gespraechsverlauf fragt, ist das Activity (nich
 Skill-Definitionen:
 
 - plan-and-act: Standard fuer mehrschrittige Requests. Nutze diesen Skill immer dann, wenn mindestens zwei unterschiedliche Teilhandlungen sinnvoll sind (z. B. erst erinnern, dann Szene erzeugen).
-- create_scene: Nur fuer neue Handlungsauftraege des Users (z. B. gehe/lauf/rueber, mache/tu, nimm/oeffne/stell, zeig eine neue Szene). NICHT waehlen, wenn assistantText lediglich ein gerade angezeigtes Szenenbild beschreibt, eine Anschlussfrage zum Bild stellt oder das Ergebnis einer Bildgenerierung kommentiert. Nur ein neuer User-Wunsch rechtfertigt create_scene.
+- create_scene: Fuer jeden User-Wunsch, der eine neue sichtbare Szene erfordert. Das umfasst: Aktionsauftraege (geh, lauf, mach, nimm, oeffne), Bildwuensche (zeig mir, ich will sehen, mal mir), Story-Fortsetzungen die einen neuen visuellen Moment implizieren, und jede Anfrage bei der das Kind offensichtlich etwas Neues sehen moechte. Im Zweifelsfall create_scene waehlen statt request-context. NICHT waehlen nur wenn assistantText lediglich das gerade angezeigte Bild kommentiert.
 - remember-something: Nur fuer Rueckblicke auf Vergangenes.
 - request-context: Nur fuer reine Wissens-/Kontextabfragen ohne neue Handlung.
 - evaluate-feedback: Wenn der Nutzer Meta-Feedback zur Qualitaet gibt (z. B. "das Bild passte nicht", "du solltest mehr ueber X reden", "die Szene war langweilig"). Nicht fuer Lob oder normale Gespraechsfortsetzung.

@@ -48,6 +48,7 @@ const pendingSelfAssistantSceneDecisions = new Map<
   { decision: RoutedSkillDecision; lastUserText: string; userMessageId?: number }
 >()
 const pendingOpenTopicHints = new Map<string, string>()
+const userTurnSceneExecutionInFlight = new Set<string>()
 const RUNTIME_AUTONOMOUS_PIPELINE_ENABLED =
   readServerEnv('RUNTIME_AUTONOMOUS_PIPELINE_ENABLED', 'false').toLowerCase() === 'true' &&
   (process.env.NODE_ENV !== 'test' || process.env.RUNTIME_AUTONOMOUS_PIPELINE_ALLOW_TEST === 'true')
@@ -134,6 +135,7 @@ export const orchestrateCharacterRuntimeTurn = async (
     publicConversationHistory = toPublicConversationHistory(details.messages)
 
     if (input.role === 'assistant') {
+      const hasPendingSceneRequest = pendingSelfAssistantSceneDecisions.has(conversationId)
       const precedingMessage = details.messages
         .filter((m) => m.content?.trim() !== content)
         .at(-1)
@@ -141,7 +143,7 @@ export const orchestrateCharacterRuntimeTurn = async (
         precedingMessage?.role === 'system' &&
         (precedingMessage?.eventType === 'tool.image.generated' ||
           precedingMessage?.eventType === 'tool.image.recalled')
-      if (isResponseToGeneratedImage) {
+      if (isResponseToGeneratedImage && !hasPendingSceneRequest) {
         markAssistantMessageProcessed(conversationId, input.messageId)
         return
       }
@@ -202,15 +204,12 @@ export const orchestrateCharacterRuntimeTurn = async (
     } else if (pendingOpenTopicHints.has(conversationId)) {
       pendingOpenTopicHints.delete(conversationId)
     }
-    if (userTurnDecision.decision?.skillId === 'create_scene') {
+    const isSceneSkill =
+      userTurnDecision.decision?.skillId === 'create_scene' ||
+      userTurnDecision.decision?.skillId === 'plan-and-act'
+    if (isSceneSkill) {
       pendingSelfAssistantSceneDecisions.set(conversationId, {
-        decision: userTurnDecision.decision,
-        lastUserText: content,
-        userMessageId: input.messageId,
-      })
-    } else if (userTurnDecision.decision?.skillId === 'plan-and-act') {
-      pendingSelfAssistantSceneDecisions.set(conversationId, {
-        decision: userTurnDecision.decision,
+        decision: userTurnDecision.decision!,
         lastUserText: content,
         userMessageId: input.messageId,
       })
@@ -236,9 +235,55 @@ export const orchestrateCharacterRuntimeTurn = async (
         secondaryDecision: userTurnDecision.secondaryDecision?.skillId ?? null,
         primaryFailureReason: userTurnDecision.primaryFailureReason,
         secondaryFailureReason: userTurnDecision.secondaryFailureReason,
+        immediateSceneExecution: isSceneSkill,
       },
       ok: true,
     })
+    if (isSceneSkill && userTurnDecision.decision) {
+      const sceneDetails = await getConversationDetails(conversationId)
+      const sceneRuntimeContext = contextFromMetadata(sceneDetails.conversation.metadata)
+      const sceneCharacterId = sceneDetails.conversation.characterId
+      const sceneCharacterProfile = await loadCharacterRuntimeProfile(sceneCharacterId)
+      const sceneCharacterName = sceneCharacterProfile?.name ?? sceneCharacterId
+      const sceneCharacterContext: SceneCharacterContext | undefined = sceneCharacterProfile
+        ? {
+            name: sceneCharacterProfile.name,
+            species: sceneCharacterProfile.species,
+            shortDescription: sceneCharacterProfile.shortDescription,
+            coreTraits: sceneCharacterProfile.coreTraits,
+            temperament: sceneCharacterProfile.temperament,
+            socialStyle: sceneCharacterProfile.socialStyle,
+            quirks: sceneCharacterProfile.quirks,
+            strengths: sceneCharacterProfile.strengths,
+            weaknesses: sceneCharacterProfile.weaknesses,
+            visibleGoal: sceneCharacterProfile.visibleGoal,
+            fear: sceneCharacterProfile.fear,
+          }
+        : undefined
+      const selectedLearningGoalId = userTurnDecision.decision.selectedLearningGoalId
+      const effectiveLearningGoalIds = selectedLearningGoalId
+        ? Array.from(new Set([selectedLearningGoalId, ...(sceneRuntimeContext.learningGoalIds ?? [])]))
+        : (sceneRuntimeContext.learningGoalIds ?? [])
+      userTurnSceneExecutionInFlight.add(conversationId)
+      void executeRoutedSkill({
+        conversationId,
+        decision: userTurnDecision.decision,
+        assistantText: '',
+        lastUserText: content,
+        eventType: input.eventType,
+        characterId: sceneCharacterId,
+        characterName: sceneCharacterName,
+        characterContext: sceneCharacterContext,
+        learningGoalIds: effectiveLearningGoalIds,
+        relationshipContext: null,
+      }).catch((error) => {
+        const reason = error instanceof Error ? error.message : String(error)
+        console.warn(`Immediate user-turn scene execution failed: ${reason}`)
+      }).finally(() => {
+        userTurnSceneExecutionInFlight.delete(conversationId)
+        pendingSelfAssistantSceneDecisions.delete(conversationId)
+      })
+    }
     return
   }
 
@@ -251,9 +296,11 @@ export const orchestrateCharacterRuntimeTurn = async (
     input.actorType === 'character' &&
     typeof input.actorId === 'string' &&
     input.actorId.trim() === characterId
+  const userTurnAlreadyExecuting = userTurnSceneExecutionInFlight.has(conversationId)
   if (
     isSelfAssistantTurn &&
-    (!pendingSelfSceneDecision ||
+    (userTurnAlreadyExecuting ||
+      !pendingSelfSceneDecision ||
       (pendingSelfSceneDecision.decision.skillId !== 'create_scene' &&
         pendingSelfSceneDecision.decision.skillId !== 'plan-and-act') ||
       pendingSelfSceneDecision.lastUserText.length === 0)
@@ -277,7 +324,7 @@ export const orchestrateCharacterRuntimeTurn = async (
       },
       output: {
         ignored: true,
-        reason: 'self-assistant-turn',
+        reason: userTurnAlreadyExecuting ? 'user-turn-scene-in-flight' : 'self-assistant-turn',
       },
       ok: true,
     })

@@ -413,6 +413,19 @@ export const generateConversationHeroToolApi = async (
       },
     })
 
+    await trackImageActivitySafely({
+      activityType: 'conversation.scene.generating',
+      isPublic: true,
+      characterId,
+      characterName,
+      conversationId,
+      metadata: {
+        summary: `${characterName} erstellt eine neue Szene...`,
+        sceneSummary: sceneSummary || undefined,
+        skillId: VISUAL_EXPRESSION_SKILL?.id,
+      },
+    })
+
     const requestResult = await generateImageWithModel({
       model,
       prompt,

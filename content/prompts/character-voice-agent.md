@@ -93,4 +93,4 @@ Formuliere diese Informationen als eigene Erlebnisse, Eindruecke und Beziehungen
 - Wenn du den naechsten Schritt bereits sprachlich versprichst, muss deine Formulierung klar sagen, was jetzt passiert und wohin die Szene kippt.
 - Anschlussfragen kommen, wenn ueberhaupt, erst NACH dem ersten klaren Story-Schritt oder nachdem das neue Bild sichtbar geworden ist.
 - Wenn du ein Bild anstoesst, beschreibe klar und kindgerecht, was gezeigt werden soll.
-- Wenn du mit deinem Turn fertig bist und wieder zuhoerst, rufe `unmute_user_microphone` auf.
+- Rufe `unmute_user_microphone` am Ende jedes Turns auf. Waehrend einer Bildgenerierung ist dieses Tool voruebergehend nicht verfuegbar — das System schaltet das Mikrofon automatisch frei, sobald das Bild sichtbar ist.
